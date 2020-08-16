@@ -1,0 +1,41 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "fail-balance-under-gaslimit",
+		"version": "v1",
+		"description": "fail to transfer when sender balance under gas limit",
+		"gen": {
+			"source": "script",
+			"version": "v0"
+		}
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhSM/cgufvL1Uxxz2+LDJWYMXest282/84rA+SV5Hs2S3pBYJStPLUouKM/PzGB+zEqehyaXFh0uhY2GiYWOTE0Nqyw2tIAbGUAbetMwcfUP9xOTk/NK8EiQH/DIPu2v9PHbdglnFnw95Hvowyfx40bGnc2dmLVuxbo3sYSMGB6hRLC03tMJBRglBjCouyS9KTE8tyC9PLUIyj1urbUrt2V35hxauU3i1vi/l4Bb5h1MFj6dcfn/edtWZb7vB5jU1OTEwt9zQ8geZxwUxL7koPw/JnLknYv+9Yl1UaLncy0dwRXPq8iZN2bLyXW+MKuS3C988xs3g0OTEkEzQe/ddS45tXrgz68SeDVO2TK+ZrNlbkXPh/a9Nl54vuS5dPoML7j2GlhtagSCjeKDeqywuSc1FMsl1w/lDCufeRNfIJB25Imlr8eT1kr4O0aI5z+PncG14cvAA3CTWlhtaERIgo4RRQio3sSg7FdltHBy3qy7snrFilj3XXxYvj32eLfXTjNxtQ9R+iag63OrQhpvIiBZUmXmZyObM2rdr2q6MD6dCZ/ku13mgKypV5dv3+8V9r4JbU565b//LDTcnhWBwnVE9VrIiL/SJbar3KyaGrbWy/ubRIkJGjsv4YsuXrnrLzODGoDfh7fn/UAOZ0AKtKLU8sSgF2bwJbxy0fey23N0YIzMrcI43a1P6cesZzBd4LPhaebcc1mLwZWAri6m0X8hQeYGBgUEOw20oHFvikmxjKOP9v6F+N5fond71Tedh/j/+39+DJn3VwJ52MUX2MhKXlCc4QEFThAQD050cBiwgnIH5ADZxBgakUJL4l3UmcfHibB5zGy+rvmXejdqfTs0OagiYMKfiCkdoFw+DAgmKv2kSp67JoUECNfchWLrE5cFGcLnAqkVcVmt0YkiWQc9gyGx14jJagxaOrIVFaB0TcVmtGymAn6Z220qcZXt4e4Lolg1vQg8qL/KNfvhK5YalxdEdltX++uQpJRQdtFFKUipzcHDQI85fzQwMzY4MDcgJCFQmIVipxJVMzUjOeyex1k/25bL4m5lWLjXT3mlMrF0YvjzqXnZm50nZeX35kRJpBckZiZl5umWJOZkpiSWZ+XlpxOlsclZoYGgCF1mhjJkvjD19Jspm/dN/aKsY5xPznT0pVCIFKomt2JBItSWubGzEbrgMevGIzK4jrpjsdHBg8GQQgJYcngyMya4VsV0MDE0RUgyM370Xz6q8t8EVvYAJY5SclrVdF13Yk4H/PwQwOAAAAAD//wEAAP//N6v+Cr0IAAA=",
+	"preconditions": {
+		"epoch": 0,
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedcpq3lr4tw5e7qdk3r4gngngduc5jv3b6y7iqfpmipsykluxmmsu"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGVCAGQAQBo7msoAQgDIQgABAEA=",
+			"epoch": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedcpq3lr4tw5e7qdk3r4gngngduc5jv3b6y7iqfpmipsykluxmmsu"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 2,
+				"return": "",
+				"gas_used": 0
+			}
+		]
+	}
+}
