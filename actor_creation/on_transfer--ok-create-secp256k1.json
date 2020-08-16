@@ -1,0 +1,40 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "ok-create-secp256k1",
+		"version": "v1",
+		"gen": {
+			"source": "script",
+			"version": "v0"
+		}
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhX+OOzO2/PIS33plZ2n+iauSC2X2zBZ0Pp97cumD/3bnzq9AUlp6r/XHBIvPa2YJhp7ZcO1j9dHbi+94i5grzOLg4A3lWzAvvSy1qDgzP49xFitxZje5tPhwMbQvTDRsbHJiYGm5oRXOwBjKIJSWmaNvqF9ckl+UmJ5akF+eWoTkCm6ttim1Z3flH1q4TuHV+r6Ug1vkH04VPJ5y+f1521Vnvu1mcFiYaNjU5MTA3HJDyx9kHhfEvOSi/Dwkc+aeiP33inVRoeVyLx/BFc2py5s0ZcvKd70xqpDfLnzzGDeDQ5MTQ3LLDa0gkBm8EDMSk5PzS/NKkIy571pybPPCnVkn9myYsmV6zWTN3oqcC+9/bbr0fMl16fIZXGDngLzH0HJDKxBkFA/Ue5XFJam5SCa5bjh/SOHcm+gamaQjVyRtLZ68XtLXIVo053n8HK4NTw4egJvE2nJDK0ICZJQwSkjlJhZlpyK7jYPjdtWF3TNWzLLn+svi5bHPs6V+mpG7bYjaLxFVh1sd2nATGdGCKjMvE9mcpWx2s3/P2Fe53PXlZoljW0XeiZ6UPrZX+Gr7Db3m58cqcuDmpBAMrjOqx0pW5IU+sU31fsXEsLVW1t88WkTIyHEZX2z50lVvmRk8GJh765Yca2CAGsmEFmxFqeWJRSnIJk5446DtY7fl7sYYmVmBc7xZm9KPW89gvsBjwdfKu+WwFoMvA1tZTKX9QobKCwwMDBrYEximyF5G4tLbBAcoaIqQYGC6k8OABYQzMB/AJs7AgOQRiX9ZZxIXL87mMbfxsupb5t2o/enU7KCGgAlzKq5whHbxMCiQoPibJnHqmhwaJFCzCIKlS1xGaQRnXlY5jGhH4WgRl10anRiSZdAzCTJbnbjM0qCFI3tgEVrHRFx26UYK/6ep3bYSZ9ke3p4gumXDm9CDyot8ox++UrlhaXF0h2W1vz55SgnFFm2UkpQIHRwc9IjzVzMDQ7MjQwNy+gKVKwhWKnGlSzOS87yuPf9er5i2j6eguXrFvz0bHl2dtYrZbO6nw/dvv7re/WC9RGpBckZiZp5uWWJOZkpiSWZ+ngdxOpucGhgawWVOKGPmC2NPn4myWf/0H9oqxvnEfGdPCpVIsSWuBGvErl8GvQhDZtcRV5R1OjgweDIIQIsOTwbGZNeK2C4GhqYIKQbG796LZ1Xe2+CKXsKEMUpOy9quiy7sycD/HwIYHN6xElfBg+trhQ5oyZxKsLD/nS/DH3Ck/7fJoZMNDhveVOrpHWvtsJ3Ksybh0k/h5AsKDM4M6gLDu/Z3YxD3KHvBMPTbABNjC6LcNB+wbm7YYLny0eIb94/v92V2bY9eUHbfi1dwURAV2wCMoDZAusKWZR+o3wao4p51isGWuOTZGMp4LPAFr9aEHg67qyzbpux/On/e5rP5qcQFCHKxVSHWsvphTXi8yPaAyGQLNdGrFk31qZ4ev7TOLV+7T+yvrkQaRrGVSpzOJqcFDE3QYgubYyVS8ZZpAAAAAP//AQAA//+sy9w7EgwAAA==",
+	"preconditions": {
+		"epoch": 0,
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaced7edoliwt5euf5v2s4xk36i2um2chf4tmiuht3nzgs6b7z6z3h2q"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBVAcZR6A0qkIwIPtUEtpS/5Z+es81vQgBkAEMAJxAaO5rKAEIAyEIAAQBA",
+			"epoch": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceb255bpysa4phle2cfk4zmgw6f54lw5d3rfrinzatieaqdkvb2qj4"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 1651648
+			}
+		]
+	}
+}

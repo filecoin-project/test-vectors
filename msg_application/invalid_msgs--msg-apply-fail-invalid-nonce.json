@@ -1,0 +1,50 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "msg-apply-fail-invalid-nonce",
+		"version": "v1",
+		"description": "invalid actor nonce",
+		"gen": {
+			"source": "script",
+			"version": "v0"
+		}
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmBfGLv1LVL3VerDo14dlH77kzV0SvsXweURm00TdKwoL1wxwSlKaXpRYVZ+bnMc5gJU5Dk0uLDxdD+8JEw8YmJwaWlhta4QyMoQxCaZk5+ob6xSX5RYnpqQX55alFSK7g1mqbUnt2V/6hhesUXq3vSzm4Rf7hVMHjKZffn7dddebbbgaHhYmGTU1ODMwtN7T8QeZxQcxLLsrPQzJn7onYf69YFxVaLvfyEVzRnLq8SVO2rHzXG6MK+e3CN49xMzg0OTEkt9zQCgKZwQsxIzE5Ob80rwTJmPuuJcc2L9yZdWLPhilbptdM1uytyLnw/temS8+XXJcun8EFdg7IewwtN7QCQUbxQL1XWVySmotkkuuG84cUzr2JrpFJOnJF0tbiyeslfR2iRXOex8/h2vDk4AG4SawtN7QiJEBGCaOEVG5iUXYqsts4OG5XXdg9Y8Use66/LF4e+zxb6qcZuduGqP0SUXW41aENN5ERLagy8zKRzVnKZjf794x9lctdX26WOLZV5J3oSelje4Wvtt/Qa35+rCIHbk4KweA6o3qsZEVe6BPbVO9XTAxba2X9zaNFhIwcl/HFli9d9ZaZwY3hxZWlAgxQA5nQAq0otTyxKAXZvAlvHLR97Lbc3RgjMytwjjdrU/px6xnMF3gs+Fp5txzWYvBlYCuLqbRfyFB5gYGBQQN78sIU2ctIXGqb4AAFTRESDEx3chiwgHAG5gPYxBkYkDwi8S/rTOLixdk85jZeVn3LvBu1P52aHdQQMGFOxRWO0C4eBgUSFH/TJE5dk0ODBGoGQbB0icsmjeCsyyqHEekoHC3iMkujE0OyDHoWQWarE5dVGrRwZA4sQuuYiMss3Ujh/zS121biLNvD2xNEt2x4E3pQeZFv9MNXKjcsLY7usKz21ydPKaHYoo1SkhKhg4ODHnH+amZgaHZkaEBOX6BSBcFKJa5saUZynte159/rFdP28RQ0V6/4t2fDo6uzVjGbzf10+P7tV9e7H6yXSC1IzkjMzNMtS8zJTEksyczP8yBOZ5NTA0MjuMwJZcx8YezpM1E265/+Q1vFOJ+Y7+xJoRIptsSVX43Y9cugF2HI7DriirJOBwcGTwYBaNHhycCY7FoR28XA0BQhxcD43XvxrMp7G1zRS5gwRslpWdt10YU9Gfj/QwCDAwAAAP//AQAA//+aH8tuFggAAA==",
+	"preconditions": {
+		"epoch": 0,
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceal5d6tfe7jitul2zkion4kltwm2qw5mhhtvq6kswfgvugbyaxyjy"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGRCAGQBQgAKGjuaygBCAMhCAAEAQA==",
+			"epoch": 0
+		},
+		{
+			"bytes": "igBCAGRFAICt4gQBQgAKGjuaygBCAMhCAAEAQA==",
+			"epoch": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceal5d6tfe7jitul2zkion4kltwm2qw5mhhtvq6kswfgvugbyaxyjy"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 2,
+				"return": "",
+				"gas_used": 0
+			},
+			{
+				"exit_code": 1,
+				"return": "",
+				"gas_used": 0
+			}
+		]
+	}
+}
