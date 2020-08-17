@@ -39,9 +39,20 @@ executors:
 
 workflows:
   version: 2
-  main:
+  commit:
     jobs:
       - build-and-generate
+      - compare
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - compare
 
 jobs:
   build-and-generate:
@@ -57,3 +68,10 @@ jobs:
       - run:
           name: "validate vectors against JSON Schema"
           command: make validate
+  compare:
+    executor: linux
+    steps:
+      - setup
+      - run:
+          name: "compare committed corpus with one built with lotus next"
+          command: make compare-with-lotus-next
