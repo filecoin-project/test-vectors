@@ -41,13 +41,13 @@ type Generator struct {
 	wg sync.WaitGroup
 }
 
+var GenscriptCommit = "dirty"
+
 // genData is the generation data to stamp into vectors.
-// TODO in the future this should contain the commit of this tool and
-//  the builder api.
 var genData = []GenerationData{
 	{
-		Source:  "script",
-		Version: "v0",
+		Source:  "genscript",
+		Version: GenscriptCommit,
 	},
 }
 
