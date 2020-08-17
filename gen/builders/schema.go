@@ -29,11 +29,11 @@ type Selector string
 
 // Metadata provides information on the generation of this test case
 type Metadata struct {
-	ID      string         `json:"id"`
-	Version string         `json:"version,omitempty"`
-	Desc    string         `json:"description,omitempty"`
-	Comment string         `json:"comment,omitempty"`
-	Gen     GenerationData `json:"gen"`
+	ID      string           `json:"id"`
+	Version string           `json:"version,omitempty"`
+	Desc    string           `json:"description,omitempty"`
+	Comment string           `json:"comment,omitempty"`
+	Gen     []GenerationData `json:"gen"`
 }
 
 // GenerationData tags the source of this test case

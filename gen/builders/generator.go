@@ -10,6 +10,8 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime/debug"
+	"strings"
 	"sync"
 )
 
@@ -39,12 +41,39 @@ type Generator struct {
 	wg sync.WaitGroup
 }
 
+var GenscriptCommit = "dirty"
+
 // genData is the generation data to stamp into vectors.
-// TODO in the future this should contain the commit of this tool and
-//  the builder api.
-var genData = GenerationData{
-	Source:  "script",
-	Version: "v0",
+var genData = []GenerationData{
+	{
+		Source:  "genscript",
+		Version: GenscriptCommit,
+	},
+}
+
+func init() {
+	genData = append(genData, getBuildInfo()...)
+}
+
+func getBuildInfo() []GenerationData {
+	deps := []string{"github.com/filecoin-project/lotus", "github.com/filecoin-project/specs-actors"}
+
+	bi, ok := debug.ReadBuildInfo()
+	if !ok {
+		panic("cant read build info")
+	}
+
+	var result []GenerationData
+
+	for _, v := range bi.Deps {
+		for _, dep := range deps {
+			if strings.HasPrefix(v.Path, dep) {
+				result = append(result, GenerationData{Source: v.Path, Version: v.Version})
+			}
+		}
+	}
+
+	return result
 }
 
 type MessageVectorGenItem struct {
