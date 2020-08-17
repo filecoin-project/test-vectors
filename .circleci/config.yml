@@ -54,3 +54,6 @@ jobs:
       - run:
           name: "generate vectors"
           command: make gen
+      - run:
+          name: "validate vectors against JSON Schema"
+          command: make validate

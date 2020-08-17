@@ -4,14 +4,14 @@
   "title": "a filecoin VM test vector",
   "type": "object",
   "definitions": {
-    "hex": {
-      "title": "hex value",
-      "description": "a hex value prefixed with 0x, and accepting only lowercase characters; 0x represents an empty byte array",
+    "base64": {
+      "title": "base64 encoded value",
+      "description": "a standard base64 encoded value, as defined in RFC 4648",
       "type": "string",
-      "pattern": "0x[0-9a-f]*",
+      "pattern": "^[0-9a-zA-Z+/=]*$",
       "examples": [
-        "0xa1b2c3",
-        "0x"
+        "igBCAGRCAGQAQgAKAUIAyEIACgBA",
+        ""
       ]
     },
     "meta": {
@@ -66,6 +66,7 @@
       ],
       "properties": {
         "root_cid": {
+          "type": "object",
           "additionalProperties": false,
           "required": [
             "/"
@@ -91,7 +92,7 @@
           "type": "number"
         },
         "return": {
-          "$ref": "#/definitions/hex"
+          "$ref": "#/definitions/base64"
         },
         "gas_used": {
           "type": "number"
@@ -137,7 +138,23 @@
       "title": "messages to apply, along with the receipt to expect for each",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/hex"
+        "$ref": "#/definitions/apply_message"
+      }
+    },
+    "apply_message": {
+      "type": "object",
+      "required": [
+        "bytes",
+        "epoch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "$ref": "#/definitions/base64"
+        },
+        "epoch": {
+          "type": "integer"
+        }
       }
     }
   },
@@ -150,7 +167,7 @@
       "description": "test vector class; depending on the value, the apply_* property to provide (and its schema) will vary; the relevant apply property is apply_[class]",
       "type": "string",
       "enum": [
-        "messages",
+        "message",
         "block",
         "tipset",
         "chain"
@@ -164,10 +181,10 @@
     "_meta": {
       "$ref": "#/definitions/meta"
     },
-    "car_bytes": {
+    "car": {
       "title": "car containing state trees",
-      "description": "the gzipped, hex-encoded CAR containing the pre- and post-condition state trees for this test vector",
-      "$ref": "#/definitions/hex"
+      "description": "the gzipped, base64 CAR containing the pre- and post-condition state trees for this test vector",
+      "$ref": "#/definitions/base64"
     },
     "preconditions": {
       "$ref": "#/definitions/preconditions"
