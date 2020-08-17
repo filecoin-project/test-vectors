@@ -39,23 +39,31 @@
         "gen": {
           "title": "generation metadata",
           "description": "metadata about how this test vector was generated",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "source": {
-              "type": "string",
-              "examples": [
-                "lotus",
-                "dsl"
-              ]
-            },
-            "version": {
-              "type": "string",
-              "examples": [
-                "0.4.1+git.27d74337+api0.8.1"
-              ]
-            }
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/gen_data"
           }
+        }
+      }
+    },
+    "gen_data": {
+      "title": "generation metadata entry",
+      "description": "",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "examples": [
+            "lotus",
+            "dsl"
+          ]
+        },
+        "version": {
+          "type": "string",
+          "examples": [
+            "0.4.1+git.27d74337+api0.8.1"
+          ]
         }
       }
     },
