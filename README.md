@@ -309,6 +309,5 @@ input, and ideas!
 
 ## License
 
-Dual-licensed under [MIT](https://github.com/filecoin-project/test-vectors/blob/master/LICENSE-MIT)
-+ [Apache 2.0](https://github.com/filecoin-project/test-vectors/blob/master/LICENSE-APACHE)
+Dual-licensed under [MIT](https://github.com/filecoin-project/test-vectors/blob/master/LICENSE-MIT) + [Apache 2.0](https://github.com/filecoin-project/test-vectors/blob/master/LICENSE-APACHE)
 
