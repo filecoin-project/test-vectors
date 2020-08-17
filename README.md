@@ -151,10 +151,15 @@ each message.
 
 **Tipset class**
 
-Tests a tipset containing multiple messages, applied on top of a precondition
-state tree, and a precondition chain history. Postconditions TBD.
+> ⚠️  In discussion; may conflate with chain-class.
+
+Tests a tipset containing multiple blocks with messages, applied on top of a
+precondition state tree, and a precondition chain history. Postconditions TBD,
+but will include miner rewards.
 
 **Chain class**
+
+> ⚠️  In discussion; may conflate with tipset-class.
 
 Tests a series of tipsets applied on top of a precondition state tree, and a
 precondition chain history. Postconditions TBD.
