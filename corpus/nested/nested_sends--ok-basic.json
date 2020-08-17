@@ -3,10 +3,20 @@
 	"_meta": {
 		"id": "ok-basic",
 		"version": "v1",
-		"gen": {
-			"source": "script",
-			"version": "v0"
-		}
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "f85cb5320508cf7493e07b6e8fd071de8bc420e6"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.4.3-0.20200815233716-a0c0d9c98aae"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.2"
+			}
+		]
 	},
 	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmBfGLv1LVL3VerDo14dlH77kzV0SvsXweURm00TdKwoL1wxwkpZP+5U1ZW/yNSbozsHqiTgfP6T9r7Ayz92y4w3qnmoFvj3V6WWpRcWZ+HuMMVuLMbnJp8eFiaF+YaNjY5MTA0nJDK5yBMZRBKC0zR99Qv7gkvygxPbUgvzy1CMkV3FptU2rP7so/tHCdwqv1fSkHt8g/nCp4POXy+/O2q858283gsDDRsKnJiYG55YaWP8g8Loh5yUX5eUjmzD0R++8V66JCy+VePoIrmlOXN2nKlpXvemNUIb9d+OYxbgaHJieG5JYbWkEgM3ghZiQmJ+eX5pUgGXPfteTY5oU7s07s2TBly/SayZq9FTkX3v/adOn5kuvS5TO4wM4BeY+h5YZWIMgoHqj3KotLUnORTHLdcP6Qwrk30TUySUeuSNpaPHm9pK9DtGjO8/g5XBueHDwAN4m15YZWhATIKGGUkMpNLMpORXYbB8ftqgu7Z6yYZc/1l8XLY59nS/00I3fbELVfIqoOtzq04SYyogVVZl4msjlL2exm/56xr3K568vNEse2irwTPSl9bK/w1fYbes3Pj1XkwM1JIRhcZ1SPlazIC31im+r9iolha62sv3m0iJCR4zK+2PKlq94yM7gxvLiyVIABaiATWqAVpZYnFqUgmzfhjYO2j92WuxtjZGYFzvFmbUo/bj2D+QKPBV8r75bDWgy+DGxlMZX2CxkqLzAwMGhgT16YInsZiUttExygoClCgoHpTg4DFhDOwHwAmzgDA5JHJP5lnUlcvDibx9zGy6pvmXej9qdTs4MaAibMqbjCEdrFw6BAguJvmsSpa3JokEDNIAiWLnHZpBGcdVnlMCIdhaNFXGZpdGJIlkHPIshsdeKySoMWjsyBRWgdE3GZpRsp/J+mdttKnGV7eHuC6JYNb0IPKi/yjX74SuWGpcXRHZbV/vrkKSUUW7RRSlIidHBw0CPOX80MDM2ODA3I6QtUqiBYqcSVLc1IzvO69vx7vWLaPp6C5uoV//ZseHR11ipms7mfDt+//ep694P1EqkFyRmJmXm6ZYk5mSmJJZn5eR7E6WxyamBoBJc5oYyZL4w9fSbKZv3Tf2irGOcT8509KVQixZa48qsRu34Z9CIMmV1HXFHW6eDA4MkgAC06PBkYk10rYrsYGJoipBgYv3svnlV5b4MregkTxig5LWu7LrqwJwP/fwhgcHjPSlz1Dq6tFTqgJXNqyw2tYFDJzAfxSm5pTklmcWY6UnTFRtevUpM+9I23S8XHT2nS5zMr6ysn9ggds52hozs/4MNpBlcG61kn/w/v6t+NQW/C2wsMQ78R8PhYTeuuTu/NdxuuKFQe3ObA+dFFu0LHh8PiQO/OPzor71GxEcDkxrBzwrNHjNRvBFS5m05hUMBMtai8aOLSb3ujE0MKI6MDSfV4KnGhiVzsablc9D4xubJvL09/qcU/7YUvTm4/sOe3h2bj1f7gWo/KKxJpGMVeKnE6m5waBJogxR7TrvAHn77Vv5nnFJPbdkqk9+RpP2UDiVS8ZSIAAAD//wEAAP//ZLY1cVAMAAA=",
 	"preconditions": {

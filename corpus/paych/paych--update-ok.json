@@ -3,10 +3,20 @@
 	"_meta": {
 		"id": "update-ok",
 		"version": "v1",
-		"gen": {
-			"source": "script",
-			"version": "v0"
-		}
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "f85cb5320508cf7493e07b6e8fd071de8bc420e6"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.4.3-0.20200815233716-a0c0d9c98aae"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.2"
+			}
+		]
 	},
 	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhWv6StknmUW2Cyxvb+3Ucp4vFyJ0+uFk4TM3jF0P2NUI7UVS+vnSlYcZsw22C1958GW32KWCFSYZu4zFE/5MmjhLZLlrmnd6WWpRcWZ+HuNLVuLMbnJp8eFS6FiYaNjY5MSQ2nJDK4iBMZSBNy0zR99QPzE5Ob80rwTJAb/Mw+5aP49dt2BW8edDnoc+TDI/XnTs6dyZWctWrFsje9iIwY3hxZWlAgxQA1labmiFgwwUghhYXJJflJieWpBfnlqEZCq3VtuU2rO78g8tXKfwan1fysEt8g+nCh5Pufz+vO2qM992MzgsTDRsanJiYG65oeUPMo8LYl5yUX4ekjlzT8T+e8W6qNByuZeP4Irm1OVNmrJl5bveGFXIbxe+eYybwaHJiSGZoCfvu5Yc27xwZ9aJPRumbJleM1mztyLnwvtfmy49X3JdunwGF9g5IO8xtNzQCgQZxQP1XmVxSWoukkmuG84fUjj3JrpGJunIFUlbiyevl/R1iBbNeR4/h2vDk4MH4CaxttzQipAAGSWMElK5iUXZqchu4+C4XXVh94wVs+y5/rJ4eezzbKmfZuRuG6L2S0TV4VaHNtxERrSgyszLRDZn1r5d03ZlfDgVOst3uc4DXVGpKt++3y/uexXcmvLMfftfbrg5KQSD64zqsZIVeaFPbFO9XzExbK2V9TePFhEyclzGF1u+dNVbZrQ0wYQWaEWp5YlFKcjmTXjjoO1jt+XuxhiZWYFzvFmb0o9bz2C+wGPB18q75bAWgy8DW1lMpf1ChsoLDAwMchhuQ+HYEpdwG0MZ7/8N9bu5RO/0rm86D/P/8f/+HjTpqwb2tIspspeRuKQ8wQEKmiIkGJju5DBgAeEMzAewiTMwIIWSxL+sM4mLF2fzmNt4WfUt827U/nRqdlBDwIQ5FVc4Qrt4GBRIUPxNkzh1TQ4NEqi5D8HSJS4PNoLLBVYt4rJaoxNDsgx6BkNmqxOX0Rq0cGQtLELrmIjLat1IAfw0tdtW4izbw9sTRLdseBN6UHmRb/TDVyo3LC2O7rCs9tcnTymh6KCNUpJSmYODgx5x/mpmYGh2ZGhATkCgMgnBSiWuZGpGct47ibV+si+Xxd/MtHKpmfZOY2LtwvDlUfeyMztPys7ry4+USCtIzkjMzNMtS8zJTEksyczPSyNOZ5OzQgNDE7jICmXMfGHs6TNRNuuf/kNbxTifmO/sSaESKVBJbMWGRKotcWVjI3bDZdCLR2R2HXHFZKeDA4MngwC05PBkYEx2rYjtYmBoipBiYPzuvXhW5b0NrugFTBij5LSs7browp4M/P8hgMHhKBtxbZEmlyM+XAqdo00LkpoWbgx6E95eYBj6DYz+v6GB7fdZplo79QmcEujbp7vaqP77HJ93Wh15rwVu79CmYgODyY1h55nGlg9QA9NAXpUEmSgCMbEgsTI3Na8kOSMxLy81B8nggIAFkbvta35eSLiy8802afMj3N/0NyQvvHBzW6rddQXORQzODOoC1G+2VLmbTmFIJS6YkEu7byuijulqs/v80VDJ9vS3XaDGVT2d1evQXAPWH+/Z32pMlkjHKO2aGYnTCiruBJohJRrTrvAHn77Vv5nnFJPbdkqk9+RpP2UDiTTyy0IdXFGBTSyWuKhpc2JIcWJIdWLgQmkV2VU8fsTufylUepM3w3HBAz8+S668fNv7zNrwl0+WN7z66xJJnLJmJsZmR6ZGJIPXnJvzeqrj8l+M1hl7JeZ1XfJhSX7tZ6/rcfx7/4zH2zPbGsKIU9fs2IBsbNnnY4mifi1Pdsnl/BefJCtsbPvY3XHvHc/Nn16WfJnNYttgQJy6ZkeOBlAq5WIEAAAA//8BAAD//93kKjZiDgAA",
 	"preconditions": {
