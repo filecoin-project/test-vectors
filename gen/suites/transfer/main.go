@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/specs-actors/actors/abi"
+	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
@@ -153,6 +154,65 @@ func main() {
 			},
 			Mode: ModeLenientAssertions,
 			Func: failTransferUnknownSenderUnknownReceiver,
+		},
+	)
+
+	g.MessageVectorGroup("invalid_receiver",
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fail-system-actor",
+				Version: "v1",
+			},
+			Func: failTransferToSystemActor(builtin.SystemActorAddr),
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fail-init-actor",
+				Version: "v1",
+			},
+			Func: failTransferToSystemActor(builtin.InitActorAddr),
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fail-reward-actor",
+				Version: "v1",
+			},
+			Func: failTransferToSystemActor(builtin.RewardActorAddr),
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fail-cron-actor",
+				Version: "v1",
+			},
+			Func: failTransferToSystemActor(builtin.CronActorAddr),
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fail-storage-power-actor",
+				Version: "v1",
+			},
+			Func: failTransferToSystemActor(builtin.StoragePowerActorAddr),
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fail-storage-market-actor",
+				Version: "v1",
+			},
+			Func: failTransferToSystemActor(builtin.StorageMarketActorAddr),
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fail-verified-registry-actor",
+				Version: "v1",
+			},
+			Func: failTransferToSystemActor(builtin.VerifiedRegistryActorAddr),
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fail-burnt-funds-actor",
+				Version: "v1",
+			},
+			Func: failTransferToSystemActor(builtin.BurntFundsActorAddr),
 		},
 	)
 }
