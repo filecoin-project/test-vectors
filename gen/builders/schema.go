@@ -91,8 +91,8 @@ func (beb *Base64EncodedBytes) UnmarshalJSON(v []byte) error {
 
 // Diagnostics contain a representation of VM diagnostics
 type Diagnostics struct {
-	Format string `json:"format"`
-	Data Base64EncodedBytes `json:"data"`
+	Format string             `json:"format"`
+	Data   Base64EncodedBytes `json:"data"`
 }
 
 // TestVector is a single test case
