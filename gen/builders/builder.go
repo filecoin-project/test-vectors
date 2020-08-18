@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"github.com/filecoin-project/lotus/chain/state"
+	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/ipfs/go-cid"
 	format "github.com/ipfs/go-ipld-format"
 	"github.com/ipld/go-car"
@@ -55,7 +56,7 @@ type Builder struct {
 	Actors    *Actors
 	Assert    *Asserter
 	Messages  *Messages
-	Traces    []string
+	Traces    []types.ExecutionTrace
 	Driver    *lotus.Driver
 	PreRoot   cid.Cid
 	PostRoot  cid.Cid
@@ -167,9 +168,7 @@ func (b *Builder) applyMessage(am *ApplicableMessage) {
 		ReturnValue: am.Result.Return,
 		GasUsed:     am.Result.GasUsed,
 	})
-	trace, err := json.Marshal(am.Result.ExecutionTrace)
-	b.Assert.NoError(err)
-	b.Traces = append(b.Traces, string(trace))
+	b.Traces = append(b.Traces, am.Result.ExecutionTrace)
 }
 
 // Finish signals to the builder that the checks stage is complete and that the
