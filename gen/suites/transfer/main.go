@@ -88,6 +88,20 @@ func main() {
 				exitCode:     exitcode.SysErrSenderStateInvalid,
 			}),
 		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fail-negative-amount",
+				Version: "v1",
+				Desc:    "fail to transfer a negative amount",
+			},
+			Func: basicTransfer(basicTransferParams{
+				senderType:   address.SECP256K1,
+				senderBal:    abi.NewTokenAmount(10 * gasLimit * gasFeeCap),
+				receiverType: address.SECP256K1,
+				amount:       abi.NewTokenAmount(-50),
+				exitCode:     exitcode.SysErrForbidden,
+			}),
+		},
 	)
 
 	g.MessageVectorGroup("self_transfer",
