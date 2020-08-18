@@ -55,6 +55,7 @@ type Builder struct {
 	Actors    *Actors
 	Assert    *Asserter
 	Messages  *Messages
+	Traces    []string
 	Driver    *lotus.Driver
 	PreRoot   cid.Cid
 	PostRoot  cid.Cid
@@ -166,6 +167,9 @@ func (b *Builder) applyMessage(am *ApplicableMessage) {
 		ReturnValue: am.Result.Return,
 		GasUsed:     am.Result.GasUsed,
 	})
+	trace, err := json.Marshal(am.Result.ExecutionTrace)
+	b.Assert.NoError(err)
+	b.Traces = append(b.Traces, string(trace))
 }
 
 // Finish signals to the builder that the checks stage is complete and that the
@@ -192,6 +196,7 @@ func (b *Builder) Finish(w io.Writer) {
 	}
 
 	b.vector.CAR = out.Bytes()
+	b.vector.Diagnostics = EncodeTraces(b.Traces)
 
 	b.stage = StageFinished
 	b.Assert = nil
