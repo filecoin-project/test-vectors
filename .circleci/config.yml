@@ -74,4 +74,7 @@ jobs:
       - setup
       - run:
           name: "compare committed corpus with one built with lotus next"
-          command: make compare-with-lotus-next
+          command: make REPO=lotus BRANCH=a0c0d9c98aae compare-corpus
+      - run:
+          name: "compare committed corpus with one built with specs-actors next"
+          command: make REPO=specs-actors BRANCH=master compare-corpus
