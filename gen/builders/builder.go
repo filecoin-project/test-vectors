@@ -17,13 +17,18 @@ import (
 	lotus "github.com/filecoin-project/lotus/conformance"
 )
 
+// Stage is an identifier for the current stage a Builder is in.
 type Stage string
 
 const (
+	// StagePreconditions is where the state tree is manipulated into the desired shape.
 	StagePreconditions = Stage("preconditions")
-	StageApplies       = Stage("applies")
-	StageChecks        = Stage("checks")
-	StageFinished      = Stage("finished")
+	// StageApplies is where messages are accumulated.
+	StageApplies = Stage("applies")
+	// StageChecks is where assertions are made on receipts and state.
+	StageChecks = Stage("checks")
+	// StageFinished is where the test vector is finalized, ready for serialization.
+	StageFinished = Stage("finished")
 )
 
 func init() {
@@ -34,6 +39,17 @@ func init() {
 	_ = os.Setenv("LOTUS_DISABLE_VM_BUF", "iknowitsabadidea")
 }
 
+// Builder is a helper for building a test vector. It enforces a staged process
+// for constructing a vector, starting in a "preconditions" stage, where the
+// state tree is manipulated into the desired shape for the test to begin. Next,
+// the "applies" stage serves as a time to accumulate messages that will mutate
+// the state. Transitioning to the "checks" stage applies the messages and
+// transitions the builder to a period where any final assertions can be made on
+// the receipts or the state of the system. Finally, transitioning to the
+// "finished" stage finalizes the test vector, serializing the pre and post
+// state trees and completing the stages. From here the test vector can be
+// serialized into a JSON file.
+//
 // TODO use stage.Surgeon with non-proxying blockstore.
 type Builder struct {
 	Actors    *Actors
@@ -84,6 +100,11 @@ func MessageVector(metadata *Metadata) *Builder {
 	return b
 }
 
+// CommitPreconditions flushes the state tree, recording the new CID in the
+// underlying test vector's precondition.
+//
+// This method progesses the builder into the "applies" stage and may only be
+// called during the "preconditions" stage.
 func (b *Builder) CommitPreconditions() {
 	if b.stage != StagePreconditions {
 		panic("called CommitPreconditions at the wrong time")
@@ -100,6 +121,12 @@ func (b *Builder) CommitPreconditions() {
 	b.Assert = newAsserter(b, StageApplies)
 }
 
+// CommitApplies applies all accumulated messages. For each message it records
+// the new state root, refreshes the state tree, and updates the underlying
+// vector with the message and its receipt.
+//
+// This method progresses the builder into the "checks" stage and may only be
+// called during the "applies" stage.
 func (b *Builder) CommitApplies() {
 	if b.stage != StageApplies {
 		panic("called CommitApplies at the wrong time")
@@ -141,6 +168,12 @@ func (b *Builder) applyMessage(am *ApplicableMessage) {
 	})
 }
 
+// Finish signals to the builder that the checks stage is complete and that the
+// test vector can be finialized. It creates a CAR from the recorded state root
+// in it's pre and post condition and serializes the CAR into the test vector.
+//
+// This method progresses the builder into the "finished" stage and may only be
+// called during the "checks" stage.
 func (b *Builder) Finish(w io.Writer) {
 	if b.stage != StageChecks {
 		panic("called Finish at the wrong time")
@@ -169,8 +202,8 @@ func (b *Builder) Finish(w io.Writer) {
 	}
 }
 
-// WriteCAR recursively writes the tree referenced by the root as assert CAR into the
-// supplied io.Writer.
+// WriteCAR recursively writes the tree referenced by the root as assert CAR
+// into the supplied io.Writer.
 //
 // TODO use state.Surgeon instead. (This is assert copy of Surgeon#WriteCAR).
 func (b *Builder) WriteCAR(w io.Writer, roots ...cid.Cid) error {
@@ -187,6 +220,7 @@ func (b *Builder) WriteCAR(w io.Writer, roots ...cid.Cid) error {
 	return car.WriteCarWithWalker(context.Background(), b.Stores.DAGService, roots, w, carWalkFn)
 }
 
+// FlushState calls Flush on the builder's StateTree.
 func (b *Builder) FlushState() cid.Cid {
 	preroot, err := b.StateTree.Flush(context.Background())
 	if err != nil {
