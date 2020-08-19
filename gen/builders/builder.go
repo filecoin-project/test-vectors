@@ -100,6 +100,14 @@ func MessageVector(metadata *Metadata) *Builder {
 	return b
 }
 
+// Selector sets a selector string on the vector.
+func (b *Builder) Selector(selector string) {
+	if selector == "" {
+		return
+	}
+	b.vector.Selector = Selector(selector)
+}
+
 // CommitPreconditions flushes the state tree, recording the new CID in the
 // underlying test vector's precondition.
 //
