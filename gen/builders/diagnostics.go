@@ -7,14 +7,16 @@ import (
 	"encoding/json"
 
 	"github.com/filecoin-project/lotus/chain/types"
+
+	"github.com/filecoin-project/test-vectors/schema"
 )
 
 const LotusExecutionTraceV1 = "Lotus-ExecutionTrace-V1"
 
 // EncodeTraces takes a set of serialized lotus ExecutionTraces and writes them
 // to the test vector serialized diagnostic format.
-func EncodeTraces(traces []types.ExecutionTrace) *Diagnostics {
-	d := Diagnostics{Format: LotusExecutionTraceV1}
+func EncodeTraces(traces []types.ExecutionTrace) *schema.Diagnostics {
+	d := schema.Diagnostics{Format: LotusExecutionTraceV1}
 	serialized, err := json.Marshal(traces)
 	if err != nil {
 		panic(err)

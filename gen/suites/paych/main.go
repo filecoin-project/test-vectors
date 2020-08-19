@@ -4,6 +4,7 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/abi"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
+	. "github.com/filecoin-project/test-vectors/schema"
 )
 
 var (

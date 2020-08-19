@@ -20,6 +20,9 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-bitfield"
 	"github.com/ipfs/go-cid"
+
+	"github.com/filecoin-project/test-vectors/chaos"
+	"github.com/filecoin-project/test-vectors/schema"
 )
 
 const (
@@ -46,7 +49,7 @@ const (
 	TestSealProofType = abi.RegisteredSealProof_StackedDrg2KiBV1
 )
 
-func (b *Builder) initializeZeroState() {
+func (b *Builder) initializeZeroState(selector schema.Selector) {
 	if err := insertEmptyStructures(b.Stores.ADTStore); err != nil {
 		panic(err)
 	}
@@ -125,6 +128,16 @@ func (b *Builder) initializeZeroState() {
 			},
 		}},
 	})
+
+	// Add the chaos actor if this test requires it.
+	if chaosOn, ok := selector.Unpack()["chaos_actor"]; ok && chaosOn == "true" {
+		actors = append(actors, ActorState{
+			Addr:    chaos.Address,
+			Balance: big.Zero(),
+			Code:    chaos.ChaosActorCodeCID,
+			State:   &chaos.State{},
+		})
+	}
 
 	for _, act := range actors {
 		_ = b.Actors.CreateActor(act.Code, act.Addr, act.Balance, act.State)

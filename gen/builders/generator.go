@@ -13,6 +13,8 @@ import (
 	"runtime/debug"
 	"strings"
 	"sync"
+
+	"github.com/filecoin-project/test-vectors/schema"
 )
 
 // Generator is a batch generator and organizer of test vectors.
@@ -44,7 +46,7 @@ type Generator struct {
 var GenscriptCommit = "dirty"
 
 // genData is the generation data to stamp into vectors.
-var genData = []GenerationData{
+var genData = []schema.GenerationData{
 	{
 		Source:  "genscript",
 		Version: GenscriptCommit,
@@ -55,7 +57,7 @@ func init() {
 	genData = append(genData, getBuildInfo()...)
 }
 
-func getBuildInfo() []GenerationData {
+func getBuildInfo() []schema.GenerationData {
 	deps := []string{"github.com/filecoin-project/lotus", "github.com/filecoin-project/specs-actors"}
 
 	bi, ok := debug.ReadBuildInfo()
@@ -63,12 +65,12 @@ func getBuildInfo() []GenerationData {
 		panic("cant read build info")
 	}
 
-	var result []GenerationData
+	var result []schema.GenerationData
 
 	for _, v := range bi.Deps {
 		for _, dep := range deps {
 			if strings.HasPrefix(v.Path, dep) {
-				result = append(result, GenerationData{Source: v.Path, Version: v.Version})
+				result = append(result, schema.GenerationData{Source: v.Path, Version: v.Version})
 			}
 		}
 	}
@@ -77,7 +79,8 @@ func getBuildInfo() []GenerationData {
 }
 
 type MessageVectorGenItem struct {
-	Metadata *Metadata
+	Metadata *schema.Metadata
+	Selector schema.Selector
 	Func     func(*Builder)
 }
 
@@ -160,7 +163,7 @@ func (g *Generator) generateOne(w io.Writer, b *MessageVectorGenItem, indent boo
 	// stamp with our generation data.
 	b.Metadata.Gen = genData
 
-	vector := MessageVector(b.Metadata)
+	vector := MessageVector(b.Metadata, b.Selector)
 
 	// TODO: currently if an assertion fails, we call os.Exit(1), which
 	//  aborts all ongoing vector generations. The Asserter should

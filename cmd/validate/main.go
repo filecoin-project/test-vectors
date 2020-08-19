@@ -53,9 +53,9 @@ func rootPath() string {
 }
 
 func schemaPath() string {
-	return path.Join(rootPath(), "schema.json")
+	return path.Join(rootPath(), "../schema.json")
 }
 
 func corpusRootPath() string {
-	return path.Join(rootPath(), "corpus")
+	return path.Join(rootPath(), "../corpus")
 }
