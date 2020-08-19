@@ -128,7 +128,7 @@ func (b *Builder) initializeZeroState() {
 		}},
 	})
 
-	// Chaos asctor.
+	// Chaos actor.
 	actors = append(actors, ActorState{
 		Addr:    chaos.Address,
 		Balance: big.Zero(),
