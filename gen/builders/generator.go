@@ -80,7 +80,7 @@ func getBuildInfo() []schema.GenerationData {
 
 type MessageVectorGenItem struct {
 	Metadata *schema.Metadata
-	Selector string
+	Selector schema.Selector
 	Func     func(*Builder)
 }
 
@@ -163,8 +163,7 @@ func (g *Generator) generateOne(w io.Writer, b *MessageVectorGenItem, indent boo
 	// stamp with our generation data.
 	b.Metadata.Gen = genData
 
-	vector := MessageVector(b.Metadata)
-	vector.Selector(b.Selector) // noop if ""
+	vector := MessageVector(b.Metadata, b.Selector)
 
 	// TODO: currently if an assertion fails, we call os.Exit(1), which
 	//  aborts all ongoing vector generations. The Asserter should

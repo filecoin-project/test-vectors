@@ -70,7 +70,7 @@ type Builder struct {
 }
 
 // MessageVector creates a builder for a message-class vector.
-func MessageVector(metadata *schema.Metadata) *Builder {
+func MessageVector(metadata *schema.Metadata, selector schema.Selector) *Builder {
 	stores := NewLocalStores(context.Background())
 
 	// Create a brand new state tree.
@@ -97,17 +97,9 @@ func MessageVector(metadata *schema.Metadata) *Builder {
 	b.vector.Pre = &schema.Preconditions{}
 	b.vector.Post = &schema.Postconditions{}
 
-	b.initializeZeroState()
+	b.initializeZeroState(selector)
 
 	return b
-}
-
-// Selector sets a selector string on the vector.
-func (b *Builder) Selector(selector string) {
-	if selector == "" {
-		return
-	}
-	b.vector.Selector = schema.Selector(selector)
 }
 
 // CommitPreconditions flushes the state tree, recording the new CID in the
