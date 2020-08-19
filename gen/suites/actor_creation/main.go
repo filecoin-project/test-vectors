@@ -11,6 +11,7 @@ import (
 
 func main() {
 	g := NewGenerator()
+	defer g.Wait()
 
 	g.MessageVectorGroup("addresses",
 		&MessageVectorGenItem{
@@ -78,5 +79,16 @@ func main() {
 		},
 	)
 
-	g.Wait()
+	g.MessageVectorGroup("create_actor_validation",
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "with-existing-address",
+				Version: "v1",
+				Desc:    "verifies that CreateActor aborts when provided an existing address",
+			},
+			Selector: "chaos_actor=true",
+			Func:     createAccountActorWithExistingAddr,
+		},
+	)
+
 }

@@ -37,12 +37,14 @@ var (
 const (
 	_                      = 0 // skip zero iota value; first usage of iota gets 1.
 	MethodCallerValidation = builtin.MethodConstructor + iota
+	MethodCreateAccountActorWithAddr
 )
 
 func (a Actor) Exports() []interface{} {
 	return []interface{}{
-		builtin.MethodConstructor: a.Constructor,
-		MethodCallerValidation:    a.CallerValidation,
+		builtin.MethodConstructor:        a.Constructor,
+		MethodCallerValidation:           a.CallerValidation,
+		MethodCreateAccountActorWithAddr: a.CreateAccountActorWithAddr,
 	}
 }
 
