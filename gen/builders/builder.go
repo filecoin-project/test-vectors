@@ -15,6 +15,8 @@ import (
 	"github.com/ipld/go-car"
 
 	lotus "github.com/filecoin-project/lotus/conformance"
+
+	"github.com/filecoin-project/test-vectors/schema"
 )
 
 // Stage is an identifier for the current stage a Builder is in.
@@ -63,12 +65,12 @@ type Builder struct {
 	StateTree *state.StateTree
 	Stores    *Stores
 
-	vector TestVector
+	vector schema.TestVector
 	stage  Stage
 }
 
 // MessageVector creates a builder for a message-class vector.
-func MessageVector(metadata *Metadata) *Builder {
+func MessageVector(metadata *schema.Metadata) *Builder {
 	stores := NewLocalStores(context.Background())
 
 	// Create a brand new state tree.
@@ -90,10 +92,10 @@ func MessageVector(metadata *Metadata) *Builder {
 	b.Actors = newActors(b)
 	b.Messages = &Messages{b: b}
 
-	b.vector.Class = ClassMessage
+	b.vector.Class = schema.ClassMessage
 	b.vector.Meta = metadata
-	b.vector.Pre = &Preconditions{}
-	b.vector.Post = &Postconditions{}
+	b.vector.Pre = &schema.Preconditions{}
+	b.vector.Post = &schema.Postconditions{}
 
 	b.initializeZeroState()
 
@@ -105,7 +107,7 @@ func (b *Builder) Selector(selector string) {
 	if selector == "" {
 		return
 	}
-	b.vector.Selector = Selector(selector)
+	b.vector.Selector = schema.Selector(selector)
 }
 
 // CommitPreconditions flushes the state tree, recording the new CID in the
@@ -122,7 +124,7 @@ func (b *Builder) CommitPreconditions() {
 	preroot := b.FlushState()
 
 	b.vector.Pre.Epoch = 0
-	b.vector.Pre.StateTree = &StateTree{RootCID: preroot}
+	b.vector.Pre.StateTree = &schema.StateTree{RootCID: preroot}
 
 	b.CurrRoot, b.PreRoot = preroot, preroot
 	b.stage = StageApplies
@@ -148,7 +150,7 @@ func (b *Builder) CommitApplies() {
 	}
 
 	b.PostRoot = b.CurrRoot
-	b.vector.Post.StateTree = &StateTree{RootCID: b.CurrRoot}
+	b.vector.Post.StateTree = &schema.StateTree{RootCID: b.CurrRoot}
 	b.stage = StageChecks
 	b.Assert = newAsserter(b, StageChecks)
 }
@@ -165,11 +167,11 @@ func (b *Builder) applyMessage(am *ApplicableMessage) {
 	b.StateTree, err = state.LoadStateTree(b.Stores.CBORStore, b.CurrRoot)
 	b.Assert.NoError(err)
 
-	b.vector.ApplyMessages = append(b.vector.ApplyMessages, Message{
+	b.vector.ApplyMessages = append(b.vector.ApplyMessages, schema.Message{
 		Bytes: MustSerialize(am.Message),
 		Epoch: &am.Epoch,
 	})
-	b.vector.Post.Receipts = append(b.vector.Post.Receipts, &Receipt{
+	b.vector.Post.Receipts = append(b.vector.Post.Receipts, &schema.Receipt{
 		ExitCode:    am.Result.ExitCode,
 		ReturnValue: am.Result.Return,
 		GasUsed:     am.Result.GasUsed,

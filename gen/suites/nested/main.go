@@ -2,6 +2,7 @@ package main
 
 import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
+	. "github.com/filecoin-project/test-vectors/schema"
 )
 
 func main() {
