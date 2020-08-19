@@ -213,9 +213,22 @@ $ go run ./suites/msg_application
 # this command will write the msg_application vectors to the corpus directory.
 $ go run ./suites/msg_application -o ../corpus/msg_application
 
+# running with -x will overwrite any existing vectors in the specified directory.
+$ go run ./suites/msg_application -x -o ../corpus/msg_application
+
 # you can filter which vectors with a regex that is matched against the id.
 # this command will generate vectors whose id contains the string 'invalid'.
 $ go run ./suites/msg_application -f '.*invalid.*'
+```
+
+There also handy makefile targets to generate them all:
+
+```shell
+# Generate all test vectors and write them to ./corpus
+$ make gen
+
+# Re-generate the vectors, using -x to overwrite existing vectors.
+$ make regen
 ```
 
 ## Integration in Lotus

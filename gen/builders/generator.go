@@ -29,6 +29,9 @@ import (
 //		directory where test vector JSON files will be saved; if omitted,
 //		vectors will be written to stdout.
 //
+//  -x
+//		overwrite any existing test vector files.
+//
 //  -f <regex>
 //		regex filter to select a subset of vectors to execute; matched against
 //	 	the vector's ID.
@@ -38,6 +41,7 @@ import (
 // <output_dir>/<group>--<vector_id>.json
 type Generator struct {
 	OutputPath string
+	Overwrite  bool
 	Filter     *regexp.Regexp
 
 	wg sync.WaitGroup
@@ -88,12 +92,13 @@ func NewGenerator() *Generator {
 	// Consume CLI parameters.
 	var (
 		outputDir = flag.String("o", "", "directory where test vector JSON files will be saved; if omitted, vectors will be written to stdout")
+		overwrite = flag.Bool("x", false, "overwrite any existing test vector files")
 		filter    = flag.String("f", "", "regex filter to select a subset of vectors to execute; matched against the vector's ID")
 	)
 
 	flag.Parse()
 
-	ret := new(Generator)
+	ret := Generator{Overwrite: *overwrite}
 
 	// If output directory is provided, we ensure it exists, or create it.
 	// Else, we'll output to stdout.
@@ -114,7 +119,7 @@ func NewGenerator() *Generator {
 		ret.Filter = exp
 	}
 
-	return ret
+	return &ret
 }
 
 func (g *Generator) Wait() {
@@ -128,8 +133,9 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 
 		var wg sync.WaitGroup
 		for _, item := range vectors {
-			if id := item.Metadata.ID; g.Filter != nil && !g.Filter.MatchString(id) {
-				log.Printf("skipping %s", id)
+			id := item.Metadata.ID
+			if g.Filter != nil && !g.Filter.MatchString(id) {
+				log.Printf("skipping %s: matches filter", id)
 				continue
 			}
 
@@ -138,6 +144,11 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 				w = os.Stdout
 			} else {
 				file := filepath.Join(g.OutputPath, fmt.Sprintf("%s--%s.json", group, item.Metadata.ID))
+				// if file (probably) exists, skip if not force overwrite
+				if _, err := os.Stat(file); !os.IsNotExist(err) && !g.Overwrite {
+					log.Printf("skipping %s: path exists %s use -x to overwrite", id, file)
+					continue
+				}
 				out, err := os.OpenFile(file, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 				if err != nil {
 					log.Printf("failed to write to file %s: %s", file, err)
