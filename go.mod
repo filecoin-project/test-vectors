@@ -1,4 +1,4 @@
-module github.com/filecoin-project/test-vectors/gen
+module github.com/filecoin-project/test-vectors
 
 go 1.14
 
@@ -26,7 +26,7 @@ require (
 	github.com/whyrusleeping/cbor-gen v0.0.0-20200812213548-958ddffe352c
 )
 
-replace github.com/filecoin-project/filecoin-ffi => ./extern/filecoin-ffi
+replace github.com/filecoin-project/filecoin-ffi => ./gen/extern/filecoin-ffi
 
 replace github.com/filecoin-project/sector-storage => github.com/filecoin-project/lotus/extern/sector-storage v0.0.0-20200814191300-4a0171d26aa5
 
