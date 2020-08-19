@@ -153,27 +153,5 @@ func main() {
 			},
 			Func: failTransferUnknownSenderUnknownReceiver,
 		},
-
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "secp-to-id-addresses",
-				Version: "v1",
-			},
-			Func: selfTransfer(AddressHandle.RobustAddr, AddressHandle.IDAddr),
-		},
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "id-to-secp-addresses",
-				Version: "v1",
-			},
-			Func: selfTransfer(AddressHandle.IDAddr, AddressHandle.RobustAddr),
-		},
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "id-to-id-addresses",
-				Version: "v1",
-			},
-			Func: selfTransfer(AddressHandle.IDAddr, AddressHandle.IDAddr),
-		},
 	)
 }
