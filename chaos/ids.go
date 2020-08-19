@@ -2,7 +2,6 @@ package chaos
 
 import (
 	"github.com/filecoin-project/go-address"
-	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/ipfs/go-cid"
 	"github.com/multiformats/go-multihash"
 )
@@ -22,7 +21,7 @@ var ChaosActorCodeCID = func() cid.Cid {
 // singleton, and 98 is the puppet actor.
 var Address = func() address.Address {
 	// the address before the burnt funds address (99) and the puppet actor (98)
-	addr, err := address.NewIDAddress(builtin.FirstNonSingletonActorId - 3)
+	addr, err := address.NewIDAddress(97)
 	if err != nil {
 		panic(err)
 	}

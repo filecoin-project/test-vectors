@@ -23,23 +23,26 @@ import (
 // "chaos_actor=true".
 type Actor struct{}
 
+// CallerValidationBranch is an enum used to select a branch in the
+// CallerValidation method.
 type CallerValidationBranch big.Int
 
 var (
-	CallerValidationBranchNone                      = big.NewIntUnsigned(0)
-	CallerValidationBranchTwice                     = big.NewIntUnsigned(1)
-	CallerValidationBranchImmediateCallerAddrNoArgs = big.NewIntUnsigned(2)
-	CallerValidationBranchImmediateCallerTypeNoArgs = big.NewIntUnsigned(3)
+	CallerValidationBranchNone       = big.NewIntUnsigned(0)
+	CallerValidationBranchTwice      = big.NewIntUnsigned(1)
+	CallerValidationBranchAddrNilSet = big.NewIntUnsigned(2)
+	CallerValidationBranchTypeNilSet = big.NewIntUnsigned(3)
 )
 
 const (
-	MethodCallerValidation = builtin.MethodConstructor + 1 + iota
+	_                      = 0 // skip zero iota value; first usage of iota gets 1.
+	MethodCallerValidation = builtin.MethodConstructor + iota
 )
 
 func (a Actor) Exports() []interface{} {
 	return []interface{}{
 		builtin.MethodConstructor: a.Constructor,
-		2:                         a.CallerValidation,
+		MethodCallerValidation:    a.CallerValidation,
 	}
 }
 
@@ -49,6 +52,13 @@ func (a Actor) Constructor(_ runtime.Runtime, _ *adt.EmptyValue) *adt.EmptyValue
 	panic("constructor should not be called; the Chaos actor is a singleton actor")
 }
 
+// CallerValidation violates VM call validation constraints.
+//
+//  CallerValidationBranchNone performs no validation.
+//  CallerValidationBranchTwice validates twice.
+//  CallerValidationBranchAddrNilSet validates against an empty caller
+//  address set.
+//  CallerValidationBranchTypeNilSet validates against an empty caller type set.
 func (a Actor) CallerValidation(rt runtime.Runtime, branch *big.Int) *adt.EmptyValue {
 	if branch == nil {
 		panic("no branch passed to CallerValidation")
@@ -59,9 +69,9 @@ func (a Actor) CallerValidation(rt runtime.Runtime, branch *big.Int) *adt.EmptyV
 	case CallerValidationBranchTwice.Uint64():
 		rt.ValidateImmediateCallerAcceptAny()
 		rt.ValidateImmediateCallerAcceptAny()
-	case CallerValidationBranchImmediateCallerAddrNoArgs.Uint64():
+	case CallerValidationBranchAddrNilSet.Uint64():
 		rt.ValidateImmediateCallerIs()
-	case CallerValidationBranchImmediateCallerTypeNoArgs.Uint64():
+	case CallerValidationBranchTypeNilSet.Uint64():
 		rt.ValidateImmediateCallerType()
 	default:
 		panic("invalid branch passed to CallerValidation")

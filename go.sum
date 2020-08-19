@@ -248,6 +248,8 @@ github.com/filecoin-project/go-storedcounter v0.0.0-20200421200003-1c99c62e8a5b 
 github.com/filecoin-project/go-storedcounter v0.0.0-20200421200003-1c99c62e8a5b/go.mod h1:Q0GQOBtKf1oE10eSXSlhN45kDBdGvEcVOqMiffqX+N8=
 github.com/filecoin-project/lotus v0.4.3-0.20200819133134-a21234cd54d5 h1:gdDqx0QTnHYkEjXbUieVApKKoxZmYq45X0Bk7+qLsfs=
 github.com/filecoin-project/lotus v0.4.3-0.20200819133134-a21234cd54d5/go.mod h1:YYUqCqyv4odVgKSFQAnIdAl0v1cIfbEYnF9E118dMGQ=
+github.com/filecoin-project/lotus v0.4.3-0.20200819134055-b13681df3205 h1:f/gDY2XSlI8s3E5rl3Y1pjZ4VkPtfTt8SkgocBm1sIc=
+github.com/filecoin-project/lotus v0.4.3-0.20200819134055-b13681df3205/go.mod h1:rooripL/X8ixwUngDPzphAv/RKZXWBprbyxxDW0EJi0=
 github.com/filecoin-project/sector-storage v0.0.0-20200712023225-1d67dcfa3c15/go.mod h1:salgVdX7qeXFo/xaiEQE29J4pPkjn71T0kt0n+VDBzo=
 github.com/filecoin-project/sector-storage v0.0.0-20200730050024-3ee28c3b6d9a/go.mod h1:oOawOl9Yk+qeytLzzIryjI8iRbqo+qzS6EEeElP4PWA=
 github.com/filecoin-project/sector-storage v0.0.0-20200810171746-eac70842d8e0 h1:E1fZ27fhKK05bhZItfTwqr1i05vXnEZJznQFEYwEEUU=
@@ -267,6 +269,7 @@ github.com/filecoin-project/specs-storage v0.1.1-0.20200622113353-88a9704877ea/g
 github.com/filecoin-project/specs-storage v0.1.1-0.20200730063404-f7db367e9401 h1:jLzN1hwO5WpKPu8ASbW8fs1FUCsOWNvoBXzQhv+8/E8=
 github.com/filecoin-project/specs-storage v0.1.1-0.20200730063404-f7db367e9401/go.mod h1:Pr5ntAaxsh+sLG/LYiL4tKzvA83Vk5vLODYhfNwOg7k=
 github.com/filecoin-project/storage-fsm v0.0.0-20200805013058-9d9ea4e6331f/go.mod h1:1CGbd11KkHuyWPT+xwwCol1zl/jnlpiKD2L4fzKxaiI=
+github.com/filecoin-project/test-vectors v0.0.0-20200819133914-e20cc29cc926/go.mod h1:ou1Im2BTyrYTnXX8yj5VvC+DTfbIrwESJjKDxbh31nA=
 github.com/flynn/go-shlex v0.0.0-20150515145356-3f9db97f8568/go.mod h1:xEzjJPgXI435gkrCt3MPfRiAkVrwSbHsst4LCFVfpJc=
 github.com/flynn/noise v0.0.0-20180327030543-2492fe189ae6/go.mod h1:1i71OnUq3iUe1ma7Lr6yG6/rjvM3emb6yoL7xLFzcVQ=
 github.com/francoispqt/gojay v1.2.13/go.mod h1:ehT5mTG4ua4581f1++1WLG0vPdaA9HaiDsoyrBGkyDY=

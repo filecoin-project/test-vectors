@@ -38,7 +38,7 @@ func main() {
 				Desc:    "verifies that an actor that validates against a nil allowed address set fails",
 			},
 			Selector: "chaos_actor=true",
-			Func:     callerValidation(&chaos.CallerValidationBranchImmediateCallerAddrNoArgs, exitcode.SysErrForbidden),
+			Func:     callerValidation(&chaos.CallerValidationBranchAddrNilSet, exitcode.SysErrForbidden),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
@@ -47,7 +47,7 @@ func main() {
 				Desc:    "verifies that an actor that validates against a nil allowed type set fails",
 			},
 			Selector: "chaos_actor=true",
-			Func:     callerValidation(&chaos.CallerValidationBranchImmediateCallerTypeNoArgs, exitcode.SysErrForbidden),
+			Func:     callerValidation(&chaos.CallerValidationBranchTypeNilSet, exitcode.SysErrForbidden),
 		},
 	)
 }
