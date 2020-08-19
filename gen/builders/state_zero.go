@@ -20,6 +20,8 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-bitfield"
 	"github.com/ipfs/go-cid"
+
+	"github.com/filecoin-project/test-vectors/chaos"
 )
 
 const (
@@ -124,6 +126,14 @@ func (b *Builder) initializeZeroState() {
 				MethodNum: builtin.MethodsPower.OnEpochTickEnd,
 			},
 		}},
+	})
+
+	// Chaos asctor.
+	actors = append(actors, ActorState{
+		Addr:    chaos.Address,
+		Balance: big.Zero(),
+		Code:    chaos.ChaosActorCodeCID,
+		State:   &chaos.State{},
 	})
 
 	for _, act := range actors {
