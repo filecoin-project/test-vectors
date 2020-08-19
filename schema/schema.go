@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
@@ -24,8 +25,26 @@ var (
 	ClassChain Class = "chain"
 )
 
-// Selector provides a filter to indicate what implementations this test is relevant for
+// Selector is a predicate the driver can use to determine if this test vector
+// is relevant given the capabilities/features of the underlying implementation
+// and/or test environment.
 type Selector string
+
+// Unpack unpacks the selector as a key-value string map that's encoded as a
+// comma-separated key=value list.
+func (s Selector) Unpack() map[string]string {
+	sel := strings.TrimSpace(string(s))
+	if sel == "" {
+		return map[string]string{}
+	}
+	splt := strings.Split(sel, ",")
+	ret := make(map[string]string, len(splt))
+	for _, s := range splt {
+		ss := strings.Split(s, "=")
+		ret[ss[0]] = ss[1] // let it panic
+	}
+	return ret
+}
 
 // Metadata provides information on the generation of this test case
 type Metadata struct {
