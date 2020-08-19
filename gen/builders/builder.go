@@ -98,6 +98,7 @@ func MessageVector(metadata *schema.Metadata, selector schema.Selector) *Builder
 	b.vector.Meta = metadata
 	b.vector.Pre = &schema.Preconditions{}
 	b.vector.Post = &schema.Postconditions{}
+	b.vector.Selector = selector
 
 	b.initializeZeroState(selector)
 
