@@ -40,8 +40,11 @@ func (s Selector) Unpack() map[string]string {
 	splt := strings.Split(sel, ",")
 	ret := make(map[string]string, len(splt))
 	for _, s := range splt {
-		ss := strings.Split(s, "=")
-		ret[ss[0]] = ss[1] // let it panic
+		ss := strings.Split(strings.TrimSpace(s), "=")
+		if len(ss) != 2 {
+			panic(fmt.Sprintf("bad selector string; expected comma-separated key=value list; got: %s", s))
+		}
+		ret[ss[0]] = ss[1]
 	}
 	return ret
 }
