@@ -18,6 +18,7 @@ func main() {
 				ID:      "sequential-10",
 				Version: "v1",
 				Desc:    "actor addresses are sequential",
+				Tags:    []string{"example-tag"},
 			},
 			Func: sequentialAddresses,
 		},
