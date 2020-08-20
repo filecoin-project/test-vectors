@@ -17,6 +17,7 @@ require (
 	github.com/ipfs/go-ipfs-exchange-offline v0.0.1
 	github.com/ipfs/go-ipld-cbor v0.0.5-0.20200428170625-a0bd04d3cbdf
 	github.com/ipfs/go-ipld-format v0.2.0
+	github.com/ipfs/go-log v1.0.4
 	github.com/ipfs/go-merkledag v0.3.2
 	github.com/ipld/go-car v0.1.1-0.20200526133713-1c7508d55aae
 	github.com/libp2p/go-libp2p-core v0.6.1

@@ -10,6 +10,22 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
+func actorAbortWithSystemExitCode(i int) func(v *Builder) {
+	return func(v *Builder) {
+		v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
+
+		alice := v.Actors.Account(address.SECP256K1, abi.NewTokenAmount(1_000_000_000_000))
+		v.CommitPreconditions()
+
+		code := big.NewInt(int64(i))
+
+		msg := v.Messages.Raw(alice.ID, chaos.Address, chaos.MethodAbortWithSystemExitCode, MustSerialize(&code), Nonce(0), Value(big.Zero()))
+		v.CommitApplies()
+
+		v.Assert.Equal(exitcode.ExitCode(i), msg.Result.ExitCode)
+	}
+}
+
 func actorAbortWithSystemExitCodeSingle(v *Builder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
@@ -41,17 +57,4 @@ func actorAbortWithSystemExitCodeSingle(v *Builder) {
 	v.Assert.Equal(exitcode.ExitCode(2), msgs[11].Result.ExitCode)
 	v.Assert.Equal(exitcode.ExitCode(2), msgs[12].Result.ExitCode)
 	v.Assert.Equal(exitcode.ExitCode(2), msgs[13].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrInvalidParameters, msgs[3].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[4].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[5].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[6].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[7].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[8].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[9].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[10].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[11].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[12].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[13].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[14].Result.ExitCode)
-	//v.Assert.Equal(exitcode.SysErrSenderStateInvalid, msgs[15].Result.ExitCode)
 }

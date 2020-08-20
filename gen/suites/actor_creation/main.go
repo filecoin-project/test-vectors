@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
@@ -84,10 +86,27 @@ func main() {
 		},
 	)
 
-	g.MessageVectorGroup("actor_failures",
+	var vectors []*MessageVectorGenItem
+	for i := 1; i <= 15; i++ {
+		vectors = append(vectors,
+			&MessageVectorGenItem{
+				Metadata: &Metadata{
+					ID:      fmt.Sprintf("fails-when-actor-aborts-with-system-code-%d", i),
+					Version: "v1",
+					Desc:    "",
+				},
+				Selector: "chaos_actor=true",
+				Func:     actorAbortWithSystemExitCode(i),
+			},
+		)
+	}
+
+	g.MessageVectorGroup("actor_failures", vectors...)
+
+	g.MessageVectorGroup("actor_failures_single",
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID:      "fails-when-actor-aborts-with-system-code",
+				ID:      "single-fails-when-actor-aborts-with-system-code",
 				Version: "v1",
 				Desc:    "",
 			},
