@@ -226,7 +226,7 @@ $ go run ./suites/msg_application -f -o ../corpus/msg_application
 $ go run ./suites/msg_application -i '.*invalid.*'
 ```
 
-There also handy makefile targets to generate them all:
+There is also handy makefile targets to generate them all:
 
 ```shell
 # Generate all test vectors and write them to ./corpus, do not touch existing
