@@ -5,6 +5,7 @@ import (
 	"compress/gzip"
 	"encoding/base64"
 	"encoding/json"
+	"path"
 	"time"
 
 	"github.com/filecoin-project/lotus/chain/types"
@@ -39,11 +40,16 @@ func EncodeTraces(traces []types.ExecutionTrace) *schema.Diagnostics {
 }
 
 func cleanTraces(t []types.ExecutionTrace) []types.ExecutionTrace {
-	for _, e := range t {
-		e.Duration = time.Duration(0)
-		e.Subcalls = cleanTraces(e.Subcalls)
-		for _, g := range e.GasCharges {
-			g.TimeTaken = time.Duration(0)
+	for i := range t {
+		t[i].Duration = time.Duration(0)
+		t[i].Subcalls = cleanTraces(t[i].Subcalls)
+		for j := range t[i].GasCharges {
+			for k := range t[i].GasCharges[j].Location {
+				_, file := path.Split(t[i].GasCharges[j].Location[k].File)
+				t[i].GasCharges[j].Location[k].File = file
+			}
+			t[i].GasCharges[j].TimeTaken = time.Duration(0)
+			t[i].GasCharges[j].Callers = nil
 		}
 	}
 	return t
