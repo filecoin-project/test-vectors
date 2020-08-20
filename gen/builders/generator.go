@@ -247,12 +247,12 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 
 // parseVectorFile unnmarshals a JSON serialized test vector stored at the
 // given file path and returns it.
-func (g *Generator) parseVectorFile(p string) (*TestVector, error) {
+func (g *Generator) parseVectorFile(p string) (*schema.TestVector, error) {
 	raw, err := ioutil.ReadFile(p)
 	if err != nil {
 		return nil, fmt.Errorf("reading test vector file: %w", err)
 	}
-	var vector TestVector
+	var vector schema.TestVector
 	err = json.Unmarshal(raw, &vector)
 	if err != nil {
 		return nil, fmt.Errorf("unmarshaling test vector: %w", err)
