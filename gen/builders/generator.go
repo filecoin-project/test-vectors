@@ -187,7 +187,7 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 		var wg sync.WaitGroup
 		for _, item := range vectors {
 			if id := item.Metadata.ID; g.Filter != nil && !g.Filter.MatchString(id) {
-				log.Printf("skipping %s: matches filter", id)
+				log.Printf("skipping %s: does not match include filter", id)
 				continue
 			}
 
