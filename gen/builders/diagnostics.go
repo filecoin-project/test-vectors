@@ -37,8 +37,9 @@ func EncodeTraces(traces []types.ExecutionTrace) *schema.Diagnostics {
 	d.Data = data.Bytes()
 	return &d
 }
-cleanTraces recursively strips variable/volatile fields from execution traces,
-e.g. TimeTaken, in order to remove noise and facilitate comparison and diffing.
+
+// cleanTraces recursively strips variable/volatile fields from execution traces,
+// e.g. TimeTaken, in order to remove noise and facilitate comparison and diffing.
 func cleanTraces(t []types.ExecutionTrace) []types.ExecutionTrace {
 	for _, e := range t {
 		e.Duration = time.Duration(0)
