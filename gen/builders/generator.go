@@ -171,11 +171,7 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 
 		var tmpOutDir string
 		if g.OutputPath != "" {
-<<<<<<< HEAD
-			dir, err := ioutil.TempDir(os.TempDir(), group)
-=======
-			p, err := ioutil.TempDir("", group)
->>>>>>> e85364b85b161aee0ff9e2f3d06e00a344b32203
+			dir, err := ioutil.TempDir("", group)
 			if err != nil {
 				log.Printf("failed to create temp output directory: %s", err)
 				return
