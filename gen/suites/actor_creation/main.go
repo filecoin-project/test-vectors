@@ -92,7 +92,7 @@ func main() {
 				Desc:    "",
 			},
 			Selector: "chaos_actor=true",
-			Func:     actorAbortWithSystemExitCode,
+			Func:     actorAbortWithSystemExitCodeSingle,
 		},
 	)
 
