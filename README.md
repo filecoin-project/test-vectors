@@ -217,12 +217,13 @@ $ go run ./suites/msg_application -o ../corpus/msg_application
 # IF their content has changed. Note `_meta` is ignored when checking equality.
 $ go run ./suites/msg_application -u -o ../corpus/msg_application
 
-# running with -r will replace any existing vectors in the specified directory.
-$ go run ./suites/msg_application -r -o ../corpus/msg_application
+# running with -f will force regeneration, overwriting any existing vectors in
+# the specified directory.
+$ go run ./suites/msg_application -f -o ../corpus/msg_application
 
 # you can filter which vectors with a regex that is matched against the id.
 # this command will generate vectors whose id contains the string 'invalid'.
-$ go run ./suites/msg_application -f '.*invalid.*'
+$ go run ./suites/msg_application -i '.*invalid.*'
 ```
 
 There also handy makefile targets to generate them all:

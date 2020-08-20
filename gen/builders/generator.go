@@ -32,12 +32,13 @@ import (
 //
 //  -u
 //		update any existing test vector files in the output directory IF their
-//    content has changed. Note `_meta` is ignored when checking equality.
+//		content has changed. Note `_meta` is ignored when checking equality.
 //
-//  -r
-//    replace any existing vectors in the output directory.
+//  -f
+//		force regeneration and overwrite any existing vectors in the output
+//		directory.
 //
-//  -f <regex>
+//  -i <regex>
 //		regex filter to select a subset of vectors to execute; matched against
 //	 	the vector's ID.
 //
@@ -52,7 +53,7 @@ type Generator struct {
 	wg sync.WaitGroup
 }
 
-// OverwriteMode is the mode used when overwriting existing test vector files.
+// GenerationMode is the mode used when overwriting existing test vector files.
 type OverwriteMode int
 
 const (
@@ -60,8 +61,8 @@ const (
 	OverwriteNone OverwriteMode = iota
 	// OverwriteUpdate will update test vector files if they're different.
 	OverwriteUpdate
-	// OverwriteReplace will replace the vector files.
-	OverwriteReplace
+	// OverwriteForce will force overwrite the vector files.
+	OverwriteForce
 )
 
 var GenscriptCommit = "dirty"
@@ -107,38 +108,51 @@ type MessageVectorGenItem struct {
 
 func NewGenerator() *Generator {
 	// Consume CLI parameters.
-	var (
-		outputDir = flag.String("o", "", "directory where test vector JSON files will be saved; if omitted, vectors will be written to stdout")
-		update    = flag.Bool("u", false, "update any existing test vector files in the output directory IF their content has changed. Note `_meta` is ignored when checking equality.")
-		replace   = flag.Bool("r", false, "replace any existing vectors in the output directory.")
-		filter    = flag.String("f", "", "regex filter to select a subset of vectors to execute; matched against the vector's ID")
-	)
+	var outputDir string
+	const outputDirUsage = "directory where test vector JSON files will be saved; if omitted, vectors will be written to stdout."
+	flag.StringVar(&outputDir, "o", "", outputDirUsage)
+	flag.StringVar(&outputDir, "out", "", outputDirUsage)
+
+	var update bool
+	const updateUsage = "update any existing test vector files in the output directory IF their content has changed. Note `_meta` is ignored when checking equality."
+	flag.BoolVar(&update, "u", false, updateUsage)
+	flag.BoolVar(&update, "update", false, updateUsage)
+
+	var force bool
+	const forceUsage = "force regeneration and overwrite any existing vectors in the output directory."
+	flag.BoolVar(&force, "f", false, forceUsage)
+	flag.BoolVar(&force, "force", false, forceUsage)
+
+	var filter string
+	const filterUsage = "regex filter to select a subset of vectors to execute; matched against the vector's ID."
+	flag.StringVar(&filter, "i", "", filterUsage)
+	flag.StringVar(&filter, "include", "", filterUsage)
 
 	flag.Parse()
 
 	mode := OverwriteNone
-	if *replace {
-		mode = OverwriteReplace
-	} else if *update {
+	if force {
+		mode = OverwriteForce
+	} else if update {
 		mode = OverwriteUpdate
 	}
 	ret := Generator{Mode: mode}
 
 	// If output directory is provided, we ensure it exists, or create it.
 	// Else, we'll output to stdout.
-	if dir := *outputDir; dir != "" {
-		err := ensureDirectory(dir)
+	if outputDir != "" {
+		err := ensureDirectory(outputDir)
 		if err != nil {
 			log.Fatal(err)
 		}
-		ret.OutputPath = dir
+		ret.OutputPath = outputDir
 	}
 
 	// If a filter has been provided, compile it into a regex.
-	if *filter != "" {
-		exp, err := regexp.Compile(*filter)
+	if filter != "" {
+		exp, err := regexp.Compile(filter)
 		if err != nil {
-			log.Fatalf("supplied regex %s is invalid: %s", *filter, err)
+			log.Fatalf("supplied regex %s is invalid: %s", filter, err)
 		}
 		ret.Filter = exp
 	}
@@ -202,8 +216,8 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 					_, err := os.Stat(outFilePath)
 					exists := !os.IsNotExist(err)
 
-					// if file (probably) exists and we're not replacing it, check equality
-					if exists && g.Mode != OverwriteReplace {
+					// if file (probably) exists and we're not force overwriting it, check equality
+					if exists && g.Mode != OverwriteForce {
 						eql, err := g.vectorsEqual(tmpFilePath, outFilePath)
 						if err != nil {
 							log.Printf("failed to check new vs existing vector equality: %s", err)
@@ -214,7 +228,7 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 							return
 						}
 						if g.Mode == OverwriteNone {
-							log.Printf("⚠️ WARNING: not writing %s: vector changed, use -u or -r to overwrite", id)
+							log.Printf("⚠️ WARNING: not writing %s: vector changed, use -u or -f to overwrite", id)
 							return
 						}
 					}

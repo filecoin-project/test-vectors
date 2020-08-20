@@ -12,7 +12,7 @@ upgen:
 	make gen ARGS="-u"
 
 regen:
-	make gen ARGS="-r"
+	make gen ARGS="-f"
 
 validate:
 	go run ./cmd/validate
