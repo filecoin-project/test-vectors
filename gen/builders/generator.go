@@ -53,7 +53,7 @@ type Generator struct {
 	wg sync.WaitGroup
 }
 
-// GenerationMode is the mode used when overwriting existing test vector files.
+// OverwriteMode is the mode used when overwriting existing test vector files.
 type OverwriteMode int
 
 const (
