@@ -259,8 +259,8 @@ func (g *Generator) parseVectorFile(p string) (*schema.TestVector, error) {
 	return &vector, nil
 }
 
-// vectorBytesNoMeta returns the serialized bytes for a vector when given a path
-// after stripping the metadata.
+// vectorBytesNoMeta parses the vector at the given file path and returns the
+// serialized bytes for the vector after stripping the metadata.
 func (g *Generator) vectorBytesNoMeta(p string) ([]byte, error) {
 	v, err := g.parseVectorFile(p)
 	if err != nil {
@@ -270,7 +270,7 @@ func (g *Generator) vectorBytesNoMeta(p string) ([]byte, error) {
 	return json.Marshal(v)
 }
 
-// vectorsEqual determines if two vectors are "equal". There are considered
+// vectorsEqual determines if two vectors are "equal". They are considered
 // equal if they serialize to the same bytes without a `_meta` property.
 func (g *Generator) vectorsEqual(apath, bpath string) (bool, error) {
 	abytes, err := g.vectorBytesNoMeta(apath)
