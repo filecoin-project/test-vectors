@@ -38,7 +38,7 @@ import (
 //		force regeneration and overwrite any existing vectors in the output
 //		directory.
 //
-//  -i <regex>
+//  -i <include regex>
 //		regex inclusion filter to select a subset of vectors to execute; matched
 //		against the vector's ID.
 //
@@ -171,7 +171,11 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 
 		var tmpOutDir string
 		if g.OutputPath != "" {
+<<<<<<< HEAD
 			dir, err := ioutil.TempDir(os.TempDir(), group)
+=======
+			p, err := ioutil.TempDir("", group)
+>>>>>>> e85364b85b161aee0ff9e2f3d06e00a344b32203
 			if err != nil {
 				log.Printf("failed to create temp output directory: %s", err)
 				return
