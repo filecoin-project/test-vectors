@@ -221,7 +221,7 @@ $ go run ./suites/msg_application -u -o ../corpus/msg_application
 # the specified directory.
 $ go run ./suites/msg_application -f -o ../corpus/msg_application
 
-# you can filter which vectors with a regex that is matched against the id.
+# you can filter vectors to include with a regex that is matched against the id.
 # this command will generate vectors whose id contains the string 'invalid'.
 $ go run ./suites/msg_application -i '.*invalid.*'
 ```

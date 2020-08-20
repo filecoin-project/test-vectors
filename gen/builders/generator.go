@@ -39,16 +39,16 @@ import (
 //		directory.
 //
 //  -i <regex>
-//		regex filter to select a subset of vectors to execute; matched against
-//	 	the vector's ID.
+//		regex inclusion filter to select a subset of vectors to execute; matched
+//		against the vector's ID.
 //
 // Scripts can bundle test vectors into "groups". The generator will execute
 // each group in parallel, and will write each vector in a file:
 // <output_dir>/<group>--<vector_id>.json
 type Generator struct {
-	OutputPath string
-	Mode       OverwriteMode
-	Filter     *regexp.Regexp
+	OutputPath    string
+	Mode          OverwriteMode
+	IncludeFilter *regexp.Regexp
 
 	wg sync.WaitGroup
 }
@@ -123,10 +123,10 @@ func NewGenerator() *Generator {
 	flag.BoolVar(&force, "f", false, forceUsage)
 	flag.BoolVar(&force, "force", false, forceUsage)
 
-	var filter string
-	const filterUsage = "regex filter to select a subset of vectors to execute; matched against the vector's ID."
-	flag.StringVar(&filter, "i", "", filterUsage)
-	flag.StringVar(&filter, "include", "", filterUsage)
+	var includeFilter string
+	const includeFilterUsage = "regex inclusion filter to select a subset of vectors to execute; matched against the vector's ID."
+	flag.StringVar(&includeFilter, "i", "", includeFilterUsage)
+	flag.StringVar(&includeFilter, "include", "", includeFilterUsage)
 
 	flag.Parse()
 
@@ -149,12 +149,12 @@ func NewGenerator() *Generator {
 	}
 
 	// If a filter has been provided, compile it into a regex.
-	if filter != "" {
-		exp, err := regexp.Compile(filter)
+	if includeFilter != "" {
+		exp, err := regexp.Compile(includeFilter)
 		if err != nil {
-			log.Fatalf("supplied regex %s is invalid: %s", filter, err)
+			log.Fatalf("supplied inclusion filter regex %s is invalid: %s", includeFilter, err)
 		}
-		ret.Filter = exp
+		ret.IncludeFilter = exp
 	}
 
 	return &ret
@@ -186,8 +186,8 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 
 		var wg sync.WaitGroup
 		for _, item := range vectors {
-			if id := item.Metadata.ID; g.Filter != nil && !g.Filter.MatchString(id) {
-				log.Printf("skipping %s: does not match include filter", id)
+			if id := item.Metadata.ID; g.IncludeFilter != nil && !g.IncludeFilter.MatchString(id) {
+				log.Printf("skipping %s: does not match inclusion filter", id)
 				continue
 			}
 
