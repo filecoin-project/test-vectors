@@ -104,8 +104,7 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that actor creation fails and gas is deducted when passing unparsable constructor params via init actor",
 			},
-			Selector: "chaos_actor=true",
-			Func:     createActorUnparsableParams,
+			Func: createActorUnparsableParams,
 		},
 	)
 }
