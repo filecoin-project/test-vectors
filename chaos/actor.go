@@ -39,6 +39,7 @@ const (
 	MethodCallerValidation = builtin.MethodConstructor + iota
 	MethodCreateAccountActorWithAddr
 	MethodCreateUnknownActor
+	MethodAbortWithSystemExitCode
 )
 
 func (a Actor) Exports() []interface{} {
@@ -47,6 +48,7 @@ func (a Actor) Exports() []interface{} {
 		MethodCallerValidation:           a.CallerValidation,
 		MethodCreateAccountActorWithAddr: a.CreateAccountActorWithAddr,
 		MethodCreateUnknownActor:         a.CreateUnknownActor,
+		MethodAbortWithSystemExitCode:    a.AbortWithSystemExitCode,
 	}
 }
 

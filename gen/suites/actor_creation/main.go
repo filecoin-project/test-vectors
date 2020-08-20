@@ -79,6 +79,18 @@ func main() {
 		},
 	)
 
+	g.MessageVectorGroup("actor_failures",
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fails-when-actor-aborts-with-system-code",
+				Version: "v1",
+				Desc:    "",
+			},
+			Selector: "chaos_actor=true",
+			Func:     actorAbortWithSystemExitCode,
+		},
+	)
+
 	g.MessageVectorGroup("create_actor_failures",
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
