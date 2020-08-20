@@ -98,6 +98,14 @@ func main() {
 			Selector: "chaos_actor=true",
 			Func:     createUnknownActor,
 		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fails-when-using-unparsable-constructor-params-via-init-actor",
+				Version: "v1",
+				Desc:    "verifies that actor creation fails and gas is deducted when passing unparsable constructor params via init actor",
+			},
+			Selector: "chaos_actor=true",
+			Func:     createActorUnparsableParams,
+		},
 	)
-
 }
