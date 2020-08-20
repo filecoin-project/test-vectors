@@ -4,10 +4,15 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
+	"github.com/ipfs/go-log"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 	. "github.com/filecoin-project/test-vectors/schema"
 )
+
+func init() {
+	_ = log.SetLogLevel("vm", "DEBUG")
+}
 
 func main() {
 	g := NewGenerator()
