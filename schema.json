@@ -43,6 +43,13 @@
           "items": {
             "$ref": "#/definitions/gen_data"
           }
+        },
+        "tags": {
+          "title": "an optional means of grouping test vectors together",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },

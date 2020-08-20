@@ -5,6 +5,8 @@ import (
 	"compress/gzip"
 	"encoding/base64"
 	"encoding/json"
+	"path"
+	"time"
 
 	"github.com/filecoin-project/lotus/chain/types"
 
@@ -17,7 +19,7 @@ const LotusExecutionTraceV1 = "Lotus-ExecutionTrace-V1"
 // to the test vector serialized diagnostic format.
 func EncodeTraces(traces []types.ExecutionTrace) *schema.Diagnostics {
 	d := schema.Diagnostics{Format: LotusExecutionTraceV1}
-	serialized, err := json.Marshal(traces)
+	serialized, err := json.Marshal(cleanTraces(traces))
 	if err != nil {
 		panic(err)
 	}
@@ -35,4 +37,22 @@ func EncodeTraces(traces []types.ExecutionTrace) *schema.Diagnostics {
 
 	d.Data = data.Bytes()
 	return &d
+}
+
+// cleanTraces recursively strips variable/volatile fields from execution traces,
+// e.g. TimeTaken, in order to remove noise and facilitate comparison and diffing.
+func cleanTraces(t []types.ExecutionTrace) []types.ExecutionTrace {
+	for i := range t {
+		t[i].Duration = time.Duration(0)
+		t[i].Subcalls = cleanTraces(t[i].Subcalls)
+		for j := range t[i].GasCharges {
+			for k := range t[i].GasCharges[j].Location {
+				_, file := path.Split(t[i].GasCharges[j].Location[k].File)
+				t[i].GasCharges[j].Location[k].File = file
+			}
+			t[i].GasCharges[j].TimeTaken = time.Duration(0)
+			t[i].GasCharges[j].Callers = nil
+		}
+	}
+	return t
 }
