@@ -38,7 +38,7 @@ import (
 //		force regeneration and overwrite any existing vectors in the output
 //		directory.
 //
-//  -i <regex>
+//  -i <include regex>
 //		regex filter to select a subset of vectors to execute; matched against
 //	 	the vector's ID.
 //
