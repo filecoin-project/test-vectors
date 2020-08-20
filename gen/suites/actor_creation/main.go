@@ -87,7 +87,8 @@ func main() {
 	)
 
 	var vectors []*MessageVectorGenItem
-	for i := 1; i <= 15; i++ {
+
+	for _, i := range exitcodesToAbortWith() {
 		vectors = append(vectors,
 			&MessageVectorGenItem{
 				Metadata: &Metadata{

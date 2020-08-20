@@ -33,12 +33,10 @@ func actorAbortWithSystemExitCodeSingle(v *Builder) {
 	v.CommitPreconditions()
 
 	var msgs []*ApplicableMessage
-	//for i := 0; i <= 15; i++ {
-	for i := 1; i <= 15; i++ {
+	for _, i := range exitcodesToAbortWith() {
 		code := big.NewInt(int64(i))
 
-		msg := v.Messages.Raw(alice.ID, chaos.Address, chaos.MethodAbortWithSystemExitCode, MustSerialize(&code), Nonce(uint64(i-1)), Value(big.Zero()))
-		msgs = append(msgs, msg)
+		msgs = append(msgs, v.Messages.Raw(alice.ID, chaos.Address, chaos.MethodAbortWithSystemExitCode, MustSerialize(&code), Nonce(uint64(i-1)), Value(big.Zero())))
 	}
 
 	v.CommitApplies()
@@ -57,4 +55,16 @@ func actorAbortWithSystemExitCodeSingle(v *Builder) {
 	v.Assert.Equal(exitcode.ExitCode(2), msgs[11].Result.ExitCode)
 	v.Assert.Equal(exitcode.ExitCode(2), msgs[12].Result.ExitCode)
 	v.Assert.Equal(exitcode.ExitCode(2), msgs[13].Result.ExitCode)
+}
+
+// exitcodesToAbortWith returns a list of all system exit codes that we want to make an actor abort with
+func exitcodesToAbortWith() []int {
+	v := []int{}
+	for i := 1; i < int(exitcode.FirstActorErrorCode); i++ {
+		v = append(v, i)
+	}
+	//v = append(v, 0) // doesn't work right now
+	v = append(v, -5)
+
+	return v
 }
