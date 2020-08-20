@@ -213,8 +213,12 @@ $ go run ./suites/msg_application
 # this command will write the msg_application vectors to the corpus directory.
 $ go run ./suites/msg_application -o ../corpus/msg_application
 
-# running with -x will overwrite any existing vectors in the specified directory.
-$ go run ./suites/msg_application -x -o ../corpus/msg_application
+# running with -u will update any existing vectors in the specified directory
+# IF their content has changed. Note `_meta` is ignored when checking equality.
+$ go run ./suites/msg_application -u -o ../corpus/msg_application
+
+# running with -r will replace any existing vectors in the specified directory.
+$ go run ./suites/msg_application -r -o ../corpus/msg_application
 
 # you can filter which vectors with a regex that is matched against the id.
 # this command will generate vectors whose id contains the string 'invalid'.
@@ -224,10 +228,15 @@ $ go run ./suites/msg_application -f '.*invalid.*'
 There also handy makefile targets to generate them all:
 
 ```shell
-# Generate all test vectors and write them to ./corpus
+# Generate all test vectors and write them to ./corpus, do not touch existing
+# vectors, only create new ones.
 $ make gen
 
-# Re-generate the vectors, using -x to overwrite existing vectors.
+# Generate all test vectors, updating existing vectors IF they have changed.
+# (this is probably what you want 99% of the time)
+$ make upgen
+
+# Re-generate all test vectors, overwriting existing vectors.
 $ make regen
 ```
 
