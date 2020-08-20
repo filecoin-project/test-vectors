@@ -186,8 +186,7 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 
 		var wg sync.WaitGroup
 		for _, item := range vectors {
-			id := item.Metadata.ID
-			if g.Filter != nil && !g.Filter.MatchString(id) {
+			if id := item.Metadata.ID; g.Filter != nil && !g.Filter.MatchString(id) {
 				log.Printf("skipping %s: matches filter", id)
 				continue
 			}
@@ -224,11 +223,11 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 							return
 						}
 						if eql {
-							log.Printf("not writing %s: no changes", id)
+							log.Printf("not writing %s: no changes", item.Metadata.ID)
 							return
 						}
 						if g.Mode == OverwriteNone {
-							log.Printf("⚠️ WARNING: not writing %s: vector changed, use -u or -f to overwrite", id)
+							log.Printf("⚠️ WARNING: not writing %s: vector changed, use -u or -f to overwrite", item.Metadata.ID)
 							return
 						}
 					}
