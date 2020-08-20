@@ -79,15 +79,24 @@ func main() {
 		},
 	)
 
-	g.MessageVectorGroup("create_actor_validation",
+	g.MessageVectorGroup("create_actor_failures",
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID:      "with-existing-address",
+				ID:      "fails-with-existing-address",
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided an existing address",
 			},
 			Selector: "chaos_actor=true",
 			Func:     createAccountActorWithExistingAddr,
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fails-with-unknown-actor-cid",
+				Version: "v1",
+				Desc:    "verifies that CreateActor aborts when provided an unknown actor code CID",
+			},
+			Selector: "chaos_actor=true",
+			Func:     createUnknownActor,
 		},
 	)
 

@@ -24,3 +24,17 @@ func createAccountActorWithExistingAddr(v *Builder) {
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrorIllegalArgument))  // make sure that we get SysErrorIllegalArgument error code
 	v.Assert.BalanceEq(alice.Robust, big.Sub(balanceBefore, CalculateDeduction(msg))) // make sure that gas is deducted from alice's account
 }
+
+func createUnknownActor(v *Builder) {
+	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
+
+	alice := v.Actors.Account(address.SECP256K1, abi.NewTokenAmount(1_000_000_000_000))
+	v.CommitPreconditions()
+
+	balanceBefore := v.Actors.Balance(alice.Robust)
+	msg := v.Messages.Raw(alice.ID, chaos.Address, chaos.MethodCreateUnknownActor, MustSerialize(&alice.Robust), Nonce(0), Value(big.Zero()))
+	v.CommitApplies()
+
+	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrorIllegalArgument))  // make sure that we get SysErrorIllegalArgument error code
+	v.Assert.BalanceEq(alice.Robust, big.Sub(balanceBefore, CalculateDeduction(msg))) // make sure that gas is deducted from alice's account
+}
