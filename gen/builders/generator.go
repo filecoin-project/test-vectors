@@ -169,19 +169,19 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 	go func() {
 		defer g.wg.Done()
 
-		var tmpOutPath string
+		var tmpOutDir string
 		if g.OutputPath != "" {
-			p, err := ioutil.TempDir(os.TempDir(), group)
+			dir, err := ioutil.TempDir(os.TempDir(), group)
 			if err != nil {
 				log.Printf("failed to create temp output directory: %s", err)
 				return
 			}
 			defer func() {
-				if err := os.RemoveAll(p); err != nil {
+				if err := os.RemoveAll(dir); err != nil {
 					log.Printf("failed to remove temp output directory: %s", err)
 				}
 			}()
-			tmpOutPath = p
+			tmpOutDir = dir
 		}
 
 		var wg sync.WaitGroup
@@ -192,7 +192,7 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 			}
 
 			filename := fmt.Sprintf("%s--%s.json", group, item.Metadata.ID)
-			tmpFilePath := filepath.Join(tmpOutPath, filename)
+			tmpFilePath := filepath.Join(tmpOutDir, filename)
 			var w io.Writer
 			if g.OutputPath == "" {
 				w = os.Stdout
