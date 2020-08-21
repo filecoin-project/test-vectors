@@ -9,8 +9,6 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/ipfs/go-cid"
 	"github.com/stretchr/testify/require"
-
-	"github.com/filecoin-project/test-vectors/schema"
 )
 
 // Asserter offers useful assertions to verify outcomes at various stages of
@@ -25,7 +23,7 @@ type Asserter struct {
 	// it is true by default, but it can be switched to false if this vector is
 	// known to be broken.
 	abort    bool
-	brokenIn []schema.Implementation
+	brokenIn []Impl
 }
 
 var _ require.TestingT = &Asserter{}
