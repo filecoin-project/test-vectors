@@ -14,7 +14,7 @@ import (
 // Class represents the type of test this instance is.
 type Class string
 
-var (
+const (
 	// ClassMessage tests the VM transition over a single message
 	ClassMessage Class = "message"
 	// ClassBlock tests the VM transition over a block of messages
@@ -23,6 +23,15 @@ var (
 	ClassTipset Class = "tipset"
 	// ClassChain tests the VM transition across a chain segment
 	ClassChain Class = "chain"
+)
+
+// Implementation is the canonical name of a known Filecoin implementation.
+type Implementation string
+
+const (
+	ImplementationLotus  Implementation = "lotus"
+	ImplementationForest Implementation = "forest"
+	ImplementationFuhon  Implementation = "fuhon"
 )
 
 // Selector is a predicate the driver can use to determine if this test vector
@@ -122,7 +131,13 @@ type Diagnostics struct {
 type TestVector struct {
 	Class    `json:"class"`
 	Selector `json:"selector,omitempty"`
-	Meta     *Metadata `json:"_meta"`
+
+	Meta *Metadata `json:"_meta"`
+
+	// BrokenIn is the list of implementations a vector is known to be
+	// broken in, along with a message, ideally containing a URL to the GitHub
+	// issue or PR that discusses or aims to fix the breakage.
+	BrokenIn map[Implementation]string `json:"broken_in,omitempty"`
 
 	// CAR binary data to be loaded into the test environment, usually a CAR
 	// containing multiple state trees, addressed by root CID from the relevant

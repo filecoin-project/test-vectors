@@ -9,6 +9,8 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/ipfs/go-cid"
 	"github.com/stretchr/testify/require"
+
+	"github.com/filecoin-project/test-vectors/schema"
 )
 
 // Asserter offers useful assertions to verify outcomes at various stages of
@@ -18,14 +20,25 @@ type Asserter struct {
 
 	b     *Builder
 	stage Stage
+
+	// abort indicates whether we should actually abort (exit) on failure.
+	// it is true by default, but it can be switched to false if this vector is
+	// known to be broken.
+	abort    bool
+	brokenIn []schema.Implementation
 }
 
 var _ require.TestingT = &Asserter{}
 
 func newAsserter(b *Builder, stage Stage) *Asserter {
-	a := &Asserter{stage: stage, b: b}
+	a := &Asserter{stage: stage, b: b, abort: true}
 	a.Assertions = require.New(a)
 	return a
+}
+
+// enterStage sets a new stage in the Asserter.
+func (a *Asserter) enterStage(stage Stage) {
+	a.stage = stage
 }
 
 // In is assert fluid version of require.Contains. It inverts the argument order,
@@ -133,7 +146,10 @@ func (a *Asserter) EveryMessageSenderSatisfies(predicate ActorPredicate, except 
 }
 
 func (a *Asserter) FailNow() {
-	os.Exit(1)
+	if a.abort {
+		os.Exit(1)
+	}
+	fmt.Printf("⏩  ignoring assertion failure in non-aborting mode; vector known to be broken in: %s\n", a.brokenIn)
 }
 
 func (a *Asserter) Errorf(format string, args ...interface{}) {

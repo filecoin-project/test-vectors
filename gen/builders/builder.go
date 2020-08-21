@@ -5,6 +5,7 @@ import (
 	"compress/gzip"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -32,6 +33,17 @@ const (
 	StageChecks = Stage("checks")
 	// StageFinished is where the test vector is finalized, ready for serialization.
 	StageFinished = Stage("finished")
+)
+
+// Impl is a type alias for conciseness, so that users of Builder don't need to
+// import the schema package too.
+type Impl = schema.Implementation
+
+// Aliases.
+const (
+	ImplLotus  = schema.ImplementationLotus
+	ImplForest = schema.ImplementationForest
+	ImplFuhon  = schema.ImplementationFuhon
 )
 
 func init() {
@@ -99,10 +111,21 @@ func MessageVector(metadata *schema.Metadata, selector schema.Selector) *Builder
 	b.vector.Pre = &schema.Preconditions{}
 	b.vector.Post = &schema.Postconditions{}
 	b.vector.Selector = selector
+	b.vector.BrokenIn = make(map[schema.Implementation]string)
 
 	b.initializeZeroState(selector)
 
 	return b
+}
+
+// MarkBroken records the fact that this test vector is known to be broken for
+// a given implementation. It accepts a fmt-style format string and arguments
+// to be recorded as the message. It is good practice to pass a URL to a GitHub
+// issue or PR that discusses or aims to fix the breakage.
+func (b *Builder) MarkBroken(impl Impl, format string, args ...interface{}) {
+	b.vector.BrokenIn[impl] = fmt.Sprintf(format, args...)
+	b.Assert.abort = false
+	b.Assert.brokenIn = append(b.Assert.brokenIn, impl)
 }
 
 // CommitPreconditions flushes the state tree, recording the new CID in the
@@ -123,7 +146,7 @@ func (b *Builder) CommitPreconditions() {
 
 	b.CurrRoot, b.PreRoot = preroot, preroot
 	b.stage = StageApplies
-	b.Assert = newAsserter(b, StageApplies)
+	b.Assert.enterStage(StageApplies)
 }
 
 // CommitApplies applies all accumulated messages. For each message it records
@@ -147,7 +170,7 @@ func (b *Builder) CommitApplies() {
 	b.PostRoot = b.CurrRoot
 	b.vector.Post.StateTree = &schema.StateTree{RootCID: b.CurrRoot}
 	b.stage = StageChecks
-	b.Assert = newAsserter(b, StageChecks)
+	b.Assert.enterStage(StageChecks)
 }
 
 // applyMessage executes the provided message via the driver, records the new
