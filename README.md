@@ -247,11 +247,10 @@ $ make regen
 > 💡 Remember that an Actor in Filecoin is the equivalent of a "smart contract"
 > in other blockchains. Currently, Filecoin does not support user-programmable
 > actors. The system relies on a series of builtin system actors, some of which
-> are prototype actors that can be instantiated multiple times by user accounts
-> (i.e. account actors), like payment channel actors and multisig actors.
-> Others are singleton actors that are instantiated once at genesis, and are
-> assigned fixed addresses in a reserved range (e.g. system actor, init actor,
-> reward actor, etc.)
+> are prototype actors that can be instantiated multiple times by user account
+> actors, like payment channel actors and multisig actors. Others are singleton
+> actors that are instantiated once at genesis, and are assigned fixed addresses
+> in a reserved range (e.g. system actor, init actor, reward actor, etc.)
 
 In order to test VM correctness, some vectors exercise situations that should
 not be seen in properly implemented actor code. To induce those situations,
