@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -29,19 +30,40 @@ import (
 //		directory where test vector JSON files will be saved; if omitted,
 //		vectors will be written to stdout.
 //
-//  -f <regex>
-//		regex filter to select a subset of vectors to execute; matched against
-//	 	the vector's ID.
+//  -u
+//		update any existing test vector files in the output directory IF their
+//		content has changed. Note `_meta` is ignored when checking equality.
+//
+//  -f
+//		force regeneration and overwrite any existing vectors in the output
+//		directory.
+//
+//  -i <include regex>
+//		regex inclusion filter to select a subset of vectors to execute; matched
+//		against the vector's ID.
 //
 // Scripts can bundle test vectors into "groups". The generator will execute
 // each group in parallel, and will write each vector in a file:
 // <output_dir>/<group>--<vector_id>.json
 type Generator struct {
-	OutputPath string
-	Filter     *regexp.Regexp
+	OutputPath    string
+	Mode          OverwriteMode
+	IncludeFilter *regexp.Regexp
 
 	wg sync.WaitGroup
 }
+
+// OverwriteMode is the mode used when overwriting existing test vector files.
+type OverwriteMode int
+
+const (
+	// OverwriteNone will not overwrite existing test vector files.
+	OverwriteNone OverwriteMode = iota
+	// OverwriteUpdate will update test vector files if they're different.
+	OverwriteUpdate
+	// OverwriteForce will force overwrite the vector files.
+	OverwriteForce
+)
 
 var GenscriptCommit = "dirty"
 
@@ -86,35 +108,56 @@ type MessageVectorGenItem struct {
 
 func NewGenerator() *Generator {
 	// Consume CLI parameters.
-	var (
-		outputDir = flag.String("o", "", "directory where test vector JSON files will be saved; if omitted, vectors will be written to stdout")
-		filter    = flag.String("f", "", "regex filter to select a subset of vectors to execute; matched against the vector's ID")
-	)
+	var outputDir string
+	const outputDirUsage = "directory where test vector JSON files will be saved; if omitted, vectors will be written to stdout."
+	flag.StringVar(&outputDir, "o", "", outputDirUsage)
+	flag.StringVar(&outputDir, "out", "", outputDirUsage)
+
+	var update bool
+	const updateUsage = "update any existing test vector files in the output directory IF their content has changed. Note `_meta` is ignored when checking equality."
+	flag.BoolVar(&update, "u", false, updateUsage)
+	flag.BoolVar(&update, "update", false, updateUsage)
+
+	var force bool
+	const forceUsage = "force regeneration and overwrite any existing vectors in the output directory."
+	flag.BoolVar(&force, "f", false, forceUsage)
+	flag.BoolVar(&force, "force", false, forceUsage)
+
+	var includeFilter string
+	const includeFilterUsage = "regex inclusion filter to select a subset of vectors to execute; matched against the vector's ID."
+	flag.StringVar(&includeFilter, "i", "", includeFilterUsage)
+	flag.StringVar(&includeFilter, "include", "", includeFilterUsage)
 
 	flag.Parse()
 
-	ret := new(Generator)
+	mode := OverwriteNone
+	if force {
+		mode = OverwriteForce
+	} else if update {
+		mode = OverwriteUpdate
+	}
+	ret := Generator{Mode: mode}
 
 	// If output directory is provided, we ensure it exists, or create it.
 	// Else, we'll output to stdout.
-	if dir := *outputDir; dir != "" {
-		err := ensureDirectory(dir)
+	if outputDir != "" {
+		err := ensureDirectory(outputDir)
 		if err != nil {
 			log.Fatal(err)
 		}
-		ret.OutputPath = dir
+		ret.OutputPath = outputDir
 	}
 
 	// If a filter has been provided, compile it into a regex.
-	if *filter != "" {
-		exp, err := regexp.Compile(*filter)
+	if includeFilter != "" {
+		exp, err := regexp.Compile(includeFilter)
 		if err != nil {
-			log.Fatalf("supplied regex %s is invalid: %s", *filter, err)
+			log.Fatalf("supplied inclusion filter regex %s is invalid: %s", includeFilter, err)
 		}
-		ret.Filter = exp
+		ret.IncludeFilter = exp
 	}
 
-	return ret
+	return &ret
 }
 
 func (g *Generator) Wait() {
@@ -126,21 +169,37 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 	go func() {
 		defer g.wg.Done()
 
+		var tmpOutDir string
+		if g.OutputPath != "" {
+			dir, err := ioutil.TempDir("", group)
+			if err != nil {
+				log.Printf("failed to create temp output directory: %s", err)
+				return
+			}
+			defer func() {
+				if err := os.RemoveAll(dir); err != nil {
+					log.Printf("failed to remove temp output directory: %s", err)
+				}
+			}()
+			tmpOutDir = dir
+		}
+
 		var wg sync.WaitGroup
 		for _, item := range vectors {
-			if id := item.Metadata.ID; g.Filter != nil && !g.Filter.MatchString(id) {
-				log.Printf("skipping %s", id)
+			if id := item.Metadata.ID; g.IncludeFilter != nil && !g.IncludeFilter.MatchString(id) {
+				log.Printf("skipping %s: does not match inclusion filter", id)
 				continue
 			}
 
+			filename := fmt.Sprintf("%s--%s.json", group, item.Metadata.ID)
+			tmpFilePath := filepath.Join(tmpOutDir, filename)
 			var w io.Writer
 			if g.OutputPath == "" {
 				w = os.Stdout
 			} else {
-				file := filepath.Join(g.OutputPath, fmt.Sprintf("%s--%s.json", group, item.Metadata.ID))
-				out, err := os.OpenFile(file, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+				out, err := os.OpenFile(tmpFilePath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 				if err != nil {
-					log.Printf("failed to write to file %s: %s", file, err)
+					log.Printf("failed to open file %s: %s", tmpFilePath, err)
 					return
 				}
 				w = out
@@ -148,13 +207,81 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 
 			wg.Add(1)
 			go func(item *MessageVectorGenItem) {
+				defer wg.Done()
 				g.generateOne(w, item, w != os.Stdout)
-				wg.Done()
+
+				if g.OutputPath != "" {
+					outFilePath := filepath.Join(g.OutputPath, filename)
+					_, err := os.Stat(outFilePath)
+					exists := !os.IsNotExist(err)
+
+					// if file (probably) exists and we're not force overwriting it, check equality
+					if exists && g.Mode != OverwriteForce {
+						eql, err := g.vectorsEqual(tmpFilePath, outFilePath)
+						if err != nil {
+							log.Printf("failed to check new vs existing vector equality: %s", err)
+							return
+						}
+						if eql {
+							log.Printf("not writing %s: no changes", item.Metadata.ID)
+							return
+						}
+						if g.Mode == OverwriteNone {
+							log.Printf("⚠️ WARNING: not writing %s: vector changed, use -u or -f to overwrite", item.Metadata.ID)
+							return
+						}
+					}
+					// Move vector from tmp dir to final location
+					if err := os.Rename(tmpFilePath, outFilePath); err != nil {
+						log.Printf("failed to move generated test vector: %s", err)
+					}
+					log.Printf("wrote test vector: %s", outFilePath)
+				}
 			}(item)
 		}
 
 		wg.Wait()
 	}()
+}
+
+// parseVectorFile unnmarshals a JSON serialized test vector stored at the
+// given file path and returns it.
+func (g *Generator) parseVectorFile(p string) (*schema.TestVector, error) {
+	raw, err := ioutil.ReadFile(p)
+	if err != nil {
+		return nil, fmt.Errorf("reading test vector file: %w", err)
+	}
+	var vector schema.TestVector
+	err = json.Unmarshal(raw, &vector)
+	if err != nil {
+		return nil, fmt.Errorf("unmarshaling test vector: %w", err)
+	}
+	return &vector, nil
+}
+
+// vectorBytesNoMeta parses the vector at the given file path and returns the
+// serialized bytes for the vector after stripping the metadata.
+func (g *Generator) vectorBytesNoMeta(p string) ([]byte, error) {
+	v, err := g.parseVectorFile(p)
+	if err != nil {
+		return nil, err
+	}
+	v.Meta = nil
+	return json.Marshal(v)
+}
+
+// vectorsEqual determines if two vectors are "equal". They are considered
+// equal if they serialize to the same bytes without a `_meta` property.
+func (g *Generator) vectorsEqual(apath, bpath string) (bool, error) {
+	abytes, err := g.vectorBytesNoMeta(apath)
+	if err != nil {
+		return false, err
+	}
+	bbytes, err := g.vectorBytesNoMeta(bpath)
+	if err != nil {
+		return false, err
+	}
+	return bytes.Equal(abytes, bbytes), nil
 }
 
 func (g *Generator) generateOne(w io.Writer, b *MessageVectorGenItem, indent bool) {
