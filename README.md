@@ -246,6 +246,8 @@ and trigger those situations when specific messages are sent to it.
    methods for invalid sending messages and returning invalid values. It's in
    the process of being deprecated and consolidated into the **Chaos actor**
    (track [#61](https://github.com/filecoin-project/test-vectors/issues/61).
+     * Test vectors requiring the **Puppet actor** carry the `puppet_actor=true`
+       selector string. 
    
 To benefit from maximum testing coverage, implementations should implement these
 actors and make their test drivers deploy them in the test VM. The Chaos actor
