@@ -1,11 +1,13 @@
 package chaos
 
 import (
+	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/abi/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/runtime"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
+	"github.com/ipfs/go-cid"
 )
 
 //go:generate go run ./gen
@@ -37,16 +39,14 @@ var (
 const (
 	_                      = 0 // skip zero iota value; first usage of iota gets 1.
 	MethodCallerValidation = builtin.MethodConstructor + iota
-	MethodCreateAccountActorWithAddr
-	MethodCreateUnknownActor
+	MethodCreateActor
 )
 
 func (a Actor) Exports() []interface{} {
 	return []interface{}{
-		builtin.MethodConstructor:        a.Constructor,
-		MethodCallerValidation:           a.CallerValidation,
-		MethodCreateAccountActorWithAddr: a.CreateAccountActorWithAddr,
-		MethodCreateUnknownActor:         a.CreateUnknownActor,
+		builtin.MethodConstructor: a.Constructor,
+		MethodCallerValidation:    a.CallerValidation,
+		MethodCreateActor:         a.CreateActor,
 	}
 }
 
@@ -81,5 +81,35 @@ func (a Actor) CallerValidation(rt runtime.Runtime, branch *big.Int) *adt.EmptyV
 		panic("invalid branch passed to CallerValidation")
 	}
 
+	return nil
+}
+
+// CreateActorArgs are the arguments to CreateActor.
+type CreateActorArgs struct {
+	// UndefActorCID instructs us to use cid.Undef; we can't pass cid.Undef
+	// in ActorCID because it doesn't serialize.
+	UndefActorCID bool
+	ActorCID      cid.Cid
+
+	// UndefAddress is the same as UndefActorCID but for Address.
+	UndefAddress bool
+	Address      address.Address
+}
+
+// CreateActor creates an actor with the supplied CID and Address.
+func (a Actor) CreateActor(rt runtime.Runtime, args *CreateActorArgs) *adt.EmptyValue {
+	var (
+		acid = args.ActorCID
+		addr = args.Address
+	)
+
+	if args.UndefActorCID {
+		acid = cid.Undef
+	}
+	if args.UndefAddress {
+		addr = address.Undef
+	}
+
+	rt.CreateActor(acid, addr)
 	return nil
 }
