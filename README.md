@@ -17,6 +17,7 @@ implementations to test their correctness and compliance with the
 - [Test vector generation (`gen` directory)](#test-vector-generation-gen-directory)
   - [How are vectors generated?](#how-are-vectors-generated)
   - [Running the generation scripts](#running-the-generation-scripts)
+- [Special test harness actors](#special-test-harness-actors)
 - [Integration in Lotus](#integration-in-lotus)
 - [Testing the conformance of a Filecoin implementation](#testing-the-conformance-of-a-filecoin-implementation)
   - [Message-class vectors test flow](#message-class-vectors-test-flow)
@@ -247,7 +248,7 @@ and trigger those situations when specific messages are sent to it.
    (track [#61](https://github.com/filecoin-project/test-vectors/issues/61).
    
 To benefit from maximum testing coverage, implementations should implement these
-actors and make their test drivers deploy them in the test VM. The Chaos actor+
+actors and make their test drivers deploy them in the test VM. The Chaos actor
 should only be deployed when the cited selector is present.
 
 ## Integration in Lotus
