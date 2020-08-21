@@ -214,6 +214,17 @@
         "chaos_actor=true,feature2=value2"
       ]
     },
+    "broken_in": {
+      "type": "object",
+      "title": "implementations this vector is known to be broken in",
+      "description": "{implementation_name => message} map; the message should ideally contain a link to a GitHub issue/PR where the breakage is being tracked/fixed",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(lotus|forest|fuhon)$": {
+          "type": "string"
+        }
+      }
+    },
     "_meta": {
       "$ref": "#/definitions/meta"
     },
