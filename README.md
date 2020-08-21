@@ -17,6 +17,7 @@ implementations to test their correctness and compliance with the
 - [Test vector generation (`gen` directory)](#test-vector-generation-gen-directory)
   - [How are vectors generated?](#how-are-vectors-generated)
   - [Running the generation scripts](#running-the-generation-scripts)
+- [Special test harness actors](#special-test-harness-actors)
 - [Integration in Lotus](#integration-in-lotus)
 - [Testing the conformance of a Filecoin implementation](#testing-the-conformance-of-a-filecoin-implementation)
   - [Message-class vectors test flow](#message-class-vectors-test-flow)
@@ -240,6 +241,40 @@ $ make upgen
 # Re-generate all test vectors, overwriting existing vectors.
 $ make regen
 ```
+
+## Special test harness actors
+
+> 💡 Remember that an Actor in Filecoin is the equivalent of a "smart contract"
+> in other blockchains. Currently, Filecoin does not support user-programmable
+> actors. The system relies on a series of builtin system actors, some of which
+> are prototype actors that can be instantiated multiple times by user accounts
+> (i.e. account actors), like payment channel actors and multisig actors.
+> Others are singleton actors that are instantiated once at genesis, and are
+> assigned fixed addresses in a reserved range (e.g. system actor, init actor,
+> reward actor, etc.)
+
+In order to test VM correctness, some vectors exercise situations that should
+not be seen in properly implemented actor code. To induce those situations,
+those vectors rely on two special test harness actors that sit "on the inside"
+and trigger those situations when specific messages are sent to it.
+
+ * **Chaos Actor (address `t97`):** exercises behaviours that should be regarded
+   as illegal by the VM. Its ABI spec is part of this testing spec, and it's
+   currently being heavily developed.
+     * Test vectors requiring the **Chaos actor** carry the `chaos_actor=true`
+       selector string. 
+     * Refer to the implementation under the [`chaos` package](./chaos).
+     * Once stable, we will document this actor in a spec.
+ * **Puppet Actor (address `t98`):** former testing harness that includes
+   methods for invalid sending messages and returning invalid values. It's in
+   the process of being deprecated and consolidated into the **Chaos actor**
+   (track [#61](https://github.com/filecoin-project/test-vectors/issues/61).
+     * Test vectors requiring the **Puppet actor** carry the `puppet_actor=true`
+       selector string. 
+   
+To benefit from maximum testing coverage, implementations should implement these
+actors and make their test drivers deploy them in the test VM. The Chaos actor
+should only be deployed when the cited selector is present.
 
 ## Integration in Lotus
 
