@@ -1,20 +1,21 @@
 {
 	"class": "message",
+	"selector": "puppet_actor=true",
 	"_meta": {
 		"id": "fail-insufficient-funds-for-transfer-in-inner-send",
 		"version": "v1",
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "f85cb5320508cf7493e07b6e8fd071de8bc420e6"
+				"version": "df65b5c49f5c608ca1e3f256f77616fd59ed1113"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
-				"version": "v0.4.3-0.20200815233716-a0c0d9c98aae"
+				"version": "v0.4.3-0.20200819134055-b13681df3205"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors",
-				"version": "v0.9.2"
+				"version": "v0.9.3"
 			}
 		]
 	},
@@ -46,5 +47,9 @@
 				"gas_used": 350124
 			}
 		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzhTVFFXL2FNQnpGdjByMFRxdGtUUTZoR2JPMFEwWUJJWld1WTJzUHF6aDR5WjhrV3JBbjIyRklpTzgrSlFhVkxrT2ptcXI2WXNkMjN0L1BmcitITFdZMmg5amlub3d0dFlMZ0RGODFCQngvUHdERDJPaFYreFZ5RG9ZYnJWSnFOOTNMcWlZSU5MTVRhYS9MVmVrZ1FuNW83ZXlZYUNoL1FxREg5L3R1RGEzS3VwRU13VEFqVitnTW9zZHdLNDFjV1FnVW8ybnk3VzZhSko4L0p0aXg1b0R6MURWbkhHMUtOOVNacno4blZ4c0ZnZnhITXZIYWQ1WXlpS2ovTHV6MWR3d2pZN1NCQUJpdWFpUGR3ZDVFMm1FaFRVNFc0bUdMRzdscWZIeFN3MEtXYWtiV3lwekFVT2tVUXRWVnhlRHl4bGs4aUNPR05JZUlCdTJ3dWJsNHdMQnUxam5ET3QzMzF2Zk9RZkFkT3lveElaZWtUcHV1UFBmSzNLdnk1NGo2UzV5cXRVNjl5WTU0THhwY3hyN0FmbmhPRVFiYVFLREVrMnJ0K1VjYlNsL1V3NVZXZjNtRC95alFQcTdQakU5dVJ6eHFRM3VrSC8xTGY4SHdwZjZleXFyeVNUcU5Vc2pEWTVaYXNyb29oV2VoMUFHSkg0SEVIMEZxbkozQUozN0V4L3MvRGM5U2xoVmxnZE9CTTFMWkpabGdXYXZNQm0vbTFLcDlpQy9FMFpyZi9xc2dGV1NVMWFrclZYNzRnNy9sZjdZd0dFK3ZMMFNndEF0STZUb3Z1dkxuOHZ0YWNJVnhuMS91NmRxUG40R1h3OHVEOENTb2JTNFd1OFh2QUFBQS8vOVFTa01rL0FVQQ=="
 	}
 }
