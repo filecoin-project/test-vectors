@@ -16,7 +16,7 @@
     },
     "meta": {
       "title": "metadata",
-      "description": "metadata about this test vector, such as its id, version, data about its generation, etc.",
+      "description": "metadata about this test vector, such as its id, version, data about its generation, etc.; metadata is informational and does not affect driver execution",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -212,6 +212,20 @@
       "examples": [
         "chaos_actor=true",
         "chaos_actor=true,feature2=value2"
+      ]
+    },
+    "hints": {
+      "type": "array",
+      "title": "hints are flags that convey information to the driver",
+      "description": "use hints to express facts like this vector is knowingly incorrect (e.g. when the reference implementation is broken), that drivers should negate the postconditions (i.e. test that they are NOT the ones expressed in the vector), etc.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        [
+          "incorrect",
+          "negate"
+        ]
       ]
     },
     "_meta": {

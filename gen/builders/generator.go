@@ -103,7 +103,22 @@ func getBuildInfo() []schema.GenerationData {
 type MessageVectorGenItem struct {
 	Metadata *schema.Metadata
 	Selector schema.Selector
-	Func     func(*Builder)
+
+	// Hints are arbitrary flags that convey information to the driver.
+	// Use hints to express facts like this vector is knowingly incorrect
+	// (e.g. when the reference implementation is broken), or that drivers
+	// should negate the postconditions (i.e. test that they are NOT the ones
+	// expressed in the vector), etc.
+	//
+	// Refer to the schema.Hint* constants for common hints.
+	Hints []string
+
+	// Mode tunes certain elements of how the generation and assertion of
+	// a test vector will be conducted, such as being lenient to assertion
+	// failures when a vector is knowingly incorrect. Refer to the Mode*
+	// constants for further information.
+	Mode Mode
+	Func func(v *Builder)
 }
 
 func NewGenerator() *Generator {
@@ -290,7 +305,7 @@ func (g *Generator) generateOne(w io.Writer, b *MessageVectorGenItem, indent boo
 	// stamp with our generation data.
 	b.Metadata.Gen = genData
 
-	vector := MessageVector(b.Metadata, b.Selector)
+	vector := MessageVector(b.Metadata, b.Selector, b.Mode, b.Hints)
 
 	// TODO: currently if an assertion fails, we call os.Exit(1), which
 	//  aborts all ongoing vector generations. The Asserter should

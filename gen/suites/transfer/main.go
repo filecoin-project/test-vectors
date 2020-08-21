@@ -151,6 +151,7 @@ func main() {
 				Version: "v1",
 				Desc:    "fail to transfer from unknown address to unknown address",
 			},
+			Mode: ModeLenientAssertions,
 			Func: failTransferUnknownSenderUnknownReceiver,
 		},
 	)
