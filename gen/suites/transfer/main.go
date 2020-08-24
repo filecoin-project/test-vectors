@@ -7,6 +7,7 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
+	"github.com/filecoin-project/test-vectors/schema"
 	. "github.com/filecoin-project/test-vectors/schema"
 )
 
@@ -177,7 +178,9 @@ func main() {
 				ID:      "to-reward-actor",
 				Version: "v1",
 			},
-			Func: transferToSystemActor(builtin.RewardActorAddr),
+			Func:  transferToSystemActor(builtin.RewardActorAddr),
+			Mode:  ModeLenientAssertions,
+			Hints: []string{schema.HintIncorrect},
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
@@ -212,7 +215,9 @@ func main() {
 				ID:      "to-burnt-funds-actor",
 				Version: "v1",
 			},
-			Func: transferToSystemActor(builtin.BurntFundsActorAddr),
+			Func:  transferToSystemActor(builtin.BurntFundsActorAddr),
+			Mode:  ModeLenientAssertions,
+			Hints: []string{schema.HintIncorrect},
 		},
 	)
 }
