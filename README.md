@@ -286,9 +286,10 @@ cause incorrect behaviour in the reference implementation.
 
 We check them in anyway, and we identify them explicitly in this manner:
 
-1. Their JSON files are prefixed with `x--`.
-2. The JSON representation displays a `hints` string array field containing the
-   value `incorrect`.
+1. Their JSON files are prefixed with `x--` (intended for easy
+   browsing/identification by humans).
+2. The JSON itself contains the value `incorrect` in the `hints` field
+   (intended for machine-parsing).
 
 You can choose to ignore these vectors entirely, or you can explicitly negate
 the postcondition checks. Vectors that are "negateable" also carry the `negate`
