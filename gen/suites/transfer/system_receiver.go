@@ -7,7 +7,7 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func failTransferToSystemActor(sysAddr address.Address) func(v *Builder) {
+func transferToSystemActor(sysAddr address.Address) func(v *Builder) {
 	return func(v *Builder) {
 		v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
@@ -21,6 +21,9 @@ func failTransferToSystemActor(sysAddr address.Address) func(v *Builder) {
 
 		v.Assert.BalanceEq(sender.Robust, initial)
 		v.Assert.Equal(v.PreRoot.String(), v.PostRoot.String(), "expected pre and post state root to be equal")
-		v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrInvalidParameters))
+
+		// TODO: These tests may break in the future if sending to a system actor
+		// becomes disallowed: https://github.com/filecoin-project/specs/issues/1069
+		v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.Ok))
 	}
 }

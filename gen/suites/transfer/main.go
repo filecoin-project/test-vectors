@@ -157,62 +157,62 @@ func main() {
 		},
 	)
 
-	g.MessageVectorGroup("invalid_receiver",
+	g.MessageVectorGroup("system_receiver",
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID:      "fail-system-actor",
+				ID:      "to-system-actor",
 				Version: "v1",
 			},
-			Func: failTransferToSystemActor(builtin.SystemActorAddr),
+			Func: transferToSystemActor(builtin.SystemActorAddr),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID:      "fail-init-actor",
+				ID:      "to-init-actor",
 				Version: "v1",
 			},
-			Func: failTransferToSystemActor(builtin.InitActorAddr),
+			Func: transferToSystemActor(builtin.InitActorAddr),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID:      "fail-reward-actor",
+				ID:      "to-reward-actor",
 				Version: "v1",
 			},
-			Func: failTransferToSystemActor(builtin.RewardActorAddr),
+			Func: transferToSystemActor(builtin.RewardActorAddr),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID:      "fail-cron-actor",
+				ID:      "to-cron-actor",
 				Version: "v1",
 			},
-			Func: failTransferToSystemActor(builtin.CronActorAddr),
+			Func: transferToSystemActor(builtin.CronActorAddr),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID:      "fail-storage-power-actor",
+				ID:      "to-storage-power-actor",
 				Version: "v1",
 			},
-			Func: failTransferToSystemActor(builtin.StoragePowerActorAddr),
+			Func: transferToSystemActor(builtin.StoragePowerActorAddr),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID:      "fail-storage-market-actor",
+				ID:      "to-storage-market-actor",
 				Version: "v1",
 			},
-			Func: failTransferToSystemActor(builtin.StorageMarketActorAddr),
+			Func: transferToSystemActor(builtin.StorageMarketActorAddr),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID:      "fail-verified-registry-actor",
+				ID:      "to-verified-registry-actor",
 				Version: "v1",
 			},
-			Func: failTransferToSystemActor(builtin.VerifiedRegistryActorAddr),
+			Func: transferToSystemActor(builtin.VerifiedRegistryActorAddr),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID:      "fail-burnt-funds-actor",
+				ID:      "to-burnt-funds-actor",
 				Version: "v1",
 			},
-			Func: failTransferToSystemActor(builtin.BurntFundsActorAddr),
+			Func: transferToSystemActor(builtin.BurntFundsActorAddr),
 		},
 	)
 }
