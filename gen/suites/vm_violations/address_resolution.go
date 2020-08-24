@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
@@ -38,9 +37,7 @@ func actorResolutionNonexistant(v *Builder) {
 	v.CommitApplies()
 
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.Ok))
-	expectedResp := bytes.NewBuffer(nil)
-	_ = builtin.SystemActorAddr.MarshalCBOR(expectedResp)
-	v.Assert.EveryMessageResultSatisfies(MessageReturns(expectedResp.Bytes()))
+	v.Assert.EveryMessageResultSatisfies(MessageReturns(&builtin.SystemActorAddr))
 }
 
 func actorResolutionExistant(v *Builder) {
@@ -53,8 +50,6 @@ func actorResolutionExistant(v *Builder) {
 	v.CommitApplies()
 
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.Ok))
-	expectedResp := bytes.NewBuffer(nil)
-	_ = alice.ID.MarshalCBOR(expectedResp)
-	v.Assert.EveryMessageResultSatisfies(MessageReturns(expectedResp.Bytes()))
+	v.Assert.EveryMessageResultSatisfies(MessageReturns(&alice.ID))
 }
 
