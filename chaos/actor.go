@@ -40,6 +40,7 @@ const (
 	_                      = 0 // skip zero iota value; first usage of iota gets 1.
 	MethodCallerValidation = builtin.MethodConstructor + iota
 	MethodCreateActor
+	MethodResolveAddress
 )
 
 func (a Actor) Exports() []interface{} {
@@ -47,6 +48,7 @@ func (a Actor) Exports() []interface{} {
 		builtin.MethodConstructor: a.Constructor,
 		MethodCallerValidation:    a.CallerValidation,
 		MethodCreateActor:         a.CreateActor,
+		MethodResolveAddress:      a.ResolveAddress,
 	}
 }
 
@@ -114,4 +116,20 @@ func (a Actor) CreateActor(rt runtime.Runtime, args *CreateActorArgs) *adt.Empty
 
 	rt.CreateActor(acid, addr)
 	return nil
+}
+
+type ResolveAddressResponse struct {
+	Address address.Address
+	Success bool
+}
+
+func (a Actor) ResolveAddress(rt runtime.Runtime, args *address.Address) *address.Address {
+	rt.ValidateImmediateCallerAcceptAny()
+	
+	resolvedAddr, ok := rt.ResolveAddress(*args)
+	if !ok {
+		invalidAddr, _ := address.NewIDAddress(0)
+		resolvedAddr = invalidAddr
+	}
+	return &resolvedAddr
 }

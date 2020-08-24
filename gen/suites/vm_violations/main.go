@@ -142,4 +142,34 @@ func main() {
 			Func:     createActor(goodAddr, cid.Undef, exitcode.SysErrorIllegalArgument),
 		},
 	)
+
+	g.MessageVectorGroup("address_resolution",
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID: "resolve-id-address-identity",
+				Version: "v1",
+				Desc: "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
+			},
+			Selector: "chaos_actor=true",
+			Func: actorResolutionIdentity,
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID: "resolve-address-nonexistant",
+				Version: "v1",
+				Desc: "verifies that runtime.ResolveAddress on non-existant addresses are undefined",
+			},
+			Selector: "chaos_actor=true",
+			Func: actorResolutionNonexistant,
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID: "resolve-address-lookup",
+				Version: "v1",
+				Desc: "verifies that runtime.ResolveAddress on known addresses are resolved",
+			},
+			Selector: "chaos_actor=true",
+			Func: actorResolutionExistant,
+		},
+	)
 }
