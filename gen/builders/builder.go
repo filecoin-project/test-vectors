@@ -34,6 +34,26 @@ const (
 	StageFinished = Stage("finished")
 )
 
+// Mode tunes certain elements of how the generation and assertion of
+// a test vector will be conducted, such as being lenient to assertion
+// failures when a vector is knowingly incorrect. Refer to the Mode* constants
+// for further information.
+type Mode int
+
+const (
+	// ModeStandard is the implicit mode (0). In this mode, assertion failures
+	// cause the vector generation to abort.
+	ModeStandard Mode = iota
+
+	// ModeLenientAssertions allows generation to proceed even if assertions
+	// fail. Use it when you know that a test vector is broken in the reference
+	// implementation, but want to generate it anyway.
+	//
+	// Consider using Hints to convey to drivers how they should treat this
+	// test vector.
+	ModeLenientAssertions
+)
+
 func init() {
 	// disable logs, as we need a clean stdout output.
 	log.SetOutput(os.Stderr)
@@ -72,7 +92,7 @@ type Builder struct {
 }
 
 // MessageVector creates a builder for a message-class vector.
-func MessageVector(metadata *schema.Metadata, selector schema.Selector) *Builder {
+func MessageVector(metadata *schema.Metadata, selector schema.Selector, mode Mode, hints []string) *Builder {
 	stores := NewLocalStores(context.Background())
 
 	// Create a brand new state tree.
@@ -90,7 +110,7 @@ func MessageVector(metadata *schema.Metadata, selector schema.Selector) *Builder
 	}
 
 	b.Wallet = newWallet()
-	b.Assert = newAsserter(b, StagePreconditions)
+	b.Assert = newAsserter(b, StagePreconditions, mode == ModeLenientAssertions)
 	b.Actors = newActors(b)
 	b.Messages = &Messages{b: b}
 
@@ -123,7 +143,7 @@ func (b *Builder) CommitPreconditions() {
 
 	b.CurrRoot, b.PreRoot = preroot, preroot
 	b.stage = StageApplies
-	b.Assert = newAsserter(b, StageApplies)
+	b.Assert.enterStage(StageApplies)
 }
 
 // CommitApplies applies all accumulated messages. For each message it records
@@ -147,7 +167,7 @@ func (b *Builder) CommitApplies() {
 	b.PostRoot = b.CurrRoot
 	b.vector.Post.StateTree = &schema.StateTree{RootCID: b.CurrRoot}
 	b.stage = StageChecks
-	b.Assert = newAsserter(b, StageChecks)
+	b.Assert.enterStage(StageChecks)
 }
 
 // applyMessage executes the provided message via the driver, records the new

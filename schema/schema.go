@@ -14,7 +14,7 @@ import (
 // Class represents the type of test this instance is.
 type Class string
 
-var (
+const (
 	// ClassMessage tests the VM transition over a single message
 	ClassMessage Class = "message"
 	// ClassBlock tests the VM transition over a block of messages
@@ -23,6 +23,19 @@ var (
 	ClassTipset Class = "tipset"
 	// ClassChain tests the VM transition across a chain segment
 	ClassChain Class = "chain"
+)
+
+const (
+	// HintIncorrect is a standard hint to convey that a vector is knowingly
+	// incorrect. Drivers may choose to skip over these vectors, or if it's
+	// accompanied by HintNegate, they may perform the assertions as explained
+	// in its godoc.
+	HintIncorrect = "incorrect"
+
+	// HintNegate is a standard hint to convey to drivers that, if this vector
+	// is run, they should negate the postcondition checks (i.e. check that the
+	// postcondition state is expressly NOT the one encoded in this vector).
+	HintNegate = "negate"
 )
 
 // Selector is a predicate the driver can use to determine if this test vector
@@ -122,7 +135,17 @@ type Diagnostics struct {
 type TestVector struct {
 	Class    `json:"class"`
 	Selector `json:"selector,omitempty"`
-	Meta     *Metadata `json:"_meta"`
+
+	// Hints are arbitrary flags that convey information to the driver.
+	// Use hints to express facts like this vector is knowingly incorrect
+	// (e.g. when the reference implementation is broken), or that drivers
+	// should negate the postconditions (i.e. test that they are NOT the ones
+	// expressed in the vector), etc.
+	//
+	// Refer to the Hint* constants for common hints.
+	Hints []string `json:"hints,omitempty"`
+
+	Meta *Metadata `json:"_meta"`
 
 	// CAR binary data to be loaded into the test environment, usually a CAR
 	// containing multiple state trees, addressed by root CID from the relevant

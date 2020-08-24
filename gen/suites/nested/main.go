@@ -119,7 +119,8 @@ func main() {
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_FailInsufficientFundsForTransferInInnerSend,
+			Selector: "puppet_actor=true",
+			Func:     nestedSends_FailInsufficientFundsForTransferInInnerSend,
 		},
 	)
 

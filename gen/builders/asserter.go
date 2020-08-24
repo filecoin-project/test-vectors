@@ -18,14 +18,22 @@ type Asserter struct {
 
 	b     *Builder
 	stage Stage
+
+	// lenient, when enabled, records assertions without aborting.
+	lenient bool
 }
 
 var _ require.TestingT = &Asserter{}
 
-func newAsserter(b *Builder, stage Stage) *Asserter {
-	a := &Asserter{stage: stage, b: b}
+func newAsserter(b *Builder, stage Stage, lenient bool) *Asserter {
+	a := &Asserter{stage: stage, b: b, lenient: lenient}
 	a.Assertions = require.New(a)
 	return a
+}
+
+// enterStage sets a new stage in the Asserter.
+func (a *Asserter) enterStage(stage Stage) {
+	a.stage = stage
 }
 
 // In is assert fluid version of require.Contains. It inverts the argument order,
@@ -133,7 +141,10 @@ func (a *Asserter) EveryMessageSenderSatisfies(predicate ActorPredicate, except 
 }
 
 func (a *Asserter) FailNow() {
-	os.Exit(1)
+	if !a.lenient {
+		os.Exit(1)
+	}
+	fmt.Println("⏩  ignoring assertion failure in lenient mode")
 }
 
 func (a *Asserter) Errorf(format string, args ...interface{}) {

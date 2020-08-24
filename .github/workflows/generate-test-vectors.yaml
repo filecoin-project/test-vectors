@@ -1,0 +1,65 @@
+name: Generate Test Vectors
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - corpus/**/*.json
+jobs:
+  update-vectors:
+    name: Update test vectors
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install ocl-icd-opencl-dev
+      - name: Build filecoin-ffi
+        run: cd gen/extern/filecoin-ffi && make
+      - name: Update test vectors
+        run: make upgen
+      - name: Generate vars
+        id: vars
+        run: |
+          echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
+          echo ::set-output name=branch::chore/update-test-vectors-$(git rev-parse --short=7 ${{ github.sha }})
+          if [ -n "$(git status -s -- corpus/**/*.json)" ]; then
+            echo ::set-output name=changes_detected::true
+          fi
+      - name: Commit and push
+        if: steps.vars.outputs.changes_detected
+        env:
+          COMMIT_MESSAGE: "Update test vectors"
+        run: |
+          git checkout -b ${{ steps.vars.outputs.branch }}
+          git add corpus/**/*.json
+          git -c user.name="GitHub Actions" -c user.email="actions@github.com" commit -m "$COMMIT_MESSAGE" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+          git push origin ${{ steps.vars.outputs.branch }}
+      - name: Open PR
+        if: steps.vars.outputs.changes_detected
+        env:
+          PR_TITLE: "Update test vectors (${{ steps.vars.outputs.sha_short }})"
+          PR_BODY: "This PR updates the test vectors that were changed in the commit ${{ github.sha }}."
+        run: |
+          STATUS_CODE=$(curl -o .output -s -w "%{http_code}\n" \
+            --data "{\"title\":\"$PR_TITLE\", \"body\":\"$PR_BODY\", \"head\": \"${{ steps.vars.outputs.branch }}\", \"base\": \"master\"}" \
+            -X POST \
+            -H "Authorization: token ${{ github.token }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls")
+          if [ $STATUS_CODE -ne 201 ]; then
+            echo "Error: unexpected status $STATUS_CODE\nResponse:"
+            cat .output
+            exit 1
+          fi
