@@ -31,7 +31,7 @@ func createActorInitExecUnparsableParams(v *Builder) {
 
 	v.CommitApplies()
 
-	// make sure that we get SysErrSenderInvalid error code
+	// make sure that we get SysErrSerialization error code -- this assert currently fails.
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrSerialization))
 	// make sure that gas (not value) is deducted from senders's account
 	// (the BalanceUpdated predicate omits deducting the value if the exit code != success)
@@ -57,7 +57,7 @@ func createActorCtorUnparsableParamsViaInitExec(v *Builder) {
 
 	v.CommitApplies()
 
-	// make sure that we get SysErrSenderInvalid error code
+	// make sure that we get SysErrSerialization error code -- this assert currently fails.
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrSerialization))
 	// make sure that gas (not value) is deducted from senders's account
 	// (the BalanceUpdated predicate omits deducting the value if the exit code != success)
