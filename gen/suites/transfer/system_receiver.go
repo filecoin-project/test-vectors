@@ -35,7 +35,7 @@ func transferToSystemActor(sysAddr address.Address) func(v *Builder) {
 		// System actor received the funds.
 		v.Assert.BalanceEq(sysAddr, endBal)
 		// Sender sent the funds + gas.
-		v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(transfer))
+		v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(transfer.Neg()))
 		// Everything is great.
 		v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.Ok))
 	}
