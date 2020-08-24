@@ -12,7 +12,7 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func createActor(addressSupplier func(v *Builder) address.Address, actorCid cid.Cid) func(v *Builder) {
+func createActor(addressSupplier func(v *Builder) address.Address, actorCid cid.Cid, expected exitcode.ExitCode) func(v *Builder) {
 	return func(v *Builder) {
 		v.Messages.SetDefaults(GasLimit(1e9), GasPremium(1), GasFeeCap(200))
 
@@ -38,7 +38,10 @@ func createActor(addressSupplier func(v *Builder) address.Address, actorCid cid.
 		v.Messages.Raw(alice.ID, chaos.Address, chaos.MethodCreateActor, MustSerialize(params), Nonce(0), Value(big.Zero()))
 		v.CommitApplies()
 
-		v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrorIllegalArgument)) // make sure that we get SysErrorIllegalArgument error code
-		v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(big.Zero()))                 // make sure that gas is deducted from alice's account
+		// make sure that we get the expected error code (usually
+		// SysErrorIllegalArgument, but Ok if this is the control case)
+		v.Assert.EveryMessageResultSatisfies(ExitCode(expected))
+		// make sure that gas is deducted from alice's account
+		v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(big.Zero()))
 	}
 }

@@ -61,11 +61,24 @@ func main() {
 		panic(err)
 	}
 
-	bobAddr := func(v *Builder) address.Address { return v.Actors.Handles()[1].Robust }
-	goodAddr := func(v *Builder) address.Address { return v.Actors.Handles()[1].NextActorAddress(100, 0) }
+	// CreateActor requires ID addresses; if it receives a Robust address, it'll
+	// try to resolve the ID address from the init actor. But we're not
+	// adding a mapping to the init actor here, so that would've failed for a
+	// different reason (red herring).
+	bobAddr := func(v *Builder) address.Address { return v.Actors.Handles()[1].ID }
+	goodAddr := func(v *Builder) address.Address { return MustNextIDAddr(v.Actors.Handles()[1].ID) }
 	undefAddr := func(v *Builder) address.Address { return address.Undef }
 
 	g.MessageVectorGroup("actor_creation",
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "control-ok-with-good-address-good-cid",
+				Version: "v1",
+				Desc:    "control test case to verify that correct actor creation messages do indeed succeed",
+			},
+			Selector: "chaos_actor=true",
+			Func:     createActor(goodAddr, builtin.AccountActorCodeID, exitcode.Ok),
+		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
 				ID:      "fails-with-existing-address",
@@ -73,7 +86,7 @@ func main() {
 				Desc:    "verifies that CreateActor aborts when provided an existing address",
 			},
 			Selector: "chaos_actor=true",
-			Func:     createActor(bobAddr, builtin.AccountActorCodeID),
+			Func:     createActor(bobAddr, builtin.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
@@ -82,7 +95,7 @@ func main() {
 				Desc:    "verifies that CreateActor aborts when provided an address.Undef",
 			},
 			Selector: "chaos_actor=true",
-			Func:     createActor(undefAddr, builtin.AccountActorCodeID),
+			Func:     createActor(undefAddr, builtin.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
@@ -91,7 +104,7 @@ func main() {
 				Desc:    "verifies that CreateActor aborts when provided an unknown actor code CID",
 			},
 			Selector: "chaos_actor=true",
-			Func:     createActor(goodAddr, unknownCid),
+			Func:     createActor(goodAddr, unknownCid, exitcode.SysErrorIllegalArgument),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
@@ -100,7 +113,7 @@ func main() {
 				Desc:    "verifies that CreateActor aborts when provided an unknown actor code CID and an undef address",
 			},
 			Selector: "chaos_actor=true",
-			Func:     createActor(undefAddr, unknownCid),
+			Func:     createActor(undefAddr, unknownCid, exitcode.SysErrorIllegalArgument),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
@@ -109,7 +122,7 @@ func main() {
 				Desc:    "verifies that CreateActor aborts when provided an undef actor code CID and an undef address",
 			},
 			Selector: "chaos_actor=true",
-			Func:     createActor(undefAddr, cid.Undef),
+			Func:     createActor(undefAddr, cid.Undef, exitcode.SysErrorIllegalArgument),
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
@@ -118,7 +131,7 @@ func main() {
 				Desc:    "verifies that CreateActor aborts when provided a valid address, but an undef CID",
 			},
 			Selector: "chaos_actor=true",
-			Func:     createActor(goodAddr, cid.Undef),
+			Func:     createActor(goodAddr, cid.Undef, exitcode.SysErrorIllegalArgument),
 		},
 	)
 }

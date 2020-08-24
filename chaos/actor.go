@@ -98,6 +98,8 @@ type CreateActorArgs struct {
 
 // CreateActor creates an actor with the supplied CID and Address.
 func (a Actor) CreateActor(rt runtime.Runtime, args *CreateActorArgs) *adt.EmptyValue {
+	rt.ValidateImmediateCallerAcceptAny()
+
 	var (
 		acid = args.ActorCID
 		addr = args.Address
