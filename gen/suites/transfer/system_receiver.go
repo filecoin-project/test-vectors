@@ -19,15 +19,15 @@ func transferToSystemActor(sysAddr address.Address) func(v *Builder) {
 		initial := abi.NewTokenAmount(1_000_000_000_000)
 		transfer := abi.NewTokenAmount(10)
 
+		// Set up sender account.
+		sender := v.Actors.Account(address.SECP256K1, initial)
+		v.CommitPreconditions()
+
 		sysActor, err := v.StateTree.GetActor(sysAddr)
 		v.Assert.NoError(err, "failed to fetch actor %s from state", sysAddr)
 
 		// Calculate the end balance.
 		endBal := big.Add(sysActor.Balance, transfer)
-
-		// Set up sender account.
-		sender := v.Actors.Account(address.SECP256K1, initial)
-		v.CommitPreconditions()
 
 		v.Messages.Sugar().Transfer(sender.Robust, sysAddr, Value(transfer), Nonce(0))
 		v.CommitApplies()
