@@ -58,6 +58,15 @@ func MustNewIDAddr(id uint64) address.Address {
 	return addr
 }
 
+// MustNextIDAddr returns the next sequential ID address after the supplied
+// ID address. If the argument is not an ID address, it panics.
+func MustNextIDAddr(id address.Address) address.Address {
+	if id.Protocol() != address.ID {
+		panic("MustNextIDAddr expected an ID address; instead got: " + id.String())
+	}
+	return MustNewIDAddr(MustIDFromAddress(id) + 1)
+}
+
 // MustNewSECP256K1Addr returns an address.Address of kind secp256k1.
 func MustNewSECP256K1Addr(pubkey string) address.Address {
 	// the pubkey of assert secp256k1 address is hashed for consistent length.

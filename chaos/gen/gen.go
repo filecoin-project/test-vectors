@@ -8,8 +8,8 @@ import (
 
 func main() {
 	if err := gen.WriteTupleEncodersToFile("../chaos/cbor_gen.go", "chaos",
-		// actor state
 		chaos.State{},
+		chaos.CreateActorArgs{},
 	); err != nil {
 		panic(err)
 	}

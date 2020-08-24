@@ -206,15 +206,14 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 				continue
 			}
 
-			filename := fmt.Sprintf("%s--%s.json", group, item.Metadata.ID)
-			tmpFilePath := filepath.Join(tmpOutDir, filename)
+			tmpFile := vectorPath(tmpOutDir, group, item)
 			var w io.Writer
 			if g.OutputPath == "" {
 				w = os.Stdout
 			} else {
-				out, err := os.OpenFile(tmpFilePath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+				out, err := os.OpenFile(tmpFile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 				if err != nil {
-					log.Printf("failed to open file %s: %s", tmpFilePath, err)
+					log.Printf("failed to open file %s: %s", tmpFile, err)
 					return
 				}
 				w = out
@@ -226,13 +225,13 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 				g.generateOne(w, item, w != os.Stdout)
 
 				if g.OutputPath != "" {
-					outFilePath := filepath.Join(g.OutputPath, filename)
-					_, err := os.Stat(outFilePath)
+					outFile := vectorPath(g.OutputPath, group, item)
+					_, err := os.Stat(outFile)
 					exists := !os.IsNotExist(err)
 
 					// if file (probably) exists and we're not force overwriting it, check equality
 					if exists && g.Mode != OverwriteForce {
-						eql, err := g.vectorsEqual(tmpFilePath, outFilePath)
+						eql, err := g.vectorsEqual(tmpFile, outFile)
 						if err != nil {
 							log.Printf("failed to check new vs existing vector equality: %s", err)
 							return
@@ -247,16 +246,35 @@ func (g *Generator) MessageVectorGroup(group string, vectors ...*MessageVectorGe
 						}
 					}
 					// Move vector from tmp dir to final location
-					if err := os.Rename(tmpFilePath, outFilePath); err != nil {
+					if err := os.Rename(tmpFile, outFile); err != nil {
 						log.Printf("failed to move generated test vector: %s", err)
 					}
-					log.Printf("wrote test vector: %s", outFilePath)
+					log.Printf("wrote test vector: %s", outFile)
 				}
 			}(item)
 		}
 
 		wg.Wait()
 	}()
+}
+
+// vectorPath returns the filepath for the supplied vector, in the supplied
+// group, under the supplied directory. It prefixes files with `x--` if the
+// vector is known to be broken (i.e. carrying the schema.HintIncorrect hint).
+func vectorPath(dir string, group string, item *MessageVectorGenItem) string {
+	filename := fmt.Sprintf("%s--%s.json", group, item.Metadata.ID)
+
+	// Prefix the file with "x--" if the vector is known to be broken.
+	var broken = map[string]struct{}{schema.HintIncorrect: {}}
+	for _, hint := range item.Hints {
+		if _, ok := broken[hint]; ok {
+			filename = "x--" + filename
+			break
+		}
+	}
+
+	path := filepath.Join(dir, filename)
+	return path
 }
 
 // parseVectorFile unnmarshals a JSON serialized test vector stored at the
