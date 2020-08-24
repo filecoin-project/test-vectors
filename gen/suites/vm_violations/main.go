@@ -111,5 +111,14 @@ func main() {
 			Selector: "chaos_actor=true",
 			Func:     createActor(undefAddr, cid.Undef),
 		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fails-with-good-addr-undef-cid",
+				Version: "v1",
+				Desc:    "verifies that CreateActor aborts when provided a valid address, but an undef CID",
+			},
+			Selector: "chaos_actor=true",
+			Func:     createActor(goodAddr, cid.Undef),
+		},
 	)
 }

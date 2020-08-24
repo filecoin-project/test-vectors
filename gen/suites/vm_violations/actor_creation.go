@@ -40,6 +40,5 @@ func createActor(addressSupplier func(v *Builder) address.Address, actorCid cid.
 
 		v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrorIllegalArgument)) // make sure that we get SysErrorIllegalArgument error code
 		v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(big.Zero()))                 // make sure that gas is deducted from alice's account
-
 	}
 }
