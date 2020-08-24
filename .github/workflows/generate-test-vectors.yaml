@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - corpus/**/*.json
 jobs:
   update-vectors:
     name: Update test vectors
