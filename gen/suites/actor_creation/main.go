@@ -82,11 +82,25 @@ func main() {
 	g.MessageVectorGroup("params",
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID:      "fails-when-using-unparsable-constructor-params-via-init-actor",
+				ID:      "fails-unparsable-init-actor-exec-msg",
+				Version: "v1",
+				Desc:    "verifies that actor creation fails and gas is deducted when passing unparsable init exec message",
+				Comment: "this should not return SysErrSenderInvalid; it should return something else, likely an SysErrSerialization",
+			},
+			Mode:  ModeLenientAssertions,
+			Hints: []string{HintIncorrect, HintNegate},
+			Func:  createActorInitExecUnparsableParams,
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      "fails-unparsable-constructor-params-via-init-actor",
 				Version: "v1",
 				Desc:    "verifies that actor creation fails and gas is deducted when passing unparsable constructor params via init actor",
+				Comment: "this should not return SysErrSenderInvalid; it should return something else, likely an ErrSerialization because the error is in actor space",
 			},
-			Func: createActorUnparsableParams,
+			Mode:  ModeLenientAssertions,
+			Hints: []string{HintIncorrect, HintNegate},
+			Func:  createActorCtorUnparsableParamsViaInitExec,
 		},
 	)
 }

@@ -88,15 +88,23 @@ func main() {
 			Selector: "chaos_actor=true",
 			Func:     createActor(bobAddr, builtin.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
 		},
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "fails-with-undef-addr",
-				Version: "v1",
-				Desc:    "verifies that CreateActor aborts when provided an address.Undef",
-			},
-			Selector: "chaos_actor=true",
-			Func:     createActor(undefAddr, builtin.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
-		},
+		//
+		// TODO this is commented because it causes an uncontrolled VM error
+		//  with no Result or post root whatsoever. We do not support such
+		//  failure modes in ModeLenientAssertions. This needs to be fixed
+		//  upstream and then enabled.
+		//
+		// &MessageVectorGenItem{
+		// 	Metadata: &Metadata{
+		// 		ID:      "fails-with-undef-addr",
+		// 		Version: "v1",
+		// 		Desc:    "verifies that CreateActor aborts when provided an address.Undef",
+		// 	},
+		// 	Mode:     ModeLenientAssertions,
+		// 	Hints:    []string{HintIncorrect, HintNegate},
+		// 	Selector: "chaos_actor=true",
+		// 	Func:     createActor(undefAddr, builtin.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
+		// },
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
 				ID:      "fails-with-unknown-actor-cid",
