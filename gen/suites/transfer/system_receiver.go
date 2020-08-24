@@ -15,7 +15,6 @@ import (
 func transferToSystemActor(sysAddr address.Address) func(v *Builder) {
 	return func(v *Builder) {
 		v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
-
 		initial := abi.NewTokenAmount(1_000_000_000_000)
 		transfer := abi.NewTokenAmount(10)
 
@@ -35,7 +34,7 @@ func transferToSystemActor(sysAddr address.Address) func(v *Builder) {
 		// System actor received the funds.
 		v.Assert.BalanceEq(sysAddr, endBal)
 		// Sender sent the funds + gas.
-		v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(transfer.Neg()))
+		v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(big.Zero()))
 		// Everything is great.
 		v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.Ok))
 	}
