@@ -119,6 +119,7 @@ func MessageVector(metadata *schema.Metadata, selector schema.Selector, mode Mod
 	b.vector.Pre = &schema.Preconditions{}
 	b.vector.Post = &schema.Postconditions{}
 	b.vector.Selector = selector
+	b.vector.Hints = hints
 
 	b.initializeZeroState(selector)
 
