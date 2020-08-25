@@ -22,7 +22,7 @@ import (
 // It cannot be instantiated via the init actor, and its constructor panics.
 //
 // Test vectors relying on the chaos actor being deployed will carry selector
-// "chaos_actor=true".
+// "chaos_actor:true".
 type Actor struct{}
 
 // CallerValidationBranch is an enum used to select a branch in the
