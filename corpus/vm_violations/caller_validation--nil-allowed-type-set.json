@@ -1,6 +1,8 @@
 {
 	"class": "message",
-	"selector": "chaos_actor=true",
+	"selector": {
+		"chaos_actor": "true"
+	},
 	"_meta": {
 		"id": "nil-allowed-type-set",
 		"version": "v1",
@@ -8,7 +10,7 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "df65b5c49f5c608ca1e3f256f77616fd59ed1113"
+				"version": "3439aa3c6ddc36494b6abc2ea65f0db27dae6510"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
