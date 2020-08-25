@@ -186,6 +186,37 @@
         },
         "epoch": {
           "type": "integer"
+        },
+        "syscalls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/syscall"
+          }
+        }
+      }
+    },
+    "randomness": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/base64"
+      }
+    },
+    "syscall": {
+      "type": "object",
+      "required": [
+        "name",
+        "is_error"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "is_error": {
+          "type": "boolean"
+        },
+        "error_msg": {
+          "type": "string"
         }
       }
     }
@@ -248,6 +279,9 @@
     },
     "postconditions": {
       "$ref": "#/definitions/postconditions"
+    },
+    "randomness": {
+      "$ref": "#/definitions/randomness"
     }
   },
   "allOf": [
