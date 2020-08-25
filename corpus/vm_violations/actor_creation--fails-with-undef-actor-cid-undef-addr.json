@@ -1,6 +1,8 @@
 {
 	"class": "message",
-	"selector": "chaos_actor=true",
+	"selector": {
+		"chaos_actor": "true"
+	},
 	"_meta": {
 		"id": "fails-with-undef-actor-cid-undef-addr",
 		"version": "v1",
@@ -8,7 +10,7 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "6bf57cb4b2bb57adb135837fc479ed2dfd473e3c"
+				"version": "3439aa3c6ddc36494b6abc2ea65f0db27dae6510"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
