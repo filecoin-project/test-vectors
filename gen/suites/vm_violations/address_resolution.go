@@ -37,7 +37,7 @@ func actorResolutionNonexistant(v *Builder) {
 	v.CommitApplies()
 
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.Ok))
-	v.Assert.EveryMessageResultSatisfies(MessageReturns(&builtin.SystemActorAddr))
+	v.Assert.EveryMessageResultSatisfies(MessageReturns(&chaos.ResolveAddressResponse{builtin.SystemActorAddr, false}))
 }
 
 func actorResolutionExistant(v *Builder) {
@@ -50,6 +50,6 @@ func actorResolutionExistant(v *Builder) {
 	v.CommitApplies()
 
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.Ok))
-	v.Assert.EveryMessageResultSatisfies(MessageReturns(&alice.ID))
+	v.Assert.EveryMessageResultSatisfies(MessageReturns(&chaos.ResolveAddressResponse{alice.ID, true}))
 }
 

@@ -10,6 +10,7 @@ func main() {
 	if err := gen.WriteTupleEncodersToFile("../chaos/cbor_gen.go", "chaos",
 		chaos.State{},
 		chaos.CreateActorArgs{},
+		chaos.ResolveAddressResponse{},
 	); err != nil {
 		panic(err)
 	}

@@ -118,12 +118,13 @@ func (a Actor) CreateActor(rt runtime.Runtime, args *CreateActorArgs) *adt.Empty
 	return nil
 }
 
+// ResolveAddressResponse holds the response of a call to runtime.ResolveAddress
 type ResolveAddressResponse struct {
 	Address address.Address
 	Success bool
 }
 
-func (a Actor) ResolveAddress(rt runtime.Runtime, args *address.Address) *address.Address {
+func (a Actor) ResolveAddress(rt runtime.Runtime, args *address.Address) *ResolveAddressResponse {
 	rt.ValidateImmediateCallerAcceptAny()
 	
 	resolvedAddr, ok := rt.ResolveAddress(*args)
@@ -131,5 +132,5 @@ func (a Actor) ResolveAddress(rt runtime.Runtime, args *address.Address) *addres
 		invalidAddr, _ := address.NewIDAddress(0)
 		resolvedAddr = invalidAddr
 	}
-	return &resolvedAddr
+	return &ResolveAddressResponse{resolvedAddr, ok}
 }
