@@ -1,6 +1,8 @@
 {
 	"class": "message",
-	"selector": "chaos_actor=true",
+	"selector": {
+		"chaos_actor": "true"
+	},
 	"_meta": {
 		"id": "fails-with-unknown-actor-cid",
 		"version": "v1",
@@ -8,7 +10,7 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "6bf57cb4b2bb57adb135837fc479ed2dfd473e3c"
+				"version": "610e3f1b1084e1ded8f10b20c11b21463a5f861d"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
@@ -20,12 +22,12 @@
 			}
 		]
 	},
-	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhZzdc+82r/z940jhDcm3t9P/FF2KV8v6bF/L8Zo5QTc1gRlJqSST2km/t/1nnx/eNUnmgqCfR+zrE2tf6GcmdvjfaD5w/mF6WWpRcWZ+HuMONuLMbnJp8eFS7FyYaNjY5MSQ2HJDK4CBMZSBOy0zR99QPzkjMb8YyXoxiar4muOOP65WbO363lc716xTuynvTHvAlajZ1//eyTFkcIAalNpyQysIZBAvxKDE5OT80rwSJKN+mYfdtX4eu27BrOLPhzwPfZhkfrzo2NO5M7OWrVi3RvawEYMnA++DbZuXpzAwQM1kabmhFQ4yUwhiZnFJflFiempBfnlqEZLB3FptU2rP7so/tHCdwqv1fSkHt8g/nCp4POXy+/O2q8582w12Y1OTEwNzyw0tf5B5XFDPFuXnIZkz90Tsv1esiwotl3v5CK5oTl3epClbVr7rjVGF/Hbhm8e4GRyanBiSCfrzvmvJsc0Ld2ad2LNhypbpNZM1eytyLrz/tenS8yXXpctncMGDjKHlhlYgyCgeqPcqi0tSc5FMct1w/pDCuTfRNTJJR65I2lo8eb2kr0O0aM7z+DlcG54cPAA3ibXlhlaEBMgoYZSQyk0syk5FdhsHx+2qC7tnrJhlz/WXxctjn2dL/TQjd9sQtV8iqg63OrThJjKiBVVmXiayObP27Zq2K+PDqdBZvst1HuiKSlX59v1+cd+r4NaUZ+7b/3LDzUkhGFxnVI+VrMgLfWKb6v2KiWFrray/ebSIkJHjMr7Y8qWr3jJjJgsmtHArSi1PLEpBNnLCGwdtH7stdzfGyMwKnOPN2pR+3HoG8wUeC75W3i2HtRh8GdjKYirtFzJUXmBgYJBCS/5ITA3ickFjgxyGF1E4tsRlgcZQxvt/Q/1uLtE7veubzsP8f/y/vwdN+qqBPQtgiuxlJC5HTHCAgqYICQamOzkMWEA4A/MBbOIMDEghLfEv60zi4sXZPOY2XlZ9y7wbtT+dmh3UEDBhTsUVjtAuHgYFEhR/0yROXZNDgwRqJkawdInLyo3g4oVVi7gc2+jEkCyDnk+R2erE5dcGLRw5FIvQOibicmw3UgA/Te22lTjL9vD2BNEtG96EHlRe5Bv98JXKDUuLozssq/31yVNKKDpoo5SkVObg4KBHnL+aGRiaHRkakBMQqGhDsFKJK+CakZz3TmKtn+zLZfE3M61caqa905hYuzB8edS97MzOk7Lz+vIjJdIKkjMSM/N0yxJzMlMSSzLz89KI09nkrNDA0AQu9kIZM18Ye/pMlM36p//QVjHOJ+Y7e1KoRApUEluxIZFqS1wR24jdcBn0IhaZXUdcUdvp4MDgySAALTk8GRiTXStiuxgYmiKkGBi/ey+eVXlvgyt6ARPGKDkta7suurAnA/9/CGBw2MdGXPNotLUz0K0dNwZxj7IXDKNtHhLaPIzgxDFHOciPBm2eKu5ZpxgAAAAA//8BAAD//6b1JNCWDAAA",
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhYPPJRI/th+82j3LfeGOPnmvnnmqp2/aWCfuV/ta6d634QGS0nlTtzYtv92xINb3/a8tGSbKb4TUniZMvDZtTxN7nsCspEvpZalFxZn5eYy97MSZ3eTS4sOt2LUw0bCxyYkhseWGVgADYygDd1pmjr6hfnJGYn4xkvViElXxNccdf1yt2Nr1va92rlmndlPemfaAK1Gzr/+9k2PI4AA1KLXlhlYQyCBeiEGJycn5pXklSEb9Mg+7a/08dt2CWcWfD3ke+jDJ/HjRsadzZ2YtW7FujexhIwZPBt4H2zYvT2FggJrJ1nJDK0IaZKgYxNCy1KLMtMzUlKLU9MzikqJKJNM5biZtKZYQKvoy7YiWqNtfwVOrn1nu37vP9tT5CdZbV7cdgDuUpeWGVjjITCGImcUl+UWJ6akF+eWpRUjmcWu1Tak9uyv/0MJ1Cq/W96Uc3CL/cKrg8ZTL78/brjrzbTfYvKYmJwbmlhta/iDzuKAhWJSfh2TO3BOx/16xLiq0XO7lI7iiOXV5k6ZsWfmuN0YV8tuFbx7jZnBocmJIJhh4911Ljm1euDPrxJ4NU7ZMr5ms2VuRc+H9r02Xni+5Ll0+gwvuPYaWG1qBIKN4oN6rLC5JzUUyyXXD+UMK595E18gkHbkiaWvx5PWSvg7RojnP4+dwbXhyEBFQrKDQlwAZJYwSUrmJRdmpyG7j4LhddWH3jBWz7Ln+snh57PNsqZ9m5G4bovZLRNXhVoc23ERGtKDKzMtENmfWvl3TdmV8OBU6y3e5zgNdUakq377fL+57Fdya8sx9+19uuDkpBIPrjOqxkhV5oU9sU71fMTFsrZX1N48WETJyXMYXW7501VtmzLTGhBZuRanliUUpyEZOeOOg7WO35e7GGJlZgXO8WZvSj1vPYL7AY8HXyrvlsBaDLwNbWUyl/UKGygsMDAxSaHkKialBXNZqbJDD8CIKx5a4fNUYynj/b6jfzSV6p3d903mY/4//9/egSV8NcGcr7KINjMTltGYnhgCkcJP4l3UmcfHibB5zGy+rvmXejdqfTs0OagiYMKfiCkdoFw8JSjWJU9bk0KCBPX9jiuxlJC67T3CAgqYICQamOzkMWEA4A/MBbOIMDCT4kUGBBMXfJFDLHQRLl7jSpxFcIrJqEVfINDoxJMugFy3IbHXiipgGLRyFChahdUzEFTLdSMH2NLXbVuIs28PbE0S3bHgTelB5kW/0w1cqNywtju6wrPbXJ08pFRMyKemBFLUODg56xPmrmYGh2ZGhoUECtTRGsFKJK5ObkZz3TmKtn+zLZfE3M61caqa905hYuzB8edS97MzOk7Lz+vIjJdIKkjMSM/N0yxJzMlMSSzLz89KI09nkrNDA0AQuqUMZM18Ye/pMlM36p//QVjHOJ+Y7e1KoRApUEltJJ5FqS1yt0IjdcBn0WgGZXUdc7dDp4MDgySAALQ88GRiTXStiuxgYmiKkGBi/ey+eVXlvgyt6sRHGKDkta7suurAnA/9/CGBwmMxOXDNxtNU3LFt9bgziHmUvGEbbfiS0/RjBKW6OcpAfDdp+VdyzTjEAAAAA//8BAAD//+cjC8DzDQAA",
 	"preconditions": {
 		"epoch": 0,
 		"state_tree": {
 			"root_cid": {
-				"/": "bafy2bzacebwlxho5qou7x6geohmbt3o3m76hfus7ezvpgp35bdvqgybnmvqag"
+				"/": "bafy2bzaceda6ogdb6gd4dvmltjd2doeod5fizhrfzpmtyo3bx4tpk6khr2yoa"
 			}
 		}
 	},
@@ -38,7 +40,7 @@
 	"postconditions": {
 		"state_tree": {
 			"root_cid": {
-				"/": "bafy2bzaceamqejwjj3wy7tphyo5jehgqcfheqxplzcw6ql3jmgee7wedydh6c"
+				"/": "bafy2bzacecpjlnmcu7nyric5jxx7vndigqr6yerg4vqjdvuwxsbao3qqtjrne"
 			}
 		},
 		"receipts": [

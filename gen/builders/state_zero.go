@@ -14,6 +14,7 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin/power"
 	"github.com/filecoin-project/specs-actors/actors/builtin/reward"
 	"github.com/filecoin-project/specs-actors/actors/builtin/system"
+	"github.com/filecoin-project/specs-actors/actors/builtin/verifreg"
 	"github.com/filecoin-project/specs-actors/actors/runtime"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
 
@@ -36,7 +37,7 @@ var (
 )
 
 var (
-	// initialized by calling initializeStoreWithAdtRoots
+	// initialized by calling insertEmptyStructures
 	EmptyArrayCid        cid.Cid
 	EmptyDeadlinesCid    cid.Cid
 	EmptyMapCid          cid.Cid
@@ -130,7 +131,7 @@ func (b *Builder) initializeZeroState(selector schema.Selector) {
 	})
 
 	// Add the chaos actor if this test requires it.
-	if chaosOn, ok := selector.Unpack()["chaos_actor"]; ok && chaosOn == "true" {
+	if chaosOn, ok := selector["chaos_actor"]; ok && chaosOn == "true" {
 		actors = append(actors, ActorState{
 			Addr:    chaos.Address,
 			Balance: big.Zero(),
@@ -138,6 +139,18 @@ func (b *Builder) initializeZeroState(selector schema.Selector) {
 			State:   &chaos.State{},
 		})
 	}
+
+	rootVerifierID, err := address.NewFromString("t080")
+	if err != nil {
+		panic(err)
+	}
+
+	actors = append(actors, ActorState{
+		Addr:    builtin.VerifiedRegistryActorAddr,
+		Balance: big.Zero(),
+		Code:    builtin.VerifiedRegistryActorCodeID,
+		State:   verifreg.ConstructState(EmptyMapCid, rootVerifierID),
+	})
 
 	for _, act := range actors {
 		_ = b.Actors.CreateActor(act.Code, act.Addr, act.Balance, act.State)
