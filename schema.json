@@ -208,10 +208,10 @@
     "selector": {
       "title": "predicate the driver can use to determine if this test vector is relevant given the capabilities/features of the underlying implementation and/or test environment",
       "description": "packed as a comma-separated key=value string map: flag1=value1,flag2=value2,flag3=value3",
-      "type": "string",
+      "type": "object",
       "examples": [
-        "chaos_actor=true",
-        "chaos_actor=true,feature2=value2"
+        {"chaos_actor":"true"},
+        {"chaos_actor":"true","feature":"value"}
       ]
     },
     "hints": {

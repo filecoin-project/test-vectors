@@ -261,7 +261,7 @@ and trigger those situations when specific messages are sent to it.
  * **Chaos Actor (address `t97`):** exercises behaviours that should be regarded
    as illegal by the VM. Its ABI spec is part of this testing spec, and it's
    currently being heavily developed.
-     * Test vectors requiring the **Chaos actor** carry the `chaos_actor=true`
+     * Test vectors requiring the **Chaos actor** carry the `chaos_actor:true`
        selector string. 
      * Refer to the implementation under the [`chaos` package](./chaos).
      * Once stable, we will document this actor in a spec.
@@ -269,7 +269,7 @@ and trigger those situations when specific messages are sent to it.
    methods for invalid sending messages and returning invalid values. It's in
    the process of being deprecated and consolidated into the **Chaos actor**
    (track [#61](https://github.com/filecoin-project/test-vectors/issues/61).
-     * Test vectors requiring the **Puppet actor** carry the `puppet_actor=true`
+     * Test vectors requiring the **Puppet actor** carry the `puppet_actor:true`
        selector string. 
    
 To benefit from maximum testing coverage, implementations should implement these

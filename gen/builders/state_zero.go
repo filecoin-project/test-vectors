@@ -130,7 +130,7 @@ func (b *Builder) initializeZeroState(selector schema.Selector) {
 	})
 
 	// Add the chaos actor if this test requires it.
-	if chaosOn, ok := selector.Unpack()["chaos_actor"]; ok && chaosOn == "true" {
+	if chaosOn, ok := selector["chaos_actor"]; ok && chaosOn == "true" {
 		actors = append(actors, ActorState{
 			Addr:    chaos.Address,
 			Balance: big.Zero(),
