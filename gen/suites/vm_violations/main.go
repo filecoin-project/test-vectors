@@ -23,7 +23,7 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that an actor that performs no caller validation fails",
 			},
-			Selector: map[string]string{"chaos_actor":"true"},
+			Selector: map[string]string{"chaos_actor": "true"},
 			Func:     callerValidation(&chaos.CallerValidationBranchNone, exitcode.SysErrorIllegalActor),
 		},
 		&MessageVectorGenItem{
@@ -32,7 +32,7 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that an actor that validates the caller twice fails",
 			},
-			Selector: map[string]string{"chaos_actor":"true"},
+			Selector: map[string]string{"chaos_actor": "true"},
 			Func:     callerValidation(&chaos.CallerValidationBranchTwice, exitcode.SysErrorIllegalActor),
 		},
 		&MessageVectorGenItem{
@@ -41,7 +41,7 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that an actor that validates against a nil allowed address set fails",
 			},
-			Selector: map[string]string{"chaos_actor":"true"},
+			Selector: map[string]string{"chaos_actor": "true"},
 			Func:     callerValidation(&chaos.CallerValidationBranchAddrNilSet, exitcode.SysErrForbidden),
 		},
 		&MessageVectorGenItem{
@@ -50,7 +50,7 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that an actor that validates against a nil allowed type set fails",
 			},
-			Selector: map[string]string{"chaos_actor":"true"},
+			Selector: map[string]string{"chaos_actor": "true"},
 			Func:     callerValidation(&chaos.CallerValidationBranchTypeNilSet, exitcode.SysErrForbidden),
 		},
 	)
@@ -76,7 +76,7 @@ func main() {
 				Version: "v1",
 				Desc:    "control test case to verify that correct actor creation messages do indeed succeed",
 			},
-			Selector: map[string]string{"chaos_actor":"true"},
+			Selector: map[string]string{"chaos_actor": "true"},
 			Func:     createActor(goodAddr, builtin.AccountActorCodeID, exitcode.Ok),
 		},
 		&MessageVectorGenItem{
@@ -85,7 +85,7 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided an existing address",
 			},
-			Selector: map[string]string{"chaos_actor":"true"},
+			Selector: map[string]string{"chaos_actor": "true"},
 			Func:     createActor(bobAddr, builtin.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
 		},
 		//
@@ -111,7 +111,7 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided an unknown actor code CID",
 			},
-			Selector: map[string]string{"chaos_actor":"true"},
+			Selector: map[string]string{"chaos_actor": "true"},
 			Func:     createActor(goodAddr, unknownCid, exitcode.SysErrorIllegalArgument),
 		},
 		&MessageVectorGenItem{
@@ -120,7 +120,7 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided an unknown actor code CID and an undef address",
 			},
-			Selector: map[string]string{"chaos_actor":"true"},
+			Selector: map[string]string{"chaos_actor": "true"},
 			Func:     createActor(undefAddr, unknownCid, exitcode.SysErrorIllegalArgument),
 		},
 		&MessageVectorGenItem{
@@ -129,7 +129,7 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided an undef actor code CID and an undef address",
 			},
-			Selector: map[string]string{"chaos_actor":"true"},
+			Selector: map[string]string{"chaos_actor": "true"},
 			Func:     createActor(undefAddr, cid.Undef, exitcode.SysErrorIllegalArgument),
 		},
 		&MessageVectorGenItem{
@@ -138,7 +138,7 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided a valid address, but an undef CID",
 			},
-			Selector: map[string]string{"chaos_actor":"true"},
+			Selector: map[string]string{"chaos_actor": "true"},
 			Func:     createActor(goodAddr, cid.Undef, exitcode.SysErrorIllegalArgument),
 		},
 	)

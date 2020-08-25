@@ -119,7 +119,7 @@ func main() {
 				Version: "v1",
 				Desc:    "",
 			},
-			Selector: map[string]string{"puppet_actor":"true"},
+			Selector: map[string]string{"puppet_actor": "true"},
 			Func:     nestedSends_FailInsufficientFundsForTransferInInnerSend,
 		},
 	)
