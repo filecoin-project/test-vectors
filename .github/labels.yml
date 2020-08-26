@@ -44,6 +44,9 @@
 - description: "Areas: Chaos Actor"
   name: area/chaos-actor
   color: 006b75
+- description: "Areas: CI"
+  name: area/ci
+  color: 006b75
 - description: "Areas: Docs"
   name: area/docs
   color: c5def5
