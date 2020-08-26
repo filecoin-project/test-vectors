@@ -30,7 +30,7 @@
   name: area/chain-vector
   color: 1d76db
 - description: "Areas: Drivers"
-  name: area/driver
+  name: area/drivers
   color: 1d76db
 - description: "Areas: Schema"
   name: area/schema
@@ -45,7 +45,7 @@
   name: area/chaos-actor
   color: 1d76db
 - description: "Areas: Docs"
-  name: area/chaos-actor
+  name: area/docs
   color: c5def5
 
 ###
@@ -113,19 +113,19 @@
 - description: "Effort: Minutes"
   name: effort/minutes
   color: e8fffe
-- description: "Effort: One or Multiple Hours."
+- description: "Effort: One or multiple hours."
   name: effort/hours
   color: a0f0ed
-- description: "Effort: One Day."
+- description: "Effort: One day."
   name: effort/day
   color: 64d5ca
-- description: "Effort: Multiple Days."
+- description: "Effort: Multiple days."
   name: effort/days
   color: 4dc0b5
-- description: "Effort: One Week."
+- description: "Effort: One week."
   name: effort/week
   color: 38a89d
-- description: "Effort: Multiple Weeks."
+- description: "Effort: Multiple weeks."
   name: effort/weeks
   color: 20504f
 
@@ -185,37 +185,37 @@
 ###
 ### Hints
 ###
-- description: "Hint: Good First Issue"
+- description: "Hint: Good first issue"
   name: hint/good-first-issue
   color: 0623cc
-- description: "Hint: Needs Contributor"
+- description: "Hint: Needs contributor"
   name: hint/needs-contributor
   color: 0623cc
-- description: "Hint: Needs Scoring"
+- description: "Hint: Needs scoring"
   name: hint/needs-scoring
   color: 0623cc
-- description: "Hint: Needs Decision"
+- description: "Hint: Needs decision"
   name: hint/needs-decision
   color: 0623cc
-- description: "Hint: Needs Triage"
+- description: "Hint: Needs triage"
   name: hint/needs-triage
   color: 0623cc
-- description: "Hint: Needs Analysis"
+- description: "Hint: Needs analysis"
   name: hint/needs-analysis
   color: 0623cc
-- description: "Hint: Needs Author Input"
+- description: "Hint: Needs author input"
   name: hint/needs-author-input
   color: 0623cc
-- description: "Hint: Needs Team Input"
+- description: "Hint: Needs team input"
   name: hint/needs-team-input
   color: 0623cc
-- description: "Hint: Needs Community Input"
+- description: "Hint: Needs community input"
   name: hint/needs-community-input
   color: 0623cc
-- description: "Hint: Needs Review"
+- description: "Hint: Needs review"
   name: hint/needs-review
   color: 0623cc
-- description: "Hint: Needs Help"
+- description: "Hint: Needs help"
   name: hint/needs-help
   color: 0623cc
 - description: "Hint: Description outdated"
