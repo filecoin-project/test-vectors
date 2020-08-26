@@ -25,25 +25,25 @@
 ###
 - description: "Areas: Message-class vector"
   name: area/message-vector
-  color: 1d76db
+  color: 49edbc
 - description: "Areas: Chain-class vector"
   name: area/chain-vector
-  color: 1d76db
+  color: 49edbc
 - description: "Areas: Drivers"
   name: area/drivers
-  color: 1d76db
+  color: 006b75
 - description: "Areas: Schema"
   name: area/schema
-  color: 1d76db
+  color: 006b75
 - description: "Areas: Builder API"
   name: area/builder-api
-  color: 1d76db
+  color: 006b75
 - description: "Areas: Network reaper"
   name: area/network-reaper
-  color: 1d76db
+  color: 006b75
 - description: "Areas: Chaos Actor"
   name: area/chaos-actor
-  color: 1d76db
+  color: 006b75
 - description: "Areas: Docs"
   name: area/docs
   color: c5def5
