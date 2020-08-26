@@ -8,7 +8,6 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 
-	"github.com/filecoin-project/test-vectors/gen/builders"
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 	. "github.com/filecoin-project/test-vectors/schema"
 )
@@ -176,7 +175,7 @@ func main() {
 		{name: "storage-market", addr: builtin.StorageMarketActorAddr},
 		{name: "verified-registry", addr: builtin.VerifiedRegistryActorAddr},
 		{name: "burnt-funds", addr: builtin.BurntFundsActorAddr, extraFunc: func(r *vm.ApplyRet) big.Int {
-			return builders.CalculateBurn(gasLimit, r.GasUsed)
+			return CalculateBurn(gasLimit, r.GasUsed)
 		}},
 	}
 
