@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/lotus/chain/vm"
 	"github.com/filecoin-project/specs-actors/actors/abi"
@@ -182,8 +184,13 @@ func main() {
 	var sysReceiverItems []*MessageVectorGenItem
 	for _, a := range sysActors {
 		sysReceiverItems = append(sysReceiverItems, &MessageVectorGenItem{
-			Metadata: &Metadata{ID: "to-" + a.name + "-actor", Version: "v1"},
-			Func:     transferToSystemActor(a.addr, a.extraFunc),
+			Metadata: &Metadata{
+				ID:      fmt.Sprintf("to-%s-actor", a.name),
+				Version: "v1",
+				Comment: "May break in the future if send to a system actor becomes" +
+					" disallowed: https://github.com/filecoin-project/specs/issues/1069",
+			},
+			Func: transferToSystemActor(a.addr, a.extraFunc),
 		})
 	}
 
