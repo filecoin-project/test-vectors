@@ -2,18 +2,21 @@ package main
 
 import (
 	"github.com/filecoin-project/go-address"
+	"github.com/filecoin-project/lotus/chain/vm"
 	"github.com/filecoin-project/specs-actors/actors/abi"
+	"github.com/filecoin-project/specs-actors/actors/abi/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 
+	"github.com/filecoin-project/test-vectors/gen/builders"
 	. "github.com/filecoin-project/test-vectors/gen/builders"
-	"github.com/filecoin-project/test-vectors/schema"
 	. "github.com/filecoin-project/test-vectors/schema"
 )
 
 const (
-	gasLimit  = 1_000_000_000
-	gasFeeCap = 200
+	gasLimit   = 1_000_000_000
+	gasFeeCap  = 200
+	gasPremium = 1
 )
 
 func main() {
@@ -158,66 +161,32 @@ func main() {
 		},
 	)
 
-	g.MessageVectorGroup("system_receiver",
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "to-system-actor",
-				Version: "v1",
-			},
-			Func: transferToSystemActor(builtin.SystemActorAddr),
-		},
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "to-init-actor",
-				Version: "v1",
-			},
-			Func: transferToSystemActor(builtin.InitActorAddr),
-		},
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "to-reward-actor",
-				Version: "v1",
-			},
-			Func:  transferToSystemActor(builtin.RewardActorAddr),
-			Mode:  ModeLenientAssertions,
-			Hints: []string{schema.HintIncorrect},
-		},
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "to-cron-actor",
-				Version: "v1",
-			},
-			Func: transferToSystemActor(builtin.CronActorAddr),
-		},
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "to-storage-power-actor",
-				Version: "v1",
-			},
-			Func: transferToSystemActor(builtin.StoragePowerActorAddr),
-		},
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "to-storage-market-actor",
-				Version: "v1",
-			},
-			Func: transferToSystemActor(builtin.StorageMarketActorAddr),
-		},
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "to-verified-registry-actor",
-				Version: "v1",
-			},
-			Func: transferToSystemActor(builtin.VerifiedRegistryActorAddr),
-		},
-		&MessageVectorGenItem{
-			Metadata: &Metadata{
-				ID:      "to-burnt-funds-actor",
-				Version: "v1",
-			},
-			Func:  transferToSystemActor(builtin.BurntFundsActorAddr),
-			Mode:  ModeLenientAssertions,
-			Hints: []string{schema.HintIncorrect},
-		},
-	)
+	sysActors := []struct {
+		name      string
+		addr      address.Address
+		extraFunc func(*vm.ApplyRet) big.Int
+	}{
+		{name: "system", addr: builtin.SystemActorAddr},
+		{name: "init", addr: builtin.InitActorAddr},
+		{name: "reward", addr: builtin.RewardActorAddr, extraFunc: func(r *vm.ApplyRet) big.Int {
+			return big.Mul(big.NewInt(gasLimit), big.NewInt(gasPremium)) // "miner tip"
+		}},
+		{name: "cron", addr: builtin.CronActorAddr},
+		{name: "storage-power", addr: builtin.StoragePowerActorAddr},
+		{name: "storage-market", addr: builtin.StorageMarketActorAddr},
+		{name: "verified-registry", addr: builtin.VerifiedRegistryActorAddr},
+		{name: "burnt-funds", addr: builtin.BurntFundsActorAddr, extraFunc: func(r *vm.ApplyRet) big.Int {
+			return builders.CalculateBurn(gasLimit, r.GasUsed)
+		}},
+	}
+
+	var sysReceiverItems []*MessageVectorGenItem
+	for _, a := range sysActors {
+		sysReceiverItems = append(sysReceiverItems, &MessageVectorGenItem{
+			Metadata: &Metadata{ID: "to-" + a.name + "-actor", Version: "v1"},
+			Func:     transferToSystemActor(a.addr, a.extraFunc),
+		})
+	}
+
+	g.MessageVectorGroup("system_receiver", sysReceiverItems...)
 }
