@@ -146,12 +146,21 @@ func main() {
 	g.MessageVectorGroup("address_resolution",
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID: "resolve-id-address-identity",
+				ID: "resolve-address-id-identity",
 				Version: "v1",
 				Desc: "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
 			},
 			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionIdentity,
+			Func: actorResolutionIDIdentity,
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID: "resolve-address-bad-id-identity",
+				Version: "v1",
+				Desc: "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
+			},
+			Selector: map[string]string{"chaos_actor": "true"},
+			Func: actorResolutionInvalidIdentity,
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
@@ -164,12 +173,21 @@ func main() {
 		},
 		&MessageVectorGenItem{
 			Metadata: &Metadata{
-				ID: "resolve-address-lookup",
+				ID: "resolve-address-bls-lookup",
 				Version: "v1",
 				Desc: "verifies that runtime.ResolveAddress on known addresses are resolved",
 			},
 			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionExistant,
+			Func: actorResolutionBlsExistant,
+		},
+		&MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID: "resolve-address-secp-lookup",
+				Version: "v1",
+				Desc: "verifies that runtime.ResolveAddress on known addresses are resolved",
+			},
+			Selector: map[string]string{"chaos_actor": "true"},
+			Func: actorResolutionSecpExistant,
 		},
 	)
 }
