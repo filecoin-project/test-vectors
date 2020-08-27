@@ -1,6 +1,7 @@
 package builders
 
 import (
+	"bytes"
 	"fmt"
 
 	"github.com/filecoin-project/lotus/chain/types"
@@ -8,6 +9,7 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/abi/big"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
+	cbg "github.com/whyrusleeping/cbor-gen"
 )
 
 // ApplyRetPredicate evaluates a given condition against the result of a
@@ -30,6 +32,19 @@ func ExitCode(expect exitcode.ExitCode) ApplyRetPredicate {
 			return nil
 		}
 		return fmt.Errorf("message exit code was %d; expected %d", ret.ExitCode, expect)
+	}
+}
+
+// MessageReturns returns an ApplyRetPredicate that passes if the message response
+// matches the argument.
+func MessageReturns(expect cbg.CBORMarshaler) ApplyRetPredicate {
+	return func(ret *vm.ApplyRet) error {
+		buf := bytes.NewBuffer(nil)
+		expect.MarshalCBOR(buf)
+		if bytes.Equal(ret.Return, buf.Bytes()) {
+			return nil
+		}
+		return fmt.Errorf("message response was %x; expected %v", ret.Return, expect)
 	}
 }
 
