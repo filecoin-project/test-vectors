@@ -1,8 +1,13 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/filecoin-project/go-address"
+	"github.com/filecoin-project/lotus/chain/vm"
 	"github.com/filecoin-project/specs-actors/actors/abi"
+	"github.com/filecoin-project/specs-actors/actors/abi/big"
+	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
@@ -10,8 +15,9 @@ import (
 )
 
 const (
-	gasLimit  = 1_000_000_000
-	gasFeeCap = 200
+	gasLimit   = 1_000_000_000
+	gasFeeCap  = 200
+	gasPremium = 1
 )
 
 func main() {
@@ -155,4 +161,38 @@ func main() {
 			Func: failTransferUnknownSenderUnknownReceiver,
 		},
 	)
+
+	sysActors := []struct {
+		name      string
+		addr      address.Address
+		extraFunc func(*vm.ApplyRet) big.Int
+	}{
+		{name: "system", addr: builtin.SystemActorAddr},
+		{name: "init", addr: builtin.InitActorAddr},
+		{name: "reward", addr: builtin.RewardActorAddr, extraFunc: func(r *vm.ApplyRet) big.Int {
+			return big.Mul(big.NewInt(gasLimit), big.NewInt(gasPremium)) // "miner tip"
+		}},
+		{name: "cron", addr: builtin.CronActorAddr},
+		{name: "storage-power", addr: builtin.StoragePowerActorAddr},
+		{name: "storage-market", addr: builtin.StorageMarketActorAddr},
+		{name: "verified-registry", addr: builtin.VerifiedRegistryActorAddr},
+		{name: "burnt-funds", addr: builtin.BurntFundsActorAddr, extraFunc: func(r *vm.ApplyRet) big.Int {
+			return CalculateBurn(gasLimit, r.GasUsed)
+		}},
+	}
+
+	var sysReceiverItems []*MessageVectorGenItem
+	for _, a := range sysActors {
+		sysReceiverItems = append(sysReceiverItems, &MessageVectorGenItem{
+			Metadata: &Metadata{
+				ID:      fmt.Sprintf("to-%s-actor", a.name),
+				Version: "v1",
+				Comment: "May break in the future if send to a system actor becomes" +
+					" disallowed: https://github.com/filecoin-project/specs/issues/1069",
+			},
+			Func: transferToSystemActor(a.addr, a.extraFunc),
+		})
+	}
+
+	g.MessageVectorGroup("system_receiver", sysReceiverItems...)
 }
