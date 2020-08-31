@@ -11,7 +11,7 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func failActorExecutionAborted(v *Builder) {
+func failActorExecutionAborted(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	// Set up sender and receiver accounts.

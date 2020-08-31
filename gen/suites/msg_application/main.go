@@ -4,7 +4,6 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/abi"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
-	. "github.com/filecoin-project/test-vectors/schema"
 )
 
 var (
@@ -16,61 +15,61 @@ var (
 func main() {
 	g := NewGenerator()
 
-	g.MessageVectorGroup("gas_cost",
-		&MessageVectorGenItem{
+	g.Group("gas_cost",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "msg-apply-fail-receipt-gas",
 				Version: "v1",
 				Desc:    "fail to cover gas cost for message receipt on chain",
 			},
-			Func: failCoverReceiptGasCost,
+			MessageFunc: failCoverReceiptGasCost,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "msg-apply-fail-onchainsize-gas",
 				Version: "v1",
 				Desc:    "not enough gas to pay message on-chain-size cost",
 			},
-			Func: failCoverOnChainSizeGasCost,
+			MessageFunc: failCoverOnChainSizeGasCost,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "msg-apply-fail-transfer-accountcreation-gas",
 				Version: "v1",
 				Desc:    "fail not enough gas to cover account actor creation on transfer",
 			},
-			Func: failCoverTransferAccountCreationGasStepwise,
+			MessageFunc: failCoverTransferAccountCreationGasStepwise,
 		})
 
-	g.MessageVectorGroup("invalid_msgs",
-		&MessageVectorGenItem{
+	g.Group("invalid_msgs",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "msg-apply-fail-invalid-nonce",
 				Version: "v1",
 				Desc:    "invalid actor nonce",
 			},
-			Func: failInvalidActorNonce,
+			MessageFunc: failInvalidActorNonce,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "msg-apply-fail-invalid-receiver-method",
 				Version: "v1",
 				Desc:    "invalid receiver method",
 			},
-			Func: failInvalidReceiverMethod,
+			MessageFunc: failInvalidReceiverMethod,
 		},
 	)
 
-	g.MessageVectorGroup("unknown_actors",
-		&MessageVectorGenItem{
+	g.Group("unknown_actors",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "msg-apply-fail-unknown-sender",
 				Version: "v1",
 				Desc:    "fail due to lack of gas when sender is unknown",
 			},
-			Func: failUnknownSender,
+			MessageFunc: failUnknownSender,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "msg-apply-fail-unknown-receiver",
 				Version: "v1",
@@ -79,20 +78,20 @@ func main() {
 an unknown actor. However in the event that an invalid message isn't filtered by
 block validation we need to ensure behaviour is consistent across VM implementations.`,
 			},
-			Func: failUnknownReceiver,
+			MessageFunc: failUnknownReceiver,
 		},
 	)
 
-	g.MessageVectorGroup("actor_exec",
-		&MessageVectorGenItem{
+	g.Group("actor_exec",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "msg-apply-fail-actor-execution-illegal-arg",
 				Version: "v1",
 				Desc:    "abort during actor execution due to illegal argument",
 			},
-			Func: failActorExecutionAborted,
+			MessageFunc: failActorExecutionAborted,
 		},
 	)
 
-	g.Wait()
+	g.Close()
 }

@@ -2,10 +2,11 @@ package builders
 
 import (
 	"github.com/filecoin-project/go-address"
-	"github.com/filecoin-project/lotus/chain/types"
-	"github.com/filecoin-project/lotus/chain/vm"
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/abi/big"
+
+	"github.com/filecoin-project/lotus/chain/types"
+	"github.com/filecoin-project/lotus/chain/vm"
 )
 
 // TypedCall represents a call to a known built-in actor kind.
@@ -13,10 +14,15 @@ type TypedCall func() (method abi.MethodNum, params []byte)
 
 // Messages accumulates the messages to be executed within the test vector.
 type Messages struct {
-	b        *Builder
-	defaults msgOpts
+	bc *BuilderCommon
+	st *StateTracker
 
+	defaults msgOpts
 	messages []*ApplicableMessage
+}
+
+func NewMessages(bc *BuilderCommon, st *StateTracker) *Messages {
+	return &Messages{bc: bc, st: st}
 }
 
 // SetDefaults sets default options for all messages.
@@ -44,6 +50,17 @@ func (m *Messages) All() []*ApplicableMessage {
 	cpy := make([]*ApplicableMessage, len(m.messages))
 	copy(cpy, m.messages)
 	return cpy
+}
+
+// Include adds messages that have already been created into this vector. It
+// creates a shallow copy of the incoming messages, and erases any pre-existing
+// results, prior to adding them.
+func (m *Messages) Include(msgs ...*ApplicableMessage) {
+	for _, am := range msgs {
+		amv := *am
+		amv.Result = nil
+		m.messages = append(m.messages, &amv)
+	}
 }
 
 // Typed adds a typed call to this message accumulator.
@@ -98,10 +115,10 @@ func (m *Messages) ApplyOne(am *ApplicableMessage) {
 		}
 		// verify that preceding messages have been applied.
 		// this will abort if unsatisfied.
-		m.b.Assert.Nil(other.Result, "preceding messages must have been applied when calling Apply*; index of first unapplied: %d", i)
+		m.bc.Assert.Nil(other.Result, "preceding messages must have been applied when calling Apply*; index of first unapplied: %d", i)
 	}
-	m.b.Assert.True(found, "ApplicableMessage not found")
-	m.b.applyMessage(am)
+	m.bc.Assert.True(found, "ApplicableMessage not found")
+	m.st.ApplyMessage(am)
 }
 
 // ApplyN calls ApplyOne for the supplied messages, in the order they are passed.

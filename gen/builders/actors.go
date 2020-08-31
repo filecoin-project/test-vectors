@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/lotus/chain/types"
+
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/abi/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
@@ -14,8 +14,10 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin/power"
 	"github.com/filecoin-project/specs-actors/actors/runtime"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
+
+	"github.com/filecoin-project/go-address"
+
 	"github.com/ipfs/go-cid"
-	cbg "github.com/whyrusleeping/cbor-gen"
 )
 
 type registeredActor struct {
@@ -28,11 +30,12 @@ type Actors struct {
 	// registered stores registered actors and their initial balances.
 	registered []registeredActor
 
-	b *Builder
+	bc *BuilderCommon
+	st *StateTracker
 }
 
-func newActors(b *Builder) *Actors {
-	return &Actors{b: b}
+func NewActors(bc *BuilderCommon, b *StateTracker) *Actors {
+	return &Actors{bc: bc, st: b}
 }
 
 // Count returns the number of actors registered during preconditions.
@@ -48,7 +51,7 @@ func (a *Actors) HandleFor(addr address.Address) AddressHandle {
 			return r.handle
 		}
 	}
-	a.b.Assert.FailNowf("asked for handle of unknown actor", "actor: %s", addr)
+	a.bc.Assert.FailNowf("asked for handle of unknown actor", "actor: %s", addr)
 	return AddressHandle{} // will never reach here.
 }
 
@@ -61,7 +64,7 @@ func (a *Actors) InitialBalance(addr address.Address) abi.TokenAmount {
 			return r.initial
 		}
 	}
-	a.b.Assert.FailNowf("asked for initial balance of unknown actor", "actor: %s", addr)
+	a.bc.Assert.FailNowf("asked for initial balance of unknown actor", "actor: %s", addr)
 	return big.Zero() // will never reach here.
 }
 
@@ -86,14 +89,14 @@ func (a *Actors) AccountN(typ address.Protocol, balance abi.TokenAmount, handles
 // Account creates a single account actor of the specified kind, with the
 // specified balance, and returns its AddressHandle.
 func (a *Actors) Account(typ address.Protocol, balance abi.TokenAmount) AddressHandle {
-	a.b.Assert.In(typ, address.SECP256K1, address.BLS)
+	a.bc.Assert.In(typ, address.SECP256K1, address.BLS)
 
 	var addr address.Address
 	switch typ {
 	case address.SECP256K1:
-		addr = a.b.Wallet.NewSECP256k1Account()
+		addr = a.bc.Wallet.NewSECP256k1Account()
 	case address.BLS:
-		addr = a.b.Wallet.NewBLSAccount()
+		addr = a.bc.Wallet.NewBLSAccount()
 	}
 
 	actorState := &account.State{Address: addr}
@@ -109,31 +112,33 @@ type MinerActorCfg struct {
 	OwnerBalance   abi.TokenAmount
 }
 
-// Miner creates an owner account, a worker account, and a miner actor managed
-// by those initial.
-func (a *Actors) Miner(cfg MinerActorCfg) (minerActor, owner, worker AddressHandle) {
-	owner = a.Account(address.SECP256K1, cfg.OwnerBalance)
-	worker = a.Account(address.BLS, big.Zero())
-	// expectedMinerActorIDAddress := chain.MustNewIDAddr(chain.MustIDFromAddress(minerWorkerID) + 1)
-	// minerActorAddrs := computeInitActorExecReturn(minerWorkerPk, 0, 1, expectedMinerActorIDAddress)
+type Miner struct {
+	MinerActorAddr, OwnerAddr, WorkerAddr AddressHandle
+}
+
+// Miner creates an owner account, a worker account, and a miner actor with the
+// supplied configuration.
+func (a *Actors) Miner(cfg MinerActorCfg) Miner {
+	owner := a.Account(address.SECP256K1, cfg.OwnerBalance)
+	worker := a.Account(address.BLS, big.Zero())
 
 	ss, err := cfg.SealProofType.SectorSize()
-	a.b.Assert.NoError(err, "seal proof sector size")
+	a.bc.Assert.NoError(err, "seal proof sector size")
 
 	ps, err := cfg.SealProofType.WindowPoStPartitionSectors()
-	a.b.Assert.NoError(err, "seal proof window PoSt partition sectors")
+	a.bc.Assert.NoError(err, "seal proof window PoSt partition sectors")
 
 	mi := &miner.MinerInfo{
 		Owner:                      owner.ID,
 		Worker:                     worker.ID,
 		PendingWorkerKey:           nil,
-		PeerId:                     abi.PeerID("chain-validation"),
+		PeerId:                     abi.PeerID("test"),
 		Multiaddrs:                 nil,
 		SealProofType:              cfg.SealProofType,
 		SectorSize:                 ss,
 		WindowPoStPartitionSectors: ps,
 	}
-	infoCid, err := a.b.Stores.CBORStore.Put(context.Background(), mi)
+	infoCid, err := a.st.Stores.CBORStore.Put(context.Background(), mi)
 	if err != nil {
 		panic(err)
 	}
@@ -151,6 +156,7 @@ func (a *Actors) Miner(cfg MinerActorCfg) (minerActor, owner, worker AddressHand
 		panic(err)
 	}
 
+	// TODO allow an address to create multiple miners.
 	minerActorAddr := worker.NextActorAddress(0, 0)
 	handle := a.CreateActor(builtin.StorageMinerActorCodeID, minerActorAddr, big.Zero(), minerState)
 
@@ -158,18 +164,19 @@ func (a *Actors) Miner(cfg MinerActorCfg) (minerActor, owner, worker AddressHand
 	// next update the storage power actor to track the miner
 
 	var spa power.State
-	a.ActorState(builtin.StoragePowerActorAddr, &spa)
+	a.st.ActorState(builtin.StoragePowerActorAddr, &spa)
 
 	// set the miners claim
-	hm, err := adt.AsMap(adt.WrapStore(context.Background(), a.b.Stores.CBORStore), spa.Claims)
+	hm, err := adt.AsMap(adt.WrapStore(context.Background(), a.st.Stores.CBORStore), spa.Claims)
 	if err != nil {
 		panic(err)
 	}
 
 	// add claim for the miner
+	// TODO: allow caller to specify.
 	err = hm.Put(adt.AddrKey(handle.ID), &power.Claim{
 		RawBytePower:    abi.NewStoragePower(0),
-		QualityAdjPower: abi.NewTokenAmount(0),
+		QualityAdjPower: abi.NewStoragePower(0),
 	})
 	if err != nil {
 		panic(err)
@@ -185,13 +192,28 @@ func (a *Actors) Miner(cfg MinerActorCfg) (minerActor, owner, worker AddressHand
 	spa.MinerCount += 1
 
 	// update storage power actor's state in the tree
-	_, err = a.b.Stores.CBORStore.Put(context.Background(), &spa)
+	_, err = a.st.Stores.CBORStore.Put(context.Background(), &spa)
 	if err != nil {
 		panic(err)
 	}
 
 	a.registered = append(a.registered, registeredActor{handle, big.Zero()})
-	return handle, owner, worker
+	return Miner{
+		MinerActorAddr: handle,
+		OwnerAddr:      owner,
+		WorkerAddr:     worker,
+	}
+}
+
+// MinerN creates many miners with the specified configuration, and places the
+// miner objects in the supplied addresses.
+//
+// It is sugar for calling Miner repeatedly with the same configuration, and
+// storing the returned miners in the provided addresses.
+func (a *Actors) MinerN(cfg MinerActorCfg, miners ...*Miner) {
+	for _, m := range miners {
+		*m = a.Miner(cfg)
+	}
 }
 
 // CreateActor creates an actor in the state tree, of the specified kind, with
@@ -200,14 +222,14 @@ func (a *Actors) CreateActor(code cid.Cid, addr address.Address, balance abi.Tok
 	var id address.Address
 	if addr.Protocol() != address.ID {
 		var err error
-		id, err = a.b.StateTree.RegisterNewAddress(addr)
+		id, err = a.st.StateTree.RegisterNewAddress(addr)
 		if err != nil {
 			log.Panicf("register new address for actor: %v", err)
 		}
 	}
 
 	// Store the new state.
-	head, err := a.b.StateTree.Store.Put(context.Background(), state)
+	head, err := a.st.StateTree.Store.Put(context.Background(), state)
 	if err != nil {
 		panic(err)
 	}
@@ -218,44 +240,8 @@ func (a *Actors) CreateActor(code cid.Cid, addr address.Address, balance abi.Tok
 		Head:    head,
 		Balance: balance,
 	}
-	if err := a.b.StateTree.SetActor(addr, actr); err != nil {
+	if err := a.st.StateTree.SetActor(addr, actr); err != nil {
 		log.Panicf("setting new actor for actor: %v", err)
 	}
 	return AddressHandle{id, addr}
-}
-
-// ActorState retrieves the state of the supplied actor, and sets it in the
-// provided object. It also returns the actor's header from the state tree.
-func (a *Actors) ActorState(addr address.Address, out cbg.CBORUnmarshaler) *types.Actor {
-	actor := a.Header(addr)
-	err := a.b.StateTree.Store.Get(context.Background(), actor.Head, out)
-	a.b.Assert.NoError(err, "failed to load state for actorr %s; head=%s", addr, actor.Head)
-	return actor
-}
-
-// Header returns the actor's header from the state tree.
-func (a *Actors) Header(addr address.Address) *types.Actor {
-	actor, err := a.b.StateTree.GetActor(addr)
-	a.b.Assert.NoError(err, "failed to fetch actor %s from state", addr)
-	return actor
-}
-
-// Balance is a shortcut for Header(addr).Balance.
-func (a *Actors) Balance(addr address.Address) abi.TokenAmount {
-	return a.Header(addr).Balance
-}
-
-// Head is a shortcut for Header(addr).Head.
-func (a *Actors) Head(addr address.Address) cid.Cid {
-	return a.Header(addr).Head
-}
-
-// Nonce is a shortcut for Header(addr).Nonce.
-func (a *Actors) Nonce(addr address.Address) uint64 {
-	return a.Header(addr).Nonce
-}
-
-// Code is a shortcut for Header(addr).Code.
-func (a *Actors) Code(addr address.Address) cid.Cid {
-	return a.Header(addr).Code
 }

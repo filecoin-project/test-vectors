@@ -18,8 +18,8 @@ type actorCreationOnTransferParams struct {
 	exitCode     exitcode.ExitCode
 }
 
-func actorCreationOnTransfer(params actorCreationOnTransferParams) func(v *Builder) {
-	return func(v *Builder) {
+func actorCreationOnTransfer(params actorCreationOnTransferParams) func(v *MessageVectorBuilder) {
+	return func(v *MessageVectorBuilder) {
 		v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 		// Set up sender account.

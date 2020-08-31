@@ -8,7 +8,7 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func failInvalidActorNonce(v *Builder) {
+func failInvalidActorNonce(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	alice := v.Actors.Account(address.SECP256K1, balance1T)
@@ -25,7 +25,7 @@ func failInvalidActorNonce(v *Builder) {
 	v.Assert.Equal(msg2.Result.ExitCode, exitcode.SysErrSenderInvalid)
 }
 
-func failInvalidReceiverMethod(v *Builder) {
+func failInvalidReceiverMethod(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	alice := v.Actors.Account(address.SECP256K1, balance1T)

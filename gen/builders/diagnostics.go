@@ -18,6 +18,10 @@ const LotusExecutionTraceV1 = "Lotus-ExecutionTrace-V1"
 // EncodeTraces takes a set of serialized lotus ExecutionTraces and writes them
 // to the test vector serialized diagnostic format.
 func EncodeTraces(traces []types.ExecutionTrace) *schema.Diagnostics {
+	if len(traces) == 0 {
+		return nil
+	}
+
 	d := schema.Diagnostics{Format: LotusExecutionTraceV1}
 	serialized, err := json.Marshal(cleanTraces(traces))
 	if err != nil {

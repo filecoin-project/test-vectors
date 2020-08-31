@@ -23,8 +23,8 @@ import (
 //
 // TODO: These tests may break in the future if sending to a system actor
 // becomes disallowed: https://github.com/filecoin-project/specs/issues/1069
-func transferToSystemActor(sysAddr address.Address, calcExtra func(res *vm.ApplyRet) big.Int) func(v *Builder) {
-	return func(v *Builder) {
+func transferToSystemActor(sysAddr address.Address, calcExtra func(res *vm.ApplyRet) big.Int) func(v *MessageVectorBuilder) {
+	return func(v *MessageVectorBuilder) {
 		v.Messages.SetDefaults(GasLimit(gasLimit), GasPremium(gasPremium), GasFeeCap(gasFeeCap))
 		initial := abi.NewTokenAmount(1_000_000_000_000)
 		transfer := abi.NewTokenAmount(123)
@@ -33,8 +33,7 @@ func transferToSystemActor(sysAddr address.Address, calcExtra func(res *vm.Apply
 		sender := v.Actors.Account(address.SECP256K1, initial)
 		v.CommitPreconditions()
 
-		sysActor, err := v.StateTree.GetActor(sysAddr)
-		v.Assert.NoError(err, "failed to fetch actor %s from state", sysAddr)
+		sysActor := v.StateTracker.Header(sysAddr)
 
 		// Calculate the end balance.
 		endBal := big.Add(sysActor.Balance, transfer)

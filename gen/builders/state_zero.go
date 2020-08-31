@@ -33,7 +33,7 @@ const (
 
 var (
 	TotalNetworkBalance = big.Mul(big.NewInt(totalFilecoin), big.NewInt(filecoinPrecision))
-	EmptyReturnValue    = []byte{}
+	EmptyReturnValue    []byte
 )
 
 var (
@@ -50,8 +50,8 @@ const (
 	TestSealProofType = abi.RegisteredSealProof_StackedDrg2KiBV1
 )
 
-func (b *Builder) initializeZeroState(selector schema.Selector) {
-	if err := insertEmptyStructures(b.Stores.ADTStore); err != nil {
+func (st *StateTracker) initializeZeroState(selector schema.Selector) {
+	if err := insertEmptyStructures(st.Stores.ADTStore); err != nil {
 		panic(err)
 	}
 
@@ -153,7 +153,7 @@ func (b *Builder) initializeZeroState(selector schema.Selector) {
 	})
 
 	for _, act := range actors {
-		_ = b.Actors.CreateActor(act.Code, act.Addr, act.Balance, act.State)
+		_ = st.bc.Actors.CreateActor(act.Code, act.Addr, act.Balance, act.State)
 	}
 }
 

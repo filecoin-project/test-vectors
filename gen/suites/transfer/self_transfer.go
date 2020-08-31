@@ -8,8 +8,8 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func selfTransfer(from, to func(h AddressHandle) address.Address) func(v *Builder) {
-	return func(v *Builder) {
+func selfTransfer(from, to func(h AddressHandle) address.Address) func(v *MessageVectorBuilder) {
+	return func(v *MessageVectorBuilder) {
 		initial := abi.NewTokenAmount(1_000_000_000_000)
 		transfer := abi.NewTokenAmount(10)
 		v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))

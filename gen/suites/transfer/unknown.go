@@ -13,7 +13,7 @@ var (
 	transfer = Value(abi.NewTokenAmount(10))
 )
 
-func failTransferUnknownSenderKnownReceiver(v *Builder) {
+func failTransferUnknownSenderKnownReceiver(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	// Set up receiver account.
@@ -33,7 +33,7 @@ func failTransferUnknownSenderKnownReceiver(v *Builder) {
 	v.Assert.BalanceEq(receiver.Robust, initial)
 }
 
-func failTransferUnknownSenderUnknownReceiver(v *Builder) {
+func failTransferUnknownSenderUnknownReceiver(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	// no accounts in the system.

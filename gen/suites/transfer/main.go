@@ -4,14 +4,14 @@ import (
 	"fmt"
 
 	"github.com/filecoin-project/go-address"
-	"github.com/filecoin-project/lotus/chain/vm"
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/abi/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 
+	"github.com/filecoin-project/lotus/chain/vm"
+
 	. "github.com/filecoin-project/test-vectors/gen/builders"
-	. "github.com/filecoin-project/test-vectors/schema"
 )
 
 const (
@@ -22,16 +22,16 @@ const (
 
 func main() {
 	g := NewGenerator()
-	defer g.Wait()
+	defer g.Close()
 
-	g.MessageVectorGroup("basic",
-		&MessageVectorGenItem{
+	g.Group("basic",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "ok",
 				Version: "v1",
 				Desc:    "successfully transfer funds from sender to receiver",
 			},
-			Func: basicTransfer(basicTransferParams{
+			MessageFunc: basicTransfer(basicTransferParams{
 				senderType:   address.SECP256K1,
 				senderBal:    abi.NewTokenAmount(10 * gasLimit * gasFeeCap),
 				receiverType: address.SECP256K1,
@@ -39,13 +39,13 @@ func main() {
 				exitCode:     exitcode.Ok,
 			}),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "ok-zero",
 				Version: "v1",
 				Desc:    "successfully transfer zero funds from sender to receiver",
 			},
-			Func: basicTransfer(basicTransferParams{
+			MessageFunc: basicTransfer(basicTransferParams{
 				senderType:   address.SECP256K1,
 				senderBal:    abi.NewTokenAmount(10 * gasFeeCap * gasLimit),
 				receiverType: address.SECP256K1,
@@ -53,13 +53,13 @@ func main() {
 				exitCode:     exitcode.Ok,
 			}),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-exceed-balance",
 				Version: "v1",
 				Desc:    "fail to transfer more funds than sender balance > 0",
 			},
-			Func: basicTransfer(basicTransferParams{
+			MessageFunc: basicTransfer(basicTransferParams{
 				senderType:   address.SECP256K1,
 				senderBal:    abi.NewTokenAmount(10 * gasFeeCap * gasLimit),
 				receiverType: address.SECP256K1,
@@ -67,13 +67,13 @@ func main() {
 				exitCode:     exitcode.SysErrInsufficientFunds,
 			}),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-balance-equal-gas",
 				Version: "v1",
 				Desc:    "fail to transfer more funds than sender has when sender balance matches gas limit",
 			},
-			Func: basicTransfer(basicTransferParams{
+			MessageFunc: basicTransfer(basicTransferParams{
 				senderType:   address.SECP256K1,
 				senderBal:    abi.NewTokenAmount(gasFeeCap * gasLimit),
 				receiverType: address.SECP256K1,
@@ -81,13 +81,13 @@ func main() {
 				exitCode:     exitcode.SysErrInsufficientFunds,
 			}),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-balance-under-gaslimit",
 				Version: "v1",
 				Desc:    "fail to transfer when sender balance under gas limit",
 			},
-			Func: basicTransfer(basicTransferParams{
+			MessageFunc: basicTransfer(basicTransferParams{
 				senderType:   address.SECP256K1,
 				senderBal:    abi.NewTokenAmount(gasFeeCap*gasLimit - 1),
 				receiverType: address.SECP256K1,
@@ -95,13 +95,13 @@ func main() {
 				exitCode:     exitcode.SysErrSenderStateInvalid,
 			}),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-negative-amount",
 				Version: "v1",
 				Desc:    "fail to transfer a negative amount",
 			},
-			Func: basicTransfer(basicTransferParams{
+			MessageFunc: basicTransfer(basicTransferParams{
 				senderType:   address.SECP256K1,
 				senderBal:    abi.NewTokenAmount(10 * gasLimit * gasFeeCap),
 				receiverType: address.SECP256K1,
@@ -111,54 +111,54 @@ func main() {
 		},
 	)
 
-	g.MessageVectorGroup("self_transfer",
-		&MessageVectorGenItem{
+	g.Group("self_transfer",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "secp-to-secp-addresses",
 				Version: "v1",
 			},
-			Func: selfTransfer(AddressHandle.RobustAddr, AddressHandle.RobustAddr),
+			MessageFunc: selfTransfer(AddressHandle.RobustAddr, AddressHandle.RobustAddr),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "secp-to-id-addresses",
 				Version: "v1",
 			},
-			Func: selfTransfer(AddressHandle.RobustAddr, AddressHandle.IDAddr),
+			MessageFunc: selfTransfer(AddressHandle.RobustAddr, AddressHandle.IDAddr),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "id-to-secp-addresses",
 				Version: "v1",
 			},
-			Func: selfTransfer(AddressHandle.IDAddr, AddressHandle.RobustAddr),
+			MessageFunc: selfTransfer(AddressHandle.IDAddr, AddressHandle.RobustAddr),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "id-to-id-addresses",
 				Version: "v1",
 			},
-			Func: selfTransfer(AddressHandle.IDAddr, AddressHandle.IDAddr),
+			MessageFunc: selfTransfer(AddressHandle.IDAddr, AddressHandle.IDAddr),
 		},
 	)
 
-	g.MessageVectorGroup("unknown_accounts",
-		&MessageVectorGenItem{
+	g.Group("unknown_accounts",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-unknown-sender-known-receiver",
 				Version: "v1",
 				Desc:    "fail to transfer from unknown account to known address",
 			},
-			Func: failTransferUnknownSenderKnownReceiver,
+			MessageFunc: failTransferUnknownSenderKnownReceiver,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-unknown-sender-unknown-receiver",
 				Version: "v1",
 				Desc:    "fail to transfer from unknown address to unknown address",
 			},
-			Mode: ModeLenientAssertions,
-			Func: failTransferUnknownSenderUnknownReceiver,
+			Mode:        ModeLenientAssertions,
+			MessageFunc: failTransferUnknownSenderUnknownReceiver,
 		},
 	)
 
@@ -181,18 +181,18 @@ func main() {
 		}},
 	}
 
-	var sysReceiverItems []*MessageVectorGenItem
+	var sysReceiverItems []*VectorDef
 	for _, a := range sysActors {
-		sysReceiverItems = append(sysReceiverItems, &MessageVectorGenItem{
+		sysReceiverItems = append(sysReceiverItems, &VectorDef{
 			Metadata: &Metadata{
 				ID:      fmt.Sprintf("to-%s-actor", a.name),
 				Version: "v1",
 				Comment: "May break in the future if send to a system actor becomes" +
 					" disallowed: https://github.com/filecoin-project/specs/issues/1069",
 			},
-			Func: transferToSystemActor(a.addr, a.extraFunc),
+			MessageFunc: transferToSystemActor(a.addr, a.extraFunc),
 		})
 	}
 
-	g.MessageVectorGroup("system_receiver", sysReceiverItems...)
+	g.Group("system_receiver", sysReceiverItems...)
 }

@@ -36,11 +36,11 @@ func init() {
 	}
 }
 
-func nestedSends_OkBasic(v *Builder) {
+func nestedSends_OkBasic(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
-	balanceBefore := v.Actors.Balance(stage.creator)
+	balanceBefore := v.StateTracker.Balance(stage.creator)
 
 	// Multisig sends back to the creator.
 	amtSent := abi.NewTokenAmount(1)
@@ -51,11 +51,11 @@ func nestedSends_OkBasic(v *Builder) {
 	v.Assert.BalanceEq(stage.creator, big.Sub(big.Add(balanceBefore, amtSent), CalculateDeduction(result)))
 }
 
-func nestedSends_OkToNewActor(v *Builder) {
+func nestedSends_OkToNewActor(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
-	balanceBefore := v.Actors.Balance(stage.creator)
+	balanceBefore := v.StateTracker.Balance(stage.creator)
 
 	// Multisig sends to new address.
 	newAddr := v.Wallet.NewSECP256k1Account()
@@ -67,11 +67,11 @@ func nestedSends_OkToNewActor(v *Builder) {
 	v.Assert.BalanceEq(newAddr, amtSent)
 }
 
-func nestedSends_OkToNewActorWithInvoke(v *Builder) {
+func nestedSends_OkToNewActorWithInvoke(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
-	balanceBefore := v.Actors.Balance(stage.creator)
+	balanceBefore := v.StateTracker.Balance(stage.creator)
 
 	// Multisig sends to new address and invokes pubkey method at the same time.
 	newAddr := v.Wallet.NewSECP256k1Account()
@@ -89,12 +89,12 @@ func nestedSends_OkToNewActorWithInvoke(v *Builder) {
 	v.Assert.BalanceEq(newAddr, amtSent)
 }
 
-func nestedSends_OkRecursive(v *Builder) {
+func nestedSends_OkRecursive(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	another := v.Actors.Account(address.SECP256K1, big.Zero())
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
-	balanceBefore := v.Actors.Balance(stage.creator)
+	balanceBefore := v.StateTracker.Balance(stage.creator)
 
 	// Multisig sends to itself.
 	params := multisig.AddSignerParams{
@@ -104,14 +104,14 @@ func nestedSends_OkRecursive(v *Builder) {
 	result := stage.sendOk(stage.msAddr, big.Zero(), builtin.MethodsMultisig.AddSigner, &params, nonce)
 
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance)
-	v.Assert.Equal(big.Sub(balanceBefore, CalculateDeduction(result)), v.Actors.Balance(stage.creator))
+	v.Assert.Equal(big.Sub(balanceBefore, CalculateDeduction(result)), v.StateTracker.Balance(stage.creator))
 
 	var st multisig.State
-	v.Actors.ActorState(stage.msAddr, &st)
+	v.StateTracker.ActorState(stage.msAddr, &st)
 	v.Assert.Equal([]address.Address{stage.creator, another.ID}, st.Signers)
 }
 
-func nestedSends_OKNonCBORParamsWithTransfer(v *Builder) {
+func nestedSends_OKNonCBORParamsWithTransfer(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
@@ -126,7 +126,7 @@ func nestedSends_OKNonCBORParamsWithTransfer(v *Builder) {
 	v.Assert.BalanceEq(newAddr, amtSent)
 }
 
-func nestedSends_FailNonexistentIDAddress(v *Builder) {
+func nestedSends_FailNonexistentIDAddress(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
@@ -139,7 +139,7 @@ func nestedSends_FailNonexistentIDAddress(v *Builder) {
 	v.Assert.ActorMissing(newAddr)
 }
 
-func nestedSends_FailNonexistentActorAddress(v *Builder) {
+func nestedSends_FailNonexistentActorAddress(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
@@ -152,7 +152,7 @@ func nestedSends_FailNonexistentActorAddress(v *Builder) {
 	v.Assert.ActorMissing(newAddr)
 }
 
-func nestedSends_FailInvalidMethodNumNewActor(v *Builder) {
+func nestedSends_FailInvalidMethodNumNewActor(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
@@ -165,11 +165,11 @@ func nestedSends_FailInvalidMethodNumNewActor(v *Builder) {
 	v.Assert.ActorMissing(newAddr)
 }
 
-func nestedSends_FailInvalidMethodNumForActor(v *Builder) {
+func nestedSends_FailInvalidMethodNumForActor(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
-	balanceBefore := v.Actors.Balance(stage.creator)
+	balanceBefore := v.StateTracker.Balance(stage.creator)
 
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(stage.creator, amtSent, abi.MethodNum(99), nil, nonce)
@@ -178,11 +178,11 @@ func nestedSends_FailInvalidMethodNumForActor(v *Builder) {
 	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateDeduction(result))) // Pay gas, don't receive funds.
 }
 
-func nestedSends_FailMissingParams(v *Builder) {
+func nestedSends_FailMissingParams(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
-	balanceBefore := v.Actors.Balance(stage.creator)
+	balanceBefore := v.StateTracker.Balance(stage.creator)
 
 	params := adt.Empty // Missing params required by AddSigner
 	amtSent := abi.NewTokenAmount(1)
@@ -193,11 +193,11 @@ func nestedSends_FailMissingParams(v *Builder) {
 	v.Assert.Equal(1, len(stage.state().Signers))     // No new signers
 }
 
-func nestedSends_FailMismatchParams(v *Builder) {
+func nestedSends_FailMismatchParams(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
-	balanceBefore := v.Actors.Balance(stage.creator)
+	balanceBefore := v.StateTracker.Balance(stage.creator)
 
 	// Wrong params for AddSigner
 	params := multisig.ProposeParams{
@@ -214,11 +214,11 @@ func nestedSends_FailMismatchParams(v *Builder) {
 	v.Assert.Equal(1, len(stage.state().Signers))     // No new signers
 }
 
-func nestedSends_FailInnerAbort(v *Builder) {
+func nestedSends_FailInnerAbort(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
-	prevHead := v.Actors.Head(builtin.RewardActorAddr)
+	prevHead := v.StateTracker.Head(builtin.RewardActorAddr)
 
 	// AwardBlockReward will abort unless invoked by the system actor
 	params := reward.AwardBlockRewardParams{
@@ -233,11 +233,11 @@ func nestedSends_FailInnerAbort(v *Builder) {
 	v.Assert.HeadEq(builtin.RewardActorAddr, prevHead)
 }
 
-func nestedSends_FailAbortedExec(v *Builder) {
+func nestedSends_FailAbortedExec(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
-	prevHead := v.Actors.Head(builtin.InitActorAddr)
+	prevHead := v.StateTracker.Head(builtin.InitActorAddr)
 
 	// Illegal paych constructor params (addresses are not accounts)
 	ctorParams := paych.ConstructorParams{
@@ -256,7 +256,7 @@ func nestedSends_FailAbortedExec(v *Builder) {
 	v.Assert.HeadEq(builtin.InitActorAddr, prevHead)  // Init state unchanged.
 }
 
-func nestedSends_FailInsufficientFundsForTransferInInnerSend(v *Builder) {
+func nestedSends_FailInsufficientFundsForTransferInInnerSend(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	// puppet actor has zero funds
@@ -297,13 +297,13 @@ func nestedSends_FailInsufficientFundsForTransferInInnerSend(v *Builder) {
 }
 
 type msStage struct {
-	v       *Builder
+	v       *MessageVectorBuilder
 	creator address.Address // Address of the creator and sole signer of the multisig.
 	msAddr  address.Address // Address of the multisig actor from which nested messages are sent.
 }
 
 // Creates a multisig actor with its creator as sole approver.
-func prepareStage(v *Builder, creatorBalance, msBalance abi.TokenAmount) *msStage {
+func prepareStage(v *MessageVectorBuilder, creatorBalance, msBalance abi.TokenAmount) *msStage {
 	// Set up sender and receiver accounts.
 	creator := v.Actors.Account(address.SECP256K1, creatorBalance)
 	v.CommitPreconditions()
@@ -353,6 +353,6 @@ func (s *msStage) sendOk(to address.Address, value abi.TokenAmount, method abi.M
 
 func (s *msStage) state() *multisig.State {
 	var msState multisig.State
-	s.v.Actors.ActorState(s.msAddr, &msState)
+	s.v.StateTracker.ActorState(s.msAddr, &msState)
 	return &msState
 }

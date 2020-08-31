@@ -4,9 +4,12 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/lotus/chain/state"
+
 	"github.com/filecoin-project/specs-actors/actors/abi"
+
+	"github.com/filecoin-project/go-address"
+
 	"github.com/ipfs/go-cid"
 	"github.com/stretchr/testify/require"
 )
@@ -16,19 +19,48 @@ import (
 type Asserter struct {
 	*require.Assertions
 
-	b     *Builder
+	// id is the vector ID, for logging purposes.
+	id string
+
+	// stage is the builder state we're at.
 	stage Stage
 
 	// lenient, when enabled, records assertions without aborting.
 	lenient bool
+
+	// suppliers contains functions that the Asserter uses to obtain values from
+	// the builder that may vary during construction.
+	suppliers suppliers
+}
+
+// suppliers is a struct containing functions that the Asserter will use to
+// obtain values it needs from the builder.
+type suppliers struct {
+	messages     func() []*ApplicableMessage
+	stateTracker func() *StateTracker
+	actors       func() *Actors
+	preroot      func() cid.Cid
 }
 
 var _ require.TestingT = &Asserter{}
 
-func newAsserter(b *Builder, stage Stage, lenient bool) *Asserter {
-	a := &Asserter{stage: stage, b: b, lenient: lenient}
+func NewAsserter(id string, lenient bool, suppliers suppliers) *Asserter {
+	a := &Asserter{id: id, lenient: lenient, suppliers: suppliers}
 	a.Assertions = require.New(a)
 	return a
+}
+
+// AtState forks this Asserter making it point to the specified state root.
+func (a *Asserter) AtState(root cid.Cid) *Asserter {
+	// fork the state tracker at the specified root.
+	st := a.suppliers.stateTracker().Fork(root)
+
+	// clone the asserter, replacing the stateTracker function.
+	cpy := *a
+	cpy.suppliers.stateTracker = func() *StateTracker {
+		return st
+	}
+	return &cpy
 }
 
 // enterStage sets a new stage in the Asserter.
@@ -44,34 +76,39 @@ func (a *Asserter) In(v interface{}, set ...interface{}) {
 
 // BalanceEq verifies that the balance of the address equals the expected one.
 func (a *Asserter) BalanceEq(addr address.Address, expected abi.TokenAmount) {
-	actor, err := a.b.StateTree.GetActor(addr)
+	st := a.suppliers.stateTracker()
+	actor, err := st.StateTree.GetActor(addr)
 	a.NoError(err, "failed to fetch actor %s from state", addr)
 	a.Equal(expected, actor.Balance, "balances mismatch for address %s", addr)
 }
 
 // NonceEq verifies that the nonce of the actor equals the expected one.
 func (a *Asserter) NonceEq(addr address.Address, expected uint64) {
-	actor, err := a.b.StateTree.GetActor(addr)
+	st := a.suppliers.stateTracker()
+	actor, err := st.StateTree.GetActor(addr)
 	a.NoError(err, "failed to fetch actor %s from state", addr)
 	a.Equal(expected, actor.Nonce, "expected actor %s nonce: %d, got: %d", addr, expected, actor.Nonce)
 }
 
 // HeadEq verifies that the head of the actor equals the expected one.
 func (a *Asserter) HeadEq(addr address.Address, expected cid.Cid) {
-	actor, err := a.b.StateTree.GetActor(addr)
+	st := a.suppliers.stateTracker()
+	actor, err := st.StateTree.GetActor(addr)
 	a.NoError(err, "failed to fetch actor %s from state", addr)
 	a.Equal(expected, actor.Head, "expected actor %s head: %v, got: %v", addr, expected, actor.Head)
 }
 
 // ActorExists verifies that the actor exists in the state tree.
 func (a *Asserter) ActorExists(addr address.Address) {
-	_, err := a.b.StateTree.GetActor(addr)
+	st := a.suppliers.stateTracker()
+	_, err := st.StateTree.GetActor(addr)
 	a.NoError(err, "expected no error while looking up actor %s", addr)
 }
 
 // ActorExists verifies that the actor is absent from the state tree.
 func (a *Asserter) ActorMissing(addr address.Address) {
-	_, err := a.b.StateTree.GetActor(addr)
+	st := a.suppliers.stateTracker()
+	_, err := st.StateTree.GetActor(addr)
 	a.Error(err, "expected error while looking up actor %s", addr)
 }
 
@@ -82,7 +119,8 @@ func (a *Asserter) EveryMessageResultSatisfies(predicate ApplyRetPredicate, exce
 	for _, am := range except {
 		exceptm[am] = struct{}{}
 	}
-	for i, m := range a.b.Messages.messages {
+	msgs := a.suppliers.messages()
+	for i, m := range msgs {
 		if _, ok := exceptm[m]; ok {
 			continue
 		}
@@ -99,21 +137,25 @@ func (a *Asserter) EveryMessageResultSatisfies(predicate ApplyRetPredicate, exce
 // preconditions were committed), the final state (could be nil), and the
 // ApplicableMessages themselves.
 func (a *Asserter) MessageSendersSatisfy(predicate ActorPredicate, ams ...*ApplicableMessage) {
+	st := a.suppliers.stateTracker()
+	actors := a.suppliers.actors()
+	preroot := a.suppliers.preroot()
+
 	bysender := make(map[AddressHandle][]*ApplicableMessage, len(ams))
 	for _, am := range ams {
-		h := a.b.Actors.HandleFor(am.Message.From)
+		h := actors.HandleFor(am.Message.From)
 		bysender[h] = append(bysender[h], am)
 	}
 	// we now have messages organized by unique senders.
 	for sender, amss := range bysender {
 		// get precondition state
-		pretree, err := state.LoadStateTree(a.b.Stores.CBORStore, a.b.PreRoot)
+		pretree, err := state.LoadStateTree(st.Stores.CBORStore, preroot)
 		a.NoError(err)
 		prestate, err := pretree.GetActor(sender.Robust)
 		a.NoError(err)
 
 		// get postcondition state; if actor has been deleted, we store a nil.
-		poststate, _ := a.b.StateTree.GetActor(sender.Robust)
+		poststate, _ := st.StateTree.GetActor(sender.Robust)
 
 		// invoke predicate.
 		err = predicate(sender, prestate, poststate, amss)
@@ -124,7 +166,7 @@ func (a *Asserter) MessageSendersSatisfy(predicate ActorPredicate, ams ...*Appli
 // EveryMessageSenderSatisfies is sugar for MessageSendersSatisfy(predicate, Messages.All()),
 // but supports an exclusion set to restrict the messages that will actually be asserted.
 func (a *Asserter) EveryMessageSenderSatisfies(predicate ActorPredicate, except ...*ApplicableMessage) {
-	ams := a.b.Messages.All()
+	ams := a.suppliers.messages()
 	if len(except) > 0 {
 		filtered := ams[:0]
 		for _, ex := range except {
@@ -148,7 +190,6 @@ func (a *Asserter) FailNow() {
 }
 
 func (a *Asserter) Errorf(format string, args ...interface{}) {
-	id := a.b.vector.Meta.ID
 	stage := a.stage
-	fmt.Printf("❌  id: %s, stage: %s:"+format, append([]interface{}{id, stage}, args...)...)
+	fmt.Printf("❌  id: %s, stage: %s:"+format, append([]interface{}{a.id, stage}, args...)...)
 }

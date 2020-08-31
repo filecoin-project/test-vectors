@@ -24,7 +24,7 @@ type Wallet struct {
 	blsSeed int64 // nolint: structcheck
 }
 
-func newWallet() *Wallet {
+func NewWallet() *Wallet {
 	return &Wallet{
 		keys:     make(map[address.Address]*wallet.Key),
 		secpSeed: 0,
@@ -62,7 +62,7 @@ func (w *Wallet) Sign(addr address.Address, data []byte) (acrypto.Signature, err
 			Data: sig,
 		}, nil
 	} else if ki.Type == wallet.KTBLS {
-		panic("lotus validator cannot sign BLS messages")
+		panic("lotus validator cannot sign BLS msgIdx")
 	} else {
 		panic("unknown signature type")
 	}

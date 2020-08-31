@@ -7,7 +7,7 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func failUnknownSender(v *Builder) {
+func failUnknownSender(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	alice := v.Actors.Account(address.SECP256K1, balance1T)
@@ -19,7 +19,7 @@ func failUnknownSender(v *Builder) {
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrSenderInvalid))
 }
 
-func failUnknownReceiver(v *Builder) {
+func failUnknownReceiver(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	alice := v.Actors.Account(address.SECP256K1, balance1T)

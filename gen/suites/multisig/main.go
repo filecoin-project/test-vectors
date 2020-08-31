@@ -2,7 +2,6 @@ package main
 
 import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
-	. "github.com/filecoin-project/test-vectors/schema"
 )
 
 const (
@@ -12,40 +11,40 @@ const (
 
 func main() {
 	g := NewGenerator()
-	defer g.Wait()
+	defer g.Close()
 
-	g.MessageVectorGroup("basic",
-		&MessageVectorGenItem{
+	g.Group("basic",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "ok-create",
 				Version: "v1",
 				Desc:    "multisig actor constructor ok",
 			},
-			Func: constructor,
+			MessageFunc: constructor,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "ok-propose-and-cancel",
 				Version: "v1",
 				Desc:    "multisig actor propose and cancel ok",
 			},
-			Func: proposeAndCancelOk,
+			MessageFunc: proposeAndCancelOk,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "ok-propose-and-approve",
 				Version: "v1",
 				Desc:    "multisig actor propose, unauthorized proposals+approval, and approval ok",
 			},
-			Func: proposeAndApprove,
+			MessageFunc: proposeAndApprove,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "ok-add-signer",
 				Version: "v1",
 				Desc:    "multisig actor accepts only AddSigner messages that go through a reflexive flow",
 			},
-			Func: addSigner,
+			MessageFunc: addSigner,
 		},
 	)
 }
