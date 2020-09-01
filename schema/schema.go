@@ -132,15 +132,23 @@ type TestVector struct {
 	// objects.
 	CAR Base64EncodedBytes `json:"car"`
 
-	Pre           *Preconditions  `json:"preconditions"`
-	ApplyMessages []Message       `json:"apply_messages"`
-	Post          *Postconditions `json:"postconditions"`
-	Diagnostics   *Diagnostics    `json:"diagnostics"`
+	Pre           *Preconditions            `json:"preconditions"`
+	ApplyMessages []Message                 `json:"apply_messages"`
+	Randomness    map[abi.ChainEpoch][]byte `json:"randomness,omitempty"`
+	Post          *Postconditions           `json:"postconditions"`
+	Diagnostics   *Diagnostics              `json:"diagnostics"`
 }
 
 type Message struct {
-	Bytes Base64EncodedBytes `json:"bytes"`
-	Epoch *abi.ChainEpoch    `json:"epoch,omitempty"`
+	Bytes    Base64EncodedBytes `json:"bytes"`
+	Epoch    *abi.ChainEpoch    `json:"epoch,omitempty"`
+	Syscalls []Syscall          `json:"syscalls,omitempty"`
+}
+
+type Syscall struct {
+	Name     string `json:"name"`
+	IsError  bool   `json:"is_error"`
+	ErrorMsg string `json:"error_msg,omitempty"`
 }
 
 // Validate validates this test vector against the JSON schema, and applies
