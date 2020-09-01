@@ -70,7 +70,6 @@ func TipsetVector(metadata *schema.Metadata, selector schema.Selector, mode Mode
 	b.vector.Class = schema.ClassTipset
 	b.vector.Meta = metadata
 	b.vector.Pre = &schema.Preconditions{}
-	b.vector.Post = &schema.Postconditions{}
 	b.vector.Selector = selector
 	b.vector.Hints = hints
 
@@ -209,7 +208,7 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 
 		// Update the state and receipts root in the vector.
 		b.vector.Post.StateTree.RootCID = ret.PostStateRoot
-		b.vector.Post.ReceiptsRoot = ret.ReceiptsRoot
+		b.vector.Post.ReceiptsRoots = append(b.vector.Post.ReceiptsRoots, ret.ReceiptsRoot)
 		prevEpoch = ts.Epoch
 
 		// Update the state tree.
