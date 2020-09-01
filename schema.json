@@ -146,12 +146,18 @@
           "title": "receipts to match",
           "description": "receipts to match, required when using messages-class test vectors; length of this array MUST be equal to length of apply_messages",
           "type": "array",
+          "additionalItems": false,
           "items": {
             "$ref": "#/definitions/receipt"
           }
         },
-        "receipts_root": {
-          "$ref": "#/definitions/cid"
+        "receipts_roots": {
+          "title": "receipts roots for the applied tipsets",
+          "type": "array",
+          "additionalItems": false,
+          "items": {
+            "$ref": "#/definitions/cid"
+          }
         }
       }
     },

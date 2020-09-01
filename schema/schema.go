@@ -83,9 +83,9 @@ type Receipt struct {
 
 // Postconditions contain a representation of VM state at th end of the test
 type Postconditions struct {
-	StateTree    *StateTree `json:"state_tree"`
-	Receipts     []*Receipt `json:"receipts"`
-	ReceiptsRoot cid.Cid    `json:"receipts_root"`
+	StateTree     *StateTree `json:"state_tree"`
+	Receipts      []*Receipt `json:"receipts"`
+	ReceiptsRoots []cid.Cid  `json:"receipts_roots"`
 }
 
 // MarshalJSON implements json.Marshal for Base64EncodedBytes
