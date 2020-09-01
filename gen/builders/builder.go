@@ -45,7 +45,7 @@ type Builder interface {
 	Finish(writer io.Writer)
 }
 
-// BuildeCommon bundles common services and state fields that are available in
+// BuilderCommon bundles common services and state fields that are available in
 // all vector builder types.
 type BuilderCommon struct {
 	Stage  Stage
