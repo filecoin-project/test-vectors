@@ -257,8 +257,9 @@ github.com/filecoin-project/go-storedcounter v0.0.0-20200421200003-1c99c62e8a5b/
 github.com/filecoin-project/lotus v0.4.3-0.20200819133134-a21234cd54d5/go.mod h1:YYUqCqyv4odVgKSFQAnIdAl0v1cIfbEYnF9E118dMGQ=
 github.com/filecoin-project/lotus v0.4.3-0.20200819134055-b13681df3205/go.mod h1:rooripL/X8ixwUngDPzphAv/RKZXWBprbyxxDW0EJi0=
 github.com/filecoin-project/lotus v0.4.3-0.20200820203717-d1718369a182/go.mod h1:biFZPQ/YyQGfkHUmHMiaNf2hnD6zm1+OAXPQYQ61Zkg=
-github.com/filecoin-project/lotus v0.5.8-0.20200901143519-64bdd620acf1 h1:HujI0eK6DyzccQQrhWP1wSlzE5PHp/aJvk9L3YS8O6E=
 github.com/filecoin-project/lotus v0.5.8-0.20200901143519-64bdd620acf1/go.mod h1:JeT2ti5ArW4B69k1FMMFV1rj00wX4ooHMX6zS5MgY+w=
+github.com/filecoin-project/lotus v0.5.8-0.20200901153315-fa4000663a61 h1:+pL/NjEj8UCsxyLcIJ6zEqW9Jhye0Dd76qz2qlNsLEw=
+github.com/filecoin-project/lotus v0.5.8-0.20200901153315-fa4000663a61/go.mod h1:gs5PdzCNGg5vhLMFh3VnUnyvCYXCKJH6Rw2k/PVz1uU=
 github.com/filecoin-project/sector-storage v0.0.0-20200712023225-1d67dcfa3c15/go.mod h1:salgVdX7qeXFo/xaiEQE29J4pPkjn71T0kt0n+VDBzo=
 github.com/filecoin-project/sector-storage v0.0.0-20200730050024-3ee28c3b6d9a h1:oDYwbXXcbMYrQX1CgYd2Zwb4ocghYw1zBctvCTW1RoE=
 github.com/filecoin-project/sector-storage v0.0.0-20200730050024-3ee28c3b6d9a/go.mod h1:oOawOl9Yk+qeytLzzIryjI8iRbqo+qzS6EEeElP4PWA=
@@ -283,6 +284,7 @@ github.com/filecoin-project/statediff v0.0.1/go.mod h1:qNWauolLFEzOiA4LNWermBRVN
 github.com/filecoin-project/storage-fsm v0.0.0-20200805013058-9d9ea4e6331f/go.mod h1:1CGbd11KkHuyWPT+xwwCol1zl/jnlpiKD2L4fzKxaiI=
 github.com/filecoin-project/test-vectors v0.0.0-20200819133914-e20cc29cc926/go.mod h1:ou1Im2BTyrYTnXX8yj5VvC+DTfbIrwESJjKDxbh31nA=
 github.com/filecoin-project/test-vectors v0.0.0-20200826113833-9ffe6524729d/go.mod h1:hY/JN3OFRtykBrMByFjTonUFEOW2bRJjyR5YMUh3jLw=
+github.com/filecoin-project/test-vectors v0.0.0-20200901152848-cd8867c435b9/go.mod h1:bhGAdMCoLxHz2vw14BjR6iuMrWMEZ/ezyF1ri2AXwQI=
 github.com/flynn/go-shlex v0.0.0-20150515145356-3f9db97f8568/go.mod h1:xEzjJPgXI435gkrCt3MPfRiAkVrwSbHsst4LCFVfpJc=
 github.com/flynn/noise v0.0.0-20180327030543-2492fe189ae6 h1:u/UEqS66A5ckRmS4yNpjmVH56sVtS/RfclBAYocb4as=
 github.com/flynn/noise v0.0.0-20180327030543-2492fe189ae6/go.mod h1:1i71OnUq3iUe1ma7Lr6yG6/rjvM3emb6yoL7xLFzcVQ=
@@ -521,7 +523,6 @@ github.com/ipfs/go-fs-lock v0.0.1/go.mod h1:DNBekbboPKcxs1aukPSaOtFA3QfSdi5C855v
 github.com/ipfs/go-fs-lock v0.0.6 h1:sn3TWwNVQqSeNjlWy6zQ1uUGAZrV3hPOyEA6y1/N2a0=
 github.com/ipfs/go-fs-lock v0.0.6/go.mod h1:OTR+Rj9sHiRubJh3dRhD15Juhd/+w6VPOY28L7zESmM=
 github.com/ipfs/go-graphsync v0.1.0/go.mod h1:jMXfqIEDFukLPZHqDPp8tJMbHO9Rmeb9CEGevngQbmE=
-github.com/ipfs/go-graphsync v0.1.1 h1:bFDAYS0Z48yd8ROPI6f/zIVmJxaDLA6m8cVuJPKC5fE=
 github.com/ipfs/go-graphsync v0.1.1/go.mod h1:jMXfqIEDFukLPZHqDPp8tJMbHO9Rmeb9CEGevngQbmE=
 github.com/ipfs/go-graphsync v0.1.2 h1:25Ll9kIXCE+DY0dicvfS3KMw+U5sd01b/FJbA7KAbhg=
 github.com/ipfs/go-graphsync v0.1.2/go.mod h1:sLXVXm1OxtE2XYPw62MuXCdAuNwkAdsbnfrmos5odbA=
