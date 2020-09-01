@@ -26,6 +26,9 @@
 - description: "Areas: Message-class vector"
   name: area/message-vector
   color: 49edbc
+- description: "Areas: Tipset-class vector"
+  name: area/tipset-vector
+  color: 49edbc
 - description: "Areas: Chain-class vector"
   name: area/chain-vector
   color: 49edbc
