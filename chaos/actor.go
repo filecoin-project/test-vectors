@@ -126,7 +126,7 @@ type ResolveAddressResponse struct {
 
 func (a Actor) ResolveAddress(rt runtime.Runtime, args *address.Address) *ResolveAddressResponse {
 	rt.ValidateImmediateCallerAcceptAny()
-	
+
 	resolvedAddr, ok := rt.ResolveAddress(*args)
 	if !ok {
 		invalidAddr, _ := address.NewIDAddress(0)

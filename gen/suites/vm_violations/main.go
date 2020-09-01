@@ -142,51 +142,51 @@ func main() {
 		},
 	)
 
-	g.MessageVectorGroup("address_resolution",
-		&MessageVectorGenItem{
+	g.Group("address_resolution",
+		&VectorDef{
 			Metadata: &Metadata{
-				ID: "resolve-address-id-identity",
+				ID:      "resolve-address-id-identity",
 				Version: "v1",
-				Desc: "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
+				Desc:    "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionIDIdentity,
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: actorResolutionIDIdentity,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
-				ID: "resolve-address-bad-id-identity",
+				ID:      "resolve-address-bad-id-identity",
 				Version: "v1",
-				Desc: "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
+				Desc:    "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionInvalidIdentity,
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: actorResolutionInvalidIdentity,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
-				ID: "resolve-address-nonexistant",
+				ID:      "resolve-address-nonexistant",
 				Version: "v1",
-				Desc: "verifies that runtime.ResolveAddress on non-existant addresses are undefined",
+				Desc:    "verifies that runtime.ResolveAddress on non-existant addresses are undefined",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionNonexistant,
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: actorResolutionNonexistant,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
-				ID: "resolve-address-bls-lookup",
+				ID:      "resolve-address-bls-lookup",
 				Version: "v1",
-				Desc: "verifies that runtime.ResolveAddress on known addresses are resolved",
+				Desc:    "verifies that runtime.ResolveAddress on known addresses are resolved",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionBlsExistant,
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: actorResolutionBlsExistant,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
-				ID: "resolve-address-secp-lookup",
+				ID:      "resolve-address-secp-lookup",
 				Version: "v1",
-				Desc: "verifies that runtime.ResolveAddress on known addresses are resolved",
+				Desc:    "verifies that runtime.ResolveAddress on known addresses are resolved",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionSecpExistant,
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: actorResolutionSecpExistant,
 		},
 	)
 }
