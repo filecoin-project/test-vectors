@@ -7,7 +7,7 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "ae08cde5c77be9aee3507c406e413f2d594131d4"
+				"version": "a7cbc280435f5b87bc3e5cf844d208e9f66521ec"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
@@ -187,9 +187,14 @@
 				"gas_used": 0
 			}
 		],
-		"receipts_root": {
-			"/": "bafy2bzacea3kbja7phwqq52weuyeijkqbknisrjlrmgc5l7vmccnxerox3hj2"
-		}
+		"receipts_roots": [
+			{
+				"/": "bafy2bzacea3kbja7phwqq52weuyeijkqbknisrjlrmgc5l7vmccnxerox3hj2"
+			},
+			{
+				"/": "bafy2bzacea3kbja7phwqq52weuyeijkqbknisrjlrmgc5l7vmccnxerox3hj2"
+			}
+		]
 	},
 	"diagnostics": {
 		"format": "Lotus-ExecutionTrace-V1",
