@@ -7,7 +7,7 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func failCoverReceiptGasCost(v *Builder) {
+func failCoverReceiptGasCost(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	alice := v.Actors.Account(address.SECP256K1, balance1T)
@@ -19,7 +19,7 @@ func failCoverReceiptGasCost(v *Builder) {
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrOutOfGas))
 }
 
-func failCoverOnChainSizeGasCost(v *Builder) {
+func failCoverOnChainSizeGasCost(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	alice := v.Actors.Account(address.SECP256K1, balance1T)
@@ -31,7 +31,7 @@ func failCoverOnChainSizeGasCost(v *Builder) {
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrOutOfGas))
 }
 
-func failCoverTransferAccountCreationGasStepwise(v *Builder) {
+func failCoverTransferAccountCreationGasStepwise(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	var alice, bob, charlie AddressHandle

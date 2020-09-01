@@ -30,7 +30,7 @@ func CalculateDeduction(am *ApplicableMessage) big.Int {
 	return deducted
 }
 
-// GetMinerReward returns the amount that the miner gets to keep, which is
+// GetMinerReward returns the amount that the miner gets to keep, aka. miner tip.
 func GetMinerReward(gasLimit int64, gasPremium abi.TokenAmount) abi.TokenAmount {
 	return big.Mul(big.NewInt(gasLimit), gasPremium)
 }

@@ -9,7 +9,7 @@ import (
 	"github.com/filecoin-project/go-address"
 )
 
-func sequentialAddresses(v *Builder) {
+func sequentialAddresses(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	initial := big.NewInt(1_000_000_000_000_000)

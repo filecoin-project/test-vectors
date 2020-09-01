@@ -15,7 +15,7 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func constructor(v *Builder) {
+func constructor(v *MessageVectorBuilder) {
 	var balance = abi.NewTokenAmount(1_000_000_000_000)
 	var amount = abi.NewTokenAmount(10)
 
@@ -29,7 +29,7 @@ func constructor(v *Builder) {
 	v.CommitApplies()
 }
 
-func proposeAndCancelOk(v *Builder) {
+func proposeAndCancelOk(v *MessageVectorBuilder) {
 	var (
 		initial        = abi.NewTokenAmount(1_000_000_000_000)
 		amount         = abi.NewTokenAmount(10)
@@ -78,7 +78,7 @@ func proposeAndCancelOk(v *Builder) {
 
 	// reload the multisig state and verify
 	var multisigState multisig.State
-	v.Actors.ActorState(multisigAddr, &multisigState)
+	v.StateTracker.ActorState(multisigAddr, &multisigState)
 	v.Assert.Equal(&multisig.State{
 		Signers:               []address.Address{alice.ID, bob.ID},
 		NumApprovalsThreshold: 2,
@@ -90,7 +90,7 @@ func proposeAndCancelOk(v *Builder) {
 	}, &multisigState)
 }
 
-func proposeAndApprove(v *Builder) {
+func proposeAndApprove(v *MessageVectorBuilder) {
 	var (
 		initial        = abi.NewTokenAmount(1_000_000_000_000)
 		amount         = abi.NewTokenAmount(10)
@@ -161,7 +161,7 @@ func proposeAndApprove(v *Builder) {
 
 	// reload the multisig state and verify
 	var multisigState multisig.State
-	v.Actors.ActorState(multisigAddr, &multisigState)
+	v.StateTracker.ActorState(multisigAddr, &multisigState)
 	v.Assert.Equal(&multisig.State{
 		Signers:               []address.Address{alice.ID, bob.ID},
 		NumApprovalsThreshold: 2,
@@ -173,7 +173,7 @@ func proposeAndApprove(v *Builder) {
 	}, &multisigState)
 }
 
-func addSigner(v *Builder) {
+func addSigner(v *MessageVectorBuilder) {
 	var (
 		initial = abi.NewTokenAmount(1_000_000_000_000)
 		amount  = abi.NewTokenAmount(10)
@@ -213,7 +213,7 @@ func addSigner(v *Builder) {
 
 	// reload the multisig state and verify that bob is now a signer.
 	var multisigState multisig.State
-	v.Actors.ActorState(multisigAddr, &multisigState)
+	v.StateTracker.ActorState(multisigAddr, &multisigState)
 	v.Assert.Equal(&multisig.State{
 		Signers:               []address.Address{alice.ID, bob.ID},
 		NumApprovalsThreshold: 1,
@@ -232,7 +232,7 @@ type proposeOpts struct {
 	amount       abi.TokenAmount
 }
 
-func proposeOk(v *Builder, proposeOpts proposeOpts, opts ...MsgOpt) []byte {
+func proposeOk(v *MessageVectorBuilder, proposeOpts proposeOpts, opts ...MsgOpt) []byte {
 	propose := &multisig.ProposeParams{
 		To:     proposeOpts.recipient,
 		Value:  proposeOpts.amount,
@@ -245,7 +245,7 @@ func proposeOk(v *Builder, proposeOpts proposeOpts, opts ...MsgOpt) []byte {
 
 	// verify that the multisig state contains the outstanding TX.
 	var multisigState multisig.State
-	v.Actors.ActorState(proposeOpts.multisigAddr, &multisigState)
+	v.StateTracker.ActorState(proposeOpts.multisigAddr, &multisigState)
 
 	id := multisig.TxnID(0)
 	actualTxn := loadMultisigTxn(v, multisigState, id)
@@ -260,7 +260,7 @@ func proposeOk(v *Builder, proposeOpts proposeOpts, opts ...MsgOpt) []byte {
 	return makeProposalHash(v, actualTxn)
 }
 
-func createMultisig(v *Builder, creator AddressHandle, approvers []address.Address, threshold uint64, opts ...MsgOpt) address.Address {
+func createMultisig(v *MessageVectorBuilder, creator AddressHandle, approvers []address.Address, threshold uint64, opts ...MsgOpt) address.Address {
 	const unlockDuration = abi.ChainEpoch(10)
 	// create the multisig actor.
 	params := &multisig.ConstructorParams{
@@ -287,8 +287,8 @@ func createMultisig(v *Builder, creator AddressHandle, approvers []address.Addre
 	return ret.IDAddress
 }
 
-func loadMultisigTxn(v *Builder, state multisig.State, id multisig.TxnID) *multisig.Transaction {
-	pending, err := adt.AsMap(v.Stores.ADTStore, state.PendingTxns)
+func loadMultisigTxn(v *MessageVectorBuilder, state multisig.State, id multisig.TxnID) *multisig.Transaction {
+	pending, err := adt.AsMap(v.StateTracker.Stores.ADTStore, state.PendingTxns)
 	v.Assert.NoError(err)
 
 	var actualTxn multisig.Transaction
@@ -298,7 +298,7 @@ func loadMultisigTxn(v *Builder, state multisig.State, id multisig.TxnID) *multi
 	return &actualTxn
 }
 
-func makeProposalHash(v *Builder, txn *multisig.Transaction) []byte {
+func makeProposalHash(v *MessageVectorBuilder, txn *multisig.Transaction) []byte {
 	ret, err := multisig.ComputeProposalHash(txn, blake2b.Sum256)
 	v.Assert.NoError(err)
 	return ret

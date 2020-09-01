@@ -4,7 +4,6 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/abi"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
-	. "github.com/filecoin-project/test-vectors/schema"
 )
 
 var (
@@ -15,32 +14,32 @@ var (
 func main() {
 	g := NewGenerator()
 
-	g.MessageVectorGroup("paych",
-		&MessageVectorGenItem{
+	g.Group("paych",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "create-ok",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: happyPathCreate,
+			MessageFunc: happyPathCreate,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "update-ok",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: happyPathUpdate,
+			MessageFunc: happyPathUpdate,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "collect-ok",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: happyPathCollect,
+			MessageFunc: happyPathCollect,
 		},
 	)
 
-	g.Wait()
+	g.Close()
 }

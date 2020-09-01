@@ -10,8 +10,8 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func callerValidation(branch *big.Int, exitcode exitcode.ExitCode) func(v *Builder) {
-	return func(v *Builder) {
+func callerValidation(branch *big.Int, exitcode exitcode.ExitCode) func(v *MessageVectorBuilder) {
+	return func(v *MessageVectorBuilder) {
 		v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 		alice := v.Actors.Account(address.SECP256K1, abi.NewTokenAmount(1_000_000_000_000))

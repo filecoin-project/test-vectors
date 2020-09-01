@@ -12,7 +12,7 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func createActorInitExecUnparsableParams(v *Builder) {
+func createActorInitExecUnparsableParams(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	// Set up sender and receiver accounts.
@@ -38,7 +38,7 @@ func createActorInitExecUnparsableParams(v *Builder) {
 	v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(big.Zero()))
 }
 
-func createActorCtorUnparsableParamsViaInitExec(v *Builder) {
+func createActorCtorUnparsableParamsViaInitExec(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	// Set up sender and receiver accounts.

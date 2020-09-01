@@ -18,8 +18,8 @@ type basicTransferParams struct {
 	exitCode     exitcode.ExitCode
 }
 
-func basicTransfer(params basicTransferParams) func(v *Builder) {
-	return func(v *Builder) {
+func basicTransfer(params basicTransferParams) func(v *MessageVectorBuilder) {
+	return func(v *MessageVectorBuilder) {
 		v.Messages.SetDefaults(GasLimit(gasLimit), GasPremium(1), GasFeeCap(gasFeeCap))
 
 		// Set up sender and receiver accounts.

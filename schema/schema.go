@@ -5,23 +5,25 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 	"github.com/ipfs/go-cid"
 )
 
-// Class represents the type of test this instance is.
+// Class represents the type of test vector this instance is.
 type Class string
 
 const (
-	// ClassMessage tests the VM transition over a single message
+	// ClassMessage tests the VM behaviour and resulting state over one or
+	// many messages.
 	ClassMessage Class = "message"
-	// ClassBlock tests the VM transition over a block of messages
-	ClassBlock Class = "block"
-	// ClassTipset tests the VM transition on a tipset update
+	// ClassTipset tests the VM behaviour and resulting state over one or many
+	// tipsets and/or null rounds.
 	ClassTipset Class = "tipset"
-	// ClassChain tests the VM transition across a chain segment
-	ClassChain Class = "chain"
+	// ClassBlockSeq tests the state of the system after the arrival of
+	// particular blocks at concrete points in time.
+	ClassBlockSeq Class = "blockseq"
 )
 
 const (
@@ -52,7 +54,7 @@ type Metadata struct {
 	Tags    []string         `json:"tags,omitempty"`
 }
 
-// GenerationData tags the source of this test case
+// GenerationData tags the source of this test case.
 type GenerationData struct {
 	Source  string `json:"source,omitempty"`
 	Version string `json:"version,omitempty"`
@@ -81,8 +83,9 @@ type Receipt struct {
 
 // Postconditions contain a representation of VM state at th end of the test
 type Postconditions struct {
-	StateTree *StateTree `json:"state_tree"`
-	Receipts  []*Receipt `json:"receipts"`
+	StateTree    *StateTree `json:"state_tree"`
+	Receipts     []*Receipt `json:"receipts"`
+	ReceiptsRoot cid.Cid    `json:"receipts_root"`
 }
 
 // MarshalJSON implements json.Marshal for Base64EncodedBytes
@@ -132,10 +135,13 @@ type TestVector struct {
 	// objects.
 	CAR Base64EncodedBytes `json:"car"`
 
-	Pre           *Preconditions  `json:"preconditions"`
-	ApplyMessages []Message       `json:"apply_messages"`
-	Post          *Postconditions `json:"postconditions"`
-	Diagnostics   *Diagnostics    `json:"diagnostics"`
+	Pre *Preconditions `json:"preconditions"`
+
+	ApplyMessages []Message `json:"apply_messages,omitempty"`
+	ApplyTipsets  []Tipset  `json:"apply_tipsets,omitempty"`
+
+	Post        *Postconditions `json:"postconditions"`
+	Diagnostics *Diagnostics    `json:"diagnostics,omitempty"`
 }
 
 type Message struct {
@@ -143,14 +149,28 @@ type Message struct {
 	Epoch *abi.ChainEpoch    `json:"epoch,omitempty"`
 }
 
+type Tipset struct {
+	Epoch   abi.ChainEpoch  `json:"epoch"`
+	BaseFee abi.TokenAmount `json:"basefee"`
+	Blocks  []Block         `json:"blocks,omitempty"`
+}
+
+type Block struct {
+	MinerAddr address.Address      `json:"miner_addr"`
+	WinCount  int64                `json:"win_count"`
+	Messages  []Base64EncodedBytes `json:"messages"`
+}
+
 // Validate validates this test vector against the JSON schema, and applies
 // further validation rules that cannot be enforced through JSON Schema.
 func (tv TestVector) Validate() error {
-	// TODO validate against JSON Schema.
 	if tv.Class == ClassMessage {
 		if len(tv.Post.Receipts) != len(tv.ApplyMessages) {
 			return fmt.Errorf("length of postcondition receipts must match length of messages to apply")
 		}
+	}
+	if tv.Class == ClassTipset {
+
 	}
 	return nil
 }

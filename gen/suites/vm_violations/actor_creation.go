@@ -12,8 +12,8 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func createActor(addressSupplier func(v *Builder) address.Address, actorCid cid.Cid, expected exitcode.ExitCode) func(v *Builder) {
-	return func(v *Builder) {
+func createActor(addressSupplier func(v *MessageVectorBuilder) address.Address, actorCid cid.Cid, expected exitcode.ExitCode) func(v *MessageVectorBuilder) {
+	return func(v *MessageVectorBuilder) {
 		v.Messages.SetDefaults(GasLimit(1e9), GasPremium(1), GasFeeCap(200))
 
 		var alice, bob AddressHandle

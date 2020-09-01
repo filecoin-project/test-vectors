@@ -13,7 +13,7 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func happyPathCreate(v *Builder) {
+func happyPathCreate(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	// Set up sender and receiver accounts.
@@ -38,7 +38,7 @@ func happyPathCreate(v *Builder) {
 
 	// Verify the paych state.
 	var state paych.State
-	actor := v.Actors.ActorState(ret.IDAddress, &state)
+	actor := v.StateTracker.ActorState(ret.IDAddress, &state)
 	v.Assert.Equal(sender.ID, state.From)
 	v.Assert.Equal(receiver.ID, state.To)
 	v.Assert.Equal(toSend, actor.Balance)
@@ -46,7 +46,7 @@ func happyPathCreate(v *Builder) {
 	v.Assert.EveryMessageSenderSatisfies(NonceUpdated())
 }
 
-func happyPathUpdate(v *Builder) {
+func happyPathUpdate(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	var (
@@ -97,9 +97,9 @@ func happyPathUpdate(v *Builder) {
 
 	// Verify the paych state.
 	var state paych.State
-	v.Actors.ActorState(ret.RobustAddress, &state)
+	v.StateTracker.ActorState(ret.RobustAddress, &state)
 
-	arr, err := adt.AsArray(v.Stores.ADTStore, state.LaneStates)
+	arr, err := adt.AsArray(v.StateTracker.Stores.ADTStore, state.LaneStates)
 	v.Assert.NoError(err)
 	v.Assert.EqualValues(1, arr.Length())
 
@@ -114,7 +114,7 @@ func happyPathUpdate(v *Builder) {
 	v.Assert.EveryMessageSenderSatisfies(NonceUpdated())
 }
 
-func happyPathCollect(v *Builder) {
+func happyPathCollect(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	// Set up sender and receiver accounts.

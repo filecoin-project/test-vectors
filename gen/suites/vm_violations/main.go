@@ -9,49 +9,48 @@ import (
 
 	"github.com/filecoin-project/test-vectors/chaos"
 	. "github.com/filecoin-project/test-vectors/gen/builders"
-	. "github.com/filecoin-project/test-vectors/schema"
 )
 
 func main() {
 	g := NewGenerator()
-	defer g.Wait()
+	defer g.Close()
 
-	g.MessageVectorGroup("caller_validation",
-		&MessageVectorGenItem{
+	g.Group("caller_validation",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "none",
 				Version: "v1",
 				Desc:    "verifies that an actor that performs no caller validation fails",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func:     callerValidation(&chaos.CallerValidationBranchNone, exitcode.SysErrorIllegalActor),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: callerValidation(&chaos.CallerValidationBranchNone, exitcode.SysErrorIllegalActor),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "twice",
 				Version: "v1",
 				Desc:    "verifies that an actor that validates the caller twice fails",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func:     callerValidation(&chaos.CallerValidationBranchTwice, exitcode.SysErrorIllegalActor),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: callerValidation(&chaos.CallerValidationBranchTwice, exitcode.SysErrorIllegalActor),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "nil-allowed-address-set",
 				Version: "v1",
 				Desc:    "verifies that an actor that validates against a nil allowed address set fails",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func:     callerValidation(&chaos.CallerValidationBranchAddrNilSet, exitcode.SysErrForbidden),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: callerValidation(&chaos.CallerValidationBranchAddrNilSet, exitcode.SysErrForbidden),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "nil-allowed-type-set",
 				Version: "v1",
 				Desc:    "verifies that an actor that validates against a nil allowed type set fails",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func:     callerValidation(&chaos.CallerValidationBranchTypeNilSet, exitcode.SysErrForbidden),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: callerValidation(&chaos.CallerValidationBranchTypeNilSet, exitcode.SysErrForbidden),
 		},
 	)
 
@@ -65,28 +64,28 @@ func main() {
 	// try to resolve the ID address from the init actor. But we're not
 	// adding a mapping to the init actor here, so that would've failed for a
 	// different reason (red herring).
-	bobAddr := func(v *Builder) address.Address { return v.Actors.Handles()[1].ID }
-	goodAddr := func(v *Builder) address.Address { return MustNextIDAddr(v.Actors.Handles()[1].ID) }
-	undefAddr := func(v *Builder) address.Address { return address.Undef }
+	bobAddr := func(v *MessageVectorBuilder) address.Address { return v.Actors.Handles()[1].ID }
+	goodAddr := func(v *MessageVectorBuilder) address.Address { return MustNextIDAddr(v.Actors.Handles()[1].ID) }
+	undefAddr := func(v *MessageVectorBuilder) address.Address { return address.Undef }
 
-	g.MessageVectorGroup("actor_creation",
-		&MessageVectorGenItem{
+	g.Group("actor_creation",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "control-ok-with-good-address-good-cid",
 				Version: "v1",
 				Desc:    "control test case to verify that correct actor creation messages do indeed succeed",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func:     createActor(goodAddr, builtin.AccountActorCodeID, exitcode.Ok),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: createActor(goodAddr, builtin.AccountActorCodeID, exitcode.Ok),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fails-with-existing-address",
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided an existing address",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func:     createActor(bobAddr, builtin.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: createActor(bobAddr, builtin.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
 		},
 		//
 		// TODO this is commented because it causes an uncontrolled VM error
@@ -94,7 +93,7 @@ func main() {
 		//  failure modes in ModeLenientAssertions. This needs to be fixed
 		//  upstream and then enabled.
 		//
-		// &MessageVectorGenItem{
+		// &VectorDef{
 		// 	Metadata: &Metadata{
 		// 		ID:      "fails-with-undef-addr",
 		// 		Version: "v1",
@@ -103,91 +102,91 @@ func main() {
 		// 	Mode:     ModeLenientAssertions,
 		// 	Hints:    []string{HintIncorrect, HintNegate},
 		// 	Selector: map[string]string{"chaos_actor":"true"},
-		// 	Func:     createActor(undefAddr, builtin.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
+		// 	MessageFunc:     createActor(undefAddr, builtin.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
 		// },
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fails-with-unknown-actor-cid",
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided an unknown actor code CID",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func:     createActor(goodAddr, unknownCid, exitcode.SysErrorIllegalArgument),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: createActor(goodAddr, unknownCid, exitcode.SysErrorIllegalArgument),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fails-with-unknown-actor-cid-undef-addr",
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided an unknown actor code CID and an undef address",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func:     createActor(undefAddr, unknownCid, exitcode.SysErrorIllegalArgument),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: createActor(undefAddr, unknownCid, exitcode.SysErrorIllegalArgument),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fails-with-undef-actor-cid-undef-addr",
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided an undef actor code CID and an undef address",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func:     createActor(undefAddr, cid.Undef, exitcode.SysErrorIllegalArgument),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: createActor(undefAddr, cid.Undef, exitcode.SysErrorIllegalArgument),
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fails-with-good-addr-undef-cid",
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided a valid address, but an undef CID",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func:     createActor(goodAddr, cid.Undef, exitcode.SysErrorIllegalArgument),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: createActor(goodAddr, cid.Undef, exitcode.SysErrorIllegalArgument),
 		},
 	)
 
-	g.MessageVectorGroup("address_resolution",
-		&MessageVectorGenItem{
+	g.Group("address_resolution",
+		&VectorDef{
 			Metadata: &Metadata{
-				ID: "resolve-address-id-identity",
+				ID:      "resolve-address-id-identity",
 				Version: "v1",
-				Desc: "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
+				Desc:    "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionIDIdentity,
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: actorResolutionIDIdentity,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
-				ID: "resolve-address-bad-id-identity",
+				ID:      "resolve-address-bad-id-identity",
 				Version: "v1",
-				Desc: "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
+				Desc:    "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionInvalidIdentity,
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: actorResolutionInvalidIdentity,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
-				ID: "resolve-address-nonexistant",
+				ID:      "resolve-address-nonexistant",
 				Version: "v1",
-				Desc: "verifies that runtime.ResolveAddress on non-existant addresses are undefined",
+				Desc:    "verifies that runtime.ResolveAddress on non-existant addresses are undefined",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionNonexistant,
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: actorResolutionNonexistant,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
-				ID: "resolve-address-bls-lookup",
+				ID:      "resolve-address-bls-lookup",
 				Version: "v1",
-				Desc: "verifies that runtime.ResolveAddress on known addresses are resolved",
+				Desc:    "verifies that runtime.ResolveAddress on known addresses are resolved",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionBlsExistant,
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: actorResolutionBlsExistant,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
-				ID: "resolve-address-secp-lookup",
+				ID:      "resolve-address-secp-lookup",
 				Version: "v1",
-				Desc: "verifies that runtime.ResolveAddress on known addresses are resolved",
+				Desc:    "verifies that runtime.ResolveAddress on known addresses are resolved",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Func: actorResolutionSecpExistant,
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: actorResolutionSecpExistant,
 		},
 	)
 }

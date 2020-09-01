@@ -2,127 +2,126 @@ package main
 
 import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
-	. "github.com/filecoin-project/test-vectors/schema"
 )
 
 func main() {
 	g := NewGenerator()
 
-	g.MessageVectorGroup("nested_sends",
-		&MessageVectorGenItem{
+	g.Group("nested_sends",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "ok-basic",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_OkBasic,
+			MessageFunc: nestedSends_OkBasic,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "ok-to-new-actor",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_OkToNewActor,
+			MessageFunc: nestedSends_OkToNewActor,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "ok-to-new-actor-with-invoke",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_OkToNewActorWithInvoke,
+			MessageFunc: nestedSends_OkToNewActorWithInvoke,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "ok-recursive",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_OkRecursive,
+			MessageFunc: nestedSends_OkRecursive,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "ok-non-cbor-params-with-transfer",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_OKNonCBORParamsWithTransfer,
+			MessageFunc: nestedSends_OKNonCBORParamsWithTransfer,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-non-existent-id-address",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_FailNonexistentIDAddress,
+			MessageFunc: nestedSends_FailNonexistentIDAddress,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-non-existent-actor-address",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_FailNonexistentActorAddress,
+			MessageFunc: nestedSends_FailNonexistentActorAddress,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-invalid-method-num-new-actor",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_FailInvalidMethodNumNewActor,
+			MessageFunc: nestedSends_FailInvalidMethodNumNewActor,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-invalid-method-num-for-actor",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_FailInvalidMethodNumForActor,
+			MessageFunc: nestedSends_FailInvalidMethodNumForActor,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-missing-params",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_FailMissingParams,
+			MessageFunc: nestedSends_FailMissingParams,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-mismatch-params",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_FailMismatchParams,
+			MessageFunc: nestedSends_FailMismatchParams,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-inner-abort",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_FailInnerAbort,
+			MessageFunc: nestedSends_FailInnerAbort,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-aborted-exec",
 				Version: "v1",
 				Desc:    "",
 			},
-			Func: nestedSends_FailAbortedExec,
+			MessageFunc: nestedSends_FailAbortedExec,
 		},
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-insufficient-funds-for-transfer-in-inner-send",
 				Version: "v1",
 				Desc:    "",
 			},
-			Selector: map[string]string{"puppet_actor": "true"},
-			Func:     nestedSends_FailInsufficientFundsForTransferInInnerSend,
+			Selector:    map[string]string{"puppet_actor": "true"},
+			MessageFunc: nestedSends_FailInsufficientFundsForTransferInInnerSend,
 		},
 	)
 
-	g.Wait()
+	g.Close()
 }

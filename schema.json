@@ -53,6 +53,18 @@
         }
       }
     },
+    "cid": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "/"
+      ],
+      "properties": {
+        "/": {
+          "type": "string"
+        }
+      }
+    },
     "gen_data": {
       "title": "generation metadata entry",
       "description": "",
@@ -81,16 +93,7 @@
       ],
       "properties": {
         "root_cid": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "/"
-          ],
-          "properties": {
-            "/": {
-              "type": "string"
-            }
-          }
+          "$ref": "#/definitions/cid"
         }
       }
     },
@@ -146,6 +149,9 @@
           "items": {
             "$ref": "#/definitions/receipt"
           }
+        },
+        "receipts_root": {
+          "$ref": "#/definitions/cid"
         }
       }
     },
@@ -167,25 +173,72 @@
       }
     },
     "apply_messages": {
-      "title": "messages to apply, along with the receipt to expect for each",
+      "title": "messages to apply",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/apply_message"
+        "type": "object",
+        "required": [
+          "bytes",
+          "epoch"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "$ref": "#/definitions/base64"
+          },
+          "epoch": {
+            "type": "integer"
+          }
+        }
       }
     },
-    "apply_message": {
+    "apply_tipsets": {
+      "title": "tipsets to apply",
       "type": "object",
-      "required": [
-        "bytes",
-        "epoch"
-      ],
+      "required": ["epoch", "basefee", "blocks"],
       "additionalProperties": false,
       "properties": {
-        "bytes": {
-          "$ref": "#/definitions/base64"
-        },
         "epoch": {
-          "type": "integer"
+          "type": "number"
+        },
+        "basefee": {
+          "description": "this is a big.Int; a JSON string to circumvent the number-type drama",
+          "type": "string"
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["miner_addr", "win_count", "messages"],
+            "properties": {
+              "miner_addr": {
+                "type": "string"
+              },
+              "win_count": {
+                "type": "number"
+              },
+              "messages": {
+                "$ref": "#/definitions/base64"
+              }
+            }
+          }
+        }
+      },
+      "items": {
+        "type": "object",
+        "required": [
+          "bytes",
+          "epoch"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "$ref": "#/definitions/base64"
+          },
+          "epoch": {
+            "type": "integer"
+          }
         }
       }
     }
@@ -200,9 +253,8 @@
       "type": "string",
       "enum": [
         "message",
-        "block",
         "tipset",
-        "chain"
+        "blockseq"
       ]
     },
     "selector": {
@@ -266,6 +318,25 @@
         "properties": {
           "apply_messages": {
             "$ref": "#/definitions/apply_messages"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class": {
+            "const": "tipset"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "apply_tipsets"
+        ],
+        "properties": {
+          "apply_messages": {
+            "$ref": "#/definitions/apply_tipsets"
           }
         }
       }
