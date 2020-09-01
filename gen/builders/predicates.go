@@ -31,7 +31,7 @@ func ExitCode(expect exitcode.ExitCode) ApplyRetPredicate {
 		if ret.ExitCode == expect {
 			return nil
 		}
-		return fmt.Errorf("message exit code was %d; expected %d", ret.ExitCode, expect)
+		return fmt.Errorf("message exit code was %s; expected %s", ret.ExitCode, expect)
 	}
 }
 
