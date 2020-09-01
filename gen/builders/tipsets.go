@@ -87,7 +87,7 @@ func (ts *Tipset) Block(miner Miner, winCount int64, msgs ...*ApplicableMessage)
 		WinCount:  winCount,
 	}
 	for _, am := range msgs {
-		block.Messages = append(block.Messages, schema.Message{Bytes: MustSerialize(am.Message)})
+		block.Messages = append(block.Messages, MustSerialize(am.Message))
 		ts.tss.msgIdx[am.Message.Cid()] = am
 	}
 

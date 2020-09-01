@@ -156,9 +156,9 @@ type Tipset struct {
 }
 
 type Block struct {
-	MinerAddr address.Address `json:"miner_addr"`
-	WinCount  int64           `json:"win_count"`
-	Messages  []Message       `json:"messages"`
+	MinerAddr address.Address      `json:"miner_addr"`
+	WinCount  int64                `json:"win_count"`
+	Messages  []Base64EncodedBytes `json:"messages"`
 }
 
 // Validate validates this test vector against the JSON schema, and applies
