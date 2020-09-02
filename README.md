@@ -243,7 +243,7 @@ $ make upgen
 $ make regen
 ```
 
-## Special test harness actors
+## Special test harness actor
 
 > 💡 Remember that an Actor in Filecoin is the equivalent of a "smart contract"
 > in other blockchains. Currently, Filecoin does not support user-programmable
@@ -255,19 +255,20 @@ $ make regen
 
 In order to test VM correctness, some vectors exercise situations that should
 not be seen in properly implemented actor code. To induce those situations,
-those vectors rely on two special test harness actors that sit "on the inside"
-and trigger those situations when specific messages are sent to it.
+those vectors rely on a special test harness actor that sits "on the inside"
+and triggers those situations when specific messages are sent to it.
 
- * **Chaos Actor (address `t97`):** exercises behaviours that should be regarded
-   as illegal by the VM. Its ABI spec is part of this testing spec, and it's
-   currently being heavily developed.
-     * Test vectors requiring the **Chaos actor** carry the `chaos_actor:true`
-       selector. 
-     * Refer to the implementation under the [`chaos` package](./chaos).
-     * Once stable, we will document this actor in a spec.
+The **Chaos Actor (address `t97`):** exercises behaviours that should be
+regarded as illegal by the VM. Its ABI spec is part of this testing spec, and
+it's currently being heavily developed.
+
+* Test vectors requiring the **Chaos Actor** carry the `chaos_actor:true`
+  selector.
+* Refer to the implementation under the [`chaos` package](./chaos).
+* Once stable, we will document this actor in a spec.
    
-To benefit from maximum testing coverage, implementations should implement these
-actors and make their test drivers deploy them in the test VM. The Chaos actor
+To benefit from maximum testing coverage, implementations should implement this
+actor and make their test drivers deploy them in the test VM. The Chaos actor
 should only be deployed when the cited selector is present.
 
 ## Broken/incorrect vectors
