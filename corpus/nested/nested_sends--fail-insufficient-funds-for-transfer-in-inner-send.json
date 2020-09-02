@@ -1,7 +1,7 @@
 {
 	"class": "message",
 	"selector": {
-		"puppet_actor": "true"
+		"chaos_actor": "true"
 	},
 	"_meta": {
 		"id": "fail-insufficient-funds-for-transfer-in-inner-send",
@@ -9,11 +9,11 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "610e3f1b1084e1ded8f10b20c11b21463a5f861d"
+				"version": "afa91b36e42ae5234e36f3d7476b6010e2e0e428"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
-				"version": "v0.4.3-0.20200819134055-b13681df3205"
+				"version": "v0.5.8-0.20200902130912-0962292f920e"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors",
@@ -21,25 +21,25 @@
 			}
 		]
 	},
-	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmBdfcGadyt08/sD5jbe5Ulf6vp97ekdhv/olL5qLrqvbrdruQlEqsmsl5fH7c8rm+Czn3K7GFnnoSmSQcLi4uKsRt0j7vTHJ6WWpRcWZ+HmMTO3FmN7m0+PArdC1MNGxscmJIbbmhFcTAGMrAm5aZo2+on5icnF+aV4LkgF/mYXetn8euWzCr+PMhz0MfJpkfLzr2dO7MrGUr1q2RPWzE4AA1iq3lhlaENMgsMYhZZalFmWmZqSlFqemZxSVFlUiGctxM2lIsIVT0ZdoRLVG3v4KnVj+z3L93n+2p8xOst65uOwA3lKXlhlY4yEwhiJnFJflFiempBfnlqUVI5nFrtU2pPbsr/9DCdQqv1velHNwi/3Cq4PGUy+/P264682033LyklhtagSDzeCDmFZQWFKQie1dMoiq+5rjjj6sVW7u+99XONevUbso70x5wJWr29b93cgzBJjU1OTEwt9zQ8geZxAUxKbkoPw/JnLknYv+9Yl1UaLncy0dwRXPq8iZN2bLyXW+MKuS3C988xs3g0OTEkEww9O+7lhzbvHBn1ok9G6ZsmV4zWbO3IufC+1+bLj1fcl26fAYX3GMMaB4rriwuSc1FTnMbzh9SOPcmukYm6cgVSVuLJ6+X9HWIFs15Hj+Ha8OTg4ggZwXFowTIKGGUMM9NLMpGCSoOjttVF3bPWDHLnusvi5fHPs+W+mlG7rYhar9EVB1udWjDTWREC6rMvExkc2bt2zVtV8aHU6GzfJfrPNAVlary7fv94r5Xwa0pz9y3/+WGm5NCMLjOqB4rWZEX+sQ21fsVE8PWWll/82gRISPHZXyx5UtXvWVmcGN4cWWpAAPUQCa0QCtKLU8sSkE2b8IbB20fuy13N8bIzAqc483alH7cegbzBR4LvlbeLYe1GHwZ2MpiKu0XMlReYGBgkMNwGwrHlrgc1RjKeP9vqN/NJXqnd33TeZj/j//396BJXw1w5yzsog2MxGW2ZieGAOQS51/WmcTFi7N5zG28rPqWeTdqfzo1O6ghYMKciiscoV08JCjVJE5Zk0ODBvYsjimyl5G4HD/BAQqaIiQYmO7kMGAB4QzMB7CJMzCQ4EcGBRIUf5NBL3qQ2RrEFUGNDRKoxQ6CpUtc4dMILlpZtYgrYxqdGJJl0EsWZLY6cSVMgxaOMgWL0Dom4sqYbqTAf5rabStxlu3h7QmiWza8CT2ovMg3+uErlRuWFkd3WFb765OnlIrZgZRURYpaBwcHPeL81czA0OzI0ICcgECFMYKVSlyR3IzkvHcSa/1kXy6Lv5lp5VIz7Z3GxNqF4cuj7mVndp6UndeXHymRVpCckZiZp1uWmJOZkliSmZ+XRpzOJmeFBoYmcFkdypj5wtjTZ6Js1j/9h7aKcT4x39mTQiVSoJLYykuJVFviKoVG7IbLoNcLyOw64uqHTgcHBk8GAWip4snAmOxaEdvFwNAUIcXA+N178azKextc0QufMEbJaVnbddGFPRn4/0MAg0MHO3Gtw9HG3rBq7LkxiHuUvWAYbfKR0ORjdGO4GDA5jgZNviruWacYAAAAAP//AQAA///M/h/s3w0AAA==",
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhTm8XOZvjd41HPs5q/LaQwmxswE3qxevzaw0mcqVnqu58i2S0lVt0VszfS4/v9WScerpuS/fiw/89s9V1ZisHntg8uedXY3pZalFxZn5eYyN7MSZ3eTS4sOt2LUw0bCxyYkhseWGVgADYygDd1pmjr6hfnJGYn4xkvViElXxNccdf1yt2Nr1va92rlmndlPemfaAK1Gzr/+9k2PI4AA1KLXlhlYQyCBeiEGJycn5pXklSEb9Mg+7a/08dt2CWcWfD3ke+jDJ/HjRsadzZ2YtW7FujexhI7hRbC03tCKkQWaJQcwqSy3KTMtMTSlKTc8sLimqRDKU42bSlmIJoaIv045oibr9FTy1+pnl/r37bE+dn2C9dXXbAbihLC03tMJBZgpBzCwuyS9KTE8tyC9PLUIyj1urbUrt2V35hxauU3i1vi/l4Bb5h1MFj6dcfn/edtWZb7vB5jU1OTEwt9zQ8geZxwUNuKL8PCRz5p6I/feKdVGh5XIvH8EVzanLmzRly8p3vTGqkN8ufPMYN4NDkxNDMsEwu+9acmzzwp1ZJ/ZsmLJles1kzd6KnAvvf2269HzJdenyGVxw7zG03NAKBBnFA/VeZXFJai6SSa4bzh9SOPcmukYm6cgVSVuLJ6+X9HWIFs15Hj+Ha8OTg4iAYgWFvgTIKGGUkMpNLMpORXYbB8ftqgu7Z6yYZc/1l8XLY59nS/00I3fbELVfIqoOtzq04SYyogVVZl4msjmz9u2ativjw6nQWb7LdR7oikpV+fb9fnHfq+DWlGfu2/9yw81JIRhcZ1SPlazIC31im+r9iolha62sv3m0iJCR4zK+2PKlq94yM7gxvLiyVIABaiATWqAVpZYnFqUgmzfhjYO2j92WuxtjZGYFzvFmbUo/bj2D+QKPBV8r75bDWgy+DGxlMZX2CxkqLzAwMEih5SMkpgZx2amxQQ7DfygcW+LyUmMo4/2/oX43l+id3vVN52H+P/7f34MmfTXAnaewizYwEpfNmp0YApDCTeJf1pnExYuzecxtvKz6lnk3an86NTuoIWDCnIorHKFdPCQo1SROWZNDgwb2zI0pspeRuLw+wQEKmiIkGJju5DBgAeEMzAewiTMwkOBHBgUSFH+TQC10ECxd4oqeRnBxyKpFXAnT6MSQLINeriCz1YkrXxq0cJQoWITWMRFXwnQjBdvT1G5bibNsD29PEN2y4U3oQeVFvtEPX6ncsLQ4usOy2l+fPKVUTMikpAdS1Do4OOgR569mBoZmR4aGBgnUohjBSiWuQG5Gct47ibV+si+Xxd/MtHKpmfZOY2LtwvDlUfeyMztPys7ry4+USCtIzkjMzNMtS8zJTEksyczPSyNOZ5OzQgNDE7ikDmXMfGHs6TNRNuuf/kNbxTifmO/sSaESKVBJbCWdRKotcVVCI3bDZdBrBWR2HXG1Q6eDA4MngwC0PPBkYEx2rYjtYmBoipBiYPzuvXhW5b0NrujFRhij5LSs7browp4M/P8hgMGhnZ24puFoS284tfTcGMQ9yl4wjLb3SGjvMboxXAyYHEeD9l4V96xTDAAAAAD//wEAAP//VlhvNtsNAAA=",
 	"preconditions": {
 		"epoch": 0,
 		"state_tree": {
 			"root_cid": {
-				"/": "bafy2bzacebcw3ggknw3zpqfpncww3fjer724v3o4dc7tp4qkdtiulkuh247lu"
+				"/": "bafy2bzacecoa2crx5uzo5agg7gnhtvxbdalm2ugzpor222lzgskquz3nfgu62"
 			}
 		}
 	},
 	"apply_messages": [
 		{
-			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABAkmEQgBlQgABAEA=",
+			"bytes": "igBCAGFCAGQAQBo7msoAQgDIQgABBkmEQgBlQgABAEA=",
 			"epoch": 0
 		}
 	],
 	"postconditions": {
 		"state_tree": {
 			"root_cid": {
-				"/": "bafy2bzaceamkvgijy6pv5j45jwqqtpzcazk4vzczmijvofyxcujawneht3ggg"
+				"/": "bafy2bzacecvimw5vnfgnhz62qrumvzoo6t3xhqh3j5wskkete5o4be7txgfic"
 			}
 		},
 		"receipts": [
@@ -52,6 +52,6 @@
 	},
 	"diagnostics": {
 		"format": "Lotus-ExecutionTrace-V1",
-		"data": "SDRzSUFBQUFBQUFBLzhTVFFXL2FNQnpGdjByMFRxdGtUUTZoR2JPMFEwWUJJWld1WTJzUHF6aDR5WjhrV3JBbjIyRklpTzgrSlFhVkxrT2ptcXI2WXNkMjN0L1BmcitITFdZMmg5amlub3d0dFlMZ0RGODFCQngvUHdERDJPaFYreFZ5RG9ZYnJWSnFOOTNMcWlZSU5MTVRhYS9MVmVrZ1FuNW83ZXlZYUNoL1FxREg5L3R1RGEzS3VwRU13VEFqVitnTW9zZHdLNDFjV1FnVW8ybnk3VzZhSko4L0p0aXg1b0R6MURWbkhHMUtOOVNacno4blZ4c0ZnZnhITXZIYWQ1WXlpS2ovTHV6MWR3d2pZN1NCQUJpdWFpUGR3ZDVFMm1FaFRVNFc0bUdMRzdscWZIeFN3MEtXYWtiV3lwekFVT2tVUXRWVnhlRHl4bGs4aUNPR05JZUlCdTJ3dWJsNHdMQnUxam5ET3QzMzF2Zk9RZkFkT3lveElaZWtUcHV1UFBmSzNLdnk1NGo2UzV5cXRVNjl5WTU0THhwY3hyN0FmbmhPRVFiYVFLREVrMnJ0K1VjYlNsL1V3NVZXZjNtRC95alFQcTdQakU5dVJ6eHFRM3VrSC8xTGY4SHdwZjZleXFyeVNUcU5Vc2pEWTVaYXNyb29oV2VoMUFHSkg0SEVIMEZxbkozQUozN0V4L3MvRGM5U2xoVmxnZE9CTTFMWkpabGdXYXZNQm0vbTFLcDlpQy9FMFpyZi9xc2dGV1NVMWFrclZYNzRnNy9sZjdZd0dFK3ZMMFNndEF0STZUb3Z1dkxuOHZ0YWNJVnhuMS91NmRxUG40R1h3OHVEOENTb2JTNFd1OFh2QUFBQS8vOVFTa01rL0FVQQ=="
+		"data": "SDRzSUFBQUFBQUFBLzhTVFFXL2FNQnpGdjByMFRxdGtUUTZoS2JPMFEwWUJJWld1WTJzUHF6aDR5WjhrV3JBbjIyRklpTzgrSlFhVkxrT2ptcXI1WXNkMjN0L1Bmci9ITFdZMmg5amlnWXd0dFlMZ0RGODBCQngvZHdXR3NkR3I5aXZrSEF5M1dxWFVibnFRVlUwUWFHWW4wdDZVcTlKQmhQelEydGt4MFZEK2dFQ1A3L2ZkR1ZxVmRTTVpnbUZHcnRBWlJNeHdKNDFjV1FnVW8ybnk5WDZhSko4K0pOaXg1b0R6MURWbkhHMUtOOVNacno4blZ4c0ZnZng3TXZIYTk1WXlpS2gvRmZiNk80YVJNZHBBQUF6WHRaSHVZRzhpN2JDUUppY0w4YmpGclZ3MVBqNnFZU0ZMTlNOclpVNWdxSFFLb2VxcVluQjU0eXdleEJGRG1rTkVnM2JZM0Z3OFlGZzM2NXhobmU1NzYzdm5JUGlPSFpXWWtFdFNwMDFYbm50bDdsWDVTMFQ5SlU3VldxZmVaRWU4RncwdVkxOWdQenluQ0FOdElGRGlXYlgyL0tNTnBhL3E0VnFyUDd6QlB4Um9IOWRueGllM0l4NjFvVDNTai82bXYyRDRYSDlMWlZYNUpKMUdLZVRoTVVzdFdWMlV3ck5RNm9ERWowRGlUeUExems3Z0V6L2g0LzJmaG1jcHk0cXl3T25BR2Fuc2treXdyRlZtZ3pkemF0WGV4eGZpYU0xdi8xbVFDakxLNnRTVktqLzh3ZC95MzFzWWpLYzNGeUpRMmdXa2RKMFhYZmx6K2YxZmNJVnhuMS91NmRxUFg0Q1h3K3VEOEN5b2JTNFd1OFd2QUFBQS8vL0lDYjA2L0FVQQ=="
 	}
 }
