@@ -115,7 +115,8 @@ func (a *Asserter) ActorMissing(addr address.Address) {
 // LastMessageResultSatisfies verifies that the last applied message result
 // satisfies the provided predicate.
 func (a *Asserter) LastMessageResultSatisfies(predicate ApplyRetPredicate) {
-	except := a.b.Messages.messages[0 : len(a.b.Messages.messages)-1]
+	msgs := a.suppliers.messages()
+	except := msgs[0 : len(msgs)-1]
 	a.EveryMessageResultSatisfies(predicate, except...)
 }
 
