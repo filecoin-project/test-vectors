@@ -258,7 +258,7 @@ not be seen in properly implemented actor code. To induce those situations,
 those vectors rely on a special test harness actor that sits "on the inside"
 and triggers those situations when specific messages are sent to it.
 
-The **Chaos Actor (address `t97`):** exercises behaviours that should be
+The **Chaos Actor (address `t97`)** exercises behaviours that should be
 regarded as illegal by the VM. Its ABI spec is part of this testing spec, and
 it's currently being heavily developed.
 
