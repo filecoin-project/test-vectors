@@ -16,12 +16,12 @@ var ChaosActorCodeCID = func() cid.Cid {
 	return c
 }()
 
-// Address is the singleton address of this actor. It is value 97
-// (builtin.FirstNonSingletonActorId - 3), as 99 is reserved for the burnt funds
-// singleton, and 98 is the puppet actor.
+// Address is the singleton address of this actor. It's value is 98
+// (builtin.FirstNonSingletonActorId - 2), as 99 is reserved for the burnt funds
+// singleton.
 var Address = func() address.Address {
-	// the address before the burnt funds address (99) and the puppet actor (98)
-	addr, err := address.NewIDAddress(97)
+	// the address before the burnt funds address (99)
+	addr, err := address.NewIDAddress(98)
 	if err != nil {
 		panic(err)
 	}
