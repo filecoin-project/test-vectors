@@ -36,6 +36,7 @@ func main() {
 			MessageFunc: deleteActorWithBeneficiary(big.NewInt(50), address.Undef, exitcode.Ok),
 		},
 		// TODO: uncomment when merged https://github.com/filecoin-project/lotus/pull/3479
+		// It is not marked with HintInvalid because it panics entirely.
 		// &VectorDef{
 		// 	Metadata: &Metadata{
 		// 		ID:      "fail-delete-w-balance-and-unkown-beneficiary",
