@@ -35,15 +35,15 @@ func main() {
 			Selector:    schema.Selector{"chaos_actor": "true"},
 			MessageFunc: deleteActorWithBeneficiary(big.NewInt(50), address.Undef, exitcode.Ok),
 		},
-		// FIXME: this currently panics
+		// TODO: uncomment when merged https://github.com/filecoin-project/lotus/pull/3479
 		// &VectorDef{
 		// 	Metadata: &Metadata{
 		// 		ID:      "fail-delete-w-balance-and-unkown-beneficiary",
 		// 		Version: "v1",
 		// 		Desc:    "fails when actor with non-zero balance is deleted but beneficiary address is unknown",
 		// 	},
-		// 	Selector: Selector{"chaos_actor": "true"},
-		// 	MessageFunc:     deleteActorWithBeneficiary(big.NewInt(50), MustNewSECP256K1Addr("!👹*_👹!"), exitcode.SysErrorIllegalActor),
+		// 	Selector:    schema.Selector{"chaos_actor": "true"},
+		// 	MessageFunc: deleteActorWithBeneficiary(big.NewInt(50), MustNewSECP256K1Addr("!👹*_👹!"), exitcode.SysErrorIllegalActor),
 		// },
 		&VectorDef{
 			Metadata: &Metadata{
