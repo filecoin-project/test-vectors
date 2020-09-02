@@ -7,62 +7,63 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 	"github.com/filecoin-project/test-vectors/chaos"
 	. "github.com/filecoin-project/test-vectors/gen/builders"
-	. "github.com/filecoin-project/test-vectors/schema"
+	"github.com/filecoin-project/test-vectors/schema"
 )
 
 func main() {
 	g := NewGenerator()
-	defer g.Wait()
 
-	g.MessageVectorGroup("no_beneficiary",
-		&MessageVectorGenItem{
+	g.Group("no_beneficiary",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "delete-w-zero-balance",
 				Version: "v1",
 				Desc:    "actor with zero balance is deleted, does not require beneficiary",
 			},
-			Selector: Selector{"chaos_actor": "true"},
-			Func:     deleteActor,
+			Selector:    schema.Selector{"chaos_actor": "true"},
+			MessageFunc: deleteActor,
 		},
 	)
 
-	g.MessageVectorGroup("beneficiary",
-		&MessageVectorGenItem{
+	g.Group("beneficiary",
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "delete-w-balance-and-beneficiary",
 				Version: "v1",
 				Desc:    "actor with non-zero balance is deleted and sends funds to beneficiary",
 			},
-			Selector: Selector{"chaos_actor": "true"},
-			Func:     deleteActorWithBeneficiary(big.NewInt(50), address.Undef, exitcode.Ok),
+			Selector:    schema.Selector{"chaos_actor": "true"},
+			MessageFunc: deleteActorWithBeneficiary(big.NewInt(50), address.Undef, exitcode.Ok),
 		},
 		// FIXME: this currently panics
-		// &MessageVectorGenItem{
+		// &VectorDef{
 		// 	Metadata: &Metadata{
 		// 		ID:      "fail-delete-w-balance-and-unkown-beneficiary",
 		// 		Version: "v1",
 		// 		Desc:    "fails when actor with non-zero balance is deleted but beneficiary address is unknown",
 		// 	},
 		// 	Selector: Selector{"chaos_actor": "true"},
-		// 	Func:     deleteActorWithBeneficiary(big.NewInt(50), MustNewSECP256K1Addr("!👹*_👹!"), exitcode.SysErrorIllegalActor),
+		// 	MessageFunc:     deleteActorWithBeneficiary(big.NewInt(50), MustNewSECP256K1Addr("!👹*_👹!"), exitcode.SysErrorIllegalActor),
 		// },
-		&MessageVectorGenItem{
+		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-delete-w-balance-and-self-beneficiary",
 				Version: "v1",
 				Desc:    "fails when actor with non-zero balance is deleted but beneficiary is the calling actor",
-				Comment: "should abort if the beneficiary is the calling actor, see https://github.com/filecoin-project/specs-actors/blob/bcd83e8eb0a98b684851e574a2bd8d4130e21a51/actors/runtime/runtime.go#L117",
+				Comment: "should abort with SysErrorIllegalArgument if the beneficiary is the calling actor, will be fixed in https://github.com/filecoin-project/lotus/pull/3478",
 			},
-			Selector: Selector{"chaos_actor": "true"},
-			Hints:    []string{HintIncorrect, HintNegate},
-			Func:     deleteActorWithBeneficiary(big.NewInt(50), chaos.Address, exitcode.Ok),
+			Selector:    schema.Selector{"chaos_actor": "true"},
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
+			MessageFunc: deleteActorWithBeneficiary(big.NewInt(50), chaos.Address, exitcode.Ok),
 		},
 	)
+
+	g.Close()
 }
 
 // deleteActor builds a test vector that tests the simple case of deleting an
 // actor with zero balance.
-func deleteActor(v *Builder) {
+func deleteActor(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 	sender := v.Actors.Account(address.SECP256K1, big.NewInt(1_000_000_000_000_000))
@@ -88,8 +89,8 @@ func deleteActor(v *Builder) {
 // deleteActorWithBeneficiary builds a test vector that tests deleting an actor
 // and transfering their funds to another actor. Use address.Undef to have a
 // beneficiary created automatically. actorFunds MUST be greater than zero.
-func deleteActorWithBeneficiary(actorFunds big.Int, beneficiaryAddr address.Address, code exitcode.ExitCode) func(v *Builder) {
-	return func(v *Builder) {
+func deleteActorWithBeneficiary(actorFunds big.Int, beneficiaryAddr address.Address, code exitcode.ExitCode) func(v *MessageVectorBuilder) {
+	return func(v *MessageVectorBuilder) {
 		v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
 		sender := v.Actors.Account(address.SECP256K1, big.Add(big.NewInt(1_000_000_000_000_000), actorFunds))
@@ -112,7 +113,7 @@ func deleteActorWithBeneficiary(actorFunds big.Int, beneficiaryAddr address.Addr
 		// were transferred to the beneficiary
 		var bal big.Int
 		if code == exitcode.Ok {
-			bal = v.Actors.Balance(beneficiaryAddr)
+			bal = v.StateTracker.Balance(beneficiaryAddr)
 		}
 
 		v.Messages.Raw(
