@@ -89,7 +89,7 @@ func deleteActor(v *MessageVectorBuilder) {
 // deleteActorWithBeneficiary builds a test vector that tests deleting an actor
 // and transfering their funds to another actor. Use address.Undef to have a
 // beneficiary created automatically. actorFunds MUST be greater than zero.
-func deleteActorWithBeneficiary(actorFunds big.Int, beneficiaryAddr address.Address, code exitcode.ExitCode) func(v *MessageVectorBuilder) {
+func deleteActorWithBeneficiary(actorFunds big.Int, beneficiaryAddr address.Address, expectedCode exitcode.ExitCode) func(v *MessageVectorBuilder) {
 	return func(v *MessageVectorBuilder) {
 		v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
@@ -112,7 +112,7 @@ func deleteActorWithBeneficiary(actorFunds big.Int, beneficiaryAddr address.Addr
 		// if this is will succeed, record the current balance so we can check funds
 		// were transferred to the beneficiary
 		var bal big.Int
-		if code == exitcode.Ok {
+		if expectedCode == exitcode.Ok {
 			bal = v.StateTracker.Balance(beneficiaryAddr)
 		}
 
@@ -126,10 +126,10 @@ func deleteActorWithBeneficiary(actorFunds big.Int, beneficiaryAddr address.Addr
 		)
 		v.CommitApplies()
 
-		v.Assert.LastMessageResultSatisfies(ExitCode(code))
+		v.Assert.LastMessageResultSatisfies(ExitCode(expectedCode))
 
 		// check beneficiary received funds if it succeeded
-		if code == exitcode.Ok && beneficiaryAddr != chaos.Address {
+		if expectedCode == exitcode.Ok && beneficiaryAddr != chaos.Address {
 			v.Assert.ActorMissing(chaos.Address)
 			v.Assert.BalanceEq(beneficiaryAddr, big.Add(bal, actorFunds))
 		}
