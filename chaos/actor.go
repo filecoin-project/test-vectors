@@ -45,7 +45,7 @@ const (
 	MethodDeleteActor
 )
 
-// Exports defines the methods this actor exposes publically.
+// Exports defines the methods this actor exposes publicly.
 func (a Actor) Exports() []interface{} {
 	return []interface{}{
 		builtin.MethodConstructor: a.Constructor,
