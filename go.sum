@@ -260,6 +260,8 @@ github.com/filecoin-project/lotus v0.4.3-0.20200820203717-d1718369a182/go.mod h1
 github.com/filecoin-project/lotus v0.5.8-0.20200901143519-64bdd620acf1/go.mod h1:JeT2ti5ArW4B69k1FMMFV1rj00wX4ooHMX6zS5MgY+w=
 github.com/filecoin-project/lotus v0.5.8-0.20200901153315-fa4000663a61 h1:+pL/NjEj8UCsxyLcIJ6zEqW9Jhye0Dd76qz2qlNsLEw=
 github.com/filecoin-project/lotus v0.5.8-0.20200901153315-fa4000663a61/go.mod h1:gs5PdzCNGg5vhLMFh3VnUnyvCYXCKJH6Rw2k/PVz1uU=
+github.com/filecoin-project/lotus v0.5.8-0.20200902130912-0962292f920e h1:ZHH2ByhZcNRoGlTP6GX9EZTdrfh2LVH4doGuW+mxoUw=
+github.com/filecoin-project/lotus v0.5.8-0.20200902130912-0962292f920e/go.mod h1:OkZ5aUqs+fFnJOq9243WJDsTa9c3/Ae67NIAwVhAB+0=
 github.com/filecoin-project/sector-storage v0.0.0-20200712023225-1d67dcfa3c15/go.mod h1:salgVdX7qeXFo/xaiEQE29J4pPkjn71T0kt0n+VDBzo=
 github.com/filecoin-project/sector-storage v0.0.0-20200730050024-3ee28c3b6d9a h1:oDYwbXXcbMYrQX1CgYd2Zwb4ocghYw1zBctvCTW1RoE=
 github.com/filecoin-project/sector-storage v0.0.0-20200730050024-3ee28c3b6d9a/go.mod h1:oOawOl9Yk+qeytLzzIryjI8iRbqo+qzS6EEeElP4PWA=
@@ -285,6 +287,7 @@ github.com/filecoin-project/storage-fsm v0.0.0-20200805013058-9d9ea4e6331f/go.mo
 github.com/filecoin-project/test-vectors v0.0.0-20200819133914-e20cc29cc926/go.mod h1:ou1Im2BTyrYTnXX8yj5VvC+DTfbIrwESJjKDxbh31nA=
 github.com/filecoin-project/test-vectors v0.0.0-20200826113833-9ffe6524729d/go.mod h1:hY/JN3OFRtykBrMByFjTonUFEOW2bRJjyR5YMUh3jLw=
 github.com/filecoin-project/test-vectors v0.0.0-20200901152848-cd8867c435b9/go.mod h1:bhGAdMCoLxHz2vw14BjR6iuMrWMEZ/ezyF1ri2AXwQI=
+github.com/filecoin-project/test-vectors v0.0.0-20200901185932-907892394dd8/go.mod h1:AjyLuikTxw+nwSYBflF3ndED/N7gJ2RUYbmIouD2Xtw=
 github.com/flynn/go-shlex v0.0.0-20150515145356-3f9db97f8568/go.mod h1:xEzjJPgXI435gkrCt3MPfRiAkVrwSbHsst4LCFVfpJc=
 github.com/flynn/noise v0.0.0-20180327030543-2492fe189ae6 h1:u/UEqS66A5ckRmS4yNpjmVH56sVtS/RfclBAYocb4as=
 github.com/flynn/noise v0.0.0-20180327030543-2492fe189ae6/go.mod h1:1i71OnUq3iUe1ma7Lr6yG6/rjvM3emb6yoL7xLFzcVQ=
@@ -867,6 +870,8 @@ github.com/libp2p/go-libp2p-pubsub v0.3.4/go.mod h1:DTMSVmZZfXodB/pvdTGrY2eHPZ9W
 github.com/libp2p/go-libp2p-pubsub v0.3.5-0.20200820194335-bfc96c2cd081/go.mod h1:DTMSVmZZfXodB/pvdTGrY2eHPZ9W2ev7hzTH83OKHrI=
 github.com/libp2p/go-libp2p-pubsub v0.3.5 h1:iF75GWpcxKEUQU8tTkgLy69qIQvfhL+t6U6ndQrB6ho=
 github.com/libp2p/go-libp2p-pubsub v0.3.5/go.mod h1:DTMSVmZZfXodB/pvdTGrY2eHPZ9W2ev7hzTH83OKHrI=
+github.com/libp2p/go-libp2p-pubsub v0.3.6-0.20200901174250-06a12f17b7de h1:Dl0B0x6u+OSKXAa1DeB6xHFsUOBAhjrXJ10zykVSN6Q=
+github.com/libp2p/go-libp2p-pubsub v0.3.6-0.20200901174250-06a12f17b7de/go.mod h1:DTMSVmZZfXodB/pvdTGrY2eHPZ9W2ev7hzTH83OKHrI=
 github.com/libp2p/go-libp2p-quic-transport v0.1.1/go.mod h1:wqG/jzhF3Pu2NrhJEvE+IE0NTHNXslOPn9JQzyCAxzU=
 github.com/libp2p/go-libp2p-quic-transport v0.5.0/go.mod h1:IEcuC5MLxvZ5KuHKjRu+dr3LjCT1Be3rcD/4d8JrX8M=
 github.com/libp2p/go-libp2p-quic-transport v0.7.1/go.mod h1:TD31to4E5exogR/GWHClXCfkktigjAl5rXSt7HoxNvY=
