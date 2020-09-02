@@ -41,19 +41,24 @@ const (
 	MethodCallerValidation = builtin.MethodConstructor + iota
 	MethodCreateActor
 	MethodResolveAddress
+	// MethodDeleteActor is the identifier for the method that deletes this actor.
+	MethodDeleteActor
 )
 
+// Exports defines the methods this actor exposes publicly.
 func (a Actor) Exports() []interface{} {
 	return []interface{}{
 		builtin.MethodConstructor: a.Constructor,
 		MethodCallerValidation:    a.CallerValidation,
 		MethodCreateActor:         a.CreateActor,
 		MethodResolveAddress:      a.ResolveAddress,
+		MethodDeleteActor:         a.DeleteActor,
 	}
 }
 
 var _ abi.Invokee = Actor{}
 
+// Constructor will panic since the Chaos actor is a singleton.
 func (a Actor) Constructor(_ runtime.Runtime, _ *adt.EmptyValue) *adt.EmptyValue {
 	panic("constructor should not be called; the Chaos actor is a singleton actor")
 }
@@ -133,4 +138,12 @@ func (a Actor) ResolveAddress(rt runtime.Runtime, args *address.Address) *Resolv
 		resolvedAddr = invalidAddr
 	}
 	return &ResolveAddressResponse{resolvedAddr, ok}
+}
+
+// DeleteActor deletes the executing actor from the state tree, transferring any
+// balance to beneficiary.
+func (a Actor) DeleteActor(rt runtime.Runtime, beneficiary *address.Address) *adt.EmptyValue {
+	rt.ValidateImmediateCallerAcceptAny()
+	rt.DeleteActor(*beneficiary)
+	return nil
 }
