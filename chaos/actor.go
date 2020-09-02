@@ -86,25 +86,16 @@ func (a Actor) Send(rt runtime.Runtime, args *SendArgs) *SendReturn {
 		runtime.CBORBytes(args.Params),
 		args.Value,
 	)
-	out, err := handleSendReturn(ret)
-	if err != nil {
-		rt.Abortf(exitcode.ErrIllegalState, "failed to unmarshal send return: %v", err)
+	var out runtime.CBORBytes
+	if ret != nil {
+		if err := ret.Into(&out); err != nil {
+			rt.Abortf(exitcode.ErrIllegalState, "failed to unmarshal send return: %v", err)
+		}
 	}
 	return &SendReturn{
 		Return: out,
 		Code:   code,
 	}
-}
-
-func handleSendReturn(ret runtime.SendReturn) (runtime.CBORBytes, error) {
-	if ret == nil {
-		return nil, nil // nothing was returned
-	}
-	var out runtime.CBORBytes
-	if err := ret.Into(&out); err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 // Constructor will panic because the Chaos actor is a singleton.
