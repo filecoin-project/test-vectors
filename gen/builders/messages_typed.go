@@ -366,7 +366,7 @@ func InitExec(params *init_.ExecParams) TypedCall {
 // | CHAOS
 // ----------------------------------------------------------------------------
 
-// ChaosSend is a message to a chaos actor that sends a messgae to another actor.
+// ChaosSend is a message to a chaos actor that sends a message to another actor.
 func ChaosSend(args *chaos.SendArgs) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return chaos.MethodSend, MustSerialize(args)
