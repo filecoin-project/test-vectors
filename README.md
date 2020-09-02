@@ -17,7 +17,7 @@ implementations to test their correctness and compliance with the
 - [Test vector generation (`gen` directory)](#test-vector-generation-gen-directory)
   - [How are vectors generated?](#how-are-vectors-generated)
   - [Running the generation scripts](#running-the-generation-scripts)
-- [Special test harness actors](#special-test-harness-actors)
+- [Special test harness actor](#special-test-harness-actor)
 - [Broken/incorrect vectors](#brokenincorrect-vectors)
 - [Integration in Lotus](#integration-in-lotus)
 - [Testing the conformance of a Filecoin implementation](#testing-the-conformance-of-a-filecoin-implementation)
