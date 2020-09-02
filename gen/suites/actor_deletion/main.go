@@ -72,7 +72,7 @@ func deleteActor(v *MessageVectorBuilder) {
 	v.Assert.ActorExists(chaos.Address)
 	v.Assert.BalanceEq(chaos.Address, big.Zero())
 
-	delMsg := v.Messages.Raw(
+	v.Messages.Raw(
 		sender.ID,
 		chaos.Address,
 		chaos.MethodDeleteActor,
@@ -82,7 +82,7 @@ func deleteActor(v *MessageVectorBuilder) {
 	)
 	v.CommitApplies()
 
-	v.Assert.NoError(ExitCode(exitcode.Ok)(delMsg.Result))
+	v.Assert.LastMessageResultSatisfies(ExitCode(exitcode.Ok))
 	v.Assert.ActorMissing(chaos.Address)
 }
 
