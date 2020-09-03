@@ -103,8 +103,8 @@ func (a *Actors) InitialBalance(addr address.Address) abi.TokenAmount {
 	return big.Zero() // will never reach here.
 }
 
-// Handles returns the AddressHandles for all registered actors.
-func (a *Actors) Handles() []AddressHandle {
+// AccountHandles returns the AddressHandles for all registered accounts.
+func (a *Actors) AccountHandles() []AddressHandle {
 	ret := make([]AddressHandle, 0, len(a.accounts))
 	for _, r := range a.accounts {
 		ret = append(ret, r.Handle)
