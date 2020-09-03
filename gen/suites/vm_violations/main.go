@@ -64,8 +64,8 @@ func main() {
 	// try to resolve the ID address from the init actor. But we're not
 	// adding a mapping to the init actor here, so that would've failed for a
 	// different reason (red herring).
-	bobAddr := func(v *MessageVectorBuilder) address.Address { return v.Actors.Handles()[1].ID }
-	goodAddr := func(v *MessageVectorBuilder) address.Address { return MustNextIDAddr(v.Actors.Handles()[1].ID) }
+	bobAddr := func(v *MessageVectorBuilder) address.Address { return v.Actors.AccountHandles()[1].ID }
+	goodAddr := func(v *MessageVectorBuilder) address.Address { return MustNextIDAddr(v.Actors.AccountHandles()[1].ID) }
 	undefAddr := func(v *MessageVectorBuilder) address.Address { return address.Undef }
 
 	g.Group("actor_creation",

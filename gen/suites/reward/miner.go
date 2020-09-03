@@ -65,4 +65,7 @@ func minersAwardedNoPremiums(v *TipsetVectorBuilder) {
 		exp := big.Add(state11.Balance(addr), policy.NextPerBlockReward)
 		v.Assert.BalanceEq(addr, exp)
 	}
+
+	// Verify that the burnt gas has been sent to the burnt funds actor.
+	v.Assert.BalanceEq(builtin.BurntFundsActorAddr, big.Sum(CalculateBurntGas(transfer1), CalculateBurntGas(transfer2)))
 }

@@ -38,7 +38,7 @@ func nestedSends_OkBasic(v *MessageVectorBuilder) {
 
 	//td.AssertActor(stage.creator, big.Sub(big.Add(balanceBefore, amtSent), result.Result.Receipt.GasUsed.Big()), nonce+1)
 	v.Assert.NonceEq(stage.creator, nonce+1)
-	v.Assert.BalanceEq(stage.creator, big.Sub(big.Add(balanceBefore, amtSent), CalculateDeduction(result)))
+	v.Assert.BalanceEq(stage.creator, big.Sub(big.Add(balanceBefore, amtSent), CalculateSenderDeduction(result)))
 }
 
 func nestedSends_OkToNewActor(v *MessageVectorBuilder) {
@@ -53,7 +53,7 @@ func nestedSends_OkToNewActor(v *MessageVectorBuilder) {
 	result := stage.sendOk(newAddr, amtSent, builtin.MethodSend, nil, nonce)
 
 	v.Assert.BalanceEq(stage.msAddr, big.Sub(multisigBalance, amtSent))
-	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateDeduction(result)))
+	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateSenderDeduction(result)))
 	v.Assert.BalanceEq(newAddr, amtSent)
 }
 
@@ -75,7 +75,7 @@ func nestedSends_OkToNewActorWithInvoke(v *MessageVectorBuilder) {
 	//assert.Equal(t, expected.Bytes(), result.Result.Receipt.ReturnValue)
 
 	v.Assert.BalanceEq(stage.msAddr, big.Sub(multisigBalance, amtSent))
-	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateDeduction(result)))
+	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateSenderDeduction(result)))
 	v.Assert.BalanceEq(newAddr, amtSent)
 }
 
@@ -94,7 +94,7 @@ func nestedSends_OkRecursive(v *MessageVectorBuilder) {
 	result := stage.sendOk(stage.msAddr, big.Zero(), builtin.MethodsMultisig.AddSigner, &params, nonce)
 
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance)
-	v.Assert.Equal(big.Sub(balanceBefore, CalculateDeduction(result)), v.StateTracker.Balance(stage.creator))
+	v.Assert.Equal(big.Sub(balanceBefore, CalculateSenderDeduction(result)), v.StateTracker.Balance(stage.creator))
 
 	var st multisig.State
 	v.StateTracker.ActorState(stage.msAddr, &st)
@@ -164,8 +164,8 @@ func nestedSends_FailInvalidMethodNumForActor(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(stage.creator, amtSent, abi.MethodNum(99), nil, nonce)
 
-	v.Assert.BalanceEq(stage.msAddr, multisigBalance)                                     // No change.
-	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateDeduction(result))) // Pay gas, don't receive funds.
+	v.Assert.BalanceEq(stage.msAddr, multisigBalance)                                           // No change.
+	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateSenderDeduction(result))) // Pay gas, don't receive funds.
 }
 
 func nestedSends_FailMissingParams(v *MessageVectorBuilder) {
@@ -178,7 +178,7 @@ func nestedSends_FailMissingParams(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(stage.msAddr, amtSent, builtin.MethodsMultisig.AddSigner, params, nonce)
 
-	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateDeduction(result)))
+	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateSenderDeduction(result)))
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
 	v.Assert.Equal(1, len(stage.state().Signers))     // No new signers
 }
@@ -199,7 +199,7 @@ func nestedSends_FailMismatchParams(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(stage.msAddr, amtSent, builtin.MethodsMultisig.AddSigner, &params, nonce)
 
-	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateDeduction(result)))
+	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateSenderDeduction(result)))
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
 	v.Assert.Equal(1, len(stage.state().Signers))     // No new signers
 }

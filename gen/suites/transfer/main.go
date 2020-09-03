@@ -9,8 +9,6 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 
-	"github.com/filecoin-project/lotus/chain/vm"
-
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
@@ -165,19 +163,19 @@ func main() {
 	sysActors := []struct {
 		name      string
 		addr      address.Address
-		extraFunc func(*vm.ApplyRet) big.Int
+		extraFunc func(am *ApplicableMessage) big.Int
 	}{
 		{name: "system", addr: builtin.SystemActorAddr},
 		{name: "init", addr: builtin.InitActorAddr},
-		{name: "reward", addr: builtin.RewardActorAddr, extraFunc: func(r *vm.ApplyRet) big.Int {
-			return big.Mul(big.NewInt(gasLimit), big.NewInt(gasPremium)) // "miner tip"
+		{name: "reward", addr: builtin.RewardActorAddr, extraFunc: func(am *ApplicableMessage) big.Int {
+			return GetMinerReward(am) // "miner tip"
 		}},
 		{name: "cron", addr: builtin.CronActorAddr},
 		{name: "storage-power", addr: builtin.StoragePowerActorAddr},
 		{name: "storage-market", addr: builtin.StorageMarketActorAddr},
 		{name: "verified-registry", addr: builtin.VerifiedRegistryActorAddr},
-		{name: "burnt-funds", addr: builtin.BurntFundsActorAddr, extraFunc: func(r *vm.ApplyRet) big.Int {
-			return CalculateBurn(gasLimit, r.GasUsed)
+		{name: "burnt-funds", addr: builtin.BurntFundsActorAddr, extraFunc: func(am *ApplicableMessage) big.Int {
+			return CalculateBurntGas(am)
 		}},
 	}
 

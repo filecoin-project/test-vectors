@@ -37,13 +37,14 @@ import (
 type TipsetVectorBuilder struct {
 	*BuilderCommon
 
-	// StagedMessages and tmpStateTracker are the staging area for messages.
-	StagedMessages  *Messages
-	tmpStateTracker *StateTracker
+	// StagedMessages is a staging area for messages.
+	StagedMessages *Messages
+	// StateTracker is used for staging messages, and it's scrapped and replaced
+	// by a fork at the PreRoot when committing applies.
+	StateTracker *StateTracker
 
 	InitialEpoch abi.ChainEpoch
 	Tipsets      *TipsetSeq
-	StateTracker *StateTracker
 	Rewards      *Rewards
 
 	PreRoot  cid.Cid
@@ -79,11 +80,6 @@ func TipsetVector(metadata *schema.Metadata, selector schema.Selector, mode Mode
 			return b.Tipsets.Messages()
 		},
 		stateTracker: func() *StateTracker {
-			// if we're in the preconditions stage, return the staging state tracker.
-			// else, return the definite stage tracker.
-			if b.Stage == StageApplies {
-				return b.tmpStateTracker
-			}
 			return b.StateTracker
 		},
 		actors:  func() *Actors { return bc.Actors },
@@ -131,8 +127,7 @@ func (b *TipsetVectorBuilder) CommitPreconditions() {
 	// update the internal state.
 	// create a staging state tracker that will be used during applies.
 	// create the message staging area, linked to the temporary state tracker.
-	b.tmpStateTracker = b.StateTracker.Fork(preroot)
-	b.StagedMessages = NewMessages(b.BuilderCommon, b.tmpStateTracker)
+	b.StagedMessages = NewMessages(b.BuilderCommon, b.StateTracker)
 
 	b.Stage = StageApplies
 	b.Assert.enterStage(StageApplies)
@@ -153,6 +148,9 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 		panic("called CommitApplies at the wrong time")
 	}
 
+	// discard the temporary state, and fork at the preroot.
+	b.StateTracker = b.StateTracker.Fork(b.PreRoot)
+
 	var (
 		ds = b.StateTracker.Stores.Datastore
 		bs = b.StateTracker.Stores.Blockstore
@@ -163,7 +161,7 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 	// instantiate the reward tracker
 	// record a rewards observation at the initial epoch.
 	b.Rewards = NewRewards(b.BuilderCommon, b.StateTracker)
-	b.Rewards.RecordAt(b.InitialEpoch)
+	b.Rewards.RecordAt(0)
 
 	// Initialize Postconditions on the vector; set the preroot as the temporary
 	// postcondition root.

@@ -278,7 +278,7 @@ func createMultisig(v *MessageVectorBuilder, creator AddressHandle, approvers []
 	var ret init_.ExecReturn
 	MustDeserialize(msg.Result.Return, &ret)
 	v.Assert.Equal(creator.NextActorAddress(msg.Message.Nonce, 0), ret.RobustAddress)
-	handles := v.Actors.Handles()
+	handles := v.Actors.AccountHandles()
 	v.Assert.Equal(MustNewIDAddr(MustIDFromAddress(handles[len(handles)-1].ID)+1), ret.IDAddress)
 
 	// the multisig address's balance is incremented by the value sent to it.

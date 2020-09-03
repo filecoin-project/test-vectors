@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/filecoin-project/lotus/chain/vm"
 	"github.com/filecoin-project/specs-actors/actors/abi/big"
 
 	"github.com/filecoin-project/go-address"
@@ -23,7 +22,7 @@ import (
 //
 // TODO: These tests may break in the future if sending to a system actor
 // becomes disallowed: https://github.com/filecoin-project/specs/issues/1069
-func transferToSystemActor(sysAddr address.Address, calcExtra func(res *vm.ApplyRet) big.Int) func(v *MessageVectorBuilder) {
+func transferToSystemActor(sysAddr address.Address, calcExtra func(am *ApplicableMessage) big.Int) func(v *MessageVectorBuilder) {
 	return func(v *MessageVectorBuilder) {
 		v.Messages.SetDefaults(GasLimit(gasLimit), GasPremium(gasPremium), GasFeeCap(gasFeeCap))
 		initial := abi.NewTokenAmount(1_000_000_000_000)
@@ -44,7 +43,7 @@ func transferToSystemActor(sysAddr address.Address, calcExtra func(res *vm.Apply
 
 		// Add any extra
 		if calcExtra != nil {
-			endBal = big.Add(endBal, calcExtra(ref.Result))
+			endBal = big.Add(endBal, calcExtra(ref))
 		}
 
 		// System actor received the funds.
