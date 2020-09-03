@@ -13,6 +13,7 @@ func main() {
 		chaos.ResolveAddressResponse{},
 		chaos.SendArgs{},
 		chaos.SendReturn{},
+		chaos.MutateStateArgs{},
 	); err != nil {
 		panic(err)
 	}
