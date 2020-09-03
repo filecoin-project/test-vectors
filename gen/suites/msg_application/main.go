@@ -18,6 +18,14 @@ func main() {
 	g.Group("gas_cost",
 		&VectorDef{
 			Metadata: &Metadata{
+				ID:      "msg-ok-secp-bls-gas-costs",
+				Version: "v1",
+				Desc:    "check the gas cost of secpk (higher) and BLS (lower) messages",
+			},
+			TipsetFunc: okSecpkBLSCosts,
+		},
+		&VectorDef{
+			Metadata: &Metadata{
 				ID:      "msg-apply-fail-receipt-gas",
 				Version: "v1",
 				Desc:    "fail to cover gas cost for message receipt on chain",
@@ -90,6 +98,17 @@ block validation we need to ensure behaviour is consistent across VM implementat
 				Desc:    "abort during actor execution due to illegal argument",
 			},
 			MessageFunc: failActorExecutionAborted,
+		},
+	)
+
+	g.Group("duplicates",
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "messages-deduplicated",
+				Version: "v1",
+				Desc:    "duplicated messages in a block are deduplicated",
+			},
+			TipsetFunc: minerIncludesDuplicateMessages,
 		},
 	)
 

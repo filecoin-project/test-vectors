@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/abi/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
@@ -54,9 +55,17 @@ func main() {
 			TipsetFunc: minerPenalized(3, func(v *TipsetVectorBuilder) {
 				v.StagedMessages.SetDefaults(GasLimit(1_000_000_000), GasPremium(0), GasFeeCap(200))
 
-				from := v.Actors.Miners()[0].MinerActorAddr.Robust
+				from := []address.Address{
+					v.Actors.Miners()[0].MinerActorAddr.Robust,
+					builtin.SystemActorAddr,
+					builtin.InitActorAddr,
+					builtin.CronActorAddr,
+				}
+
 				to := v.Actors.Miners()[0].OwnerAddr.Robust // sending funds to the first miner's owner account
-				v.StagedMessages.Sugar().Transfer(from, to, Value(abi.NewTokenAmount(1)), Nonce(0))
+				for i, f := range from {
+					v.StagedMessages.Sugar().Transfer(f, to, Value(abi.NewTokenAmount(1)), Nonce(uint64(i)))
+				}
 			}, nil),
 		},
 		&VectorDef{
