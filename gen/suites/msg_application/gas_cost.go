@@ -2,10 +2,41 @@ package main
 
 import (
 	"github.com/filecoin-project/go-address"
+	"github.com/filecoin-project/specs-actors/actors/abi"
+	"github.com/filecoin-project/specs-actors/actors/abi/big"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
+
+func okSecpkBLSCosts(v *TipsetVectorBuilder) {
+	var (
+		alice = v.Actors.Account(address.SECP256K1, balance1T)
+		bob   = v.Actors.Account(address.BLS, balance1T)
+	)
+
+	miner := v.Actors.Miner(MinerActorCfg{
+		SealProofType:  TestSealProofType,
+		PeriodBoundary: 0,
+		OwnerBalance:   big.Zero(),
+	})
+
+	v.CommitPreconditions()
+
+	transferAmt := abi.NewTokenAmount(100)
+
+	v.StagedMessages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
+	secp := v.StagedMessages.Sugar().Transfer(alice.Robust, alice.Robust, Value(transferAmt), Nonce(0))
+	bls := v.StagedMessages.Sugar().Transfer(bob.Robust, bob.Robust, Value(transferAmt), Nonce(0))
+
+	ts := v.Tipsets.Next(abi.NewTokenAmount(100))
+	ts.Block(miner, 1, secp, bls)
+
+	v.CommitApplies()
+
+	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.Ok))
+	v.Assert.Greater(secp.Result.GasUsed, bls.Result.GasUsed)
+}
 
 func failCoverReceiptGasCost(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))

@@ -28,6 +28,7 @@ func NewWallet() *Wallet {
 	return &Wallet{
 		keys:     make(map[address.Address]*wallet.Key),
 		secpSeed: 0,
+		blsSeed:  1,
 	}
 }
 
@@ -56,7 +57,6 @@ func (w *Wallet) Sign(addr address.Address, data []byte) (acrypto.Signature, err
 		if err != nil {
 			return acrypto.Signature{}, err
 		}
-
 		return acrypto.Signature{
 			Type: sigType,
 			Data: sig,
@@ -90,7 +90,7 @@ func (w *Wallet) newBLSKey() *wallet.Key {
 	// FIXME: bls needs deterministic key generation
 	//sk := ffi.PrivateKeyGenerate(s.blsSeed)
 	// s.blsSeed++
-	sk := [32]byte{}
+	var sk [32]byte
 	sk[0] = uint8(w.blsSeed) // hack to keep gas values determinist
 	w.blsSeed++
 	key, err := wallet.NewKey(types.KeyInfo{
