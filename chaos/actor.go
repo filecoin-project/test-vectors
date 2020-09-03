@@ -19,7 +19,7 @@ import (
 // properly enforced.
 //
 // The chaos actor is being incubated and its behaviour and ABI be standardised
-// shortly. Its CID is ChaosActorCodeCID, and its singleton address is 97 (Address).
+// shortly. Its CID is ChaosActorCodeCID, and its singleton address is 98 (Address).
 // It cannot be instantiated via the init actor, and its constructor panics.
 //
 // Test vectors relying on the chaos actor being deployed will carry selector
