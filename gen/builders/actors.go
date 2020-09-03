@@ -146,6 +146,7 @@ func (a *Actors) Miner(cfg MinerActorCfg) Miner {
 	// create the miner actor s.t. it exists in the init actors map
 	minerState, err := miner.ConstructState(infoCid,
 		cfg.PeriodBoundary,
+		0,
 		EmptyBitfieldCid,
 		EmptyArrayCid,
 		EmptyMapCid,

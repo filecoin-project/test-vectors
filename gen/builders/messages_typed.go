@@ -161,11 +161,6 @@ func MinerCheckSectorProven(params *miner.CheckSectorProvenParams) TypedCall {
 		return builtin.MethodsMiner.CheckSectorProven, MustSerialize(params)
 	}
 }
-func MinerAddLockedFund(params *big.Int) TypedCall {
-	return func() (abi.MethodNum, []byte) {
-		return builtin.MethodsMiner.AddLockedFund, MustSerialize(params)
-	}
-}
 func MinerReportConsensusFault(params *miner.ReportConsensusFaultParams) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsMiner.ReportConsensusFault, MustSerialize(params)
@@ -264,11 +259,6 @@ func PowerOnEpochTickEnd(params *adt.EmptyValue) TypedCall {
 func PowerUpdatePledgeTotal(params *big.Int) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsPower.UpdatePledgeTotal, MustSerialize(params)
-	}
-}
-func PowerOnConsensusFault(params *big.Int) TypedCall {
-	return func() (abi.MethodNum, []byte) {
-		return builtin.MethodsPower.OnConsensusFault, MustSerialize(params)
 	}
 }
 func PowerSubmitPoRepForBulkVerify(params *abi.SealVerifyInfo) TypedCall {
