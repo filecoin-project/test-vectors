@@ -115,7 +115,7 @@ func (m *Messages) ApplyOne(am *ApplicableMessage) {
 		}
 		// verify that preceding messages have been applied.
 		// this will abort if unsatisfied.
-		m.bc.Assert.Nil(other.Result, "preceding messages must have been applied when calling Apply*; index of first unapplied: %d", i)
+		m.bc.Assert.NotNil(other.Result, "preceding messages must have been applied when calling Apply*; index of first unapplied: %d", i)
 	}
 	m.bc.Assert.True(found, "ApplicableMessage not found")
 	m.st.ApplyMessage(am)

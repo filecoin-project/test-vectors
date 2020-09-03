@@ -12,36 +12,37 @@ const (
 	overuseDen = 10
 )
 
-// CalculateDeduction returns the balance that shall be deducted from the
+// CalculateSenderDeduction returns the balance that shall be deducted from the
 // sender's account as a result of applying this message.
-func CalculateDeduction(am *ApplicableMessage) big.Int {
+func CalculateSenderDeduction(am *ApplicableMessage) big.Int {
 	if am.Result.GasUsed == 0 {
 		return big.Zero()
 	}
 
-	m := am.Message
-	minerReward := GetMinerReward(m.GasLimit, m.GasPremium) // goes to the miner
-	burn := CalculateBurn(m.GasLimit, am.Result.GasUsed)    // vanishes
-	deducted := big.Add(minerReward, burn)                  // sum of gas accrued
-
+	var (
+		minerReward = GetMinerReward(am)         // goes to the miner
+		burn        = CalculateBurntGas(am)      // vanishes
+		deducted    = big.Add(minerReward, burn) // sum of gas accrued
+	)
 	if am.Result.ExitCode.IsSuccess() {
-		deducted = big.Add(deducted, m.Value) // message value
+		deducted = big.Add(deducted, am.Message.Value) // message value
 	}
 	return deducted
 }
 
 // GetMinerReward returns the amount that the miner gets to keep, aka. miner tip.
-func GetMinerReward(gasLimit int64, gasPremium abi.TokenAmount) abi.TokenAmount {
-	return big.Mul(big.NewInt(gasLimit), gasPremium)
+func GetMinerReward(am *ApplicableMessage) abi.TokenAmount {
+	gasLimit := big.NewInt(am.Message.GasLimit)
+	gasPremium := am.Message.GasPremium
+	return big.Mul(gasLimit, gasPremium)
 }
 
-func GetMinerPenalty(gasLimit int64) big.Int {
-	return big.Mul(lotus.BaseFee, big.NewInt(gasLimit))
-}
-
-// CalculateBurn calcualtes the amount that will be burnt, a function of the
+// CalculateBurntGas calculates the amount that will be burnt, a function of the
 // gas limit and the gas actually used.
-func CalculateBurn(gasLimit int64, gasUsed int64) big.Int {
+func CalculateBurntGas(am *ApplicableMessage) big.Int {
+	gasLimit := am.Message.GasLimit
+	gasUsed := am.Result.GasUsed
+
 	over := gasLimit - (overuseNum*gasUsed)/overuseDen
 	if over < 0 {
 		over = 0
@@ -52,7 +53,9 @@ func CalculateBurn(gasLimit int64, gasUsed int64) big.Int {
 
 	overestimateGas := big.NewInt(gasLimit - gasUsed)
 	overestimateGas = big.Mul(overestimateGas, big.NewInt(over))
-	overestimateGas = big.Div(overestimateGas, big.NewInt(gasUsed))
+	if gasUsed != 0 {
+		overestimateGas = big.Div(overestimateGas, big.NewInt(gasUsed))
+	}
 
 	totalBurnGas := big.Add(overestimateGas, big.NewInt(gasUsed))
 	return big.Mul(lotus.BaseFee, totalBurnGas)
