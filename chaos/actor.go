@@ -38,7 +38,7 @@ var (
 )
 
 // MutateStateType is an enum used to select the type of state mutation to attempt.
-type MutateStateType int
+type MutateStateType uint64
 
 const (
 	// MutateInTransaction legally mutates state within a transaction.

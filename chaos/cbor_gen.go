@@ -14,7 +14,7 @@ import (
 
 var _ = xerrors.Errorf
 
-var lengthBufState = []byte{129}
+var lengthBufState = []byte{130}
 
 func (t *State) MarshalCBOR(w io.Writer) error {
 	if t == nil {
@@ -26,6 +26,18 @@ func (t *State) MarshalCBOR(w io.Writer) error {
 	}
 
 	scratch := make([]byte, 9)
+
+	// t.Value (string) (string)
+	if len(t.Value) > cbg.MaxLength {
+		return xerrors.Errorf("Value in field t.Value was too long")
+	}
+
+	if err := cbg.WriteMajorTypeHeaderBuf(scratch, w, cbg.MajTextString, uint64(len(t.Value))); err != nil {
+		return err
+	}
+	if _, err := io.WriteString(w, string(t.Value)); err != nil {
+		return err
+	}
 
 	// t.Unmarshallable ([]*chaos.UnmarshallableCBOR) (slice)
 	if len(t.Unmarshallable) > cbg.MaxLength {
@@ -57,10 +69,20 @@ func (t *State) UnmarshalCBOR(r io.Reader) error {
 		return fmt.Errorf("cbor input should be of type array")
 	}
 
-	if extra != 1 {
+	if extra != 2 {
 		return fmt.Errorf("cbor input had wrong number of fields")
 	}
 
+	// t.Value (string) (string)
+
+	{
+		sval, err := cbg.ReadStringBuf(br, scratch)
+		if err != nil {
+			return err
+		}
+
+		t.Value = string(sval)
+	}
 	// t.Unmarshallable ([]*chaos.UnmarshallableCBOR) (slice)
 
 	maj, extra, err = cbg.CborReadHeaderBuf(br, scratch)
@@ -495,6 +517,85 @@ func (t *SendReturn) UnmarshalCBOR(r io.Reader) error {
 		}
 
 		t.Code = exitcode.ExitCode(extraI)
+	}
+	return nil
+}
+
+var lengthBufMutateStateArgs = []byte{130}
+
+func (t *MutateStateArgs) MarshalCBOR(w io.Writer) error {
+	if t == nil {
+		_, err := w.Write(cbg.CborNull)
+		return err
+	}
+	if _, err := w.Write(lengthBufMutateStateArgs); err != nil {
+		return err
+	}
+
+	scratch := make([]byte, 9)
+
+	// t.Value (string) (string)
+	if len(t.Value) > cbg.MaxLength {
+		return xerrors.Errorf("Value in field t.Value was too long")
+	}
+
+	if err := cbg.WriteMajorTypeHeaderBuf(scratch, w, cbg.MajTextString, uint64(len(t.Value))); err != nil {
+		return err
+	}
+	if _, err := io.WriteString(w, string(t.Value)); err != nil {
+		return err
+	}
+
+	// t.Type (chaos.MutateStateType) (uint64)
+
+	if err := cbg.WriteMajorTypeHeaderBuf(scratch, w, cbg.MajUnsignedInt, uint64(t.Type)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (t *MutateStateArgs) UnmarshalCBOR(r io.Reader) error {
+	*t = MutateStateArgs{}
+
+	br := cbg.GetPeeker(r)
+	scratch := make([]byte, 8)
+
+	maj, extra, err := cbg.CborReadHeaderBuf(br, scratch)
+	if err != nil {
+		return err
+	}
+	if maj != cbg.MajArray {
+		return fmt.Errorf("cbor input should be of type array")
+	}
+
+	if extra != 2 {
+		return fmt.Errorf("cbor input had wrong number of fields")
+	}
+
+	// t.Value (string) (string)
+
+	{
+		sval, err := cbg.ReadStringBuf(br, scratch)
+		if err != nil {
+			return err
+		}
+
+		t.Value = string(sval)
+	}
+	// t.Type (chaos.MutateStateType) (uint64)
+
+	{
+
+		maj, extra, err = cbg.CborReadHeaderBuf(br, scratch)
+		if err != nil {
+			return err
+		}
+		if maj != cbg.MajUnsignedInt {
+			return fmt.Errorf("wrong type for uint64 field")
+		}
+		t.Type = MutateStateType(extra)
+
 	}
 	return nil
 }
