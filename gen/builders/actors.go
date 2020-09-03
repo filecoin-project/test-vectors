@@ -20,15 +20,24 @@ import (
 	"github.com/ipfs/go-cid"
 )
 
-type registeredActor struct {
-	handle  AddressHandle
-	initial abi.TokenAmount
+type Account struct {
+	Handle  AddressHandle
+	Initial abi.TokenAmount
+}
+
+type Miner struct {
+	MinerActorAddr, OwnerAddr, WorkerAddr AddressHandle
+}
+
+type Actor struct {
+	Handle AddressHandle
 }
 
 // Actors is an object that manages actors in the test vector.
 type Actors struct {
-	// registered stores registered actors and their initial balances.
-	registered []registeredActor
+	accounts []Account
+	miners   []Miner
+	actors   []Actor
 
 	bc *BuilderCommon
 	st *StateTracker
@@ -38,30 +47,76 @@ func NewActors(bc *BuilderCommon, b *StateTracker) *Actors {
 	return &Actors{bc: bc, st: b}
 }
 
+// Accounts returns all accounts that have been registered through
+// Account() / AccountN().
+//
+// Miner owner and worker accounts, despite being accounts in the strict sense
+// of the word, are not returned here. You can get them through Miners().
+//
+// Similarly, account actors registered through CreateActor() in a bare form are
+// not returned here, but will be returned through Actors().
+func (a *Actors) Accounts() []Account {
+	return a.accounts
+}
+
+// Miners returns all miners that have been registered through
+// Miner() / MinerN(), along with their owner and worker account addresses.
+//
+// Miners registered through CreateActor() in a bare form are not returned here,
+// but will be returned through Actors().
+func (a *Actors) Miners() []Miner {
+	return a.miners
+}
+
+// Actors returns all actors that have been registered through
+// CreateActor().
+//
+// Account and Miner actors registered through Account, AccountN, Miner,
+// and MinerN are not returned.
+func (a *Actors) Actors() []Actor {
+	return a.actors
+}
+
 // Count returns the number of actors registered during preconditions.
 func (a *Actors) Count() int {
-	return len(a.registered)
+	return len(a.accounts) + len(a.miners) + len(a.actors)
 }
 
 // HandleFor gets the canonical handle for a registered address, which can
 // appear at either ID or Robust position.
 func (a *Actors) HandleFor(addr address.Address) AddressHandle {
-	for _, r := range a.registered {
-		if r.handle.ID == addr || r.handle.Robust == addr {
-			return r.handle
+	for _, r := range a.accounts {
+		if r.Handle.ID == addr || r.Handle.Robust == addr {
+			return r.Handle
+		}
+	}
+	for _, r := range a.miners {
+		if r.MinerActorAddr.ID == addr || r.MinerActorAddr.Robust == addr {
+			return r.MinerActorAddr
+		}
+		if r.OwnerAddr.ID == addr || r.OwnerAddr.Robust == addr {
+			return r.OwnerAddr
+		}
+		if r.WorkerAddr.ID == addr || r.WorkerAddr.Robust == addr {
+			return r.WorkerAddr
+		}
+	}
+	for _, r := range a.actors {
+		if r.Handle.ID == addr || r.Handle.Robust == addr {
+			return r.Handle
 		}
 	}
 	a.bc.Assert.FailNowf("asked for handle of unknown actor", "actor: %s", addr)
 	return AddressHandle{} // will never reach here.
 }
 
-// InitialBalance returns the initial balance of an actor that was registered
-// during preconditions. It matches against both the ID and Robust
+// InitialBalance returns the initial balance of an account actor that was
+// registered during preconditions. It matches against both the ID and Robust
 // addresses. It records an assertion failure if the actor is unknown.
 func (a *Actors) InitialBalance(addr address.Address) abi.TokenAmount {
-	for _, r := range a.registered {
-		if r.handle.ID == addr || r.handle.Robust == addr {
-			return r.initial
+	for _, r := range a.accounts {
+		if r.Handle.ID == addr || r.Handle.Robust == addr {
+			return r.Initial
 		}
 	}
 	a.bc.Assert.FailNowf("asked for initial balance of unknown actor", "actor: %s", addr)
@@ -70,9 +125,9 @@ func (a *Actors) InitialBalance(addr address.Address) abi.TokenAmount {
 
 // Handles returns the AddressHandles for all registered actors.
 func (a *Actors) Handles() []AddressHandle {
-	ret := make([]AddressHandle, 0, len(a.registered))
-	for _, r := range a.registered {
-		ret = append(ret, r.handle)
+	ret := make([]AddressHandle, 0, len(a.accounts))
+	for _, r := range a.accounts {
+		ret = append(ret, r.Handle)
 	}
 	return ret
 }
@@ -102,7 +157,7 @@ func (a *Actors) Account(typ address.Protocol, balance abi.TokenAmount) AddressH
 	actorState := &account.State{Address: addr}
 	handle := a.CreateActor(builtin.AccountActorCodeID, addr, balance, actorState)
 
-	a.registered = append(a.registered, registeredActor{handle, balance})
+	a.accounts = append(a.accounts, Account{handle, balance})
 	return handle
 }
 
@@ -110,10 +165,6 @@ type MinerActorCfg struct {
 	SealProofType  abi.RegisteredSealProof
 	PeriodBoundary abi.ChainEpoch
 	OwnerBalance   abi.TokenAmount
-}
-
-type Miner struct {
-	MinerActorAddr, OwnerAddr, WorkerAddr AddressHandle
 }
 
 // Miner creates an owner account, a worker account, and a miner actor with the
@@ -197,12 +248,13 @@ func (a *Actors) Miner(cfg MinerActorCfg) Miner {
 		panic(err)
 	}
 
-	a.registered = append(a.registered, registeredActor{handle, big.Zero()})
-	return Miner{
+	m := Miner{
 		MinerActorAddr: handle,
 		OwnerAddr:      owner,
 		WorkerAddr:     worker,
 	}
+	a.miners = append(a.miners, m)
+	return m
 }
 
 // MinerN creates many miners with the specified configuration, and places the
@@ -243,5 +295,6 @@ func (a *Actors) CreateActor(code cid.Cid, addr address.Address, balance abi.Tok
 	if err := a.st.StateTree.SetActor(addr, actr); err != nil {
 		log.Panicf("setting new actor for actor: %v", err)
 	}
+
 	return AddressHandle{id, addr}
 }

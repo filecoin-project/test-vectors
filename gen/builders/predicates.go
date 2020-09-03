@@ -60,7 +60,7 @@ func BalanceUpdated(offset abi.TokenAmount) ActorPredicate {
 		// accumulate all balance deductions: ∑(burnt + premium + transferred value)
 		deducted := big.Zero()
 		for _, am := range amss {
-			d := CalculateDeduction(am)
+			d := CalculateSenderDeduction(am)
 			deducted = big.Add(deducted, d)
 		}
 
