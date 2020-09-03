@@ -10,6 +10,23 @@ import (
 
 var basefee = abi.NewTokenAmount(100)
 
+// minerPenalized is a factory for tipset vectors that test whether miners were
+// penalized properly.
+//
+// It takes the number of miners, a messages builder that'll execute in applies
+// stage, and a checker function that'll execute in checks stage.
+//
+// Only a single tipset is generated, with ALL miners including ALL messages
+// that have been staged.
+//
+// Note that, currently, penalties are only levied against the first miner
+// to present a block with the penalisable message.
+// See https://github.com/filecoin-project/lotus/issues/3491. In real networks,
+// the first block will be the one with the lowest ticket, thus that miner will
+// be the one to swallow the penalty.
+//
+// We also check that gas and penalties are properly sent to the
+// burnt funds actor.
 func minerPenalized(minerCnt int, messageFn func(v *TipsetVectorBuilder), checksFn func(v *TipsetVectorBuilder)) func(v *TipsetVectorBuilder) {
 	return func(v *TipsetVectorBuilder) {
 		v.SetInitialEpoch(1)
@@ -26,9 +43,9 @@ func minerPenalized(minerCnt int, messageFn func(v *TipsetVectorBuilder), checks
 		v.Actors.MinerN(cfg, miners...)
 		v.CommitPreconditions()
 
-		// Will enroll any messages into StagedMessages.
 		messageFn(v)
 
+		// All StagedMessages are enrolled in all blocks in the singleton tipset.
 		ts := v.Tipsets.Next(basefee)
 		for _, m := range miners {
 			ts.Block(*m, 1, v.StagedMessages.All()...)
@@ -36,12 +53,12 @@ func minerPenalized(minerCnt int, messageFn func(v *TipsetVectorBuilder), checks
 
 		v.CommitApplies()
 
+		// calculate cumulative penalties, tips, and burnt gas.
 		var (
 			cumPenalty    = big.Zero()
 			firstMinerTip = big.Zero()
 			burntGas      = big.Zero()
 		)
-
 		for _, am := range v.Tipsets.Messages() {
 			penalty := am.Result.Penalty
 			cumPenalty = big.Sum(cumPenalty, penalty)
