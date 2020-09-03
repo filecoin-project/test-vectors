@@ -11,6 +11,8 @@ func main() {
 		chaos.State{},
 		chaos.CreateActorArgs{},
 		chaos.ResolveAddressResponse{},
+		chaos.SendArgs{},
+		chaos.SendReturn{},
 	); err != nil {
 		panic(err)
 	}

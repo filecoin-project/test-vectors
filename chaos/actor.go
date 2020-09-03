@@ -6,6 +6,7 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/abi/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/runtime"
+	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
 	"github.com/ipfs/go-cid"
 )
@@ -41,19 +42,63 @@ const (
 	MethodCallerValidation = builtin.MethodConstructor + iota
 	MethodCreateActor
 	MethodResolveAddress
+	// MethodDeleteActor is the identifier for the method that deletes this actor.
+	MethodDeleteActor
+	// MethodSend is the identifier for the method that sends a message to another actor.
+	MethodSend
 )
 
+// Exports defines the methods this actor exposes publicly.
 func (a Actor) Exports() []interface{} {
 	return []interface{}{
 		builtin.MethodConstructor: a.Constructor,
 		MethodCallerValidation:    a.CallerValidation,
 		MethodCreateActor:         a.CreateActor,
 		MethodResolveAddress:      a.ResolveAddress,
+		MethodDeleteActor:         a.DeleteActor,
+		MethodSend:                a.Send,
 	}
 }
 
 var _ abi.Invokee = Actor{}
 
+// SendArgs are the arguments for the Send method.
+type SendArgs struct {
+	To     address.Address
+	Value  abi.TokenAmount
+	Method abi.MethodNum
+	Params []byte
+}
+
+// SendReturn is the return values for the Send method.
+type SendReturn struct {
+	Return runtime.CBORBytes
+	Code   exitcode.ExitCode
+}
+
+// Send requests for this actor to send a message to an actor with the
+// passed parameters.
+func (a Actor) Send(rt runtime.Runtime, args *SendArgs) *SendReturn {
+	rt.ValidateImmediateCallerAcceptAny()
+	ret, code := rt.Send(
+		args.To,
+		args.Method,
+		runtime.CBORBytes(args.Params),
+		args.Value,
+	)
+	var out runtime.CBORBytes
+	if ret != nil {
+		if err := ret.Into(&out); err != nil {
+			rt.Abortf(exitcode.ErrIllegalState, "failed to unmarshal send return: %v", err)
+		}
+	}
+	return &SendReturn{
+		Return: out,
+		Code:   code,
+	}
+}
+
+// Constructor will panic because the Chaos actor is a singleton.
 func (a Actor) Constructor(_ runtime.Runtime, _ *adt.EmptyValue) *adt.EmptyValue {
 	panic("constructor should not be called; the Chaos actor is a singleton actor")
 }
@@ -133,4 +178,12 @@ func (a Actor) ResolveAddress(rt runtime.Runtime, args *address.Address) *Resolv
 		resolvedAddr = invalidAddr
 	}
 	return &ResolveAddressResponse{resolvedAddr, ok}
+}
+
+// DeleteActor deletes the executing actor from the state tree, transferring any
+// balance to beneficiary.
+func (a Actor) DeleteActor(rt runtime.Runtime, beneficiary *address.Address) *adt.EmptyValue {
+	rt.ValidateImmediateCallerAcceptAny()
+	rt.DeleteActor(*beneficiary)
+	return nil
 }

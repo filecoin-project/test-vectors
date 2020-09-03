@@ -2,10 +2,10 @@ package builders
 
 import (
 	"github.com/filecoin-project/go-address"
+	"github.com/filecoin-project/test-vectors/chaos"
 
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/abi/big"
-	"github.com/filecoin-project/specs-actors/actors/puppet"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
 
 	"github.com/filecoin-project/specs-actors/actors/builtin"
@@ -363,17 +363,12 @@ func InitExec(params *init_.ExecParams) TypedCall {
 }
 
 // ----------------------------------------------------------------------------
-// | PUPPET
+// | CHAOS
 // ----------------------------------------------------------------------------
 
-func PuppetConstructor(params *adt.EmptyValue) TypedCall {
+// ChaosSend is a message to a chaos actor that sends a message to another actor.
+func ChaosSend(args *chaos.SendArgs) TypedCall {
 	return func() (abi.MethodNum, []byte) {
-		return puppet.MethodsPuppet.Constructor, MustSerialize(params)
-	}
-}
-
-func PuppetSend(params *puppet.SendParams) TypedCall {
-	return func() (abi.MethodNum, []byte) {
-		return puppet.MethodsPuppet.Send, MustSerialize(params)
+		return chaos.MethodSend, MustSerialize(args)
 	}
 }

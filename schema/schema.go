@@ -85,7 +85,7 @@ type Receipt struct {
 type Postconditions struct {
 	StateTree     *StateTree `json:"state_tree"`
 	Receipts      []*Receipt `json:"receipts"`
-	ReceiptsRoots []cid.Cid  `json:"receipts_roots"`
+	ReceiptsRoots []cid.Cid  `json:"receipts_roots,omitempty"`
 }
 
 // MarshalJSON implements json.Marshal for Base64EncodedBytes

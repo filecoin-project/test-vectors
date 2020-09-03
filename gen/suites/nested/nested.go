@@ -11,12 +11,12 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin/multisig"
 	"github.com/filecoin-project/specs-actors/actors/builtin/paych"
 	"github.com/filecoin-project/specs-actors/actors/builtin/reward"
-	"github.com/filecoin-project/specs-actors/actors/puppet"
 	"github.com/filecoin-project/specs-actors/actors/runtime"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
 	typegen "github.com/whyrusleeping/cbor-gen"
 
+	"github.com/filecoin-project/test-vectors/chaos"
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
@@ -24,17 +24,7 @@ var (
 	acctDefaultBalance = abi.NewTokenAmount(1_000_000_000_000)
 	multisigBalance    = abi.NewTokenAmount(1_000_000_000)
 	nonce              = uint64(1)
-	PuppetAddress      address.Address
 )
-
-func init() {
-	var err error
-	// the address before the burnt funds address
-	PuppetAddress, err = address.NewIDAddress(builtin.FirstNonSingletonActorId - 2)
-	if err != nil {
-		panic(err)
-	}
-}
 
 func nestedSends_OkBasic(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
@@ -259,19 +249,15 @@ func nestedSends_FailAbortedExec(v *MessageVectorBuilder) {
 func nestedSends_FailInsufficientFundsForTransferInInnerSend(v *MessageVectorBuilder) {
 	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
-	// puppet actor has zero funds
-	puppetBalance := big.Zero()
-	_ = v.Actors.CreateActor(puppet.PuppetActorCodeID, PuppetAddress, puppetBalance, &puppet.State{})
-
 	alice := v.Actors.Account(address.SECP256K1, acctDefaultBalance)
 	bob := v.Actors.Account(address.SECP256K1, big.Zero())
 
 	v.CommitPreconditions()
 
-	// alice tells the puppet actor to send funds to bob, the puppet actor has 0 balance so the inner send will fail,
+	// alice tells the chaos actor to send funds to bob, the chaos actor has 0 balance so the inner send will fail,
 	// and alice will pay the gas cost.
 	amtSent := abi.NewTokenAmount(1)
-	msg := v.Messages.Typed(alice.ID, PuppetAddress, PuppetSend(&puppet.SendParams{
+	msg := v.Messages.Typed(alice.ID, chaos.Address, ChaosSend(&chaos.SendArgs{
 		To:     bob.ID,
 		Value:  amtSent,
 		Method: builtin.MethodSend,
@@ -285,11 +271,11 @@ func nestedSends_FailInsufficientFundsForTransferInInnerSend(v *MessageVectorBui
 	// the outer message should be applied successfully
 	v.Assert.Equal(exitcode.Ok, msg.Result.ExitCode)
 
-	var puppetRet puppet.SendReturn
-	MustDeserialize(msg.Result.MessageReceipt.Return, &puppetRet)
+	var chaosRet chaos.SendReturn
+	MustDeserialize(msg.Result.MessageReceipt.Return, &chaosRet)
 
 	// the inner message should fail
-	v.Assert.Equal(exitcode.SysErrInsufficientFunds, puppetRet.Code)
+	v.Assert.Equal(exitcode.SysErrInsufficientFunds, chaosRet.Code)
 
 	// alice should be charged for the gas cost and bob should have not received any funds.
 	v.Assert.MessageSendersSatisfy(BalanceUpdated(big.Zero()), msg)

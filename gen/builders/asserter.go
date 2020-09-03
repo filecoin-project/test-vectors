@@ -112,6 +112,14 @@ func (a *Asserter) ActorMissing(addr address.Address) {
 	a.Error(err, "expected error while looking up actor %s", addr)
 }
 
+// LastMessageResultSatisfies verifies that the last applied message result
+// satisfies the provided predicate.
+func (a *Asserter) LastMessageResultSatisfies(predicate ApplyRetPredicate) {
+	msgs := a.suppliers.messages()
+	except := msgs[0 : len(msgs)-1]
+	a.EveryMessageResultSatisfies(predicate, except...)
+}
+
 // EveryMessageResultSatisfies verifies that every message result satisfies the
 // provided predicate.
 func (a *Asserter) EveryMessageResultSatisfies(predicate ApplyRetPredicate, except ...*ApplicableMessage) {
