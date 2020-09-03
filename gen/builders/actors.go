@@ -29,15 +29,10 @@ type Miner struct {
 	MinerActorAddr, OwnerAddr, WorkerAddr AddressHandle
 }
 
-type Actor struct {
-	Handle AddressHandle
-}
-
 // Actors is an object that manages actors in the test vector.
 type Actors struct {
 	accounts []Account
 	miners   []Miner
-	actors   []Actor
 
 	bc *BuilderCommon
 	st *StateTracker
@@ -54,7 +49,7 @@ func NewActors(bc *BuilderCommon, b *StateTracker) *Actors {
 // of the word, are not returned here. You can get them through Miners().
 //
 // Similarly, account actors registered through CreateActor() in a bare form are
-// not returned here, but will be returned through Actors().
+// not returned here.
 func (a *Actors) Accounts() []Account {
 	return a.accounts
 }
@@ -62,24 +57,14 @@ func (a *Actors) Accounts() []Account {
 // Miners returns all miners that have been registered through
 // Miner() / MinerN(), along with their owner and worker account addresses.
 //
-// Miners registered through CreateActor() in a bare form are not returned here,
-// but will be returned through Actors().
+// Miners registered through CreateActor() in a bare form are not returned here.
 func (a *Actors) Miners() []Miner {
 	return a.miners
 }
 
-// Actors returns all actors that have been registered through
-// CreateActor().
-//
-// Account and Miner actors registered through Account, AccountN, Miner,
-// and MinerN are not returned.
-func (a *Actors) Actors() []Actor {
-	return a.actors
-}
-
-// Count returns the number of actors registered during preconditions.
+// Count returns the number of accounts and miners registered.
 func (a *Actors) Count() int {
-	return len(a.accounts) + len(a.miners) + len(a.actors)
+	return len(a.accounts) + len(a.miners)
 }
 
 // HandleFor gets the canonical handle for a registered address, which can
@@ -99,11 +84,6 @@ func (a *Actors) HandleFor(addr address.Address) AddressHandle {
 		}
 		if r.WorkerAddr.ID == addr || r.WorkerAddr.Robust == addr {
 			return r.WorkerAddr
-		}
-	}
-	for _, r := range a.actors {
-		if r.Handle.ID == addr || r.Handle.Robust == addr {
-			return r.Handle
 		}
 	}
 	a.bc.Assert.FailNowf("asked for handle of unknown actor", "actor: %s", addr)
