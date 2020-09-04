@@ -37,12 +37,12 @@ var (
 	CallerValidationBranchTypeNilSet = big.NewIntUnsigned(3)
 )
 
-// MutateStateType is an enum used to select the type of state mutation to attempt.
-type MutateStateType uint64
+// MutateStateBranch is an enum used to select the type of state mutation to attempt.
+type MutateStateBranch uint64
 
 const (
 	// MutateInTransaction legally mutates state within a transaction.
-	MutateInTransaction MutateStateType = iota
+	MutateInTransaction MutateStateBranch = iota
 	// MutateReadonly ILLEGALLY mutates readonly state.
 	MutateReadonly
 	// MutateAfterTransaction ILLEGALLY mutates state after a transaction.
@@ -207,15 +207,15 @@ func (a Actor) DeleteActor(rt runtime.Runtime, beneficiary *address.Address) *ad
 // MutateStateArgs specify the value to set on the state and the way in which
 // it should be attempted to be set.
 type MutateStateArgs struct {
-	Value string
-	Type  MutateStateType
+	Value  string
+	Branch MutateStateBranch
 }
 
 // MutateState attempts to mutate a state value in the actor.
 func (a Actor) MutateState(rt runtime.Runtime, args *MutateStateArgs) *adt.EmptyValue {
 	rt.ValidateImmediateCallerAcceptAny()
 	var st State
-	switch args.Type {
+	switch args.Branch {
 	case MutateInTransaction:
 		rt.State().Transaction(&st, func() {
 			st.Value = args.Value

@@ -546,9 +546,9 @@ func (t *MutateStateArgs) MarshalCBOR(w io.Writer) error {
 		return err
 	}
 
-	// t.Type (chaos.MutateStateType) (uint64)
+	// t.Branch (chaos.MutateStateBranch) (uint64)
 
-	if err := cbg.WriteMajorTypeHeaderBuf(scratch, w, cbg.MajUnsignedInt, uint64(t.Type)); err != nil {
+	if err := cbg.WriteMajorTypeHeaderBuf(scratch, w, cbg.MajUnsignedInt, uint64(t.Branch)); err != nil {
 		return err
 	}
 
@@ -583,7 +583,7 @@ func (t *MutateStateArgs) UnmarshalCBOR(r io.Reader) error {
 
 		t.Value = string(sval)
 	}
-	// t.Type (chaos.MutateStateType) (uint64)
+	// t.Branch (chaos.MutateStateBranch) (uint64)
 
 	{
 
@@ -594,7 +594,7 @@ func (t *MutateStateArgs) UnmarshalCBOR(r io.Reader) error {
 		if maj != cbg.MajUnsignedInt {
 			return fmt.Errorf("wrong type for uint64 field")
 		}
-		t.Type = MutateStateType(extra)
+		t.Branch = MutateStateBranch(extra)
 
 	}
 	return nil

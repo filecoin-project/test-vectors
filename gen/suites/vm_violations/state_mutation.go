@@ -10,7 +10,7 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func mutateState(value string, mutType chaos.MutateStateType, expectedCode exitcode.ExitCode) func(*MessageVectorBuilder) {
+func mutateState(value string, mutBranch chaos.MutateStateBranch, expectedCode exitcode.ExitCode) func(*MessageVectorBuilder) {
 	return func(v *MessageVectorBuilder) {
 		v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
@@ -21,7 +21,7 @@ func mutateState(value string, mutType chaos.MutateStateType, expectedCode exitc
 			sender.ID,
 			chaos.Address,
 			chaos.MethodMutateState,
-			MustSerialize(&chaos.MutateStateArgs{Type: mutType, Value: value}),
+			MustSerialize(&chaos.MutateStateArgs{Branch: mutBranch, Value: value}),
 			Value(big.Zero()),
 			Nonce(0),
 		)
