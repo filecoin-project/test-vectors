@@ -12,7 +12,7 @@ import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func createActor(addressSupplier func(v *MessageVectorBuilder) address.Address, actorCid cid.Cid, expected exitcode.ExitCode) func(v *MessageVectorBuilder) {
+func createActor(addressSupplier func(v *MessageVectorBuilder) address.Address, actorCid cid.Cid, expectedCode exitcode.ExitCode) func(v *MessageVectorBuilder) {
 	return func(v *MessageVectorBuilder) {
 		v.Messages.SetDefaults(GasLimit(1e9), GasPremium(1), GasFeeCap(200))
 
@@ -40,7 +40,7 @@ func createActor(addressSupplier func(v *MessageVectorBuilder) address.Address, 
 
 		// make sure that we get the expected error code (usually
 		// SysErrorIllegalArgument, but Ok if this is the control case)
-		v.Assert.EveryMessageResultSatisfies(ExitCode(expected))
+		v.Assert.EveryMessageResultSatisfies(ExitCode(expectedCode))
 		// make sure that gas is deducted from alice's account
 		v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(big.Zero()))
 	}

@@ -35,7 +35,7 @@ func main() {
 				senderBal:    abi.NewTokenAmount(1_000_000_000_000_000),
 				receiverAddr: MustNewSECP256K1Addr("publickeyfoo"),
 				amount:       abi.NewTokenAmount(10_000),
-				exitCode:     exitcode.Ok,
+				expectedCode: exitcode.Ok,
 			}),
 		},
 		&VectorDef{
@@ -48,7 +48,7 @@ func main() {
 				senderBal:    abi.NewTokenAmount(1_000_000_000_000_000),
 				receiverAddr: MustNewBLSAddr(1),
 				amount:       abi.NewTokenAmount(10_000),
-				exitCode:     exitcode.Ok,
+				expectedCode: exitcode.Ok,
 			}),
 		},
 		&VectorDef{
@@ -61,7 +61,7 @@ func main() {
 				senderBal:    abi.NewTokenAmount(9_999),
 				receiverAddr: MustNewSECP256K1Addr("publickeyfoo"),
 				amount:       abi.NewTokenAmount(10_000),
-				exitCode:     exitcode.SysErrSenderStateInvalid,
+				expectedCode: exitcode.SysErrSenderStateInvalid,
 			}),
 		},
 		&VectorDef{
@@ -74,7 +74,7 @@ func main() {
 				senderBal:    abi.NewTokenAmount(9_999),
 				receiverAddr: MustNewBLSAddr(1),
 				amount:       abi.NewTokenAmount(10_000),
-				exitCode:     exitcode.SysErrSenderStateInvalid,
+				expectedCode: exitcode.SysErrSenderStateInvalid,
 			}),
 		},
 	)
