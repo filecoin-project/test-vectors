@@ -219,7 +219,7 @@ func main() {
 			Metadata: &Metadata{
 				ID:      "after-transaction",
 				Version: "v1",
-				Desc:    "test an actor cannot ILLEGALLY mutate state outside of a transaction",
+				Desc:    "test an actor cannot ILLEGALLY mutate state acquired for transaction but used after the transaction has ended",
 				Comment: "should abort with SysErrorIllegalActor",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
