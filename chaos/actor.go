@@ -213,6 +213,7 @@ type MutateStateArgs struct {
 
 // MutateState attempts to mutate a state value in the actor.
 func (a Actor) MutateState(rt runtime.Runtime, args *MutateStateArgs) *adt.EmptyValue {
+	rt.ValidateImmediateCallerAcceptAny()
 	var st State
 	switch args.Type {
 	case MutateInTransaction:
@@ -228,7 +229,7 @@ func (a Actor) MutateState(rt runtime.Runtime, args *MutateStateArgs) *adt.Empty
 		})
 		st.Value = args.Value
 	default:
-		panic("unrecognised mutation type")
+		panic("unknown mutation type")
 	}
 	return nil
 }
