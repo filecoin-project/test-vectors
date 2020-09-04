@@ -9,6 +9,7 @@ import (
 
 	"github.com/filecoin-project/test-vectors/chaos"
 	. "github.com/filecoin-project/test-vectors/gen/builders"
+	"github.com/filecoin-project/test-vectors/schema"
 )
 
 func main() {
@@ -187,6 +188,44 @@ func main() {
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
 			MessageFunc: actorResolutionSecpExistant,
+		},
+	)
+
+	valPfx := "vm_violations/state_mutation/"
+
+	g.Group("state_mutation",
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "in-transaction",
+				Version: "v1",
+				Desc:    "test an actor can mutate state within a transaction",
+			},
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: mutateState(valPfx+"in-transaction", chaos.MutateInTransaction, exitcode.Ok),
+		},
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "readonly",
+				Version: "v1",
+				Desc:    "test an actor cannot ILLEGALLY mutate readonly state",
+				Comment: "should abort with SysErrorIllegalActor, not succeed with Ok, see https://github.com/filecoin-project/lotus/issues/3545",
+			},
+			Selector:    map[string]string{"chaos_actor": "true"},
+			Mode:        ModeLenientAssertions,
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
+			MessageFunc: mutateState(valPfx+"readonly", chaos.MutateReadonly, exitcode.SysErrorIllegalActor),
+		},
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "after-transaction",
+				Version: "v1",
+				Desc:    "test an actor cannot ILLEGALLY mutate state acquired for transaction but used after the transaction has ended",
+				Comment: "should abort with SysErrorIllegalActor, not succeed with Ok, see https://github.com/filecoin-project/lotus/issues/3545",
+			},
+			Selector:    map[string]string{"chaos_actor": "true"},
+			Mode:        ModeLenientAssertions,
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
+			MessageFunc: mutateState(valPfx+"after-transaction", chaos.MutateAfterTransaction, exitcode.SysErrorIllegalActor),
 		},
 	)
 }

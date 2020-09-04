@@ -37,6 +37,18 @@ var (
 	CallerValidationBranchTypeNilSet = big.NewIntUnsigned(3)
 )
 
+// MutateStateBranch is an enum used to select the type of state mutation to attempt.
+type MutateStateBranch uint64
+
+const (
+	// MutateInTransaction legally mutates state within a transaction.
+	MutateInTransaction MutateStateBranch = iota
+	// MutateReadonly ILLEGALLY mutates readonly state.
+	MutateReadonly
+	// MutateAfterTransaction ILLEGALLY mutates state after a transaction.
+	MutateAfterTransaction
+)
+
 const (
 	_                      = 0 // skip zero iota value; first usage of iota gets 1.
 	MethodCallerValidation = builtin.MethodConstructor + iota
@@ -46,6 +58,9 @@ const (
 	MethodDeleteActor
 	// MethodSend is the identifier for the method that sends a message to another actor.
 	MethodSend
+	// MethodMutateState is the identifier for the method that attempts to mutate
+	// a state value in the actor.
+	MethodMutateState
 )
 
 // Exports defines the methods this actor exposes publicly.
@@ -57,6 +72,7 @@ func (a Actor) Exports() []interface{} {
 		MethodResolveAddress:      a.ResolveAddress,
 		MethodDeleteActor:         a.DeleteActor,
 		MethodSend:                a.Send,
+		MethodMutateState:         a.MutateState,
 	}
 }
 
@@ -185,5 +201,35 @@ func (a Actor) ResolveAddress(rt runtime.Runtime, args *address.Address) *Resolv
 func (a Actor) DeleteActor(rt runtime.Runtime, beneficiary *address.Address) *adt.EmptyValue {
 	rt.ValidateImmediateCallerAcceptAny()
 	rt.DeleteActor(*beneficiary)
+	return nil
+}
+
+// MutateStateArgs specify the value to set on the state and the way in which
+// it should be attempted to be set.
+type MutateStateArgs struct {
+	Value  string
+	Branch MutateStateBranch
+}
+
+// MutateState attempts to mutate a state value in the actor.
+func (a Actor) MutateState(rt runtime.Runtime, args *MutateStateArgs) *adt.EmptyValue {
+	rt.ValidateImmediateCallerAcceptAny()
+	var st State
+	switch args.Branch {
+	case MutateInTransaction:
+		rt.State().Transaction(&st, func() {
+			st.Value = args.Value
+		})
+	case MutateReadonly:
+		rt.State().Readonly(&st)
+		st.Value = args.Value
+	case MutateAfterTransaction:
+		rt.State().Transaction(&st, func() {
+			st.Value = args.Value + "-in"
+		})
+		st.Value = args.Value
+	default:
+		panic("unknown mutation type")
+	}
 	return nil
 }
