@@ -15,7 +15,7 @@ type basicTransferParams struct {
 	senderBal    abi.TokenAmount
 	receiverType address.Protocol
 	amount       abi.TokenAmount
-	exitCode     exitcode.ExitCode
+	expectedCode exitcode.ExitCode
 }
 
 func basicTransfer(params basicTransferParams) func(v *MessageVectorBuilder) {
@@ -32,10 +32,10 @@ func basicTransfer(params basicTransferParams) func(v *MessageVectorBuilder) {
 		v.Messages.Sugar().Transfer(sender.ID, receiver.ID, Value(params.amount), Nonce(0))
 		v.CommitApplies()
 
-		v.Assert.EveryMessageResultSatisfies(ExitCode(params.exitCode))
+		v.Assert.EveryMessageResultSatisfies(ExitCode(params.expectedCode))
 		v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(big.Zero()))
 
-		if params.exitCode.IsSuccess() {
+		if params.expectedCode.IsSuccess() {
 			v.Assert.EveryMessageSenderSatisfies(NonceUpdated())
 			v.Assert.BalanceEq(receiver.ID, params.amount)
 		}

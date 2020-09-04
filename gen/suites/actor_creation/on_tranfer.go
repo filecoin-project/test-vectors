@@ -15,7 +15,7 @@ type actorCreationOnTransferParams struct {
 	senderBal    abi.TokenAmount
 	receiverAddr address.Address
 	amount       abi.TokenAmount
-	exitCode     exitcode.ExitCode
+	expectedCode exitcode.ExitCode
 }
 
 func actorCreationOnTransfer(params actorCreationOnTransferParams) func(v *MessageVectorBuilder) {
@@ -30,10 +30,10 @@ func actorCreationOnTransfer(params actorCreationOnTransferParams) func(v *Messa
 		v.Messages.Sugar().Transfer(sender.ID, params.receiverAddr, Value(params.amount), Nonce(0))
 		v.CommitApplies()
 
-		v.Assert.EveryMessageResultSatisfies(ExitCode(params.exitCode))
+		v.Assert.EveryMessageResultSatisfies(ExitCode(params.expectedCode))
 		v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(big.Zero()))
 
-		if params.exitCode.IsSuccess() {
+		if params.expectedCode.IsSuccess() {
 			v.Assert.EveryMessageSenderSatisfies(NonceUpdated())
 			v.Assert.BalanceEq(params.receiverAddr, params.amount)
 		}

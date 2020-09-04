@@ -34,7 +34,7 @@ func main() {
 				senderBal:    abi.NewTokenAmount(10 * gasLimit * gasFeeCap),
 				receiverType: address.SECP256K1,
 				amount:       abi.NewTokenAmount(50),
-				exitCode:     exitcode.Ok,
+				expectedCode: exitcode.Ok,
 			}),
 		},
 		&VectorDef{
@@ -48,7 +48,7 @@ func main() {
 				senderBal:    abi.NewTokenAmount(10 * gasFeeCap * gasLimit),
 				receiverType: address.SECP256K1,
 				amount:       abi.NewTokenAmount(0),
-				exitCode:     exitcode.Ok,
+				expectedCode: exitcode.Ok,
 			}),
 		},
 		&VectorDef{
@@ -62,7 +62,7 @@ func main() {
 				senderBal:    abi.NewTokenAmount(10 * gasFeeCap * gasLimit),
 				receiverType: address.SECP256K1,
 				amount:       abi.NewTokenAmount(10*gasFeeCap*gasLimit - gasFeeCap*gasLimit + 1),
-				exitCode:     exitcode.SysErrInsufficientFunds,
+				expectedCode: exitcode.SysErrInsufficientFunds,
 			}),
 		},
 		&VectorDef{
@@ -76,7 +76,7 @@ func main() {
 				senderBal:    abi.NewTokenAmount(gasFeeCap * gasLimit),
 				receiverType: address.SECP256K1,
 				amount:       abi.NewTokenAmount(1),
-				exitCode:     exitcode.SysErrInsufficientFunds,
+				expectedCode: exitcode.SysErrInsufficientFunds,
 			}),
 		},
 		&VectorDef{
@@ -90,7 +90,7 @@ func main() {
 				senderBal:    abi.NewTokenAmount(gasFeeCap*gasLimit - 1),
 				receiverType: address.SECP256K1,
 				amount:       abi.NewTokenAmount(0),
-				exitCode:     exitcode.SysErrSenderStateInvalid,
+				expectedCode: exitcode.SysErrSenderStateInvalid,
 			}),
 		},
 		&VectorDef{
@@ -104,7 +104,7 @@ func main() {
 				senderBal:    abi.NewTokenAmount(10 * gasLimit * gasFeeCap),
 				receiverType: address.SECP256K1,
 				amount:       abi.NewTokenAmount(-50),
-				exitCode:     exitcode.SysErrForbidden,
+				expectedCode: exitcode.SysErrForbidden,
 			}),
 		},
 	)
