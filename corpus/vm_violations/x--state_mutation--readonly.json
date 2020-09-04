@@ -3,10 +3,15 @@
 	"selector": {
 		"chaos_actor": "true"
 	},
+	"hints": [
+		"incorrect",
+		"negate"
+	],
 	"_meta": {
-		"id": "resolve-address-bad-id-identity",
+		"id": "readonly",
 		"version": "v1",
-		"description": "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
+		"description": "test an actor cannot ILLEGALLY mutate readonly state",
+		"comment": "should abort with SysErrorIllegalActor, not succeed with Ok, see https://github.com/filecoin-project/lotus/issues/3545",
 		"gen": [
 			{
 				"source": "genscript",
@@ -33,7 +38,7 @@
 	},
 	"apply_messages": [
 		{
-			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABBENCAE0=",
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABB1gpgngldm1fdmlvbGF0aW9ucy9zdGF0ZV9tdXRhdGlvbi9yZWFkb25seQE=",
 			"epoch": 0
 		}
 	],
@@ -46,13 +51,13 @@
 		"receipts": [
 			{
 				"exit_code": 0,
-				"return": "gkIATfU=",
-				"gas_used": 129719
+				"return": "",
+				"gas_used": 238961
 			}
 		]
 	},
 	"diagnostics": {
 		"format": "Lotus-ExecutionTrace-V1",
-		"data": "SDRzSUFBQUFBQUFBLzdTU1FZL2FNQkNGLzhzN3o4RUpDODJPMU1NMnk2S1ZDdDF1Z1F2aTRCbzNSRTNzeW5ZUUVzcC9yMktEUkVXbHRxbzJGenZqMGZmbXpjem1oTG12d0Nlc3RmTzFOV0JCV0Zvd2dyZ3ZRSGh5dG8xL21SQWdMS3hST2lhdFpkTnBNSWJvVFBxUGRWc0hjQ1l1WDR3K2FWM0tIMkRrNHB6MzRuUmJkd015QTJHdXc5N3V3SGVFRitsazY4SDRYSDFZb0tlaHNGY1ZodHFteHpxVWRwZDBYM1hvbkFHait2NzhzUHkyZXArNEs2OTM0Q3kvZTVmZDk0U3BjOWFCQWNKajUyUzRXSnRKWCs2bHE3UUhiMDVZeUhidzhNbVVlMW1idWZaZVZocUV4aXF3NlpxR0VLcm9xcGlNQ0tvQ2o0cDRIYm8yeVFtSDRWMFFEdXA4K25TR0FCWTlYVW5NZEhoUXdicGJ2RWhra2FqaVg2Q3BnYy9tWUZVeWVRUFBSOFY0a2dUTzE3OFJJZWdqR0RWK1VZdjFUNDlhdmFtSFIydCtNNFAvRUlqRFRYdVR0dllHUG80TGU4VWYvNG0vSlh6cHZpclpORDZCK3UzUEFBQUEvLzlZSlEzUVRRTUE="
+		"data": "SDRzSUFBQUFBQUFBLzd5U1QyL1RNQmpHdjh0ejlzRkphSmRZNG9DNkpKcEV4eWpRb1UwN3VMWkpJeHg3c3Ayb28rcDNSNGxiQ1NnSEJtaTUrSTMxNnZmOFNlNzNXUG9HYkkrMWNyNjFCb3dTZkxSZ0NMVElRVkE1MjAxdkNhVWd1TFpHcUdscHpYV3Z3RERlMXR5L2JiczJnQ1gwOUV5M2xWSUwvZ2lHbEI3M2JwenEybjVFSmlCWXFyQzFFdXlDNElZNzNua3dOS2JSc2t1K3lFNFBtN3FpL0xib3hWUHhUZFlWdlZzWFFYNWViV1d0aDAxYlBOM2RWbDgzNmN5cjkrVnJITWdZWmlYQ21LZmN0V0ZoWmZTNlVxRjNCc3owV2s4dVBua2x3ZElzTCtiSmdhQjB6am93Z09DeWR6eWNpcWk1WDJ5NWE1UUh1OS9qbW5kajRuZG1zZVd0V1NydmVhTkFvSzA0c1VNRGxtUkZQczhJUkFPVzVkTTRkcHpRaEdBWUZ5akJJSTZuajJjSVlQUkFmdENvVlhnamduWG5mQnJSTkdMcGM2Q3g3eXN6V0JGVG5zSFRMSi9ObzhCeC9CTVJBclVEUTR1ZjFDYi81VTZKLzVyaDZsSExXb1Z6NXNVc2ZaVkc3bkg4VzNacDVMOWFqbzFrTDlESHI5LzAwcHJmL0pUUEZIZ2crTkJ2Qk5mYVI4cmg0WHNBQUFELy8rZ2laTlFzQkFBQQ=="
 	}
 }
