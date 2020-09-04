@@ -200,14 +200,8 @@ func main() {
 				Version: "v1",
 				Desc:    "test an actor can mutate state within a transaction",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			MessageFunc: mutateState(valPfx+"in-transaction", chaos.MutateInTransaction, func(vb *MessageVectorBuilder, v string) {
-				vb.Assert.LastMessageResultSatisfies(ExitCode(exitcode.Ok))
-				// verify the state was updated
-				var st chaos.State
-				vb.StateTracker.ActorState(chaos.Address, &st)
-				vb.Assert.Equal(v, st.Value)
-			}),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: mutateState(valPfx+"in-transaction", chaos.MutateInTransaction, exitcode.Ok),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -216,16 +210,10 @@ func main() {
 				Desc:    "test an actor cannot ILLEGALLY mutate readonly state",
 				Comment: "should abort with SysErrorIllegalActor",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Hints:    []string{schema.HintIncorrect, schema.HintNegate},
-			MessageFunc: mutateState(valPfx+"readonly", chaos.MutateReadonly, func(vb *MessageVectorBuilder, v string) {
-				// FIXME: should be SysErrorIllegalActor
-				vb.Assert.LastMessageResultSatisfies(ExitCode(exitcode.Ok))
-				// verify the state was NOT updated
-				var st chaos.State
-				vb.StateTracker.ActorState(chaos.Address, &st)
-				vb.Assert.NotEqual(v, st.Value)
-			}),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			Mode:        ModeLenientAssertions,
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
+			MessageFunc: mutateState(valPfx+"readonly", chaos.MutateReadonly, exitcode.SysErrorIllegalActor),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -234,16 +222,10 @@ func main() {
 				Desc:    "test an actor cannot ILLEGALLY mutate state outside of a transaction",
 				Comment: "should abort with SysErrorIllegalActor",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			Hints:    []string{schema.HintIncorrect, schema.HintNegate},
-			MessageFunc: mutateState(valPfx+"after-transaction", chaos.MutateAfterTransaction, func(vb *MessageVectorBuilder, v string) {
-				// FIXME: should be SysErrorIllegalActor
-				vb.Assert.LastMessageResultSatisfies(ExitCode(exitcode.Ok))
-				// verify the state was NOT updated
-				var st chaos.State
-				vb.StateTracker.ActorState(chaos.Address, &st)
-				vb.Assert.NotEqual(v, st.Value)
-			}),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			Mode:        ModeLenientAssertions,
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
+			MessageFunc: mutateState(valPfx+"after-transaction", chaos.MutateAfterTransaction, exitcode.SysErrorIllegalActor),
 		},
 	)
 }

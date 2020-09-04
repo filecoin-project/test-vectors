@@ -4,12 +4,13 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/abi/big"
+	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 	"github.com/filecoin-project/test-vectors/chaos"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
-func mutateState(value string, mutType chaos.MutateStateType, checksFn func(*MessageVectorBuilder, string)) func(*MessageVectorBuilder) {
+func mutateState(value string, mutType chaos.MutateStateType, expectedCode exitcode.ExitCode) func(*MessageVectorBuilder) {
 	return func(v *MessageVectorBuilder) {
 		v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
 
@@ -26,6 +27,16 @@ func mutateState(value string, mutType chaos.MutateStateType, checksFn func(*Mes
 		)
 		v.CommitApplies()
 
-		checksFn(v, value)
+		v.Assert.LastMessageResultSatisfies(ExitCode(expectedCode))
+
+		var st chaos.State
+		v.StateTracker.ActorState(chaos.Address, &st)
+
+		// verify the state was/wasn't updated
+		if expectedCode == exitcode.Ok {
+			v.Assert.Equal(value, st.Value)
+		} else {
+			v.Assert.NotEqual(value, st.Value)
+		}
 	}
 }
