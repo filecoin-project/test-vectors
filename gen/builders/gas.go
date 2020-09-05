@@ -3,8 +3,8 @@ package builders
 import (
 	lotus "github.com/filecoin-project/lotus/conformance"
 
-	"github.com/filecoin-project/specs-actors/actors/abi"
-	"github.com/filecoin-project/specs-actors/actors/abi/big"
+	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/filecoin-project/go-state-types/big"
 )
 
 const (

@@ -10,7 +10,7 @@ import (
 	"github.com/filecoin-project/lotus/chain/types"
 	lotus "github.com/filecoin-project/lotus/conformance"
 
-	"github.com/filecoin-project/specs-actors/actors/abi"
+	"github.com/filecoin-project/go-state-types/abi"
 
 	"github.com/ipfs/go-cid"
 )
