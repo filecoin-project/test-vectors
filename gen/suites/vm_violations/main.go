@@ -24,7 +24,7 @@ func main() {
 				Desc:    "verifies that an actor that performs no caller validation fails",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(&chaos.CallerValidationBranchNone, exitcode.SysErrorIllegalActor),
+			MessageFunc: callerValidation(chaos.CallerValidationBranchNone, exitcode.SysErrorIllegalActor),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -33,7 +33,7 @@ func main() {
 				Desc:    "verifies that an actor that validates the caller twice fails",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(&chaos.CallerValidationBranchTwice, exitcode.SysErrorIllegalActor),
+			MessageFunc: callerValidation(chaos.CallerValidationBranchTwice, exitcode.SysErrorIllegalActor),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -42,7 +42,7 @@ func main() {
 				Desc:    "verifies that an actor that validates against a nil allowed address set fails",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(&chaos.CallerValidationBranchAddrNilSet, exitcode.SysErrForbidden),
+			MessageFunc: callerValidation(chaos.CallerValidationBranchAddrNilSet, exitcode.SysErrForbidden),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -51,7 +51,7 @@ func main() {
 				Desc:    "verifies that an actor that validates against a nil allowed type set fails",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(&chaos.CallerValidationBranchTypeNilSet, exitcode.SysErrForbidden),
+			MessageFunc: callerValidation(chaos.CallerValidationBranchTypeNilSet, exitcode.SysErrForbidden),
 		},
 	)
 

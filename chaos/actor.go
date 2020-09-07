@@ -3,12 +3,12 @@ package chaos
 import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/specs-actors/actors/abi"
-	"github.com/filecoin-project/specs-actors/actors/abi/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/runtime"
 	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
 	"github.com/ipfs/go-cid"
+	"github.com/whyrusleeping/cbor-gen"
 )
 
 //go:generate go run ./gen
@@ -28,17 +28,17 @@ type Actor struct{}
 
 // CallerValidationBranch is an enum used to select a branch in the
 // CallerValidation method.
-type CallerValidationBranch big.Int
+type CallerValidationBranch int64
 
-var (
-	CallerValidationBranchNone       = big.NewIntUnsigned(0)
-	CallerValidationBranchTwice      = big.NewIntUnsigned(1)
-	CallerValidationBranchAddrNilSet = big.NewIntUnsigned(2)
-	CallerValidationBranchTypeNilSet = big.NewIntUnsigned(3)
+const (
+	CallerValidationBranchNone CallerValidationBranch = iota
+	CallerValidationBranchTwice
+	CallerValidationBranchAddrNilSet
+	CallerValidationBranchTypeNilSet
 )
 
 // MutateStateBranch is an enum used to select the type of state mutation to attempt.
-type MutateStateBranch uint64
+type MutateStateBranch int64
 
 const (
 	// MutateInTransaction legally mutates state within a transaction.
@@ -126,19 +126,15 @@ func (a Actor) Constructor(_ runtime.Runtime, _ *adt.EmptyValue) *adt.EmptyValue
 //  CallerValidationBranchAddrNilSet validates against an empty caller
 //  address set.
 //  CallerValidationBranchTypeNilSet validates against an empty caller type set.
-func (a Actor) CallerValidation(rt runtime.Runtime, branch *big.Int) *adt.EmptyValue {
-	if branch == nil {
-		panic("no branch passed to CallerValidation")
-	}
-
-	switch branch.Uint64() {
-	case CallerValidationBranchNone.Uint64():
-	case CallerValidationBranchTwice.Uint64():
+func (a Actor) CallerValidation(rt runtime.Runtime, branch *typegen.CborInt) *adt.EmptyValue {
+	switch CallerValidationBranch(*branch) {
+	case CallerValidationBranchNone:
+	case CallerValidationBranchTwice:
 		rt.ValidateImmediateCallerAcceptAny()
 		rt.ValidateImmediateCallerAcceptAny()
-	case CallerValidationBranchAddrNilSet.Uint64():
+	case CallerValidationBranchAddrNilSet:
 		rt.ValidateImmediateCallerIs()
-	case CallerValidationBranchTypeNilSet.Uint64():
+	case CallerValidationBranchTypeNilSet:
 		rt.ValidateImmediateCallerType()
 	default:
 		panic("invalid branch passed to CallerValidation")
