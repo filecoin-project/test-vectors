@@ -6,11 +6,11 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "610e3f1b1084e1ded8f10b20c11b21463a5f861d"
+				"version": "0cbbc0872685a3381ead9dbedbcd71ca7ad01c3e"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
-				"version": "v0.4.3-0.20200819134055-b13681df3205"
+				"version": "v0.5.8-0.20200903221953-ada5e6ae68cf"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors",
@@ -18,12 +18,12 @@
 			}
 		]
 	},
-	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmheD/bt+XbA3YuP3Ff9fMtdFdFfsePN0ZVnXkeWSDlXdERwaS0rjWG390+r59+nPVe8V0mZ2fvokyn1l0zDRf883j5QeElu9OL0stKs7Mz2PcwUac2U0uLT7cCp0LEw0bm5wYUltuaAUxMIYy8KZl5ugb6icmJ+eX5pUgOeCXedhd6+ex6xbMKv58yPPQh0nmx4uOPZ07M2vZinVrZA8bMbgxvLiyVIABaiBbyw2tCGmQiWIQE8tSizLTMlNTilLTM4tLiiqRjOa4mbSlWEKo6Mu0I1qibn8FT61+Zrl/7z7bU+cnWG9d3XaAwQFqKEvLDa1wkJlCEDOLS/KLEtNTC/LLU4uQzOPWaptSe3ZX/qGF6xRere9LObhF/uFUweMpl9+ft1115ttusHlNTU4MzC03tPxB5nFBzEsuys9DMmfuidh/r1gXFVou9/IRXNGcurxJU7asfNcbowr57cI3j3EzODQ5MSQTDLn7riXHNi/cmXViz4YpW6bXTNbsrci58P7XpkvPl1yXLp/BBfceQ8sNrUCQUTxQ71UWl6TmIpnkuuH8IYVzb6JrZJKOXJG0tXjyeklfh2jRnOfxc7g2PDmICChWUOhLgIwSRgmp3MSi7FRkt3Fw3K66sHvGiln2XH9ZvDz2ebbUTzNytw1R+yWi6nCrQxtuIiNaUGXmZSKbM2vfrmm7Mj6cCp3lu1znga6oVJVv3+8X970Kbk155r79LzfcnBSCwXVG9VjJirzQJ7ap3q+YGLbWyvqbR4sIGTku44stX7rqLTPcKCa04CpKLU8sSkE2acIbB20fuy13N8bIzAqc483alH7cegbzBR4LvlbeLYe1GHwZ2MpiKu0XMlReYGBgkMNwFQrHlrh80BjKeP9vqN/NJXqnd33TeZj/j//396BJXw1w5wTsog2MxGWOZieGACQ/S/zLOpO4eHE2j7mNl1XfMu9G7U+nZgc1BEyYU3GFI7SLhwSlmsQpa3Jo0MCeJTFF9jISl0MnOEBBU4QEA9OdHAYsIJyB+QA2cQYGEvzIoECC4m8SqEUFgqVLXIHRCC7EWLWIKxcanRiSZdBLA2S2OnGlQoMWjnIAi9A6JuLKhW6kYHua2m0rcZbt4e0Jols2vAk9qLzIN/rhK5UblhZHd1hW++uTp5SKCZmU9ECKWgcHBz3i/NXMwNDsyNDQIIFagCJYqcQVo81IznsnsdZP9uWy+JuZVi41095pTKxdGL486l52ZudJ2Xl9+ZESaQXJGYmZebpliTmZKYklmfl5acTpbHJWaGBoApeyoYyZL4w9fSbKZv3Tf2irGOcT8509KVQiBSqJraSTSLUlriBvxG64DHqJjsyuI65k73RwYPBkEICWB54MjMmuFbFdDAxNEVIMjN+9F8+qvLfBFb3YCGOUnJa1XRdd2JOB/z8EMDj0sxPXGmtyOeLDrdBFtcYVkxvDzgnPHo02rkhvXLkx6E14e4Fh6DexOJPSTl1pP/YnpKhy9aHwvU5caxx2rXnktHPppG3rRGMPbqZFEyut5YZWMMgoPohRuaU5JZnFmelIZj14Y/HLX8Oc62ws8w2bX6um9nvt3m15fGat4vey1/tnVZYyuDJYzzrFQP02W5W76RSGVOLCBrnc/PJnv8/Duz52rkH/v04PXbaycjrn7T/Kr7ednPD0pNe2posS6RjlZj1xOokrN5twlptNoUzZojnv2w8xzk3Vn5TezGa25ZL/mocSaQqYMYDKiyMuLtpBhZETQwojowNJrSQAAAAA//8BAAD//yHUI2C8DgAA",
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhZCZvgIeJmaPy5fpTF5oXPNg75dDpxv/PIqyk3MMmpwso46klEuEv+pz56LAxjgOq+Z9bmHvz4edlDm/Qi1oztFJ05YdKU8vSy0qzszPY9zBRpzZTS4tPtwKnQsTDRubnBhSW25oBTEwhjLwpmXm6BvqJyYn55fmlSA54Jd52F3r57HrFswq/nzI89CHSebHi449nTsza9mKdWtkDxsxuDG8uLJUgAFqIFvLDa0IaZCJYhATy1KLMtMyU1OKUtMzi0uKKpGM5riZtKVYQqjoy7QjWqJufwVPrX5muX/vPttT5ydYb13ddoDBAWooS8sNrXCQmUIQM4tL8osS01ML8stTi5DM49Zqm1J7dlf+oYXrFF6t70s5uEX+4VTB4ymX35+3XXXm226weU1NTgzMLTe0/EHmcUHMSy7Kz0MyZ+6J2H+vWBcVWi738hFc0Zy6vElTtqx81xujCvntwjePcTM4NDkxJBMMufuuJcc2L9yZdWLPhilbptdM1uytyLnw/temS8+XXJcun8EF9x5Dyw2tQJBRPFDvVRaXpOYimeS64fwhhXNvomtkko5ckbS1ePJ6SV+HaNGc5/FzuDY8OYgIKFZQ6EuAjBJGCancxKLsVGS3cXDcrrqwe8aKWfZcf1m8PPZ5ttRPM3K3DVH7JaLqcKtDG24iI1pQZeZlIpsza9+uabsyPpwKneW7XOeBrqhUlW/f7xf3vQpuTXnmvv0vN9ycFILBdUb1WMmKvNAntqner5gYttbK+ptHiwgZOS7jiy1fuuotM9woJrTgKkotTyxKQTJJQi1M7lPIMj7BTyc/8T4Svcbwik3sZklUybOfj4QLws8mM/gysJXFVNovZKi8wMDAIIfhKhSOLXH5oDGU8f7fUL+bS/RO7/qm8zD/H//v70GTvhrgzgnYRRsYicsczU4MAch+/pd1JnHx4mwecxsvq75l3o3an07NDmoImDCn4gpHaBcPCUo1iVPW5NCggT1LYorsZSQuh05wgIKmCAkGpjs5DFhAOAPzAWziDAwk+JFBgQTF3yRQiwoES5e4AqMRXIixahFXLjQ6MSTLoJcGyGx14kqFBi0c5QAWoXVMxJUL3UjB9jS121biLNvD2xNEt2x4E3pQeZFv9MNXKjcsLY7usKz21ydPKRUTMinpgRS1Dg4OesT5q5mBodmRoaFBArUARbBSiStGm5Gc905irZ/sy2XxNzOtXGqmvdOYWLswfHnUvezMzpOy8/ryIyXSCpIzEjPzdMsSczJTEksy8/PSiNPZ5KzQwNAELmVDGTNfGHv6TJTN+qf/0FYxzifmO3tSqEQKVBJbSSeRaktcQd6I3XAZ9BIdmV1PXMne6eDA4MkgAC0PvBgYv3svtypkuTK5KUIKxFk8q/LeBlf0ciOMUXJa1nZddGFPBv7/EMDg0M9OXHOsyeWID7dCF9VaV0xuDDsnPHs02roivXXlxqA34e0FhqHfxuJMSjt1pf3Yn5CiytWHwvc6ca1x2LXmkdPOpZO2rRONPbiZFm2stJYbWsEgo/ggRuWW5pRkFmemI5n14I3FL38Nc66zscw3bH6tmtrvtXu35fGZtYrfy17vn1VZyuDKYD3rFAP1G21V7qZTGFKJCxvkgvPLn/0+D+/62LkG/f86PXTZysrpnLf/KL/ednLC05Ne25ouSqRjFJz1xOkkruBswllwNoUyZYvmvG8/xDg3VX9SejOb2ZZL/mseSqQpYMYAKi+OuLhoBxVGTgwpjIwOJDWTAAAAAP//AQAA//+/kkRevQ4AAA==",
 	"preconditions": {
 		"epoch": 0,
 		"state_tree": {
 			"root_cid": {
-				"/": "bafy2bzacebj76rxxus2vbmnx5d7uk2nnlofhrpxa4w4vm6we45myaosllcegq"
+				"/": "bafy2bzacebkjstiqja2dny3xuywjhijtptql35gczoa7zys2hypecuutmmoco"
 			}
 		}
 	},
@@ -40,7 +40,7 @@
 	"postconditions": {
 		"state_tree": {
 			"root_cid": {
-				"/": "bafy2bzacebpilwh4fshpn4x42vf2rfy4xhzpmfidzsrmmnlpfhwohj6ackt3w"
+				"/": "bafy2bzaceafbid326oe2eumblyedva56izlo7t2wzeom7kbgkkomleuwu3cho"
 			}
 		},
 		"receipts": [
