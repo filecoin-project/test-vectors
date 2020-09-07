@@ -3,7 +3,7 @@ package main
 import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 
-	"github.com/filecoin-project/specs-actors/actors/abi/big"
+	"github.com/filecoin-project/go-state-types/big"
 	init_ "github.com/filecoin-project/specs-actors/actors/builtin/init"
 
 	"github.com/filecoin-project/go-address"

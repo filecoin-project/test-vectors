@@ -2,12 +2,12 @@ package main
 
 import (
 	"github.com/filecoin-project/go-address"
-	"github.com/filecoin-project/specs-actors/actors/abi"
-	"github.com/filecoin-project/specs-actors/actors/abi/big"
+	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	init_ "github.com/filecoin-project/specs-actors/actors/builtin/init"
 	"github.com/filecoin-project/specs-actors/actors/builtin/paych"
-	"github.com/filecoin-project/specs-actors/actors/runtime/exitcode"
+	"github.com/filecoin-project/go-state-types/exitcode"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
@@ -31,8 +31,8 @@ func createActorInitExecUnparsableParams(v *MessageVectorBuilder) {
 
 	v.CommitApplies()
 
-	// make sure that we get SysErrSerialization error code -- this assert currently fails.
-	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrSerialization))
+	// make sure that we get ErrSerialization error code -- this assert currently fails.
+	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.ErrSerialization))
 	// make sure that gas (not value) is deducted from senders's account
 	// (the BalanceUpdated predicate omits deducting the value if the exit code != success)
 	v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(big.Zero()))
@@ -57,8 +57,8 @@ func createActorCtorUnparsableParamsViaInitExec(v *MessageVectorBuilder) {
 
 	v.CommitApplies()
 
-	// make sure that we get SysErrSerialization error code -- this assert currently fails.
-	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrSerialization))
+	// make sure that we get ErrSerialization error code -- this assert currently fails.
+	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.ErrSerialization))
 	// make sure that gas (not value) is deducted from senders's account
 	// (the BalanceUpdated predicate omits deducting the value if the exit code != success)
 	v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(big.Zero()))

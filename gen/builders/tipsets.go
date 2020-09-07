@@ -5,7 +5,7 @@ import (
 
 	"github.com/filecoin-project/test-vectors/schema"
 
-	"github.com/filecoin-project/specs-actors/actors/abi"
+	"github.com/filecoin-project/go-state-types/abi"
 )
 
 // TipsetSeq is a sequence of tipsets to be applied during the test.

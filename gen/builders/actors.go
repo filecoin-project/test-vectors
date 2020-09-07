@@ -6,8 +6,8 @@ import (
 
 	"github.com/filecoin-project/lotus/chain/types"
 
-	"github.com/filecoin-project/specs-actors/actors/abi"
-	"github.com/filecoin-project/specs-actors/actors/abi/big"
+	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/builtin/account"
 	"github.com/filecoin-project/specs-actors/actors/builtin/miner"
@@ -156,7 +156,7 @@ func (a *Actors) Miner(cfg MinerActorCfg) Miner {
 	ss, err := cfg.SealProofType.SectorSize()
 	a.bc.Assert.NoError(err, "seal proof sector size")
 
-	ps, err := cfg.SealProofType.WindowPoStPartitionSectors()
+	ps, err := builtin.SealProofWindowPoStPartitionSectors(cfg.SealProofType)
 	a.bc.Assert.NoError(err, "seal proof window PoSt partition sectors")
 
 	mi := &miner.MinerInfo{

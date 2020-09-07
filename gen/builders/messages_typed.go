@@ -4,8 +4,8 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/test-vectors/chaos"
 
-	"github.com/filecoin-project/specs-actors/actors/abi"
-	"github.com/filecoin-project/specs-actors/actors/abi/big"
+	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
 
 	"github.com/filecoin-project/specs-actors/actors/builtin"
@@ -17,6 +17,7 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin/paych"
 	"github.com/filecoin-project/specs-actors/actors/builtin/power"
 	"github.com/filecoin-project/specs-actors/actors/builtin/reward"
+	"github.com/filecoin-project/specs-actors/actors/runtime/proof"
 )
 
 func Transfer() TypedCall {
@@ -271,7 +272,7 @@ func PowerOnConsensusFault(params *big.Int) TypedCall {
 		return builtin.MethodsPower.OnConsensusFault, MustSerialize(params)
 	}
 }
-func PowerSubmitPoRepForBulkVerify(params *abi.SealVerifyInfo) TypedCall {
+func PowerSubmitPoRepForBulkVerify(params *proof.SealVerifyInfo) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsPower.SubmitPoRepForBulkVerify, MustSerialize(params)
 	}
