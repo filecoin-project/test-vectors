@@ -10,7 +10,7 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-crypto"
 
-	acrypto "github.com/filecoin-project/specs-actors/actors/crypto"
+	acrypto "github.com/filecoin-project/go-state-types/crypto"
 	"github.com/minio/blake2b-simd"
 )
 
