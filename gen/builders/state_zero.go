@@ -2,7 +2,6 @@ package builders
 
 import (
 	"context"
-
 	"github.com/filecoin-project/specs-actors/actors/abi"
 	"github.com/filecoin-project/specs-actors/actors/abi/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
@@ -72,7 +71,6 @@ func (st *StateTracker) initializeZeroState(selector schema.Selector) {
 	})
 
 	zeroRewardState := reward.ConstructState(big.Zero())
-	zeroRewardState.ThisEpochReward = big.NewInt(1e17)
 
 	actors = append(actors, ActorState{
 		Addr:    builtin.RewardActorAddr,
