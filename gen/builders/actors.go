@@ -156,7 +156,7 @@ func (a *Actors) Miner(cfg MinerActorCfg) Miner {
 	ss, err := cfg.SealProofType.SectorSize()
 	a.bc.Assert.NoError(err, "seal proof sector size")
 
-	ps, err := cfg.SealProofType.WindowPoStPartitionSectors()
+	ps, err := builtin.SealProofWindowPoStPartitionSectors(cfg.SealProofType)
 	a.bc.Assert.NoError(err, "seal proof window PoSt partition sectors")
 
 	mi := &miner.MinerInfo{
