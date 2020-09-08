@@ -16,7 +16,7 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
 	typegen "github.com/whyrusleeping/cbor-gen"
 
-	"github.com/filecoin-project/test-vectors/chaos"
+	"github.com/filecoin-project/lotus/conformance/chaos"
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 

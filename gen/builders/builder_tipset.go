@@ -219,7 +219,7 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 		//  we don't get the intermediate roots through null rounds, so this
 		//  is not straightforward.
 		//  https://github.com/filecoin-project/test-vectors/issues/91
-		b.Rewards.RecordAt(abi.ChainEpoch(ts.Epoch))
+		b.Rewards.RecordAt(ts.Epoch)
 	}
 
 	// Update the vector diagnostics.

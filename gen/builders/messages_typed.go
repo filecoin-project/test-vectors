@@ -1,12 +1,10 @@
 package builders
 
 import (
-	"github.com/filecoin-project/go-address"
-	"github.com/filecoin-project/test-vectors/chaos"
+	"github.com/filecoin-project/lotus/conformance/chaos"
 
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
-	"github.com/filecoin-project/specs-actors/actors/util/adt"
 
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/builtin/cron"
@@ -18,6 +16,9 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin/power"
 	"github.com/filecoin-project/specs-actors/actors/builtin/reward"
 	"github.com/filecoin-project/specs-actors/actors/runtime/proof"
+	"github.com/filecoin-project/specs-actors/actors/util/adt"
+
+	"github.com/filecoin-project/go-address"
 )
 
 func Transfer() TypedCall {

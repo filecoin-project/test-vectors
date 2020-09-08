@@ -178,9 +178,6 @@ func (tv TestVector) Validate() error {
 			return fmt.Errorf("length of postcondition receipts must match length of messages to apply")
 		}
 	}
-	if tv.Class == ClassTipset {
-
-	}
 	return nil
 }
 

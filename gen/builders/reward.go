@@ -35,7 +35,7 @@ func NewRewards(bc *BuilderCommon, st *StateTracker) *Rewards {
 
 // RecordAt records a RewardSummary associated with the supplied epoch, by
 // accessing the latest version of the statetree.
-func (r *Rewards) RecordAt(epoch abi.ChainEpoch) {
+func (r *Rewards) RecordAt(epoch int64) {
 	actor, err := r.st.StateTree.GetActor(builtin.RewardActorAddr)
 	r.bc.Assert.NoError(err)
 
@@ -49,10 +49,10 @@ func (r *Rewards) RecordAt(epoch abi.ChainEpoch) {
 		NextPerBlockReward: big.Div(state.ThisEpochReward, big.NewInt(builtin.ExpectedLeadersPerEpoch)),
 	}
 
-	r.m[epoch] = rs
+	r.m[abi.ChainEpoch(epoch)] = rs
 }
 
 // ForEpoch returns the RewardSummary (or nil) associated with the given epoch.
-func (r *Rewards) ForEpoch(epoch abi.ChainEpoch) *RewardSummary {
-	return r.m[epoch]
+func (r *Rewards) ForEpoch(epoch int64) *RewardSummary {
+	return r.m[abi.ChainEpoch(epoch)]
 }
