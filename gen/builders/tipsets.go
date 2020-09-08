@@ -18,6 +18,10 @@ type TipsetSeq struct {
 	// msgIdx is an index that stores unique messages enlisted in blocks in this
 	// tipset sequence.
 	msgIdx map[cid.Cid]*ApplicableMessage
+
+	// orderedMsgs keeps track of the order of messages as they appear when new blocks
+	// are added to a tipset.
+	orderedMsgs []*ApplicableMessage
 }
 
 type Tipset struct {
@@ -48,12 +52,10 @@ func (tss *TipsetSeq) All() []*Tipset {
 }
 
 // Messages returns all ApplicableMessages that have been included in blocks,
-// in no particular order.
+// ordered based on inclusion in the tipset.
 func (tss *TipsetSeq) Messages() []*ApplicableMessage {
-	msgs := make([]*ApplicableMessage, 0, len(tss.msgIdx))
-	for _, msg := range tss.msgIdx {
-		msgs = append(msgs, msg)
-	}
+	msgs := make([]*ApplicableMessage, len(tss.orderedMsgs))
+	copy(msgs, tss.orderedMsgs)
 	return msgs
 }
 
@@ -88,7 +90,12 @@ func (ts *Tipset) Block(miner Miner, winCount int64, msgs ...*ApplicableMessage)
 	}
 	for _, am := range msgs {
 		block.Messages = append(block.Messages, MustSerialize(am.Message))
-		ts.tss.msgIdx[am.Message.Cid()] = am
+
+		// if we see this message for the first time, add it to the `msgIdx` map and to the `orderMsgs` slice.
+		if _, ok := ts.tss.msgIdx[am.Message.Cid()]; !ok {
+			ts.tss.msgIdx[am.Message.Cid()] = am
+			ts.tss.orderedMsgs = append(ts.tss.orderedMsgs, am)
+		}
 	}
 
 	ts.Blocks = append(ts.Blocks, block)
