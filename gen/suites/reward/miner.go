@@ -31,14 +31,14 @@ func minersAwardedNoPremiums(v *TipsetVectorBuilder) {
 	// Epoch 11 -- we'll access the reward actor state at this epoch
 	// to get the reward policy.
 	ts1 := v.Tipsets.Next(abi.NewTokenAmount(100))
-	v.Assert.Equal(abi.ChainEpoch(11), ts1.Epoch)
+	v.Assert.EqualValues(11, ts1.Epoch)
 	ts1.Block(minerA, 1, transfer1)
 	ts1.Block(minerB, 1, transfer1)
 	ts1.Block(minerC, 1, transfer1)
 
 	// Epoch 12.
 	ts2 := v.Tipsets.Next(abi.NewTokenAmount(100))
-	v.Assert.Equal(abi.ChainEpoch(12), ts2.Epoch)
+	v.Assert.EqualValues(12, ts2.Epoch)
 	ts2.Block(minerA, 1, transfer2)
 	ts2.Block(minerB, 1, transfer2)
 	ts2.Block(minerC, 1, transfer2)

@@ -208,8 +208,8 @@
           "type": "number"
         },
         "basefee": {
-          "description": "this is a big.Int; a JSON string to circumvent the number-type drama",
-          "type": "string"
+          "description": "this is a big.Int",
+          "type": "number"
         },
         "blocks": {
           "type": "array",

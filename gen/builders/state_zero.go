@@ -22,7 +22,7 @@ import (
 	"github.com/filecoin-project/go-bitfield"
 	"github.com/ipfs/go-cid"
 
-	"github.com/filecoin-project/test-vectors/chaos"
+	"github.com/filecoin-project/lotus/conformance/chaos"
 	"github.com/filecoin-project/test-vectors/schema"
 )
 

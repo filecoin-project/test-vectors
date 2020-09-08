@@ -8,7 +8,7 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/ipfs/go-cid"
 
-	"github.com/filecoin-project/test-vectors/chaos"
+	"github.com/filecoin-project/lotus/conformance/chaos"
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 

@@ -7,15 +7,15 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "0cbbc0872685a3381ead9dbedbcd71ca7ad01c3e"
+				"version": "8ffb717d8fa19356740f698af435f25e4f781590"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
-				"version": "v0.5.8-0.20200903221953-ada5e6ae68cf"
+				"version": "v0.5.11-0.20200907070510-420a8706da6d"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors",
-				"version": "v0.9.3"
+				"version": "v0.9.7"
 			}
 		]
 	},
@@ -31,7 +31,7 @@
 	"apply_tipsets": [
 		{
 			"epoch": 0,
-			"basefee": "100",
+			"basefee": 100,
 			"blocks": [
 				{
 					"miner_addr": "t0104",

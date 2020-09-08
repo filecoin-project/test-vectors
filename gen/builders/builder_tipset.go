@@ -118,7 +118,7 @@ func (b *TipsetVectorBuilder) CommitPreconditions() {
 	b.PreRoot = preroot
 
 	// update the vector.
-	b.vector.Pre.Epoch = b.InitialEpoch
+	b.vector.Pre.Epoch = int64(b.InitialEpoch)
 	b.vector.Pre.StateTree = &schema.StateTree{RootCID: preroot}
 
 	// initialize the Tipsets object.
@@ -185,7 +185,7 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 		for i, res := range ret.AppliedResults {
 			// store the receipt in the vector.
 			b.vector.Post.Receipts = append(b.vector.Post.Receipts, &schema.Receipt{
-				ExitCode:    res.ExitCode,
+				ExitCode:    int64(res.ExitCode),
 				ReturnValue: res.Return,
 				GasUsed:     res.GasUsed,
 			})
@@ -207,7 +207,7 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 		// Update the state and receipts root in the vector.
 		b.vector.Post.StateTree.RootCID = ret.PostStateRoot
 		b.vector.Post.ReceiptsRoots = append(b.vector.Post.ReceiptsRoots, ret.ReceiptsRoot)
-		prevEpoch = ts.Epoch
+		prevEpoch = abi.ChainEpoch(ts.Epoch)
 
 		// Update the state tree.
 		b.PostRoot = b.vector.Post.StateTree.RootCID

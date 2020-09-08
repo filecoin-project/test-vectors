@@ -107,12 +107,13 @@ func (b *MessageVectorBuilder) CommitApplies() {
 			b.StateTracker.ApplyMessage(am)
 		}
 
+		epoch := int64(am.Epoch)
 		b.vector.ApplyMessages = append(b.vector.ApplyMessages, schema.Message{
 			Bytes: MustSerialize(am.Message),
-			Epoch: &am.Epoch,
+			Epoch: &epoch,
 		})
 		b.vector.Post.Receipts = append(b.vector.Post.Receipts, &schema.Receipt{
-			ExitCode:    am.Result.ExitCode,
+			ExitCode:    int64(am.Result.ExitCode),
 			ReturnValue: am.Result.Return,
 			GasUsed:     am.Result.GasUsed,
 		})

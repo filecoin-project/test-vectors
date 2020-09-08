@@ -7,7 +7,7 @@ import (
 	"github.com/filecoin-project/go-state-types/exitcode"
 	typegen "github.com/whyrusleeping/cbor-gen"
 
-	"github.com/filecoin-project/test-vectors/chaos"
+	"github.com/filecoin-project/lotus/conformance/chaos"
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
