@@ -52,7 +52,7 @@ func (tss *TipsetSeq) All() []*Tipset {
 }
 
 // Messages returns all ApplicableMessages that have been included in blocks,
-// in no particular order.
+// ordered based on inclusion in the tipset.
 func (tss *TipsetSeq) Messages() []*ApplicableMessage {
 	msgs := make([]*ApplicableMessage, len(tss.orderedMsgs))
 	copy(msgs, tss.orderedMsgs)
