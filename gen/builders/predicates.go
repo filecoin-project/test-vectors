@@ -48,12 +48,14 @@ func MessageReturns(expect cbg.CBORMarshaler) ApplyRetPredicate {
 	}
 }
 
-// PanickedRet represents a non-return value, a placeholder for when an actor panicked while applying a message.
-var PanickedRet = vm.ApplyRet{}
-
-// Panicked returns an ApplyRetPredicate that passes if the message response is the PanickedRet.
-func Panicked() ApplyRetPredicate {
-	return MessageReturns(&PanickedRet)
+// Nil returns an ApplyRetPredicate that passes if the message receipt is nil.
+func Nil() ApplyRetPredicate {
+	return func(ret *vm.ApplyRet) error {
+		if ret != nil {
+			return fmt.Errorf("message receipt was not nil: %+v", ret)
+		}
+		return nil
+	}
 }
 
 // BalanceUpdated returns a ActorPredicate that checks whether the balance

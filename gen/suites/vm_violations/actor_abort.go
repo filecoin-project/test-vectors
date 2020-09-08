@@ -48,6 +48,6 @@ func actorPanic(msg string) func(*MessageVectorBuilder) {
 		)
 		v.CommitApplies()
 
-		v.Assert.LastMessageResultSatisfies(Panicked())
+		v.Assert.LastMessageResultSatisfies(Nil())
 	}
 }
