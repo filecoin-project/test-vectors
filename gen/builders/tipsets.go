@@ -18,6 +18,8 @@ type TipsetSeq struct {
 	// msgIdx is an index that stores unique messages enlisted in blocks in this
 	// tipset sequence.
 	msgIdx map[cid.Cid]*ApplicableMessage
+
+	executedMsgs []*ApplicableMessage
 }
 
 type Tipset struct {
@@ -51,7 +53,7 @@ func (tss *TipsetSeq) All() []*Tipset {
 // in no particular order.
 func (tss *TipsetSeq) Messages() []*ApplicableMessage {
 	msgs := make([]*ApplicableMessage, 0, len(tss.msgIdx))
-	for _, msg := range tss.msgIdx {
+	for _, msg := range tss.executedMsgs {
 		msgs = append(msgs, msg)
 	}
 	return msgs
@@ -88,7 +90,11 @@ func (ts *Tipset) Block(miner Miner, winCount int64, msgs ...*ApplicableMessage)
 	}
 	for _, am := range msgs {
 		block.Messages = append(block.Messages, MustSerialize(am.Message))
-		ts.tss.msgIdx[am.Message.Cid()] = am
+
+		if _, ok := ts.tss.msgIdx[am.Message.Cid()]; !ok {
+			ts.tss.msgIdx[am.Message.Cid()] = am
+			ts.tss.executedMsgs = append(ts.tss.executedMsgs, am)
+		}
 	}
 
 	ts.Blocks = append(ts.Blocks, block)
