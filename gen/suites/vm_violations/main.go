@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/exitcode"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
@@ -229,8 +230,8 @@ func main() {
 		},
 	)
 
-	g.Group("actor_abort",
-		&VectorDef{
+	actorAbortVectors := []*VectorDef{
+		{
 			Metadata: &Metadata{
 				ID:      "custom-exit-code",
 				Version: "v1",
@@ -239,18 +240,18 @@ func main() {
 			Selector:    map[string]string{"chaos_actor": "true"},
 			MessageFunc: actorAbort(exitcode.FirstActorSpecificExitCode, "custom exit code abort", exitcode.FirstActorSpecificExitCode),
 		},
-		&VectorDef{
+		{
 			Metadata: &Metadata{
-				ID:      "system-exit-code",
+				ID:      "negative-exit-code",
 				Version: "v1",
-				Desc:    "actors should not abort with system exit codes",
+				Desc:    "actors should not abort with negative exit codes",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
 			Mode:        ModeLenientAssertions,
 			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
-			MessageFunc: actorAbort(exitcode.SysErrInsufficientFunds, "system exit code abort", exitcode.SysErrorIllegalActor),
+			MessageFunc: actorAbort(-1, "negative exit code abort", exitcode.SysErrorIllegalActor),
 		},
-		&VectorDef{
+		{
 			Metadata: &Metadata{
 				ID:      "no-exit-code",
 				Version: "v1",
@@ -261,5 +262,39 @@ func main() {
 			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
 			MessageFunc: actorPanic("no exit code abort"),
 		},
-	)
+	}
+
+	sysExitCodes := []exitcode.ExitCode{
+		exitcode.SysErrSenderInvalid,
+		exitcode.SysErrSenderStateInvalid,
+		exitcode.SysErrInvalidMethod,
+		exitcode.SysErrReserved1,
+		exitcode.SysErrInvalidReceiver,
+		exitcode.SysErrInsufficientFunds,
+		exitcode.SysErrOutOfGas,
+		exitcode.SysErrForbidden,
+		exitcode.SysErrorIllegalActor,
+		exitcode.SysErrorIllegalArgument,
+		exitcode.SysErrReserved2,
+		exitcode.SysErrReserved3,
+		exitcode.SysErrReserved4,
+		exitcode.SysErrReserved5,
+		exitcode.SysErrReserved6,
+	}
+
+	for _, xc := range sysExitCodes {
+		actorAbortVectors = append(actorAbortVectors, &VectorDef{
+			Metadata: &Metadata{
+				ID:      fmt.Sprintf("system-exit-code-%d", xc),
+				Version: "v1",
+				Desc:    fmt.Sprintf("actors should not abort with %s", xc),
+			},
+			Selector:    map[string]string{"chaos_actor": "true"},
+			Mode:        ModeLenientAssertions,
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
+			MessageFunc: actorAbort(xc, fmt.Sprintf("%s abort", xc), exitcode.SysErrorIllegalActor),
+		})
+	}
+
+	g.Group("actor_abort", actorAbortVectors...)
 }
