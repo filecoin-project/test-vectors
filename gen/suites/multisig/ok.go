@@ -3,10 +3,10 @@ package main
 import (
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
+	"github.com/filecoin-project/go-state-types/exitcode"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	init_ "github.com/filecoin-project/specs-actors/actors/builtin/init"
 	"github.com/filecoin-project/specs-actors/actors/builtin/multisig"
-	"github.com/filecoin-project/go-state-types/exitcode"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
 
 	"github.com/filecoin-project/go-address"

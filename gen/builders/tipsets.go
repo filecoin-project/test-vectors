@@ -63,8 +63,8 @@ func (tss *TipsetSeq) Next(baseFee abi.TokenAmount) *Tipset {
 	ts := &Tipset{
 		tss: tss,
 		Tipset: schema.Tipset{
-			Epoch:   tss.epoch,
-			BaseFee: baseFee,
+			Epoch:   int64(tss.epoch),
+			BaseFee: *baseFee.Int,
 		},
 	}
 	tss.tipsets = append(tss.tipsets, ts)

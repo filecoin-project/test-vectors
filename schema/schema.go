@@ -4,10 +4,9 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"math/big"
 
 	"github.com/filecoin-project/go-address"
-	"github.com/filecoin-project/go-state-types/abi"
-	"github.com/filecoin-project/go-state-types/exitcode"
 	"github.com/ipfs/go-cid"
 )
 
@@ -70,13 +69,17 @@ type Base64EncodedBytes []byte
 
 // Preconditions contain a representation of VM state at the beginning of the test
 type Preconditions struct {
-	Epoch     abi.ChainEpoch `json:"epoch"`
-	StateTree *StateTree     `json:"state_tree"`
+	// Epoch must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
+	// equivalent type in other implementations.
+	Epoch     int64      `json:"epoch"`
+	StateTree *StateTree `json:"state_tree"`
 }
 
 // Receipt represents a receipt to match against.
 type Receipt struct {
-	ExitCode    exitcode.ExitCode  `json:"exit_code"`
+	// ExitCode must be interpreted by the driver as an exitcode.ExitCode
+	// in Lotus, or equivalent type in other implementations.
+	ExitCode    int64              `json:"exit_code"`
 	ReturnValue Base64EncodedBytes `json:"return"`
 	GasUsed     int64              `json:"gas_used"`
 }
@@ -146,13 +149,19 @@ type TestVector struct {
 
 type Message struct {
 	Bytes Base64EncodedBytes `json:"bytes"`
-	Epoch *abi.ChainEpoch    `json:"epoch,omitempty"`
+	// Epoch must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
+	// equivalent type in other implementations.
+	Epoch *int64 `json:"epoch,omitempty"`
 }
 
 type Tipset struct {
-	Epoch   abi.ChainEpoch  `json:"epoch"`
-	BaseFee abi.TokenAmount `json:"basefee"`
-	Blocks  []Block         `json:"blocks,omitempty"`
+	// Epoch must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
+	// equivalent type in other implementations.
+	Epoch int64 `json:"epoch"`
+	// BaseFee must be interpreted by the driver as an abi.TokenAmount in Lotus,
+	// or equivalent type in other implementations.
+	BaseFee big.Int `json:"basefee"`
+	Blocks  []Block `json:"blocks,omitempty"`
 }
 
 type Block struct {

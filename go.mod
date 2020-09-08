@@ -8,7 +8,8 @@ require (
 	github.com/filecoin-project/go-crypto v0.0.0-20191218222705-effae4ea9f03
 	github.com/filecoin-project/go-state-types v0.0.0-20200905071437-95828685f9df
 	github.com/filecoin-project/lotus v0.5.11-0.20200907070510-420a8706da6d
-	github.com/filecoin-project/specs-actors v0.9.6
+	github.com/filecoin-project/specs-actors v0.9.7
+	github.com/filecoin-project/test-vectors/schema v0.0.0-00010101000000-000000000000
 	github.com/ipfs/go-block-format v0.0.2
 	github.com/ipfs/go-blockservice v0.1.4-0.20200624145336-a978cec6e834
 	github.com/ipfs/go-cid v0.0.7
@@ -33,3 +34,5 @@ require (
 replace github.com/filecoin-project/filecoin-ffi => ./gen/extern/filecoin-ffi
 
 replace github.com/supranational/blst => github.com/supranational/blst v0.1.2-alpha.1
+
+replace github.com/filecoin-project/test-vectors/schema => ./schema
