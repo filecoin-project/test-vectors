@@ -20,6 +20,9 @@ commands:
             tar --strip-components=1 -C $GOPATH -xzf $GOPATH/go.tar.gz
             rm -rf $GOPATH/go.tar.gz
       - checkout
+      - restore_cache:
+          keys:
+            - 'v1-pkg-cache-{{ checksum "go.sum" }}-{{ .Environment.GOVERSION }}'
       - run: sudo apt-get update
       - run: sudo apt-get install ocl-icd-opencl-dev
       - run: git submodule sync
@@ -57,3 +60,7 @@ jobs:
       - run:
           name: "validate vectors against JSON Schema"
           command: make validate
+      - save_cache:
+          key: 'v1-pkg-cache-{{ checksum "go.sum" }}-{{ .Environment.GOVERSION }}'
+          paths:
+            - << pipeline.parameters.workspace-dir >>/go/<< pipeline.parameters.go-version >>/pkg/mod
