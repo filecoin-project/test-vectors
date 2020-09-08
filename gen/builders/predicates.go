@@ -48,6 +48,14 @@ func MessageReturns(expect cbg.CBORMarshaler) ApplyRetPredicate {
 	}
 }
 
+// PanickedRet represents a non-return value, a placeholder for when an actor panicked while applying a message.
+var PanickedRet = vm.ApplyRet{}
+
+// Panicked returns an ApplyRetPredicate that passes if the message response is the PanickedRet.
+func Panicked() ApplyRetPredicate {
+	return MessageReturns(&PanickedRet)
+}
+
 // BalanceUpdated returns a ActorPredicate that checks whether the balance
 // of the actor has been deducted the gas cost and the outgoing value transfers,
 // and has been increased by the offset (or decreased, if the argument is negative).

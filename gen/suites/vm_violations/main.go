@@ -232,25 +232,34 @@ func main() {
 	g.Group("actor_abort",
 		&VectorDef{
 			Metadata: &Metadata{
-				ID:      "no-exit-code",
+				ID:      "custom-exit-code",
 				Version: "v1",
-				Desc:    "no exit code provided, just panic and let the runtime return the error",
+				Desc:    "actors can abort with custom exit codes",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
-			Mode:        ModeLenientAssertions,
-			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
-			MessageFunc: abort(chaos.AbortArgs{NoCode: true, Message: "no exit code abort"}, exitcode.FirstActorSpecificExitCode),
+			MessageFunc: actorAbort(exitcode.FirstActorSpecificExitCode, "custom exit code abort", exitcode.FirstActorSpecificExitCode),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "system-exit-code",
 				Version: "v1",
-				Desc:    "actors should not return system exit codes",
+				Desc:    "actors should not abort with system exit codes",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
 			Mode:        ModeLenientAssertions,
 			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
-			MessageFunc: abort(chaos.AbortArgs{Code: exitcode.SysErrInsufficientFunds, Message: "system exit code abort"}, exitcode.SysErrorIllegalActor),
+			MessageFunc: actorAbort(exitcode.SysErrInsufficientFunds, "system exit code abort", exitcode.SysErrorIllegalActor),
+		},
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "no-exit-code",
+				Version: "v1",
+				Desc:    "actor failure, a panic with no associated exit code",
+			},
+			Selector:    map[string]string{"chaos_actor": "true"},
+			Mode:        ModeLenientAssertions,
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
+			MessageFunc: actorPanic("no exit code abort"),
 		},
 	)
 }
