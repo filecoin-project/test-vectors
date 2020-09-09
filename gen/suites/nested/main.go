@@ -2,6 +2,7 @@ package main
 
 import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
+	"github.com/filecoin-project/test-vectors/schema"
 )
 
 func main() {
@@ -87,6 +88,8 @@ func main() {
 				Desc:    "",
 			},
 			MessageFunc: nestedSends_FailMissingParams,
+			Mode:        ModeLenientAssertions,
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -95,6 +98,8 @@ func main() {
 				Desc:    "",
 			},
 			MessageFunc: nestedSends_FailMismatchParams,
+			Mode:        ModeLenientAssertions,
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
 		},
 		&VectorDef{
 			Metadata: &Metadata{
