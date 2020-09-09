@@ -151,8 +151,10 @@ func (b *MessageVectorBuilder) Finish(w io.Writer) {
 
 	msgs := b.Messages.All()
 	traces := make([]types.ExecutionTrace, 0, len(msgs))
-	for _, msgs := range msgs {
-		traces = append(traces, msgs.Result.ExecutionTrace)
+	for _, msg := range msgs {
+		if msg.Result != nil {
+			traces = append(traces, msg.Result.ExecutionTrace)
+		}
 	}
 	b.vector.Diagnostics = EncodeTraces(traces)
 
