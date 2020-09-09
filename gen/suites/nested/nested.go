@@ -241,7 +241,11 @@ func nestedSends_FailInnerAbort(v *MessageVectorBuilder) {
 		GasReward: big.Zero(),
 	}
 	amtSent := abi.NewTokenAmount(1)
-	stage.sendOk(builtin.RewardActorAddr, amtSent, builtin.MethodsReward.AwardBlockReward, &params, nonce)
+	result := stage.sendOk(builtin.RewardActorAddr, amtSent, builtin.MethodsReward.AwardBlockReward, &params, nonce)
+
+	var ret multisig.ProposeReturn
+	MustDeserialize(result.Result.Return, &ret)
+	v.Assert.ExitCodeEq(ret.Code, exitcode.SysErrForbidden)
 
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
 	v.Assert.HeadEq(builtin.RewardActorAddr, prevHead)
@@ -264,7 +268,11 @@ func nestedSends_FailAbortedExec(v *MessageVectorBuilder) {
 	}
 
 	amtSent := abi.NewTokenAmount(1)
-	stage.sendOk(builtin.InitActorAddr, amtSent, builtin.MethodsInit.Exec, &execParams, nonce)
+	result := stage.sendOk(builtin.InitActorAddr, amtSent, builtin.MethodsInit.Exec, &execParams, nonce)
+
+	var ret multisig.ProposeReturn
+	MustDeserialize(result.Result.Return, &ret)
+	v.Assert.ExitCodeEq(ret.Code, exitcode.ErrForbidden)
 
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
 	v.Assert.HeadEq(builtin.InitActorAddr, prevHead)  // Init state unchanged.
