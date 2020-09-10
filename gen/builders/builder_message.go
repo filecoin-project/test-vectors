@@ -103,7 +103,7 @@ func (b *MessageVectorBuilder) CommitApplies() {
 
 	for _, am := range b.Messages.All() {
 		// apply all messages that are pending application.
-		if am.Result == nil {
+		if !am.Applied {
 			b.StateTracker.ApplyMessage(am)
 		}
 
@@ -112,11 +112,17 @@ func (b *MessageVectorBuilder) CommitApplies() {
 			Bytes: MustSerialize(am.Message),
 			Epoch: &epoch,
 		})
-		b.vector.Post.Receipts = append(b.vector.Post.Receipts, &schema.Receipt{
-			ExitCode:    int64(am.Result.ExitCode),
-			ReturnValue: am.Result.Return,
-			GasUsed:     am.Result.GasUsed,
-		})
+
+		// am.Result may still be nil if the message failed to be applied
+		if am.Result != nil {
+			b.vector.Post.Receipts = append(b.vector.Post.Receipts, &schema.Receipt{
+				ExitCode:    int64(am.Result.ExitCode),
+				ReturnValue: am.Result.Return,
+				GasUsed:     am.Result.GasUsed,
+			})
+		} else {
+			b.vector.Post.Receipts = append(b.vector.Post.Receipts, nil)
+		}
 	}
 
 	// update the internal state.
@@ -124,7 +130,6 @@ func (b *MessageVectorBuilder) CommitApplies() {
 	b.vector.Post.StateTree = &schema.StateTree{RootCID: b.PostRoot}
 	b.Stage = StageChecks
 	b.Assert.enterStage(StageChecks)
-
 }
 
 // Finish signals to the builder that the checks stage is complete and that the
@@ -146,8 +151,10 @@ func (b *MessageVectorBuilder) Finish(w io.Writer) {
 
 	msgs := b.Messages.All()
 	traces := make([]types.ExecutionTrace, 0, len(msgs))
-	for _, msgs := range msgs {
-		traces = append(traces, msgs.Result.ExecutionTrace)
+	for _, msg := range msgs {
+		if msg.Result != nil {
+			traces = append(traces, msg.Result.ExecutionTrace)
+		}
 	}
 	b.vector.Diagnostics = EncodeTraces(traces)
 
