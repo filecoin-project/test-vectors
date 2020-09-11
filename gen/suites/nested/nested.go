@@ -13,7 +13,6 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin/paych"
 	"github.com/filecoin-project/specs-actors/actors/builtin/reward"
 	"github.com/filecoin-project/specs-actors/actors/runtime"
-	"github.com/filecoin-project/specs-actors/actors/util/adt"
 	typegen "github.com/whyrusleeping/cbor-gen"
 
 	"github.com/filecoin-project/lotus/conformance/chaos"
@@ -190,7 +189,7 @@ func nestedSends_FailMissingParams(v *MessageVectorBuilder) {
 	stage := prepareStage(v, acctDefaultBalance, multisigBalance)
 	balanceBefore := v.StateTracker.Balance(stage.creator)
 
-	params := adt.Empty // Missing params required by AddSigner
+	params := abi.Empty // Missing params required by AddSigner
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(stage.msAddr, amtSent, builtin.MethodsMultisig.AddSigner, params, nonce)
 

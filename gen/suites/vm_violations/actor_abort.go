@@ -20,8 +20,8 @@ func actorAbort(abortCode exitcode.ExitCode, msg string, expectedCode exitcode.E
 		v.Messages.Raw(
 			sender.ID,
 			chaos.Address,
-			chaos.MethodAbort,
-			MustSerialize(&chaos.AbortArgs{Code: abortCode, Message: msg}),
+			chaos.MethodAbortWith,
+			MustSerialize(&chaos.AbortWithArgs{Code: abortCode, Message: msg}),
 			Value(big.Zero()),
 			Nonce(0),
 		)
@@ -41,13 +41,13 @@ func actorPanic(msg string) func(*MessageVectorBuilder) {
 		v.Messages.Raw(
 			sender.ID,
 			chaos.Address,
-			chaos.MethodAbort,
-			MustSerialize(&chaos.AbortArgs{NoCode: true, Message: msg}),
+			chaos.MethodAbortWith,
+			MustSerialize(&chaos.AbortWithArgs{Uncontrolled: true, Message: msg}),
 			Value(big.Zero()),
 			Nonce(0),
 		)
 		v.CommitApplies()
 
-		v.Assert.LastMessageResultSatisfies(Nil())
+		v.Assert.LastMessageResultSatisfies(Failed())
 	}
 }

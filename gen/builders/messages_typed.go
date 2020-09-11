@@ -16,7 +16,6 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin/power"
 	"github.com/filecoin-project/specs-actors/actors/builtin/reward"
 	"github.com/filecoin-project/specs-actors/actors/runtime/proof"
-	"github.com/filecoin-project/specs-actors/actors/util/adt"
 
 	"github.com/filecoin-project/go-address"
 )
@@ -37,7 +36,7 @@ func AccountConstructor(params *address.Address) TypedCall {
 	}
 }
 
-func AccountPubkeyAddress(params *adt.EmptyValue) TypedCall {
+func AccountPubkeyAddress(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsAccount.PubkeyAddress, MustSerialize(params)
 	}
@@ -47,7 +46,7 @@ func AccountPubkeyAddress(params *adt.EmptyValue) TypedCall {
 // | MARKET
 // ----------------------------------------------------------------------------
 
-func MarketConstructor(params *adt.EmptyValue) TypedCall {
+func MarketConstructor(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsMarket.Constructor, MustSerialize(params)
 	}
@@ -88,7 +87,7 @@ func MarketComputeDataCommitment(params *market.ComputeDataCommitmentParams) Typ
 		return builtin.MethodsMarket.ComputeDataCommitment, MustSerialize(params)
 	}
 }
-func MarketCronTick(params *adt.EmptyValue) TypedCall {
+func MarketCronTick(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsMarket.CronTick, MustSerialize(params)
 	}
@@ -103,7 +102,7 @@ func MinerConstructor(params *power.MinerConstructorParams) TypedCall {
 		return builtin.MethodsMiner.Constructor, MustSerialize(params)
 	}
 }
-func MinerControlAddresses(params *adt.EmptyValue) TypedCall {
+func MinerControlAddresses(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsMiner.ControlAddresses, MustSerialize(params)
 	}
@@ -238,7 +237,7 @@ func MultisigChangeNumApprovalsThreshold(params *multisig.ChangeNumApprovalsThre
 // | POWER
 // ----------------------------------------------------------------------------
 
-func PowerConstructor(params *adt.EmptyValue) TypedCall {
+func PowerConstructor(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsPower.Constructor, MustSerialize(params)
 	}
@@ -258,7 +257,7 @@ func PowerEnrollCronEvent(params *power.EnrollCronEventParams) TypedCall {
 		return builtin.MethodsPower.EnrollCronEvent, MustSerialize(params)
 	}
 }
-func PowerOnEpochTickEnd(params *adt.EmptyValue) TypedCall {
+func PowerOnEpochTickEnd(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsPower.OnEpochTickEnd, MustSerialize(params)
 	}
@@ -278,7 +277,7 @@ func PowerSubmitPoRepForBulkVerify(params *proof.SealVerifyInfo) TypedCall {
 		return builtin.MethodsPower.SubmitPoRepForBulkVerify, MustSerialize(params)
 	}
 }
-func PowerCurrentTotalPower(params *adt.EmptyValue) TypedCall {
+func PowerCurrentTotalPower(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsPower.CurrentTotalPower, MustSerialize(params)
 	}
@@ -288,7 +287,7 @@ func PowerCurrentTotalPower(params *adt.EmptyValue) TypedCall {
 // | REWARD
 // ----------------------------------------------------------------------------
 
-func RewardConstructor(params *adt.EmptyValue) TypedCall {
+func RewardConstructor(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsReward.Constructor, MustSerialize(params)
 	}
@@ -298,7 +297,7 @@ func RewardAwardBlockReward(params *reward.AwardBlockRewardParams) TypedCall {
 		return builtin.MethodsReward.AwardBlockReward, MustSerialize(params)
 	}
 }
-func RewardThisEpochReward(params *adt.EmptyValue) TypedCall {
+func RewardThisEpochReward(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsReward.ThisEpochReward, MustSerialize(params)
 	}
@@ -323,12 +322,12 @@ func PaychUpdateChannelState(params *paych.UpdateChannelStateParams) TypedCall {
 		return builtin.MethodsPaych.UpdateChannelState, MustSerialize(params)
 	}
 }
-func PaychSettle(params *adt.EmptyValue) TypedCall {
+func PaychSettle(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsPaych.Settle, MustSerialize(params)
 	}
 }
-func PaychCollect(params *adt.EmptyValue) TypedCall {
+func PaychCollect(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsPaych.Collect, MustSerialize(params)
 	}
@@ -343,7 +342,7 @@ func CronConstructor(params *cron.ConstructorParams) TypedCall {
 		return builtin.MethodsCron.Constructor, MustSerialize(params)
 	}
 }
-func CronEpochTick(params *adt.EmptyValue) TypedCall {
+func CronEpochTick(params *abi.EmptyValue) TypedCall {
 	return func() (abi.MethodNum, []byte) {
 		return builtin.MethodsCron.EpochTick, MustSerialize(params)
 	}

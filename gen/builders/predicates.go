@@ -48,11 +48,12 @@ func MessageReturns(expect cbg.CBORMarshaler) ApplyRetPredicate {
 	}
 }
 
-// Nil returns an ApplyRetPredicate that passes if the message receipt is nil.
-func Nil() ApplyRetPredicate {
+// Failed returns an ApplyRetPredicate that passes if the message failed to be
+// applied i.e. the receipt is nil.
+func Failed() ApplyRetPredicate {
 	return func(ret *vm.ApplyRet) error {
 		if ret != nil {
-			return fmt.Errorf("message receipt was not nil: %+v", ret)
+			return fmt.Errorf("message did not fail: %+v", ret)
 		}
 		return nil
 	}
