@@ -38,6 +38,10 @@ type ApplicableMessage struct {
 	Epoch   abi.ChainEpoch
 	Message *types.Message
 	Result  *vm.ApplyRet
+	// Applied is true if this message has already been applied. Note it's
+	// not safe to rely on non-nil Result as indication of application
+	// since applied messages may fail without a result.
+	Applied bool
 }
 
 func (m *Messages) Sugar() *sugarMsg {

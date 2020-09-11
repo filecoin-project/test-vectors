@@ -86,10 +86,16 @@ func (st *StateTracker) Flush() cid.Cid {
 // root, refreshes the state tree, and updates the underlying vector with the
 // message and its receipt.
 func (st *StateTracker) ApplyMessage(am *ApplicableMessage) {
+	var postRoot cid.Cid
 	var err error
-	am.Result, st.CurrRoot, err = st.Driver.ExecuteMessage(st.Stores.Blockstore, st.CurrRoot, am.Epoch, am.Message)
-	st.bc.Assert.NoError(err)
 
+	am.Applied = true
+	am.Result, postRoot, err = st.Driver.ExecuteMessage(st.Stores.Blockstore, st.CurrRoot, am.Epoch, am.Message)
+	if err != nil {
+		return
+	}
+
+	st.CurrRoot = postRoot
 	// replace the state tree.
 	st.StateTree, err = state.LoadStateTree(st.Stores.CBORStore, st.CurrRoot)
 	st.bc.Assert.NoError(err)

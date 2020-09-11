@@ -48,6 +48,16 @@ func MessageReturns(expect cbg.CBORMarshaler) ApplyRetPredicate {
 	}
 }
 
+// Nil returns an ApplyRetPredicate that passes if the message receipt is nil.
+func Nil() ApplyRetPredicate {
+	return func(ret *vm.ApplyRet) error {
+		if ret != nil {
+			return fmt.Errorf("message receipt was not nil: %+v", ret)
+		}
+		return nil
+	}
+}
+
 // BalanceUpdated returns a ActorPredicate that checks whether the balance
 // of the actor has been deducted the gas cost and the outgoing value transfers,
 // and has been increased by the offset (or decreased, if the argument is negative).

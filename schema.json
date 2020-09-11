@@ -148,7 +148,14 @@
           "type": "array",
           "additionalItems": false,
           "items": {
-            "$ref": "#/definitions/receipt"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/definitions/receipt"
+              }
+            ]
           }
         },
         "receipts_roots": {
