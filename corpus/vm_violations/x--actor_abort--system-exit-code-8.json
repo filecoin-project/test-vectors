@@ -14,15 +14,15 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "56e0fd078a4efb47e54d9f8b2019360286d20c09"
+				"version": "326cab3eb3dd8d1b77a17d85e0c10ae36c369f2d"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
-				"version": "v0.6.2-0.20200909104030-159be5b543fd"
+				"version": "v0.7.0"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors",
-				"version": "v0.9.7"
+				"version": "v0.9.8"
 			}
 		]
 	},
@@ -37,7 +37,7 @@
 	},
 	"apply_messages": [
 		{
-			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABCFgdgwj0eBhTeXNFcnJGb3JiaWRkZW4oOCkgYWJvcnQ=",
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABCFgdgwh4GFN5c0VyckZvcmJpZGRlbig4KSBhYm9ydPQ=",
 			"epoch": 0
 		}
 	],
@@ -57,6 +57,6 @@
 	},
 	"diagnostics": {
 		"format": "Lotus-ExecutionTrace-V1",
-		"data": "SDRzSUFBQUFBQUFBLzdTUnoyL1RNQlRILzVYcGU5b2tINXlXYmVtVGRvQ3NyYWhvTjdxeEF0TU9ydk9VbWlVMnNwMVNWT1YvUjBsYUNUUU83RUF1ZHA2ZlBwLzM0M0dQZVNoQWV6eXdEOFpaa0JTNGR5QkVPVW9oTVBHdTZ2NFNLU0d3Y0ZaemwvU2d5cHBCYUtOVEZUNll5a1JRSW85ZkY1MHdaK283Q0FONXlMdjFYSm02UlNZUW1IUGN1QnlVQ3R3cXI2b0FRdkhqbStSM20zdit2SmhvTzV1dWh6T2pWc3ZucjZzMzdpWjdMcjZzWmx0dFAxNmhFVzN4U3gzYitzYzdFek9YYzhkYWNxeTlCZG02TER2cnA4QTVLRGxQTHBOUkl6RDIzbmtRN242R3NmY1Q1OWNtejltZXBtY25hdTE4UERsZGNrZTdTczhnY0YxN0ZZL0RtYXFRYlpRdk9JQWU5MWlvcXAzQ2pjMDJ5dGc1aDZBS2hrRHA5TkVmQzFBeXVFd3ZoZ0s2QUEzVDd0ck9QUjBKYk50M0tiRFZoelAwWjR3ZzJZamZGRk9PYjNWMC9pVmU5bVRaVStWcm9QMEszdHV0MDMyVEwrQ0RZWHArMFFzTzEzK1JDUEFPQklNL2JGMzk0eDNyLzlyRHRiTi8yY0VyQlU4Q2QvVmFxN0lNUGFWNStoVUFBUC8vQkFOZktTOEQ="
+		"data": "SDRzSUFBQUFBQUFBLzdTUnoyL2FNQlRILzVYcWUyb2xIeHdvYmJEVXcwWWgyZzhZZ3cxcHJYb3d6bE5pTGJFcjIyRWdsUDk5aWdQU3B1NndIcHFMbmVlbnorZjllRHhpN2d1SUl6Ymt2TFlHZ2pOOHN4QUlmSnlDWWVac0hmOFN6c0d3c0VaUlROcklxaUVJZE5GTStzKzYxZ0VpNGVjdlJtZEVFL2tNZ1FFLzVTMGQxYnJwa0FrWTVoUkttME9rREV2cFpPMGhVUHdxcjdQWllxVDQ1cUIrUHV4VS9mSDVJVnRWVzExY2YxcS9MMy9VNDBPKy9IcUhsblhGcjFUbzZwL3VkWmpZbkNKclJhRnhCc0kwVlJXdDN6M2xFTWtvdVUzR0xjUFVPZXNnc0Q3NHFYTXo2N1k2ejhsY3BsY1hjbXRkdUxoY1VhVGRwVmRndUcrY0RPZmhaTkpQU3VrSzhoQ1BSeXhrM1UzaGk1bVVVcHM1ZVM4TEFrTmwxZGtmQ29oa2NKdmVEQmxVQVRGTTQ3V2JlenBtMkhYdm5HR25UcWZ2enhBZ2VNditVR1FVM3FsZzNVczg3OG04cC9MWFFQc1ZmREE3cS9vbVg4QUh3M1IwMHd0TzEvK1JNTkFlQWhwLzJXTDkwejJwTiszaDNwcC83T0NWZ2llR2RiTlZzcXA4VDJtZmZnY0FBUC8vUUJEcSt5OEQ="
 	}
 }
