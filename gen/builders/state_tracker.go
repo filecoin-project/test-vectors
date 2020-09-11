@@ -92,6 +92,7 @@ func (st *StateTracker) ApplyMessage(am *ApplicableMessage) {
 	am.Applied = true
 	am.Result, postRoot, err = st.Driver.ExecuteMessage(st.Stores.Blockstore, st.CurrRoot, am.Epoch, am.Message)
 	if err != nil {
+		am.Failed = true
 		return
 	}
 

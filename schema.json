@@ -137,6 +137,15 @@
       "description": "postconditions that need to be satisfied after execution for this test vector to pass",
       "additionalProperties": false,
       "properties": {
+        "apply_message_failures": {
+          "title": "messages that failed to be applied",
+          "description": "indexes of messages in apply_messages that failed to be applied",
+          "type": "array",
+          "additionalItems": false,
+          "items": {
+            "type": "integer"
+          }
+        },
         "state_tree": {
           "title": "state tree postconditions",
           "description": "state tree postconditions that must be true for this test vector to pass",

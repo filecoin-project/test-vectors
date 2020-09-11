@@ -42,6 +42,9 @@ type ApplicableMessage struct {
 	// not safe to rely on non-nil Result as indication of application
 	// since applied messages may fail without a result.
 	Applied bool
+	// Failed is true if this message was attempted to be applied and failed.
+	// In this case ApplicableMessage.Result will be nil.
+	Failed bool
 }
 
 func (m *Messages) Sugar() *sugarMsg {

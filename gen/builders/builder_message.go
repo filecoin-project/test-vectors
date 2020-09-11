@@ -101,7 +101,7 @@ func (b *MessageVectorBuilder) CommitApplies() {
 		panic("called CommitApplies at the wrong time")
 	}
 
-	for _, am := range b.Messages.All() {
+	for i, am := range b.Messages.All() {
 		// apply all messages that are pending application.
 		if !am.Applied {
 			b.StateTracker.ApplyMessage(am)
@@ -113,16 +113,19 @@ func (b *MessageVectorBuilder) CommitApplies() {
 			Epoch: &epoch,
 		})
 
-		// am.Result may still be nil if the message failed to be applied
-		if am.Result != nil {
-			b.vector.Post.Receipts = append(b.vector.Post.Receipts, &schema.Receipt{
+		if am.Failed {
+			b.vector.Post.ApplyMessageFailures = append(b.vector.Post.ApplyMessageFailures, i)
+		}
+
+		var receipt *schema.Receipt
+		if !am.Failed {
+			receipt = &schema.Receipt{
 				ExitCode:    int64(am.Result.ExitCode),
 				ReturnValue: am.Result.Return,
 				GasUsed:     am.Result.GasUsed,
-			})
-		} else {
-			b.vector.Post.Receipts = append(b.vector.Post.Receipts, nil)
+			}
 		}
+		b.vector.Post.Receipts = append(b.vector.Post.Receipts, receipt)
 	}
 
 	// update the internal state.
@@ -152,7 +155,7 @@ func (b *MessageVectorBuilder) Finish(w io.Writer) {
 	msgs := b.Messages.All()
 	traces := make([]types.ExecutionTrace, 0, len(msgs))
 	for _, msg := range msgs {
-		if msg.Result != nil {
+		if !msg.Failed {
 			traces = append(traces, msg.Result.ExecutionTrace)
 		}
 	}
