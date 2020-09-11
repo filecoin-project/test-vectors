@@ -61,7 +61,7 @@ The two top-level folders are:
  |         └── ...
  |
  ├── schema
- |    ├── schema.go         >>> Go type bindings for the JSON vetcors.
+ |    ├── schema.go         >>> Go type bindings for the JSON vectors.
  |    └── ...
  |
  └── schema.json            >>> JSON schema for the JSON encoded vectors in corpus/.
