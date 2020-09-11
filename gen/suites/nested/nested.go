@@ -123,7 +123,11 @@ func nestedSends_FailNonexistentIDAddress(v *MessageVectorBuilder) {
 
 	newAddr := MustNewIDAddr(1234)
 	amtSent := abi.NewTokenAmount(1)
-	stage.sendOk(newAddr, amtSent, builtin.MethodSend, nil, nonce)
+	result := stage.sendOk(newAddr, amtSent, builtin.MethodSend, nil, nonce)
+
+	var ret multisig.ProposeReturn
+	MustDeserialize(result.Result.Return, &ret)
+	v.Assert.ExitCodeEq(ret.Code, exitcode.SysErrInvalidReceiver)
 
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
 	v.Assert.ActorMissing(newAddr)
@@ -136,7 +140,11 @@ func nestedSends_FailNonexistentActorAddress(v *MessageVectorBuilder) {
 
 	newAddr := MustNewActorAddr("1234")
 	amtSent := abi.NewTokenAmount(1)
-	stage.sendOk(newAddr, amtSent, builtin.MethodSend, nil, nonce)
+	result := stage.sendOk(newAddr, amtSent, builtin.MethodSend, nil, nonce)
+
+	var ret multisig.ProposeReturn
+	MustDeserialize(result.Result.Return, &ret)
+	v.Assert.ExitCodeEq(ret.Code, exitcode.SysErrInvalidReceiver)
 
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
 	v.Assert.ActorMissing(newAddr)
@@ -149,7 +157,11 @@ func nestedSends_FailInvalidMethodNumNewActor(v *MessageVectorBuilder) {
 
 	newAddr := v.Wallet.NewSECP256k1Account()
 	amtSent := abi.NewTokenAmount(1)
-	stage.sendOk(newAddr, amtSent, abi.MethodNum(99), nil, nonce)
+	result := stage.sendOk(newAddr, amtSent, abi.MethodNum(99), nil, nonce)
+
+	var ret multisig.ProposeReturn
+	MustDeserialize(result.Result.Return, &ret)
+	v.Assert.ExitCodeEq(ret.Code, exitcode.SysErrInvalidMethod)
 
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
 	v.Assert.ActorMissing(newAddr)
@@ -164,6 +176,10 @@ func nestedSends_FailInvalidMethodNumForActor(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(stage.creator, amtSent, abi.MethodNum(99), nil, nonce)
 
+	var ret multisig.ProposeReturn
+	MustDeserialize(result.Result.Return, &ret)
+	v.Assert.ExitCodeEq(ret.Code, exitcode.SysErrInvalidMethod)
+
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance)                                           // No change.
 	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateSenderDeduction(result))) // Pay gas, don't receive funds.
 }
@@ -177,6 +193,10 @@ func nestedSends_FailMissingParams(v *MessageVectorBuilder) {
 	params := adt.Empty // Missing params required by AddSigner
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(stage.msAddr, amtSent, builtin.MethodsMultisig.AddSigner, params, nonce)
+
+	var ret multisig.ProposeReturn
+	MustDeserialize(result.Result.Return, &ret)
+	v.Assert.ExitCodeEq(ret.Code, exitcode.ErrSerialization)
 
 	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateSenderDeduction(result)))
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
@@ -199,6 +219,10 @@ func nestedSends_FailMismatchParams(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(stage.msAddr, amtSent, builtin.MethodsMultisig.AddSigner, &params, nonce)
 
+	var ret multisig.ProposeReturn
+	MustDeserialize(result.Result.Return, &ret)
+	v.Assert.ExitCodeEq(ret.Code, exitcode.ErrSerialization)
+
 	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateSenderDeduction(result)))
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
 	v.Assert.Equal(1, len(stage.state().Signers))     // No new signers
@@ -217,7 +241,11 @@ func nestedSends_FailInnerAbort(v *MessageVectorBuilder) {
 		GasReward: big.Zero(),
 	}
 	amtSent := abi.NewTokenAmount(1)
-	stage.sendOk(builtin.RewardActorAddr, amtSent, builtin.MethodsReward.AwardBlockReward, &params, nonce)
+	result := stage.sendOk(builtin.RewardActorAddr, amtSent, builtin.MethodsReward.AwardBlockReward, &params, nonce)
+
+	var ret multisig.ProposeReturn
+	MustDeserialize(result.Result.Return, &ret)
+	v.Assert.ExitCodeEq(ret.Code, exitcode.SysErrForbidden)
 
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
 	v.Assert.HeadEq(builtin.RewardActorAddr, prevHead)
@@ -240,7 +268,11 @@ func nestedSends_FailAbortedExec(v *MessageVectorBuilder) {
 	}
 
 	amtSent := abi.NewTokenAmount(1)
-	stage.sendOk(builtin.InitActorAddr, amtSent, builtin.MethodsInit.Exec, &execParams, nonce)
+	result := stage.sendOk(builtin.InitActorAddr, amtSent, builtin.MethodsInit.Exec, &execParams, nonce)
+
+	var ret multisig.ProposeReturn
+	MustDeserialize(result.Result.Return, &ret)
+	v.Assert.ExitCodeEq(ret.Code, exitcode.ErrForbidden)
 
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
 	v.Assert.HeadEq(builtin.InitActorAddr, prevHead)  // Init state unchanged.

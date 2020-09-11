@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/filecoin-project/lotus/chain/state"
-
-	"github.com/filecoin-project/go-state-types/abi"
-
 	"github.com/filecoin-project/go-address"
-
+	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/filecoin-project/go-state-types/exitcode"
+	"github.com/filecoin-project/lotus/chain/state"
 	"github.com/ipfs/go-cid"
 	"github.com/stretchr/testify/require"
 )
@@ -96,6 +94,11 @@ func (a *Asserter) HeadEq(addr address.Address, expected cid.Cid) {
 	actor, err := st.StateTree.GetActor(addr)
 	a.NoError(err, "failed to fetch actor %s from state", addr)
 	a.Equal(expected, actor.Head, "expected actor %s head: %v, got: %v", addr, expected, actor.Head)
+}
+
+// ExitCodeEq verifies two exit codes are the same (and prints system codes nicely).
+func (a *Asserter) ExitCodeEq(actual exitcode.ExitCode, expected exitcode.ExitCode) {
+	a.Equal(expected, actual, "expected exit code: %s, got: %s", expected, actual)
 }
 
 // ActorExists verifies that the actor exists in the state tree.

@@ -2,6 +2,7 @@ package main
 
 import (
 	. "github.com/filecoin-project/test-vectors/gen/builders"
+	"github.com/filecoin-project/test-vectors/schema"
 )
 
 func main() {
@@ -85,16 +86,22 @@ func main() {
 				ID:      "fail-missing-params",
 				Version: "v1",
 				Desc:    "",
+				Comment: "nested message exit code should be ErrSerialization see https://github.com/filecoin-project/test-vectors/issues/93#issuecomment-689593946",
 			},
 			MessageFunc: nestedSends_FailMissingParams,
+			Mode:        ModeLenientAssertions,
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
 		},
 		&VectorDef{
 			Metadata: &Metadata{
 				ID:      "fail-mismatch-params",
 				Version: "v1",
 				Desc:    "",
+				Comment: "nested message exit code should be ErrSerialization see https://github.com/filecoin-project/test-vectors/issues/93#issuecomment-689593946",
 			},
 			MessageFunc: nestedSends_FailMismatchParams,
+			Mode:        ModeLenientAssertions,
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
 		},
 		&VectorDef{
 			Metadata: &Metadata{
