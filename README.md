@@ -42,23 +42,29 @@ The two top-level folders are:
 ```
  /
  |
- |__ corpus                 >>> test vector corpus.             
- |    |__ suite-a           >>> test vectors for suite suite-a. 
- |    |    |__ vector-1.json
- |    |    |__ vector-2.json
- |    |    |__ vector-3.json
- |    |    |__ ...
+ ├── corpus                 >>> test vector corpus.             
+ |    ├── suite-a           >>> test vectors for suite suite-a. 
+ |    |    ├── vector-1.json
+ |    |    ├── vector-2.json
+ |    |    ├── vector-3.json
+ |    |    └── ...
  |    |
- |    |__ suite-b
- |    |__ ...
+ |    ├── suite-b
+ |    └── ...
  |
- |__ gen
-      |__ builders          >>> Go test vector builder SDK.
-      |__ extern            >>> external dependencies vendored in.
-      |__ scripts           >>> Go generation scripts for each suite.
-           |__ suite-a 
-           |__ suite-b
-           |__ ...
+ ├── gen
+ |    ├── builders          >>> Go test vector builder SDK.
+ |    ├── extern            >>> external dependencies vendored in.
+ |    └── suites            >>> Go generation scripts for each suite.
+ |         ├── suite-a 
+ |         ├── suite-b
+ |         └── ...
+ |
+ ├── schema
+ |    ├── schema.go         >>> Go type bindings for the JSON vetcors.
+ |    └── ...
+ |
+ └── schema.json            >>> JSON schema for the JSON encoded vectors in corpus/.
 ```
 
 ## Test vector specification ([`corpus`](./corpus) directory)
