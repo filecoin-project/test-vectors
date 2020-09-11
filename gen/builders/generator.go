@@ -273,7 +273,7 @@ func (g *Generator) Group(group string, vectors ...*VectorDef) {
 					}
 					// If this vector was broken and became fixed, then remove the broken
 					// vector file (and vice versa).
-					if err := removePreviouslyBroken(g.OutputPath, group, item); err != nil {
+					if err := removePrevious(g.OutputPath, group, item); err != nil {
 						log.Printf("failed to remove previously broken vector: %s", err)
 					}
 					log.Printf("wrote test vector: %s", outFile)
@@ -419,9 +419,9 @@ func ensureDirectory(path string) error {
 	return nil
 }
 
-// removePreviouslyBroken will remove a previously broken vector file if it
+// removePrevious will remove a previously broken vector file if it
 // became fixed & removes a previously working vector file if it became broken.
-func removePreviouslyBroken(dir string, group string, item *VectorDef) error {
+func removePrevious(dir string, group string, item *VectorDef) error {
 	filename := vectorFilename(group, item)
 	var filepath string
 
