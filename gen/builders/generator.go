@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path"
 	"path/filepath"
 	"regexp"
 	"runtime/debug"
@@ -54,6 +55,8 @@ type Generator struct {
 
 	wg sync.WaitGroup
 }
+
+const brokenVectorPrefix = "x--"
 
 // OverwriteMode is the mode used when overwriting existing test vector files.
 type OverwriteMode int
@@ -268,6 +271,11 @@ func (g *Generator) Group(group string, vectors ...*VectorDef) {
 					if err := os.Rename(tmpFile, outFile); err != nil {
 						log.Printf("failed to move generated test vector: %s", err)
 					}
+					// If this vector was broken and became fixed, then remove the broken
+					// vector file (and vice versa).
+					if err := removePrevious(g.OutputPath, group, item); err != nil {
+						log.Printf("failed to remove previously broken vector: %s", err)
+					}
 					log.Printf("wrote test vector: %s", outFile)
 				}
 			}(item)
@@ -281,19 +289,26 @@ func (g *Generator) Group(group string, vectors ...*VectorDef) {
 // group, under the supplied directory. It prefixes files with `x--` if the
 // vector is known to be broken (i.e. carrying the schema.HintIncorrect hint).
 func vectorPath(dir string, group string, item *VectorDef) string {
+	path := filepath.Join(dir, vectorFilename(group, item))
+	return path
+}
+
+// vectorPath returns the file name for the supplied vector, in the supplied
+// group. It prefixes with `x--` if the vector is known to be broken (i.e.
+// carrying the schema.HintIncorrect hint).
+func vectorFilename(group string, item *VectorDef) string {
 	filename := fmt.Sprintf("%s--%s.json", group, item.Metadata.ID)
 
 	// Prefix the file with "x--" if the vector is known to be broken.
 	var broken = map[string]struct{}{schema.HintIncorrect: {}}
 	for _, hint := range item.Hints {
 		if _, ok := broken[hint]; ok {
-			filename = "x--" + filename
+			filename = brokenVectorPrefix + filename
 			break
 		}
 	}
 
-	path := filepath.Join(dir, filename)
-	return path
+	return filename
 }
 
 // parseVectorFile unnmarshals a JSON serialized test vector stored at the
@@ -400,6 +415,24 @@ func ensureDirectory(path string) error {
 
 	case err != nil:
 		return fmt.Errorf("failed to stat directory %s: %w", path, err)
+	}
+	return nil
+}
+
+// removePrevious will remove a previously broken vector file if it
+// became fixed & removes a previously working vector file if it became broken.
+func removePrevious(dir string, group string, item *VectorDef) error {
+	filename := vectorFilename(group, item)
+	var filepath string
+
+	if strings.HasPrefix(filename, brokenVectorPrefix) {
+		filepath = path.Join(dir, strings.Replace(filename, brokenVectorPrefix, "", 1))
+	} else {
+		filepath = path.Join(dir, brokenVectorPrefix+filename)
+	}
+
+	if err := os.Remove(filepath); err != nil && !os.IsNotExist(err) {
+		return err
 	}
 	return nil
 }
