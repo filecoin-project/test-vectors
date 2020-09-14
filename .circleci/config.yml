@@ -24,10 +24,9 @@ commands:
       - run: cd gen/extern/filecoin-ffi && make
 
 executors:
-  linux:
-    machine:
-      image: circleci/golang:1.14.6
-      docker_layer_caching: true
+  golang:
+    docker:
+      - image: circleci/golang:1.14.6
     working_directory: << pipeline.parameters.workspace-dir >>/project
     environment:
       GOPATH: << pipeline.parameters.workspace-dir >>/go/<< pipeline.parameters.go-version >>
@@ -42,7 +41,7 @@ workflows:
 
 jobs:
   build-and-generate:
-    executor: linux
+    executor: golang
     steps:
       - setup
       - run:
