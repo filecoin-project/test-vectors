@@ -11,7 +11,7 @@ parameters:
 
 commands:
   setup:
-    description: "install go, checkout and restore cache"
+    description: "checkout, restore cache, init submodules and build deps"
     steps:
       - checkout
       - restore_cache:
