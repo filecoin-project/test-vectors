@@ -4,7 +4,7 @@ version: 2.1
 parameters:
   go-version:
     type: string
-    default: "1.14.2"
+    default: "1.14.6"
   workspace-dir:
     type: string
     default: "/home/circleci"
@@ -13,12 +13,6 @@ commands:
   setup:
     description: "install go, checkout and restore cache"
     steps:
-      - run:
-          name: "install go"
-          command: |
-            curl --create-dirs -o $GOPATH/go.tar.gz https://dl.google.com/go/go${GOVERSION}.linux-amd64.tar.gz
-            tar --strip-components=1 -C $GOPATH -xzf $GOPATH/go.tar.gz
-            rm -rf $GOPATH/go.tar.gz
       - checkout
       - restore_cache:
           keys:
@@ -32,7 +26,7 @@ commands:
 executors:
   linux:
     machine:
-      image: ubuntu-1604:201903-01
+      image: circleci/golang:1.14.6
       docker_layer_caching: true
     working_directory: << pipeline.parameters.workspace-dir >>/project
     environment:
