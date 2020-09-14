@@ -38,5 +38,3 @@ replace github.com/supranational/blst => ./gen/extern/fil-blst/blst
 replace github.com/filecoin-project/fil-blst => ./gen/extern/fil-blst
 
 replace github.com/filecoin-project/test-vectors/schema => ./schema
-
-replace github.com/filecoin-project/lotus => ../lotus
