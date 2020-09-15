@@ -151,7 +151,7 @@ func NewGenerator() *Generator {
 	flag.BoolVar(&force, "force", false, forceUsage)
 
 	var includeFilter string
-	const includeFilterUsage = "regex inclusion filter to select a subset of vectors to execute; matched against the vector's ID."
+	const includeFilterUsage = "regex inclusion filter to select a subset of vectors to execute; matched against the vector's ID or the vector group name."
 	flag.StringVar(&includeFilter, "i", "", includeFilterUsage)
 	flag.StringVar(&includeFilter, "include", "", includeFilterUsage)
 
@@ -223,7 +223,7 @@ func (g *Generator) Group(group string, vectors ...*VectorDef) {
 
 		var wg sync.WaitGroup
 		for _, item := range vectors {
-			if id := item.Metadata.ID; g.IncludeFilter != nil && !g.IncludeFilter.MatchString(id) {
+			if id := item.Metadata.ID; g.IncludeFilter != nil && !g.IncludeFilter.MatchString(id) && !g.IncludeFilter.MatchString(group) {
 				log.Printf("skipping %s: does not match inclusion filter", id)
 				continue
 			}
