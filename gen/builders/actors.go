@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/filecoin-project/go-state-types/cbor"
 	"github.com/filecoin-project/lotus/chain/types"
 
 	"github.com/filecoin-project/go-state-types/abi"
@@ -12,7 +13,6 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin/account"
 	"github.com/filecoin-project/specs-actors/actors/builtin/miner"
 	"github.com/filecoin-project/specs-actors/actors/builtin/power"
-	"github.com/filecoin-project/specs-actors/actors/runtime"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
 
 	"github.com/filecoin-project/go-address"
@@ -205,7 +205,7 @@ func (a *Actors) Miner(cfg MinerActorCfg) Miner {
 
 	// add claim for the miner
 	// TODO: allow caller to specify.
-	err = hm.Put(adt.AddrKey(handle.ID), &power.Claim{
+	err = hm.Put(abi.AddrKey(handle.ID), &power.Claim{
 		RawBytePower:    abi.NewStoragePower(0),
 		QualityAdjPower: abi.NewStoragePower(0),
 	})
@@ -250,7 +250,7 @@ func (a *Actors) MinerN(cfg MinerActorCfg, miners ...*Miner) {
 
 // CreateActor creates an actor in the state tree, of the specified kind, with
 // the specified address and balance, and sets its state to the supplied state.
-func (a *Actors) CreateActor(code cid.Cid, addr address.Address, balance abi.TokenAmount, state runtime.CBORMarshaler) AddressHandle {
+func (a *Actors) CreateActor(code cid.Cid, addr address.Address, balance abi.TokenAmount, state cbor.Marshaler) AddressHandle {
 	var id address.Address
 	if addr.Protocol() != address.ID {
 		var err error

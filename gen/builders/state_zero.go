@@ -5,6 +5,7 @@ import (
 
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
+	"github.com/filecoin-project/go-state-types/cbor"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/builtin/account"
 	"github.com/filecoin-project/specs-actors/actors/builtin/cron"
@@ -15,7 +16,6 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin/reward"
 	"github.com/filecoin-project/specs-actors/actors/builtin/system"
 	"github.com/filecoin-project/specs-actors/actors/builtin/verifreg"
-	"github.com/filecoin-project/specs-actors/actors/runtime"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
 
 	"github.com/filecoin-project/go-address"
@@ -23,6 +23,7 @@ import (
 	"github.com/ipfs/go-cid"
 
 	"github.com/filecoin-project/lotus/conformance/chaos"
+
 	"github.com/filecoin-project/test-vectors/schema"
 )
 
@@ -59,7 +60,7 @@ func (st *StateTracker) initializeZeroState(selector schema.Selector) {
 		Addr    address.Address
 		Balance abi.TokenAmount
 		Code    cid.Cid
-		State   runtime.CBORMarshaler
+		State   cbor.Marshaler
 	}
 
 	var actors []ActorState

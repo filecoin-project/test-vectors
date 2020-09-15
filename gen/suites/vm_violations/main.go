@@ -297,4 +297,28 @@ func main() {
 	}
 
 	g.Group("actor_abort", actorAbortVectors...)
+
+	g.Group("runtime_inspections",
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "caller-always-id-address",
+				Version: "v1",
+				Desc:    "verify Runtime.Caller() returns an ID address even when message is sent from a robust address",
+			},
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: callerAlwaysIDAddress,
+		},
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "receiver-always-id-address",
+				Version: "v1",
+				Desc:    "verify Runtime.Receiver() returns an ID address even when message is sent to a robust address",
+				Comment: "the call to Runtime.Receiver() should return an ID address but returns the robust address that the message was sent to, fixed by https://github.com/filecoin-project/lotus/pull/3589",
+			},
+			Selector:    map[string]string{"chaos_actor": "true"},
+			Mode:        ModeLenientAssertions,
+			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
+			MessageFunc: receiverAlwaysIDAddress,
+		},
+	)
 }
