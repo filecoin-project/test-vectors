@@ -92,27 +92,6 @@ func main() {
 				}
 			}, exitcode.SysErrForbidden),
 		},
-		&VectorDef{
-			Metadata: &Metadata{
-				ID:      "succeeds-caller-robust-address-allowed-id-address",
-				Version: "v1",
-				Desc:    "a caller using a robust address is successfully verified against an ID address list",
-			},
-			Selector:    map[string]string{"chaos_actor": "true"},
-			MessageFunc: robustCallerValidation,
-		},
-		&VectorDef{
-			Metadata: &Metadata{
-				ID:      "succeeds-receiver-robust-address-allowed-id-address",
-				Version: "v1",
-				Desc:    "a receiver via a robust address is successfully verified against an ID address list",
-				Comment: "the call to Runtime.Message().Receiver() should return an ID address but returns the robust address that the message was sent to, fixed by https://github.com/filecoin-project/lotus/pull/3589",
-			},
-			Selector:    map[string]string{"chaos_actor": "true"},
-			Mode:        ModeLenientAssertions,
-			Hints:       []string{schema.HintIncorrect, schema.HintNegate},
-			MessageFunc: robustReceiverValidation,
-		},
 	)
 
 	// Build an unknown Actor CID.
