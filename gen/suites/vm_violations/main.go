@@ -48,7 +48,7 @@ func main() {
 			},
 			Selector: map[string]string{"chaos_actor": "true"},
 			MessageFunc: callerValidation(func() chaos.CallerValidationArgs {
-				return chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchIs}
+				return chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchIsAddress}
 			}, exitcode.SysErrForbidden),
 		},
 		&VectorDef{
@@ -60,7 +60,7 @@ func main() {
 			Selector: map[string]string{"chaos_actor": "true"},
 			MessageFunc: callerValidation(func() chaos.CallerValidationArgs {
 				return chaos.CallerValidationArgs{
-					Branch: chaos.CallerValidationBranchIs,
+					Branch: chaos.CallerValidationBranchIsAddress,
 					// caller address will be a brand new account NOT the system actor address
 					Addrs: []address.Address{builtin.SystemActorAddr},
 				}
@@ -74,7 +74,7 @@ func main() {
 			},
 			Selector: map[string]string{"chaos_actor": "true"},
 			MessageFunc: callerValidation(func() chaos.CallerValidationArgs {
-				return chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchType}
+				return chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchIsType}
 			}, exitcode.SysErrForbidden),
 		},
 		&VectorDef{
@@ -86,7 +86,7 @@ func main() {
 			Selector: map[string]string{"chaos_actor": "true"},
 			MessageFunc: callerValidation(func() chaos.CallerValidationArgs {
 				return chaos.CallerValidationArgs{
-					Branch: chaos.CallerValidationBranchIs,
+					Branch: chaos.CallerValidationBranchIsType,
 					// caller will be of type account actor NOT system actor
 					Types: []cid.Cid{builtin.SystemActorCodeID},
 				}
