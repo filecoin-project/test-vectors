@@ -1,0 +1,63 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"hints": [
+		"incorrect",
+		"negate"
+	],
+	"_meta": {
+		"id": "receiver-always-id-address",
+		"version": "v1",
+		"description": "verify Runtime.Receiver() returns an ID address even when message is sent to a robust address",
+		"comment": "the call to Runtime.Receiver() should return an ID address but returns the robust address that the message was sent to, fixed by https://github.com/filecoin-project/lotus/pull/3589",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "8bd5c068aa293d4b9004f51a9f599ea51c57a632"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.7.1-0.20200916145008-5a8ee0dd2af6"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.10"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhZSm0AypyLN6Fp732qzMg5K75I5sqbnIoqN8etb12A3bHZGU6t0Pkzvrb7Cj/r1jr+9GWxaju1oy9Yyn/mcWtL3adWi2WXpZalFxZn4e43824sxucmnx4VfoWpho2NjkxJDackMrgIExlIE7LTNH31A/OSMxvxjJ+uk96V9uLNVilJqSXffJ4GxRnI1zrvSe850z3X8Eq9V2zWFwgBrE1nJDK0IaZJIYxKSy1KLMtMzUlKLU9MzikqJKJEM5biZtKZYQKvoy7YiWqNtfwVOrn1nu37vP9tT5CdZbV7cdgBvK0nJDKxxkphDEzOKS/KLE9NSC/PLUIiTzuLXaptSe3ZV/aOE6hVfr+1IObpF/OFXweMrl9+dtV535thtuXhI1fNvU5MTA3HJDyx9kEBfUoKL8PCRz5p6I/feKdVGh5XIvH8EVzanLmzRly8p3vTGqkN8ufPMYN4NDkxNDcssNrSCQGbwQMxKTk/NL80qQjLnvWnJs88KdWSf2bJiyZXrNZM3eipwL739tuvR8yXXp8hlccH8xtNzQCgQZxQMNp8riktRcJJNcN5w/pHDuTXSNTNKRK5K2Fk9eL+nrEC2a8zx+DteGJwcRIc4KikYJkFHCKEGem1iUnYrsNg6O21UXds9YMcue6y+Ll8c+z5b6aUbutiFqv0RUHW51aMNNZEQLqsy8TGRzZu3bNW1XxodTobN8l+s80BWVqvLt+/3ivlfBrSnP3Lf/5Yabk0IwuM6oHitZkRf6xDbV+xUTw9ZaWX/zaBEhI8dlfLHlS1e9ZWZwY3hxZakAA9RAJrRAK0otTyxKQTJPQi1M7lPIMj7BTyc/8T4Svcbwik3sZklUybOfj4QLws8mM/gysJXFVNovZKi8wMDAIIWWrpCYmsQlr6aEBgPcGQi7aAMjcXmq2YkhANlv/7LOJC5enM1jbuNl1bfMu1H706nZQQ0BE+ZUXOEI7eIhQakmccqaHBo0sOdkTJG9jMRl7AkOUNAUIcHAdCeHAQsIZ2A+gE2cgYEEPzIokKD4mwRqwYBg6RJXPDSCyz5WOYzEjsLRIq6QaHRiSJZBLxqQ2erEFRENWjgKBSxC65iIKyS6kUL1aWq3rcRZtoe3J4hu2fAm9KDyIt/oh69UblhaHN1hWe2vT55SKqZzUpILKWodHBz0iPNXMwNDsyNDQ4MEammKYKUSV6Y2IznvncRaP9mXy+JvZlq51Ex7pzGxdmH48qh72ZmdJ2Xn9eVHSqQVJGckZubpliXmZKYklmTm56URp7PJWaGBoQlc2IYyZr4w9vSZKJv1T/+hrWKcT8x39qRQiRSo5P2/oX43l+id3vVN52H+P/7f34MmfZVItSWuVG/EbrgMesGOzK4nroDvdHBg8GQQgBYXXgyM372XWxWyXJncFCEF4iyeVXlvgyt6sRLGKDkta7suurAnA/9/CGBwaGUnrnE32lYbPm01NwZxj7IXDKMtNhJabIxuDBcDJsfRoMVWxT3rFAMAAAD//wEAAP//BXGXU5sNAAA=",
+	"preconditions": {
+		"epoch": 0,
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacebsievlidjm42lryjhpimorxkjryuhwewr6ncbbmepfzvv25wc3uc"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBVAd/9VU7ZpC7LuvYs4W/+D/v3UpL1QgBkAEAaO5rKAEIAyEIAAQlA",
+			"epoch": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceaxn6vq6zvhtbod755ay2tnrhucdfxjkdr7qdsx7nfyin2v2ykntm"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "hkIAZFUB3/1VTtmkLsu69izhb/4P+/dSkvVAAECCYIA=",
+				"gas_used": 247961
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzd5VFhXK2JNQlNHLzh0N08wc3h1SUhFMGk0eW1rU1JtaTdxUjZTdDZvVUxMcUFBVG14RFVLUDg5d21jU3QweWFSK2R4bzJQRER6UE9jYytEd2NzVFFwK3dGcHFrNnNLbkJMY0tYQllqNFZCczdIN2wzclhscTFxOTg5MnR3L0QzVGJjc3VaWnRnM0x5clJnQWdRenJjcnVGK3BSQ29KclZjV3lKNjFGVVV0d2RMdHpZYTd5TXJmZ0huMTkrdDJabEpIWWdzT25wKzlXV3BaNTNTRTlFQ3lselZRQ1BpWllDUzFLQXc0Y1NaZjVUV3k3NUtkdGJpT1ZPT2VOdExXdXdKRnRGcE92cy90UGJPQ3Q3Mnk1dVRKMU1NNWZzcWZCeGVyRElMbmROT3ZKWkJwRlh4YVRqODU3YjJRQzdudkRjZUFkQ2FaYUs5M0pDQzVyTGV4cmYrYkNSSm5RcVRUZ0R3ZGNpN0tyOFhNVlpTS3ZsdElZa1VvUUZDb0dyK3FpSUxBcHVPY0ZvNEFSeENrNEcvVmgxL3B3Uk5CMDd5bEJFNTlXNDFacndlbVJ2RkhNcFozRVZ1bHpQSFZrNnFqMFQ2Q3V3WXVxVWJFcjhnenVzOUV3Y0lKVCtEc1NBdG1DSThkM3RqNy9hU3ZqZjFyRFlsc2tjMm5QbWVIUXYvQWQ5eFQrTFh0YUplOU4yWFdFL1lkKy9IaW1sNnI2eVoxOGg2Qy83RzdXM0pTZndabmZUL2diQWZOL1pYZ2t1SzJmWWxFVXhxR09qOThDQUFELy81ZXE3aXlrQkFBQQ=="
+	}
+}
