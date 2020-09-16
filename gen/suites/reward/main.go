@@ -104,7 +104,7 @@ func main() {
 				v.StagedMessages.ApplyN(v.StagedMessages.All()...)
 
 				// penalty is non-zero.
-				v.Assert.Greater(msg.Result.Penalty.Uint64(), uint64(0))
+				v.Assert.Greater(msg.Result.GasCosts.MinerPenalty.Uint64(), uint64(0))
 			}, nil),
 		},
 		&VectorDef{
@@ -123,7 +123,7 @@ func main() {
 				v.StagedMessages.Sugar().Transfer(from, to, Value(bal), Nonce(0))
 			}, func(v *TipsetVectorBuilder) {
 				// penalty is zero.
-				v.Assert.Zero(v.Tipsets.Messages()[0].Result.Penalty.Uint64())
+				v.Assert.Zero(v.Tipsets.Messages()[0].Result.GasCosts.MinerPenalty.Uint64())
 			}),
 		},
 		&VectorDef{
@@ -148,7 +148,7 @@ func main() {
 				msgs := v.Tipsets.Messages()
 				v.Assert.Equal(exitcode.Ok, msgs[0].Result.ExitCode)             // first msg ok
 				v.Assert.Equal(exitcode.SysErrOutOfGas, msgs[1].Result.ExitCode) // second msg fail
-				v.Assert.Zero(v.Tipsets.Messages()[0].Result.Penalty.Uint64())   // no penalties levied
+				v.Assert.Zero(v.Tipsets.Messages()[0].Result.GasCosts.MinerPenalty.Uint64()) // no penalties levied
 			}),
 		},
 	)
