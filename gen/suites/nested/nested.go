@@ -6,16 +6,17 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
+	"github.com/filecoin-project/go-state-types/cbor"
 	"github.com/filecoin-project/go-state-types/exitcode"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	init_ "github.com/filecoin-project/specs-actors/actors/builtin/init"
 	"github.com/filecoin-project/specs-actors/actors/builtin/multisig"
 	"github.com/filecoin-project/specs-actors/actors/builtin/paych"
 	"github.com/filecoin-project/specs-actors/actors/builtin/reward"
-	"github.com/filecoin-project/specs-actors/actors/runtime"
 	typegen "github.com/whyrusleeping/cbor-gen"
 
 	"github.com/filecoin-project/lotus/conformance/chaos"
+
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
@@ -345,7 +346,7 @@ func prepareStage(v *MessageVectorBuilder, creatorBalance, msBalance abi.TokenAm
 	}
 }
 
-func (s *msStage) sendOk(to address.Address, value abi.TokenAmount, method abi.MethodNum, params runtime.CBORMarshaler, approverNonce uint64) *ApplicableMessage {
+func (s *msStage) sendOk(to address.Address, value abi.TokenAmount, method abi.MethodNum, params cbor.Marshaler, approverNonce uint64) *ApplicableMessage {
 	buf := bytes.Buffer{}
 	if params != nil {
 		err := params.MarshalCBOR(&buf)

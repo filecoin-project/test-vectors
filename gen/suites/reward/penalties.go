@@ -60,10 +60,10 @@ func minerPenalized(minerCnt int, messageFn func(v *TipsetVectorBuilder), checks
 			burntGas      = big.Zero()
 		)
 		for _, am := range v.Tipsets.Messages() {
-			penalty := am.Result.Penalty
+			penalty := am.Result.GasCosts.MinerPenalty
 			cumPenalty = big.Sum(cumPenalty, penalty)
 
-			tip := am.Result.MinerTip
+			tip := am.Result.GasCosts.MinerTip
 			v.Assert.Equal(GetMinerReward(am), tip)
 			firstMinerTip = big.Sum(firstMinerTip, tip)
 
