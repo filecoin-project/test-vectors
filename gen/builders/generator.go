@@ -12,6 +12,7 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"runtime/debug"
 	"strings"
 	"sync"
@@ -49,14 +50,19 @@ type Metadata = schema.Metadata
 // each group in parallel, and will write each vector in a file:
 // <output_dir>/<group>--<vector_id>.json
 type Generator struct {
-	OutputPath    string
-	Mode          OverwriteMode
-	IncludeFilter *regexp.Regexp
+	OutputPath     string
+	Mode           OverwriteMode
+	IncludeFilter  *regexp.Regexp
+	GenerationData []schema.GenerationData
 
 	wg sync.WaitGroup
 }
 
-const brokenVectorPrefix = "x--"
+const (
+	brokenVectorPrefix = "x--"
+	generatorRepo      = "github.com/filecoin-project/test-vectors"
+	suitesDir          = "gen/suites"
+)
 
 // OverwriteMode is the mode used when overwriting existing test vector files.
 type OverwriteMode int
@@ -73,15 +79,10 @@ const (
 var GenscriptCommit = "dirty"
 
 // genData is the generation data to stamp into vectors.
-var genData = []schema.GenerationData{
-	{
-		Source:  "genscript",
-		Version: GenscriptCommit,
-	},
-}
+var genData []schema.GenerationData
 
 func init() {
-	genData = append(genData, getBuildInfo()...)
+	genData = getBuildInfo()
 }
 
 func getBuildInfo() []schema.GenerationData {
@@ -163,7 +164,13 @@ func NewGenerator() *Generator {
 	} else if update {
 		mode = OverwriteUpdate
 	}
-	ret := Generator{Mode: mode}
+	ret := Generator{
+		Mode: mode,
+		GenerationData: append([]schema.GenerationData{{
+			Source:  generatorRepo + "/" + vectorSourceFile(2),
+			Version: GenscriptCommit,
+		}}, genData...),
+	}
 
 	// If output directory is provided, we ensure it exists, or create it.
 	// Else, we'll output to stdout.
@@ -311,7 +318,7 @@ func vectorFilename(group string, item *VectorDef) string {
 	return filename
 }
 
-// parseVectorFile unnmarshals a JSON serialized test vector stored at the
+// parseVectorFile unmarshalls a JSON serialized test vector stored at the
 // given file path and returns it.
 func (g *Generator) parseVectorFile(p string) (*schema.TestVector, error) {
 	raw, err := ioutil.ReadFile(p)
@@ -355,7 +362,7 @@ func (g *Generator) generateOne(w io.Writer, b *VectorDef, indent bool) {
 	log.Printf("generating test vector: %s", b.Metadata.ID)
 
 	// stamp with our generation data.
-	b.Metadata.Gen = genData
+	b.Metadata.Gen = g.GenerationData
 
 	var vector Builder
 	// TODO: currently if an assertion fails, we call os.Exit(1), which
@@ -435,4 +442,17 @@ func removePrevious(dir string, group string, item *VectorDef) error {
 		return err
 	}
 	return nil
+}
+
+// vectorSourceFile gets the relative path of the file that generated the
+// vector from the test suites directory.
+func vectorSourceFile(skip int) string {
+	_, file, _, ok := runtime.Caller(skip)
+	if !ok {
+		panic("failed to get caller file path")
+	}
+	if !strings.Contains(file, suitesDir) {
+		panic(fmt.Errorf("%s does not contain suites dir: %s", file, suitesDir))
+	}
+	return suitesDir + strings.Split(file, suitesDir)[1]
 }
