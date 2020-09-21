@@ -4,9 +4,9 @@
 		"chaos_actor": "true"
 	},
 	"_meta": {
-		"id": "nil-allowed-type-set",
+		"id": "fails-incorrect-caller-addr",
 		"version": "v1",
-		"description": "verifies that an actor that validates against a nil allowed type set fails",
+		"description": "verifies that an actor that validates against an address set that does not include the caller addr fails",
 		"gen": [
 			{
 				"source": "genscript",
@@ -33,7 +33,7 @@
 	},
 	"apply_messages": [
 		{
-			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABAkSDA4CA",
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABAkeDAoFCAACA",
 			"epoch": 0
 		}
 	],
@@ -47,12 +47,12 @@
 			{
 				"exit_code": 8,
 				"return": "",
-				"gas_used": 125719
+				"gas_used": 128719
 			}
 		]
 	},
 	"diagnostics": {
 		"format": "Lotus-ExecutionTrace-V1",
-		"data": "SDRzSUFBQUFBQUFBLzdTU1FXL2FRQkNGLzhycW5WcHBEMnVzVUdjbERvZ1FWS2trRVcxeklSdzI2MkZ4YSsvUzNUWFFJdjU3dFRaSXJkSkRjNGd2TXg2UHZ2ZG14c3NqNXNGQUh2RklQbFRPUWdxT0x3NFNVVndYNExqMXJ1bmVNaUhBY2Vlc3BxN3BVZFV0UVNKVlp5cDhxcG9xUW1iaThuVFZXNktKMmtKaUlNNTlENTZhcWszSURCeHppaHRYUWc0NEhwUlhUWUNFMmQrUHpYZzB3b2tuY3dzZGs3L3BvWW9UVnhKa3diR2cySG9MYWR1NjdxaGZBNVdRMmVEcVEzWjk0cGg2N3p3a3RLcHI4a3hYSllzL3Q4U2U4S3pXMzMrb3NqWjJ2ZGZENXR1MldmdTl5Zk9kL1RWUVQyQjdGWmgxa1RsTHpLM1pjc1hlTGFnVEhoWHZ3WEhUZWhVdmU1cXBNTmtvYnloQUxvKzRVMDFheUwyZGJGUmw1eFNDTWdTTzJ1bUwxV2pTaXJKaW1ITm9BNWtYWFpwT2tPSXVmUmNjTzMyT29ZOHhRb29ULzBOaVJuR3NvL012OGFJbmk1NHFYZ1B0ci9IUjdwenVoM3dCSCtURjFiQVhPS2YvSThKQkIwaFUrRXV0OHo4OWtIN1RHVzZjL2NjTlhpbXc0dmpjUHFlL0tmU1UwK3AzQUFBQS8vOERnT1h4T2dNQQ=="
+		"data": "SDRzSUFBQUFBQUFBLzdTU3o0N1RNQkRHWHlYNlRpRE53V21oWkVmcW9YUzdGWUl1UzRHOVZEMFlkMGdqSlRheW5WS3A2cnNqTzYwRVdnN3NnVnpzT0tQZjl5ZmVuTEFLTmZpRVIvR2hjUmFzQ0Y4Y0dGSGRWQ0RjZWRmbHQxSXBFTzZkTlpLSEhuWGJDeGpwZEtuRGg2WnJJcmhVMXllZjNvbk05UTh3UnVveTkrQ2xhL3FFTEVGWVNkeTdIWGhFZU5CZWR3R00rdWY3dDUvcTJheWVUYWM0VXpLNE5qRjVYQnliT0hjN0FWZUV0Y1RlVzdEdDJ6YVR2d2JaZ2N0UjlhYThPUk1XM2pzUGh0RnRLNzdJQVlvbUZOYkZ3bGtwM1BkaUU1WGFGaS9Xa3FuVDZpVUl0NzNYOFZyRVVvZjVYdnRhQW5oendyM3VVdUtQZHI3WGpWMUpDTG9XRUZwbnJqNWluVHA0VlUzR0JGT0R4MVhlcG80bkU4SWhmVmVFZzdtc1lWaGpCS3N6L1NheGxEZ3owZm1uZURXUTFVQlZ6NEVPZGIrekIyZUdrRS9nbzNIMWVqSUlYTGIvSWtLUUl4Z04vbERML2hkSE1mODF3NjJ6Zi9rSHp4VFlFajczMzlKVkNRUGx2UDBWQUFELy8zUEZFblViQXdBQQ=="
 	}
 }
