@@ -25,7 +25,7 @@ func main() {
 				Desc:    "verifies that an actor that performs no caller validation fails",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(chaos.CallerValidationBranchNone, exitcode.SysErrorIllegalActor),
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchNone}, exitcode.SysErrorIllegalActor),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -34,7 +34,7 @@ func main() {
 				Desc:    "verifies that an actor that validates the caller twice fails",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(chaos.CallerValidationBranchTwice, exitcode.SysErrorIllegalActor),
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchTwice}, exitcode.SysErrorIllegalActor),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -43,7 +43,20 @@ func main() {
 				Desc:    "verifies that an actor that validates against a nil allowed address set fails",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(chaos.CallerValidationBranchAddrNilSet, exitcode.SysErrForbidden),
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchIsAddress}, exitcode.SysErrForbidden),
+		},
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "fails-incorrect-caller-addr",
+				Version: "v1",
+				Desc:    "verifies that an actor that validates against an address set that does not include the caller addr fails",
+			},
+			Selector: map[string]string{"chaos_actor": "true"},
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{
+				Branch: chaos.CallerValidationBranchIsAddress,
+				// caller address will be a brand new account NOT the system actor address
+				Addrs: []address.Address{builtin.SystemActorAddr},
+			}, exitcode.SysErrForbidden),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -52,7 +65,20 @@ func main() {
 				Desc:    "verifies that an actor that validates against a nil allowed type set fails",
 			},
 			Selector:    map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(chaos.CallerValidationBranchTypeNilSet, exitcode.SysErrForbidden),
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchIsType}, exitcode.SysErrForbidden),
+		},
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "fails-incorrect-caller-type",
+				Version: "v1",
+				Desc:    "verifies that an actor that validates against a actor type set that does not include the caller type",
+			},
+			Selector: map[string]string{"chaos_actor": "true"},
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{
+				Branch: chaos.CallerValidationBranchIsType,
+				// caller will be of type account actor NOT system actor
+				Types: []cid.Cid{builtin.SystemActorCodeID},
+			}, exitcode.SysErrForbidden),
 		},
 	)
 
