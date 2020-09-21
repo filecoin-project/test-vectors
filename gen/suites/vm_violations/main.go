@@ -24,10 +24,8 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that an actor that performs no caller validation fails",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(func() chaos.CallerValidationArgs {
-				return chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchNone}
-			}, exitcode.SysErrorIllegalActor),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchNone}, exitcode.SysErrorIllegalActor),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -35,10 +33,8 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that an actor that validates the caller twice fails",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(func() chaos.CallerValidationArgs {
-				return chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchTwice}
-			}, exitcode.SysErrorIllegalActor),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchTwice}, exitcode.SysErrorIllegalActor),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -46,10 +42,8 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that an actor that validates against a nil allowed address set fails",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(func() chaos.CallerValidationArgs {
-				return chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchIsAddress}
-			}, exitcode.SysErrForbidden),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchIsAddress}, exitcode.SysErrForbidden),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -58,12 +52,10 @@ func main() {
 				Desc:    "verifies that an actor that validates against an address set that does not include the caller addr fails",
 			},
 			Selector: map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(func() chaos.CallerValidationArgs {
-				return chaos.CallerValidationArgs{
-					Branch: chaos.CallerValidationBranchIsAddress,
-					// caller address will be a brand new account NOT the system actor address
-					Addrs: []address.Address{builtin.SystemActorAddr},
-				}
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{
+				Branch: chaos.CallerValidationBranchIsAddress,
+				// caller address will be a brand new account NOT the system actor address
+				Addrs: []address.Address{builtin.SystemActorAddr},
 			}, exitcode.SysErrForbidden),
 		},
 		&VectorDef{
@@ -72,10 +64,8 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that an actor that validates against a nil allowed type set fails",
 			},
-			Selector: map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(func() chaos.CallerValidationArgs {
-				return chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchIsType}
-			}, exitcode.SysErrForbidden),
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{Branch: chaos.CallerValidationBranchIsType}, exitcode.SysErrForbidden),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -84,12 +74,10 @@ func main() {
 				Desc:    "verifies that an actor that validates against a actor type set that does not include the caller type",
 			},
 			Selector: map[string]string{"chaos_actor": "true"},
-			MessageFunc: callerValidation(func() chaos.CallerValidationArgs {
-				return chaos.CallerValidationArgs{
-					Branch: chaos.CallerValidationBranchIsType,
-					// caller will be of type account actor NOT system actor
-					Types: []cid.Cid{builtin.SystemActorCodeID},
-				}
+			MessageFunc: callerValidation(chaos.CallerValidationArgs{
+				Branch: chaos.CallerValidationBranchIsType,
+				// caller will be of type account actor NOT system actor
+				Types: []cid.Cid{builtin.SystemActorCodeID},
 			}, exitcode.SysErrForbidden),
 		},
 	)
