@@ -128,6 +128,15 @@ func main() {
 			Selector:    map[string]string{"chaos_actor": "true"},
 			MessageFunc: nestedSends_FailInsufficientFundsForTransferInInnerSend,
 		},
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "recursive-send-balance",
+				Version: "v1",
+				Desc:    "Actor A invokes a method on Actor B and supplies a nonzero value. Before Actor B's execution is complete, it invokes a method on Actor A, but does NOT supply value. Within this context, CurrentBalance should factor in the amount initially sent to Actor B. Finally, Actor B's execution finishes successfully and Actor A continues execution where it left off. CurrentBalance should factor in the amount sent to Actor B.",
+			},
+			Selector:    map[string]string{"chaos_actor": "true"},
+			MessageFunc: nestedSends_RecursiveSendBalance,
+		},
 	)
 
 	g.Close()
