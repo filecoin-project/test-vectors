@@ -10,15 +10,15 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "0cbbc0872685a3381ead9dbedbcd71ca7ad01c3e"
+				"version": "9db1dd8c9f85bd80eb624e77130a02a3aaf3a1f9"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
-				"version": "v0.5.8-0.20200903221953-ada5e6ae68cf"
+				"version": "v0.7.2-0.20200921091031-d9951cdff402"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors",
-				"version": "v0.9.3"
+				"version": "v0.9.10"
 			}
 		]
 	},
@@ -33,7 +33,7 @@
 	},
 	"apply_messages": [
 		{
-			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABAkEB",
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABAkSDAYCA",
 			"epoch": 0
 		}
 	],
@@ -47,12 +47,12 @@
 			{
 				"exit_code": 9,
 				"return": "",
-				"gas_used": 122719
+				"gas_used": 125719
 			}
 		]
 	},
 	"diagnostics": {
 		"format": "Lotus-ExecutionTrace-V1",
-		"data": "SDRzSUFBQUFBQUFBLzdTU1FZdmJQaERGdjRwNXAvOGZkSkFkbXNZRE9TelpiQ2cwMjIzYTdtWFpneW9QanNDV2lqUU9XVUsrZTVHZFFNdjIwRDNVbDVISHcrKzlOOWJUQ2R2VWdrNTQ1SmhjOENDdDhEV0FJTHBlUU9FdWhuNThLN1dHd24zd2xzZWhSOU1OREVMdWJrejY2SG9ub0ZKZm43Rjd4N3d5UDBDbzlHWHVJWEx2aG93c29iQmwyWWNHVkNrOG1HajZCTUxONStVU1o1V043YXhrYit1amsxVm9HRlFyN0ZpRzZFRis2THFSK0MxeEF5cXI2bjFabnhYV01ZWUl1cUNMZmtoU0hFem5HaU5jV05OMUhBdlhzQmNuTHdVZmpaWHVwY2lwaXY5MlBNb3M2LytoY0R0RUk5ZU5iRXhhN1Uxc09ZR2VUcmczZlk3K3lhLzJ4dmt0cDJSYWhrSVg3TldZdEtCNnNaalBGR3dMbWszSHZPdTVWamprejduYVMwMVRGUUhwcy9wRlljTnlZeVhFMTNROWtmVkVmUk4wMnMwSGZ3aDJ5dmdLWHMwVzcrYVR3T1g0TnlJS2ZBVEI0VGUxMGYvNnlQYWZacmdOL2crLzRJMEN6d3BmaHUvNWxxU0pjbjcrR1FBQS8vK3J0blRtSXdNQQ=="
+		"data": "SDRzSUFBQUFBQUFBLzdTU3oydmJNQlRIL3hYelBXMmdnNXpRTG5tUVEwalRNRmk2a20yOWxCNDArZUVJYkdsSXoxbEt5UDgrWkR1dzBSMld3M3g1c2l3KzN4L1c4d25iVklOT2VPS1lYUEFncmZBMWdDQjZQb1BDZlF4dC8xWnFEWVdINEMzM2g1NU0wekVJZVhkajBpZlhPZ0dWK3ZMMHUvZk1LL01EaElrZXp6MUdibDJYa1NVVXRpejdVSUVtQ284bW1qYUJVUC9jTE92bFlvR3p5dVoyVnJLLzlkSEpLbFFNbWl2c1dMcm9RYjVybXA3NkxYRUZLaWMzSDhyNVdXRWRZNGlnRVYrMFhaTGlZQnBYR2VIQ21xYmhXTGlLdlRoNUxmaG9yRFN2UlU1V3ZOdHhMN09ZdjRmQ1hSZU5YRnJabUxUYW0xaHpBajJmOEdEYUhQK3pYKzJOODF0T3lkUU1oU2JZaXpHcGN5SGw3SGFxWUd2UWROWXZjK0Y1SHZKM3JYQ3c0MHpERkFIcHMvcE5Zc095dEJMaVc3d2V5SHFnNm11Z1F6a2YvU0hZSWVRYitHUTZ1N2tkQk1ibHY0Z284QkVFaHovVWV2L3JJOXYvbXVFdStMLzhneXNGWGhTK2ROL3pOVWtENWZ6eUt3QUEvLzlkeForWUtBTUE="
 	}
 }
