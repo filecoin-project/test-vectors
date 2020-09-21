@@ -454,5 +454,5 @@ func vectorSourceFile(skip int) string {
 	if !strings.Contains(file, suitesDir) {
 		panic(fmt.Errorf("%s does not contain suites dir: %s", file, suitesDir))
 	}
-	return suitesDir + strings.Split(file, suitesDir)[1]
+	return file[strings.Index(file, suitesDir):]
 }
