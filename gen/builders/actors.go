@@ -4,20 +4,16 @@ import (
 	"context"
 	"log"
 
-	"github.com/filecoin-project/go-state-types/cbor"
-	"github.com/filecoin-project/lotus/chain/types"
-
+	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/go-state-types/cbor"
+	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/builtin/account"
 	"github.com/filecoin-project/specs-actors/actors/builtin/miner"
 	"github.com/filecoin-project/specs-actors/actors/builtin/power"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
-
-	"github.com/filecoin-project/go-address"
-
 	"github.com/ipfs/go-cid"
 )
 
