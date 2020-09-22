@@ -11,6 +11,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"reflect"
 	"regexp"
 	"runtime"
 	"runtime/debug"
@@ -50,19 +51,14 @@ type Metadata = schema.Metadata
 // each group in parallel, and will write each vector in a file:
 // <output_dir>/<group>--<vector_id>.json
 type Generator struct {
-	OutputPath     string
-	Mode           OverwriteMode
-	IncludeFilter  *regexp.Regexp
-	GenerationData []schema.GenerationData
+	OutputPath    string
+	Mode          OverwriteMode
+	IncludeFilter *regexp.Regexp
 
 	wg sync.WaitGroup
 }
 
-const (
-	brokenVectorPrefix = "x--"
-	generatorRepo      = "github.com/filecoin-project/test-vectors"
-	suitesDir          = "gen/suites"
-)
+const brokenVectorPrefix = "x--"
 
 // OverwriteMode is the mode used when overwriting existing test vector files.
 type OverwriteMode int
@@ -77,13 +73,6 @@ const (
 )
 
 var GenscriptCommit = "dirty"
-
-// genData is the generation data to stamp into vectors.
-var genData []schema.GenerationData
-
-func init() {
-	genData = getBuildInfo()
-}
 
 func getBuildInfo() []schema.GenerationData {
 	deps := []string{"github.com/filecoin-project/lotus", "github.com/filecoin-project/specs-actors"}
@@ -164,13 +153,7 @@ func NewGenerator() *Generator {
 	} else if update {
 		mode = OverwriteUpdate
 	}
-	ret := Generator{
-		Mode: mode,
-		GenerationData: append([]schema.GenerationData{{
-			Source:  generatorRepo + "/" + vectorSourceFile(2),
-			Version: GenscriptCommit,
-		}}, genData...),
-	}
+	ret := Generator{Mode: mode}
 
 	// If output directory is provided, we ensure it exists, or create it.
 	// Else, we'll output to stdout.
@@ -362,7 +345,7 @@ func (g *Generator) generateOne(w io.Writer, b *VectorDef, indent bool) {
 	log.Printf("generating test vector: %s", b.Metadata.ID)
 
 	// stamp with our generation data.
-	b.Metadata.Gen = g.GenerationData
+	b.Metadata.Gen = getBuildInfo()
 
 	var vector Builder
 	// TODO: currently if an assertion fails, we call os.Exit(1), which
@@ -371,10 +354,12 @@ func (g *Generator) generateOne(w io.Writer, b *VectorDef, indent bool) {
 	//  cancelled. The assertion error must bubble up somehow.
 	switch {
 	case b.MessageFunc != nil:
+		b.Metadata.Gen = append(generatorFuncMeta(b.MessageFunc), b.Metadata.Gen...)
 		v := MessageVector(b.Metadata, b.Selector, b.Mode, b.Hints)
 		b.MessageFunc(v)
 		vector = v
 	case b.TipsetFunc != nil:
+		b.Metadata.Gen = append(generatorFuncMeta(b.TipsetFunc), b.Metadata.Gen...)
 		v := TipsetVector(b.Metadata, b.Selector, b.Mode, b.Hints)
 		b.TipsetFunc(v)
 		vector = v
@@ -401,6 +386,12 @@ func (g *Generator) generateOne(w io.Writer, b *VectorDef, indent bool) {
 	}
 
 	log.Printf("generated test vector: %s (size: %d bytes)", b.Metadata.ID, n)
+}
+
+func generatorFuncMeta(f interface{}) []schema.GenerationData {
+	pc := reflect.ValueOf(f).Pointer()
+	file, _ := runtime.FuncForPC(pc).FileLine(pc)
+	return []schema.GenerationData{{Source: file, Version: GenscriptCommit}}
 }
 
 // ensureDirectory checks if the provided path is a directory. If yes, it
@@ -442,17 +433,4 @@ func removePrevious(dir string, group string, item *VectorDef) error {
 		return err
 	}
 	return nil
-}
-
-// vectorSourceFile gets the relative path of the file that generated the
-// vector from the test suites directory.
-func vectorSourceFile(skip int) string {
-	_, file, _, ok := runtime.Caller(skip)
-	if !ok {
-		panic("failed to get caller file path")
-	}
-	if !strings.Contains(file, suitesDir) {
-		panic(fmt.Errorf("%s does not contain suites dir: %s", file, suitesDir))
-	}
-	return file[strings.Index(file, suitesDir):]
 }
