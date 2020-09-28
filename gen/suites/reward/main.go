@@ -146,8 +146,8 @@ func main() {
 				v.StagedMessages.Typed(from, to, MinerControlAddresses(nil), Nonce(1), GasLimit(msg.Result.GasUsed-1))
 			}, func(v *TipsetVectorBuilder) {
 				msgs := v.Tipsets.Messages()
-				v.Assert.Equal(exitcode.Ok, msgs[0].Result.ExitCode)             // first msg ok
-				v.Assert.Equal(exitcode.SysErrOutOfGas, msgs[1].Result.ExitCode) // second msg fail
+				v.Assert.Equal(exitcode.Ok, msgs[0].Result.ExitCode)                         // first msg ok
+				v.Assert.Equal(exitcode.SysErrOutOfGas, msgs[1].Result.ExitCode)             // second msg fail
 				v.Assert.Zero(v.Tipsets.Messages()[0].Result.GasCosts.MinerPenalty.Uint64()) // no penalties levied
 			}),
 		},

@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"io"
 
+	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/ipfs/go-cid"
 
 	"github.com/filecoin-project/lotus/chain/types"
+
 	"github.com/filecoin-project/test-vectors/schema"
 )
 
@@ -67,6 +69,14 @@ func MessageVector(metadata *schema.Metadata, selector schema.Selector, mode Mod
 	bc.Assert.enterStage(StagePreconditions)
 
 	return b
+}
+
+// SetCirculatingSupply sets the circulating supply for this vector. If not set,
+// the driver should use the total maximum supply of Filecoin as specified in
+// the protocol when executing these messages.
+func (b *MessageVectorBuilder) SetCirculatingSupply(supply abi.TokenAmount) {
+	v := supply.Int64()
+	b.vector.Pre.CircSupply = &v
 }
 
 // CommitPreconditions flushes the state tree, recording the new CID in the
