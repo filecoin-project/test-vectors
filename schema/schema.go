@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/big"
+	"time"
 
 	"github.com/filecoin-project/go-address"
 	"github.com/ipfs/go-cid"
@@ -67,8 +68,20 @@ type StateTree struct {
 // Base64EncodedBytes is a base64-encoded binary value.
 type Base64EncodedBytes []byte
 
-// Preconditions contain a representation of VM state at the beginning of the test
+// ChainHead represents a head tipset.
+type ChainHead []cid.Cid
+
+// PreconditionsBlockSeq are the preconditions for a blockseq vector.
+type PreconditionsBlockSeq struct {
+	GenesisTs time.Time  `json:"genesis_ts,omitempty"`
+	ChainHead *ChainHead `json:"chain_head,omitempty"`
+}
+
+// Preconditions contain the environment that needs to be set before the
+// vector's applies are applied.
 type Preconditions struct {
+	*PreconditionsBlockSeq
+
 	// Epoch must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
 	// equivalent type in other implementations.
 	Epoch     int64      `json:"epoch,omitempty"`
@@ -125,6 +138,51 @@ type Diagnostics struct {
 	Data   Base64EncodedBytes `json:"data"`
 }
 
+// OffsetMillis is a type that serializes as uint64 in json, and represents a
+// duration in milliseconds.
+type OffsetMillis struct {
+	time.Duration
+}
+
+var (
+	_ json.Unmarshaler = (*OffsetMillis)(nil)
+	_ json.Marshaler   = (*OffsetMillis)(nil)
+)
+
+func (om *OffsetMillis) UnmarshalJSON(b []byte) error {
+	var ms uint64
+	if err := json.Unmarshal(b, &ms); err != nil {
+		return fmt.Errorf("failed to unmarshal milliseconds offset: %w", err)
+	}
+	*om = OffsetMillis{time.Duration(ms) * time.Millisecond}
+	return nil
+}
+
+func (om OffsetMillis) MarshalJSON() ([]byte, error) {
+	return json.Marshal(om.Duration.Milliseconds())
+}
+
+type TimestampedRawBlock struct {
+	// OffsetMs is the offset in milliseconds from genesis where this block is
+	// received.
+	OffsetMs OffsetMillis `json:"offset_ms"`
+
+	// Bytes is the CBOR-encoded types.BlockMsg, the same type that gets
+	// sent in the network over pubsub. types.BlockMsg contains the block header
+	// and the message CIDs.
+	Bytes Base64EncodedBytes `json:"bytes"`
+}
+
+// BlockSeq enumerates the blocks to be applied, and provides a message
+// repository that contains the message payloads.
+type BlockSeq struct {
+	// Blocks is the sequence of timestamped blocks that this vector applies.
+	Blocks []TimestampedRawBlock `json:"blocks"`
+	// MessageRepo is the repository of messages mapping CIDs to message
+	// payloads.
+	MessageRepo map[cid.Cid]Base64EncodedBytes `json:"message_repo"`
+}
+
 // TestVector is a single test case
 type TestVector struct {
 	Class    `json:"class"`
@@ -150,6 +208,7 @@ type TestVector struct {
 
 	ApplyMessages []Message `json:"apply_messages,omitempty"`
 	ApplyTipsets  []Tipset  `json:"apply_tipsets,omitempty"`
+	ApplyBlockseq *BlockSeq `json:"apply_blockseq,omitempty"`
 
 	Post        *Postconditions `json:"postconditions"`
 	Diagnostics *Diagnostics    `json:"diagnostics,omitempty"`
