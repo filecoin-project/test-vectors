@@ -71,8 +71,15 @@ type Base64EncodedBytes []byte
 type Preconditions struct {
 	// Epoch must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
 	// equivalent type in other implementations.
-	Epoch     int64      `json:"epoch"`
-	StateTree *StateTree `json:"state_tree"`
+	Epoch     int64      `json:"epoch,omitempty"`
+	StateTree *StateTree `json:"state_tree,omitempty"`
+
+	// CircSupply is optional. If specified, it is the value that will be
+	// injected in the VM when running this vector. If absent, the default
+	// value will be injected (TotalFilecoin, the maximum supply of Filecoin
+	// that will ever exist). It is usually odd to set it, and it's only here
+	// for specialized vectors.
+	CircSupply *int64 `json:"circ_supply,omitempty"`
 }
 
 // Receipt represents a receipt to match against.
@@ -93,12 +100,12 @@ type Postconditions struct {
 }
 
 // MarshalJSON implements json.Marshal for Base64EncodedBytes
-func (beb Base64EncodedBytes) MarshalJSON() ([]byte, error) {
-	return json.Marshal(base64.StdEncoding.EncodeToString(beb))
+func (b Base64EncodedBytes) MarshalJSON() ([]byte, error) {
+	return json.Marshal(base64.StdEncoding.EncodeToString(b))
 }
 
 // UnmarshalJSON implements json.Unmarshal for Base64EncodedBytes
-func (beb *Base64EncodedBytes) UnmarshalJSON(v []byte) error {
+func (b *Base64EncodedBytes) UnmarshalJSON(v []byte) error {
 	var s string
 	if err := json.Unmarshal(v, &s); err != nil {
 		return err
@@ -108,7 +115,7 @@ func (beb *Base64EncodedBytes) UnmarshalJSON(v []byte) error {
 	if err != nil {
 		return err
 	}
-	*beb = bytes
+	*b = bytes
 	return nil
 }
 
