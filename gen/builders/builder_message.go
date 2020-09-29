@@ -75,8 +75,13 @@ func MessageVector(metadata *schema.Metadata, selector schema.Selector, mode Mod
 // the driver should use the total maximum supply of Filecoin as specified in
 // the protocol when executing these messages.
 func (b *MessageVectorBuilder) SetCirculatingSupply(supply abi.TokenAmount) {
-	v := supply.Int64()
-	b.vector.Pre.CircSupply = &v
+	b.vector.Pre.CircSupply = supply.Int
+}
+
+// SetBaseFee sets the base fee for this vector. If not set, the driver should
+// use 100 attoFIL as the base fee when executing this vector.
+func (b *MessageVectorBuilder) SetBaseFee(basefee abi.TokenAmount) {
+	b.vector.Pre.BaseFee = basefee.Int
 }
 
 // CommitPreconditions flushes the state tree, recording the new CID in the
