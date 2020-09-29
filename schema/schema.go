@@ -164,8 +164,6 @@ type Message struct {
 	// Epoch must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
 	// equivalent type in other implementations.
 	Epoch *int64 `json:"epoch,omitempty"`
-	// BaseFee is an optional base fee to
-	BaseFee *big.Int `json:"basefee,omitempty"`
 }
 
 type Tipset struct {
