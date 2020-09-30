@@ -1,6 +1,7 @@
 # Batch 0001: Initial extraction
 
 > extracted around Wed Sep 30 11:00:00 UTC 2020
+>
 > tvx version: dev (commit eb6191d0ffd01a7cf7f8544a31acf307b1799fb2).
 
 This is a selection of 171 messages extracted from heights 65000-69000 of
@@ -93,7 +94,7 @@ with uniq_msgs as (
                   on msgs.to = actors.id and actors.state_root = b.parent_state_root -- this is not precise, but actor types are immutable, so it'll suffice
              join public.receipts as receipts on msgs.cid = receipts.message
     where b.height >= 65000
-     and b.height <= 69000 -- process only heights above epoch 50000; chainwatch only synced up to 60063.
+     and b.height <= 69000 -- between 65000 and 69000, inclusive.
     order by height desc
 ),
      group_by_type
