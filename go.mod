@@ -8,8 +8,8 @@ require (
 	github.com/filecoin-project/go-bitfield v0.2.0
 	github.com/filecoin-project/go-crypto v0.0.0-20191218222705-effae4ea9f03
 	github.com/filecoin-project/go-state-types v0.0.0-20200911004822-964d6c679cfc
-	github.com/filecoin-project/lotus v0.7.2-0.20200921115539-d3ddd3bff94f
-	github.com/filecoin-project/specs-actors v0.9.10
+	github.com/filecoin-project/lotus v0.8.0
+	github.com/filecoin-project/specs-actors v0.9.11
 	github.com/filecoin-project/test-vectors/schema v0.0.1
 	github.com/ipfs/go-block-format v0.0.2
 	github.com/ipfs/go-blockservice v0.1.4-0.20200624145336-a978cec6e834
@@ -21,7 +21,7 @@ require (
 	github.com/ipfs/go-ipld-cbor v0.0.5-0.20200428170625-a0bd04d3cbdf
 	github.com/ipfs/go-ipld-format v0.2.0
 	github.com/ipfs/go-merkledag v0.3.2
-	github.com/ipld/go-car v0.1.1-0.20200526133713-1c7508d55aae
+	github.com/ipld/go-car v0.1.1-0.20200923150018-8cdef32e2da4
 	github.com/libp2p/go-libp2p-core v0.6.1
 	github.com/minio/blake2b-simd v0.0.0-20160723061019-3f5f724cb5b1
 	github.com/multiformats/go-multihash v0.0.14
