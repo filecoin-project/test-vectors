@@ -5,12 +5,14 @@ import (
 
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/filecoin-project/lotus/chain/actors/builtin"
 	"github.com/ipfs/go-cid"
 	cbg "github.com/whyrusleeping/cbor-gen"
 
 	"github.com/filecoin-project/lotus/chain/state"
 	"github.com/filecoin-project/lotus/chain/types"
-	lotus "github.com/filecoin-project/lotus/conformance"
+	"github.com/filecoin-project/lotus/conformance"
+
 	"github.com/filecoin-project/test-vectors/schema"
 )
 
@@ -21,7 +23,7 @@ type StateTracker struct {
 
 	Stores    *Stores
 	StateTree *state.StateTree
-	Driver    *lotus.Driver
+	Driver    *conformance.Driver
 
 	CurrRoot cid.Cid
 }
@@ -30,7 +32,8 @@ func NewStateTracker(bc *BuilderCommon, selector schema.Selector) *StateTracker 
 	stores := NewLocalStores(context.Background())
 
 	// create a brand new state tree.
-	st, err := state.NewStateTree(stores.CBORStore)
+	// TODO: specify network version in vectors.
+	st, err := state.NewStateTree(stores.CBORStore, builtin.Version0)
 	if err != nil {
 		panic(err)
 	}
@@ -39,7 +42,7 @@ func NewStateTracker(bc *BuilderCommon, selector schema.Selector) *StateTracker 
 		bc:        bc,
 		Stores:    stores,
 		StateTree: st,
-		Driver:    lotus.NewDriver(context.Background(), selector),
+		Driver:    conformance.NewDriver(context.Background(), selector),
 	}
 
 	_ = stkr.Flush()
