@@ -1,11 +1,11 @@
-## Extracted vectors
+# Extracted vectors
 
 This region of the corpus contains vectors that have been extracted from live
 networks using the [`tvx` tool](https://github.com/filecoin-project/lotus/tree/master/cmd/tvx).
 
 It is further classified in **batches**.
 
-### Batches
+## Batches
 
 Each subdirectory maps to a batch.
 
@@ -39,7 +39,7 @@ corpus/
         |__ ...
 ```
 
-### Batch contents
+## Batch contents
 
 Each batch contains one or many test vectors.
 
