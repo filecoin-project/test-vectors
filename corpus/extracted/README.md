@@ -44,7 +44,7 @@ corpus/
 Each batch contains one or many test vectors.
 
 Batches can be further broken down into arbitrary subdirectory structures, for
-finer vector clasification.
+finer vector classification.
 
 For example, the `0001-initial-vectors` batch has this structure:
 
