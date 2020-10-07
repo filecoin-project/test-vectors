@@ -4,6 +4,8 @@ import (
 	"io"
 	"log"
 	"os"
+
+	"github.com/filecoin-project/lotus/chain/vm"
 )
 
 func init() {
@@ -12,6 +14,9 @@ func init() {
 	log.SetPrefix(">>> ")
 
 	_ = os.Setenv("LOTUS_DISABLE_VM_BUF", "iknowitsabadidea")
+
+	// enable gas tracing in execution traces.
+	vm.EnableGasTracing = true
 }
 
 // Builder is a vector builder.
