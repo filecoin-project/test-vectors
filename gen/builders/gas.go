@@ -1,8 +1,6 @@
 package builders
 
 import (
-	lotus "github.com/filecoin-project/lotus/conformance"
-
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
 )
@@ -58,5 +56,5 @@ func CalculateBurntGas(am *ApplicableMessage) big.Int {
 	}
 
 	totalBurnGas := big.Add(overestimateGas, big.NewInt(gasUsed))
-	return big.Mul(lotus.BaseFee, totalBurnGas)
+	return big.Mul(am.baseFee, totalBurnGas)
 }

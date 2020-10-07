@@ -14,15 +14,15 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "326cab3eb3dd8d1b77a17d85e0c10ae36c369f2d"
+				"version": "2dc5ae5f574c20b5fbf770a13339ac0dfa1776bc"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
-				"version": "v0.7.0"
+				"version": "v0.8.2-0.20201007145203-7cd1330acd98"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors",
-				"version": "v0.9.8"
+				"version": "v0.9.11"
 			}
 		]
 	},
@@ -57,6 +57,6 @@
 	},
 	"diagnostics": {
 		"format": "Lotus-ExecutionTrace-V1",
-		"data": "SDRzSUFBQUFBQUFBLzdTUlFXL2FRQkNGLzByMFRvbTBoN1VwMUt5VVEwc0lvaTB1dFZ0U0d1V3dyRWZHMG5vMzJsMVRFT0svVjdaQmFwVWVta045bWZIczZIdnpaaDZQV1BnUzRvZ1ZPVjlaQThFWnZsb0lCRDVPd0hEdmJOMzlSWnlESWJWR1VkZTBrcm9oQ0xUVm1mU2Zxcm9LRUJHL2ZGMzFubWdpbnlFUTgzUGYwbEZkTlMweUFzT0N3dFlXRUFuRFVqcFpld2lVUHorOG1hL1NvZUtyZzlLcDN0U1pWanJsNisrWnpoK0c4ZnBoLy94alVoNCs1dSszNjNwOEtKWmZibkZpclpGTWhkYkxkRitGaVMwSUltYklLRFRPUUpoRzYyNkNiNTRLaUdqRTMwYmpFOFBVT2VzZ2tCLzgxTG1jVEVFdUR6TFEzT3lrcm9ycitPWkticXdMVjljWmRkamIrQVlNZDQyVDRiS3htZlNUclhRbGVZakhJMUpadDZ2NWJDWmJXWmtGZVM5TEFvTzI2akpJS0NHaXdTZ1pEUmhVQ1RGSXVyUTl4amhoMkxYdm5HR256dEgzTVFRSWZtSy9TY3dvdkZQQnVwZDQzcE41VCtXdmdmWjNtWnVkVmIzSkYvQjRrQXhIdmNBNS9SY1JCdHBEb01JZmF0MzgwejJwLytyaHpwcS8zT0NWQWs4TWViTlJVbXZmVTA1UHZ3SUFBUC8vSjQwT3IwUUQ="
+		"data": "SDRzSUFBQUFBQUFBLzdTUlFXL2FUaERGdjByMFRvbTBoN1g1dzkrc2xFTkxDS0l0THJWYlVocmxzS3lueHRKNk45cGRVeERpdTFlMlFXcVZIcHBEZlpueDdPajM1czA4SHJId0pjUVJLM0src2dhQ00zeTJFUGpPeHdrWTdwMnR1NytJY3pDazFpanFtbFpTTndTQnRqcVQva05WVndFaTRwZXZxOTRUVGVRekJHSis3bHM2cXF1bVJVWmdXRkRZMmdJaVlWaEtKMnNQZ2ZMSHUvL21xM1NvK09xZ2RLbzNkYWFWVHZuNmE2YnpoMkc4ZnRnL2Y1dVVoL2Y1MisyNkhoK0s1YWRibkZockpGT2g5VExkVjJGaUM0S0lHVElLalRNUXB0RzZtK0NMcHdJaUd2SC9vL0dKWWVxY2RSRElEMzdxWEU2bUlKY0hHV2h1ZGxKWHhYVjhjeVUzMW9XcjY0dzY3RzE4QTRhN3hzbHcyZGhNK3NsV3VwSTh4T01ScWF6YjFYdzBrNjJzeklLOGx5V0JRVnQxR1NTVUVORmdsSXdHREtxRUdDUmQyaDVqbkREczJuZk9zRlBuNlBzWUFnUS9zVjhrWmhUZXFHRGRTenp2eWJ5bjh0ZEErN3ZNemM2cTN1UUxlRHhJaHFOZTRKeitqUWdEN1NGUTRUZTFidjdwbnRRLzlYQm56Ujl1OEVxQko0YTgyU2lwdGU4cHA2ZWZBUUFBLy84OWZpWkVSQU1B"
 	}
 }

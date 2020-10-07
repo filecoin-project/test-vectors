@@ -7,15 +7,15 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "0cbbc0872685a3381ead9dbedbcd71ca7ad01c3e"
+				"version": "2dc5ae5f574c20b5fbf770a13339ac0dfa1776bc"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
-				"version": "v0.5.8-0.20200903221953-ada5e6ae68cf"
+				"version": "v0.8.2-0.20201007145203-7cd1330acd98"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors",
-				"version": "v0.9.3"
+				"version": "v0.9.11"
 			}
 		]
 	},
@@ -50,6 +50,6 @@
 	},
 	"diagnostics": {
 		"format": "Lotus-ExecutionTrace-V1",
-		"data": "SDRzSUFBQUFBQUFBLzVTUnkycnpNQkNGMytXc3RaQWQvaVRXN3NlNVVHalNrTGJaaEN4VVpYQU10bFIwQ1lIZ2R5K3lIQ2lrbEVhYkdZMkc3NXdaN2E5WXVRcmlpaDFaVnhzTndSbmVEQVE4ejNnR2hvVTE3WERsWUZnYnJhanYyc2ttRUFSaWRTbmRjOTNXSGlManQ5TlhGMFNsL0lSQXpvZStqYVcyRGhFWjZTdnlKM1BzZVJ0cFplc2dnSTVGVjF2bG83SDVwZmFsT1NiTkxmbGdOWVFPVGRQVDNoMGRJYko4d290eHh6QzMxdGlJWUpnRksvMXRvcVYwNVVuYWloekUvb3ExYktQekYxMmVaSzFYNUp5c0NBeU5VVGUycnlDS3lYUThZbEFWeEdqYXAzRlgvd3FHYzN6bURHYzFSSmVpOXhDOFk5OFVsdVQvSzIvc1BaMG5NazlVL2dnMGJlMUpuNDFLTTk3Qjh5SWZEZGFIOUM4aURIUkpIL0NMMk16b0gzYjE0RFFIaHRmd29XVFR1RVRwRGw4QkFBRC8vOXFqRERxTUFnQUE="
+		"data": "SDRzSUFBQUFBQUFBLzVTUlQydkRNQXpGdjhzNysrQ2tyRzE4RytrZkJtdFh1cTJYMG9QbmFta2dzWWZ0bEVMSmR4K09FeGgwak5VWHliTDR2U2Q1ZjhYS0ZSQlg3TWk2MG1nSXp2Qm1JUERKRTU2QVlXRk4zVjg1R05aR0srcTZkckpxQ0FLaHVwVHV1YXhMRDVIdzRYVFZCVkV1dnlDUThyNXZZNmt1bTRBTTlCWDVremwydkkyMHNuWVFRTXVDcTYzeXdkajhVdnJjSEtQbWxueGpOWVJ1cXFxanZUczZRaVRwaEdmamxtRnVyYkVCd1RCcnJQVERSRXZwOHBPMEJUbUkvUlZyV1Fmbkx6by95Vkt2eURsWkVCZ3Fvd2EyTHlDeXlYUThZbEFGeEdqYXBXRlhEeG5ET1R4emhyUHFvNHZSZXdqZXNoOEtTL0tQeWh0N1MrZVJ6Q09WM3dPTlczdlNaNlBpakRmd05FdEh2ZlUrL1k4SUExM2lCL3doTmpQNmwxM2RPYzJCNGJYNVVMS3FYS1MwaCs4QUFBRC8vLzJscVJtTUFnQUE="
 	}
 }
