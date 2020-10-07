@@ -250,8 +250,8 @@ github.com/filecoin-project/go-statestore v0.1.0 h1:t56reH59843TwXHkMcwyuayStBIi
 github.com/filecoin-project/go-statestore v0.1.0/go.mod h1:LFc9hD+fRxPqiHiaqUEZOinUJB4WARkRfNl10O7kTnI=
 github.com/filecoin-project/go-storedcounter v0.0.0-20200421200003-1c99c62e8a5b h1:fkRZSPrYpk42PV3/lIXiL0LHetxde7vyYYvSsttQtfg=
 github.com/filecoin-project/go-storedcounter v0.0.0-20200421200003-1c99c62e8a5b/go.mod h1:Q0GQOBtKf1oE10eSXSlhN45kDBdGvEcVOqMiffqX+N8=
-github.com/filecoin-project/lotus v0.8.2-0.20201006235316-6cb58add086d h1:mXMdcNoJJQpfXC+Ro0fM5Qxxh4ZsxgtDC5VsgEQOPNU=
-github.com/filecoin-project/lotus v0.8.2-0.20201006235316-6cb58add086d/go.mod h1:HZ6g/DmmlUyRH67F4LbkS4yLAzvLJTTnzwHyaUflE6I=
+github.com/filecoin-project/lotus v0.8.2-0.20201007005143-2ab8dbbc8226 h1:OF3rekIntyzch5nU7xbd2nDIMOyE++50IkV1loG0klk=
+github.com/filecoin-project/lotus v0.8.2-0.20201007005143-2ab8dbbc8226/go.mod h1:HZ6g/DmmlUyRH67F4LbkS4yLAzvLJTTnzwHyaUflE6I=
 github.com/filecoin-project/specs-actors v0.9.4 h1:FePB+hrctHHiTbmaY4hnvBJzfgckN3eJreUZWpS5yks=
 github.com/filecoin-project/specs-actors v0.9.4/go.mod h1:BStZQzx5x7TmCkLv0Bpa07U6cPKol6fd3w9KjMPZ6Z4=
 github.com/filecoin-project/specs-actors v0.9.7 h1:7PAZ8kdqwBdmgf/23FCkQZLCXcVu02XJrkpkhBikiA8=
