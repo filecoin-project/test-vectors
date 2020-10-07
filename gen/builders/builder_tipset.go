@@ -8,7 +8,7 @@ import (
 	"github.com/filecoin-project/test-vectors/schema"
 
 	"github.com/filecoin-project/lotus/chain/types"
-	"github.com/filecoin-project/lotus/conformance"
+	lotus "github.com/filecoin-project/lotus/conformance"
 
 	"github.com/filecoin-project/go-state-types/abi"
 
@@ -58,14 +58,15 @@ var _ Builder = (*TipsetVectorBuilder)(nil)
 // godocs on that type.
 func TipsetVector(metadata *schema.Metadata, selector schema.Selector, mode Mode, hints []string) *TipsetVectorBuilder {
 	bc := &BuilderCommon{Stage: StagePreconditions}
+
+	st := NewStateTracker(bc, selector)
+	bc.Actors = NewActors(bc, st)
 	bc.Wallet = NewWallet()
 
 	b := &TipsetVectorBuilder{
 		BuilderCommon: bc,
+		StateTracker:  st,
 	}
-
-	b.StateTracker = NewStateTracker(selector, &b.vector)
-	bc.Actors = NewActors(bc, b.StateTracker)
 
 	b.vector.Class = schema.ClassTipset
 	b.vector.Meta = metadata
@@ -84,6 +85,8 @@ func TipsetVector(metadata *schema.Metadata, selector schema.Selector, mode Mode
 		actors:  func() *Actors { return bc.Actors },
 		preroot: func() cid.Cid { return b.PreRoot },
 	})
+
+	st.initializeZeroState(selector)
 
 	bc.Assert.enterStage(StagePreconditions)
 
@@ -167,7 +170,7 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 	}
 
 	var traces []types.ExecutionTrace
-	driver := conformance.NewDriver(context.Background(), b.vector.Selector, conformance.DriverOpts{})
+	driver := lotus.NewDriver(context.Background(), b.vector.Selector)
 	for _, ts := range b.Tipsets.All() {
 		// Store the tipset in the vector.
 		b.vector.ApplyTipsets = append(b.vector.ApplyTipsets, ts.Tipset)
@@ -190,13 +193,11 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 			// store the trace.
 			traces = append(traces, res.ExecutionTrace)
 
-			// store the result and basefee in the original message being
-			// tracked by the TipsetSeq, so we can do asserts.
+			// store the result in the original message being tracked by the TipsetSeq, so we can do asserts.
 			// this is inefficient, but this is not production code.
 			mcid := ret.AppliedMessages[i].Cid()
 			for _, m := range b.Tipsets.Messages() {
 				if m.Message.Cid() == mcid {
-					m.baseFee = conformance.BaseFeeOrDefault(b.vector.Pre.BaseFee)
 					m.Result = res
 					break
 				}

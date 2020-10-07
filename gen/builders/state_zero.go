@@ -34,6 +34,7 @@ const (
 
 var (
 	TotalNetworkBalance = big.Mul(big.NewInt(totalFilecoin), big.NewInt(filecoinPrecision))
+	EmptyReturnValue    []byte
 )
 
 var (
@@ -62,9 +63,9 @@ func (st *StateTracker) initializeZeroState(selector schema.Selector) {
 		State   cbor.Marshaler
 	}
 
-	var actorStates []ActorState
+	var actors []ActorState
 
-	actorStates = append(actorStates, ActorState{
+	actors = append(actors, ActorState{
 		Addr:    builtin.InitActorAddr,
 		Balance: big.Zero(),
 		Code:    builtin.InitActorCodeID,
@@ -73,28 +74,28 @@ func (st *StateTracker) initializeZeroState(selector schema.Selector) {
 
 	zeroRewardState := reward.ConstructState(big.Zero())
 
-	actorStates = append(actorStates, ActorState{
+	actors = append(actors, ActorState{
 		Addr:    builtin.RewardActorAddr,
 		Balance: TotalNetworkBalance,
 		Code:    builtin.RewardActorCodeID,
 		State:   zeroRewardState,
 	})
 
-	actorStates = append(actorStates, ActorState{
+	actors = append(actors, ActorState{
 		Addr:    builtin.BurntFundsActorAddr,
 		Balance: big.Zero(),
 		Code:    builtin.AccountActorCodeID,
 		State:   &account.State{Address: builtin.BurntFundsActorAddr},
 	})
 
-	actorStates = append(actorStates, ActorState{
+	actors = append(actors, ActorState{
 		Addr:    builtin.StoragePowerActorAddr,
 		Balance: big.Zero(),
 		Code:    builtin.StoragePowerActorCodeID,
 		State:   power.ConstructState(EmptyMapCid, EmptyMultiMapCid),
 	})
 
-	actorStates = append(actorStates, ActorState{
+	actors = append(actors, ActorState{
 		Addr:    builtin.StorageMarketActorAddr,
 		Balance: big.Zero(),
 		Code:    builtin.StorageMarketActorCodeID,
@@ -110,14 +111,14 @@ func (st *StateTracker) initializeZeroState(selector schema.Selector) {
 		},
 	})
 
-	actorStates = append(actorStates, ActorState{
+	actors = append(actors, ActorState{
 		Addr:    builtin.SystemActorAddr,
 		Balance: big.Zero(),
 		Code:    builtin.SystemActorCodeID,
 		State:   &system.State{},
 	})
 
-	actorStates = append(actorStates, ActorState{
+	actors = append(actors, ActorState{
 		Addr:    builtin.CronActorAddr,
 		Balance: big.Zero(),
 		Code:    builtin.CronActorCodeID,
@@ -131,7 +132,7 @@ func (st *StateTracker) initializeZeroState(selector schema.Selector) {
 
 	// Add the chaos actor if this test requires it.
 	if chaosOn, ok := selector["chaos_actor"]; ok && chaosOn == "true" {
-		actorStates = append(actorStates, ActorState{
+		actors = append(actors, ActorState{
 			Addr:    chaos.Address,
 			Balance: big.Zero(),
 			Code:    chaos.ChaosActorCodeCID,
@@ -144,15 +145,15 @@ func (st *StateTracker) initializeZeroState(selector schema.Selector) {
 		panic(err)
 	}
 
-	actorStates = append(actorStates, ActorState{
+	actors = append(actors, ActorState{
 		Addr:    builtin.VerifiedRegistryActorAddr,
 		Balance: big.Zero(),
 		Code:    builtin.VerifiedRegistryActorCodeID,
 		State:   verifreg.ConstructState(EmptyMapCid, rootVerifierID),
 	})
 
-	for _, act := range actorStates {
-		_ = st.CreateActor(act.Code, act.Addr, act.Balance, act.State)
+	for _, act := range actors {
+		_ = st.bc.Actors.CreateActor(act.Code, act.Addr, act.Balance, act.State)
 	}
 }
 

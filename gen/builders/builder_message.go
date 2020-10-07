@@ -39,15 +39,16 @@ type MessageVectorBuilder struct {
 // MessageVector creates a builder for a message-class vector.
 func MessageVector(metadata *schema.Metadata, selector schema.Selector, mode Mode, hints []string) *MessageVectorBuilder {
 	bc := &BuilderCommon{Stage: StagePreconditions}
+
+	st := NewStateTracker(bc, selector)
+	bc.Actors = NewActors(bc, st)
 	bc.Wallet = NewWallet()
 
 	b := &MessageVectorBuilder{
 		BuilderCommon: bc,
+		StateTracker:  st,
+		Messages:      NewMessages(bc, st),
 	}
-
-	b.StateTracker = NewStateTracker(selector, &b.vector)
-	b.Messages = NewMessages(bc, b.StateTracker)
-	bc.Actors = NewActors(bc, b.StateTracker)
 
 	b.vector.Class = schema.ClassMessage
 	b.vector.Meta = metadata
@@ -58,10 +59,12 @@ func MessageVector(metadata *schema.Metadata, selector schema.Selector, mode Mod
 
 	bc.Assert = NewAsserter(metadata.ID, mode == ModeLenientAssertions, suppliers{
 		messages:     b.Messages.All,
-		stateTracker: func() *StateTracker { return b.StateTracker },
+		stateTracker: func() *StateTracker { return st },
 		actors:       func() *Actors { return bc.Actors },
 		preroot:      func() cid.Cid { return b.PreRoot },
 	})
+
+	st.initializeZeroState(selector)
 
 	bc.Assert.enterStage(StagePreconditions)
 
