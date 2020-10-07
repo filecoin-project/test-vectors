@@ -45,6 +45,8 @@ type ApplicableMessage struct {
 	// Failed is true if this message was attempted to be applied and failed.
 	// In this case ApplicableMessage.Result will be nil.
 	Failed bool
+	// baseFee that was used when applying this message.
+	baseFee abi.TokenAmount
 }
 
 func (m *Messages) Sugar() *sugarMsg {
