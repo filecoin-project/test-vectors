@@ -32,7 +32,7 @@ func NewStateTracker(bc *BuilderCommon, selector schema.Selector) *StateTracker 
 
 	// create a brand new state tree.
 	// TODO: specify network version in vectors.
-	st, err := state.NewStateTree(stores.CBORStore, types.StateTreeeVersion0)
+	st, err := state.NewStateTree(stores.CBORStore, types.StateTreeVersion0)
 	if err != nil {
 		panic(err)
 	}
@@ -41,7 +41,7 @@ func NewStateTracker(bc *BuilderCommon, selector schema.Selector) *StateTracker 
 		bc:        bc,
 		Stores:    stores,
 		StateTree: st,
-		Driver:    conformance.NewDriver(context.Background(), selector),
+		Driver:    conformance.NewDriver(context.Background(), selector, conformance.DriverOpts{}),
 	}
 
 	_ = stkr.Flush()
