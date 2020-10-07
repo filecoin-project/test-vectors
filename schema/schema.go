@@ -72,7 +72,7 @@ type Base64EncodedBytes []byte
 type Preconditions struct {
 	// Epoch must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
 	// equivalent type in other implementations.
-	Epoch     int64      `json:"epoch,omitempty"`
+	Epoch     int64      `json:"epoch"`
 	StateTree *StateTree `json:"state_tree,omitempty"`
 
 	// BaseFee is an optional base fee to inject into the VM when feeding this
