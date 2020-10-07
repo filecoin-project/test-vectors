@@ -5,19 +5,18 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/filecoin-project/go-address"
+	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/ipfs/go-cid"
+	cbg "github.com/whyrusleeping/cbor-gen"
+
 	"github.com/filecoin-project/test-vectors/schema"
 
-	"github.com/filecoin-project/lotus/chain/actors/builtin"
 	"github.com/filecoin-project/lotus/chain/state"
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/filecoin-project/lotus/conformance"
 
-	"github.com/filecoin-project/go-address"
-	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/cbor"
-
-	"github.com/ipfs/go-cid"
-	cbg "github.com/whyrusleeping/cbor-gen"
 )
 
 // StateTracker is an object for tracking state and mutating it by applying
@@ -37,7 +36,7 @@ func NewStateTracker(selector schema.Selector, vector *schema.TestVector) *State
 
 	// create a brand new state tree.
 	// TODO: specify network version in vectors.
-	st, err := state.NewStateTree(stores.CBORStore, builtin.Version0)
+	st, err := state.NewStateTree(stores.CBORStore, types.StateTreeVersion0)
 	if err != nil {
 		panic(err)
 	}
