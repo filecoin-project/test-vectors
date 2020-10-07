@@ -2,19 +2,15 @@ package builders
 
 import (
 	"context"
-	"log"
 
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
-	"github.com/filecoin-project/go-state-types/cbor"
-	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
 	"github.com/filecoin-project/specs-actors/actors/builtin/account"
 	"github.com/filecoin-project/specs-actors/actors/builtin/miner"
 	"github.com/filecoin-project/specs-actors/actors/builtin/power"
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
-	"github.com/ipfs/go-cid"
 )
 
 type Account struct {
@@ -132,7 +128,7 @@ func (a *Actors) Account(typ address.Protocol, balance abi.TokenAmount) AddressH
 	}
 
 	actorState := &account.State{Address: addr}
-	handle := a.CreateActor(builtin.AccountActorCodeID, addr, balance, actorState)
+	handle := a.st.CreateActor(builtin.AccountActorCodeID, addr, balance, actorState)
 
 	a.accounts = append(a.accounts, Account{handle, balance})
 	return handle
@@ -186,7 +182,7 @@ func (a *Actors) Miner(cfg MinerActorCfg) Miner {
 
 	// TODO allow an address to create multiple miners.
 	minerActorAddr := worker.NextActorAddress(0, 0)
-	handle := a.CreateActor(builtin.StorageMinerActorCodeID, minerActorAddr, big.Zero(), minerState)
+	handle := a.st.CreateActor(builtin.StorageMinerActorCodeID, minerActorAddr, big.Zero(), minerState)
 
 	// assert miner actor has been created, exists in the state tree, and has an entry in the init actor.
 	// next update the storage power actor to track the miner
@@ -243,35 +239,4 @@ func (a *Actors) MinerN(cfg MinerActorCfg, miners ...*Miner) {
 	for _, m := range miners {
 		*m = a.Miner(cfg)
 	}
-}
-
-// CreateActor creates an actor in the state tree, of the specified kind, with
-// the specified address and balance, and sets its state to the supplied state.
-func (a *Actors) CreateActor(code cid.Cid, addr address.Address, balance abi.TokenAmount, state cbor.Marshaler) AddressHandle {
-	var id address.Address
-	if addr.Protocol() != address.ID {
-		var err error
-		id, err = a.st.StateTree.RegisterNewAddress(addr)
-		if err != nil {
-			log.Panicf("register new address for actor: %v", err)
-		}
-	}
-
-	// Store the new state.
-	head, err := a.st.StateTree.Store.Put(context.Background(), state)
-	if err != nil {
-		panic(err)
-	}
-
-	// Set the actor's head to point to that state.
-	actr := &types.Actor{
-		Code:    code,
-		Head:    head,
-		Balance: balance,
-	}
-	if err := a.st.StateTree.SetActor(addr, actr); err != nil {
-		log.Panicf("setting new actor for actor: %v", err)
-	}
-
-	return AddressHandle{id, addr}
 }
