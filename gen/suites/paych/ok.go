@@ -4,7 +4,6 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
-	"github.com/filecoin-project/go-state-types/crypto"
 	"github.com/filecoin-project/go-state-types/exitcode"
 	init_ "github.com/filecoin-project/specs-actors/actors/builtin/init"
 	"github.com/filecoin-project/specs-actors/actors/builtin/paych"
@@ -70,21 +69,23 @@ func happyPathUpdate(v *MessageVectorBuilder) {
 	// Construct the payment channel.
 	createMsg := v.Messages.Sugar().CreatePaychActor(sender.Robust, receiver.Robust, Value(toSend))
 
+	sv := paych.SignedVoucher{
+		ChannelAddr:     paychAddr.Robust,
+		TimeLockMin:     timelock,
+		TimeLockMax:     0, // TimeLockMax set to 0 means no timeout
+		Lane:            lane,
+		Nonce:           nonce,
+		Amount:          amount,
+		MinSettleHeight: 0,
+	}
+	sb, err := sv.SigningBytes()
+	v.Assert.NoError(err)
+	sig, err := v.Wallet.Sign(receiver.Robust, sb)
+	v.Assert.NoError(err)
+	sv.Signature = sig
+
 	// Update the payment channel.
-	v.Messages.Typed(sender.Robust, paychAddr.Robust, PaychUpdateChannelState(&paych.UpdateChannelStateParams{
-		Sv: paych.SignedVoucher{
-			ChannelAddr:     paychAddr.Robust,
-			TimeLockMin:     timelock,
-			TimeLockMax:     0, // TimeLockMax set to 0 means no timeout
-			Lane:            lane,
-			Nonce:           nonce,
-			Amount:          amount,
-			MinSettleHeight: 0,
-			Signature: &crypto.Signature{
-				Type: crypto.SigTypeBLS,
-				Data: []byte("signature goes here"), // TODO may need to generate an actual signature
-			},
-		}}), Nonce(1), Value(big.Zero()))
+	v.Messages.Typed(sender.Robust, paychAddr.Robust, PaychUpdateChannelState(&paych.UpdateChannelStateParams{Sv: sv}), Nonce(1), Value(big.Zero()))
 
 	v.CommitApplies()
 
@@ -131,21 +132,23 @@ func happyPathCollect(v *MessageVectorBuilder) {
 	// Construct the payment channel.
 	createMsg := v.Messages.Sugar().CreatePaychActor(sender.Robust, receiver.Robust, Value(toSend))
 
+	sv := paych.SignedVoucher{
+		ChannelAddr:     paychAddr.Robust,
+		TimeLockMin:     0,
+		TimeLockMax:     0, // TimeLockMax set to 0 means no timeout
+		Lane:            1,
+		Nonce:           1,
+		Amount:          toSend,
+		MinSettleHeight: 0,
+	}
+	sb, err := sv.SigningBytes()
+	v.Assert.NoError(err)
+	sig, err := v.Wallet.Sign(receiver.Robust, sb)
+	v.Assert.NoError(err)
+	sv.Signature = sig
+
 	// Update the payment channel.
-	updateMsg := v.Messages.Typed(sender.Robust, paychAddr.Robust, PaychUpdateChannelState(&paych.UpdateChannelStateParams{
-		Sv: paych.SignedVoucher{
-			ChannelAddr:     paychAddr.Robust,
-			TimeLockMin:     0,
-			TimeLockMax:     0, // TimeLockMax set to 0 means no timeout
-			Lane:            1,
-			Nonce:           1,
-			Amount:          toSend,
-			MinSettleHeight: 0,
-			Signature: &crypto.Signature{
-				Type: crypto.SigTypeBLS,
-				Data: []byte("signature goes here"), // TODO may need to generate an actual signature
-			},
-		}}), Nonce(1), Value(big.Zero()))
+	updateMsg := v.Messages.Typed(sender.Robust, paychAddr.Robust, PaychUpdateChannelState(&paych.UpdateChannelStateParams{Sv: sv}), Nonce(1), Value(big.Zero()))
 
 	settleMsg := v.Messages.Typed(receiver.Robust, paychAddr.Robust, PaychSettle(nil), Value(big.Zero()), Nonce(0))
 
