@@ -6,18 +6,17 @@ import (
 
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/filecoin-project/lotus/chain/wallet"
+	"github.com/filecoin-project/lotus/lib/sigs"
 
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-crypto"
 
 	acrypto "github.com/filecoin-project/go-state-types/crypto"
-	"github.com/minio/blake2b-simd"
 )
 
 type Wallet struct {
 	// Private keys by address
 	keys map[address.Address]*wallet.Key
-
 	// Seed for deterministic secp key generation.
 	secpSeed int64
 	// Seed for deterministic bls key generation.
@@ -44,29 +43,13 @@ func (w *Wallet) NewBLSAccount() address.Address {
 	return blsKey.Address
 }
 
-func (w *Wallet) Sign(addr address.Address, data []byte) (acrypto.Signature, error) {
+func (w *Wallet) Sign(addr address.Address, data []byte) (*acrypto.Signature, error) {
 	ki, ok := w.keys[addr]
 	if !ok {
-		return acrypto.Signature{}, fmt.Errorf("unknown address %v", addr)
-	}
-	var sigType acrypto.SigType
-	if ki.Type == wallet.KTSecp256k1 {
-		sigType = acrypto.SigTypeBLS
-		hashed := blake2b.Sum256(data)
-		sig, err := crypto.Sign(ki.PrivateKey, hashed[:])
-		if err != nil {
-			return acrypto.Signature{}, err
-		}
-		return acrypto.Signature{
-			Type: sigType,
-			Data: sig,
-		}, nil
-	} else if ki.Type == wallet.KTBLS {
-		panic("lotus validator cannot sign BLS msgIdx")
-	} else {
-		panic("unknown signature type")
+		return nil, fmt.Errorf("unknown address %v", addr)
 	}
 
+	return sigs.Sign(wallet.ActSigType(ki.Type), ki.PrivateKey, data)
 }
 
 func (w *Wallet) newSecp256k1Key() *wallet.Key {
