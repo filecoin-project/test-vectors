@@ -97,6 +97,43 @@
         }
       }
     },
+    "randomness": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "on": {
+            "type": "array",
+            "items": [
+              {
+                "title": "randomness kind",
+                "type": "string",
+                "enum": [
+                  "chain",
+                  "beacon"
+                ]
+              },
+              {
+                "title": "domain separation tag",
+                "type": "number"
+              },
+              {
+                "title": "epoch",
+                "type": "number"
+              },
+              {
+                "title": "entropy",
+                "$ref": "#/definitions/base64"
+              }
+            ]
+          },
+          "ret": {
+            "title": "returned randomness",
+            "$ref": "#/definitions/base64"
+          }
+        }
+      }
+    },
     "receipt": {
       "type": "object",
       "required": [
@@ -223,7 +260,11 @@
     "apply_tipsets": {
       "title": "tipsets to apply",
       "type": "object",
-      "required": ["epoch", "basefee", "blocks"],
+      "required": [
+        "epoch",
+        "basefee",
+        "blocks"
+      ],
       "additionalProperties": false,
       "properties": {
         "epoch": {
@@ -238,7 +279,11 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["miner_addr", "win_count", "messages"],
+            "required": [
+              "miner_addr",
+              "win_count",
+              "messages"
+            ],
             "properties": {
               "miner_addr": {
                 "type": "string"
@@ -322,6 +367,10 @@
       "title": "car containing state trees",
       "description": "the gzipped, base64 CAR containing the pre- and post-condition state trees for this test vector",
       "$ref": "#/definitions/base64"
+    },
+    "randomness": {
+      "title": "randomness to be replayed during the execution of the test vector",
+      "$ref": "#/definitions/randomness"
     },
     "preconditions": {
       "$ref": "#/definitions/preconditions"

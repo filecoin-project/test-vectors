@@ -67,6 +67,88 @@ type StateTree struct {
 // Base64EncodedBytes is a base64-encoded binary value.
 type Base64EncodedBytes []byte
 
+// RandomnessKind specifies the type of randomness that is being requested.
+type RandomnessKind string
+
+const (
+	RandomnessBeacon = RandomnessKind("beacon")
+	RandomnessChain  = RandomnessKind("chain")
+)
+
+// RandomnessRule represents a rule to evaluate randomness matches against.
+// This encodes to JSON as an array. See godocs on the Randomness type for
+// more info.
+type RandomnessRule struct {
+	Kind                RandomnessKind
+	DomainSeparationTag int64
+	Epoch               int64
+	Entropy             Base64EncodedBytes
+}
+
+func (rm RandomnessRule) MarshalJSON() ([]byte, error) {
+	array := [4]interface{}{
+		rm.Kind,
+		rm.DomainSeparationTag,
+		rm.Epoch,
+		rm.Entropy,
+	}
+	return json.Marshal(array)
+}
+
+func (rm *RandomnessRule) UnmarshalJSON(v []byte) error {
+	var (
+		arr [4]json.RawMessage
+		out RandomnessRule
+		err error
+	)
+	if err = json.Unmarshal(v, &arr); err != nil {
+		return err
+	}
+	if err = json.Unmarshal(arr[0], &out.Kind); err != nil {
+		return err
+	}
+	if err = json.Unmarshal(arr[1], &out.DomainSeparationTag); err != nil {
+		return err
+	}
+	if err = json.Unmarshal(arr[2], &out.Epoch); err != nil {
+		return err
+	}
+	if err = json.Unmarshal(arr[3], &out.Entropy); err != nil {
+		return err
+	}
+	*rm = out
+	return nil
+}
+
+// Randomness encodes randomness the VM runtime should return while executing
+// this vector. It is encoded as a list of ordered rules to match on.
+//
+// The json serialized form is:
+//
+//  "randomness": [
+//    { "on": ["beacon", 12, 49327, "yxpTbzLhr4uaj7bK0Hl4Vw=="], "ret": "iKyZ2N83N8IoiK2tNJ/H9g==" },
+//    { "on": ["chain", 8, 61002, "aacQWICNcMJWtuwTnU+1Hg=="], "ret": "M6HqmihwZ5fXcbQQHhbtsg==" }
+//  ]
+//
+// The four positional values of the `on` array field are:
+//
+//  1. Kind of randomness (json string; values: beacon, chain).
+//  2. Domain separation tag (json number).
+//  3. Epoch (json number).
+//  4. Entropy (json string; base64 encoded bytes).
+//
+// When no rules are matched, the driver should return the raw bytes of
+// utf-8 string 'i_am_random_____i_am_random_____'
+type Randomness []RandomnessMatch
+
+// RandomnessMatch specifies a randomness match. When the implementation
+// requests randomness that matches the RandomnessRule in On, Return will
+// be returned.
+type RandomnessMatch struct {
+	On     RandomnessRule     `json:"on"`
+	Return Base64EncodedBytes `json:"ret"`
+}
+
 // Preconditions contain the environment that needs to be set before the
 // vector's applies are applied.
 type Preconditions struct {
@@ -103,9 +185,13 @@ type Postconditions struct {
 	ReceiptsRoots        []cid.Cid  `json:"receipts_roots,omitempty"`
 }
 
+func (b Base64EncodedBytes) String() string {
+	return base64.StdEncoding.EncodeToString(b)
+}
+
 // MarshalJSON implements json.Marshal for Base64EncodedBytes
 func (b Base64EncodedBytes) MarshalJSON() ([]byte, error) {
-	return json.Marshal(base64.StdEncoding.EncodeToString(b))
+	return json.Marshal(b.String())
 }
 
 // UnmarshalJSON implements json.Unmarshal for Base64EncodedBytes
@@ -113,6 +199,11 @@ func (b *Base64EncodedBytes) UnmarshalJSON(v []byte) error {
 	var s string
 	if err := json.Unmarshal(v, &s); err != nil {
 		return err
+	}
+
+	if len(s) == 0 {
+		*b = nil
+		return nil
 	}
 
 	bytes, err := base64.StdEncoding.DecodeString(s)
@@ -129,7 +220,7 @@ type Diagnostics struct {
 	Data   Base64EncodedBytes `json:"data"`
 }
 
-// TestVector is a single test case
+// TestVector is a single test case.
 type TestVector struct {
 	Class    `json:"class"`
 	Selector `json:"selector,omitempty"`
@@ -149,6 +240,10 @@ type TestVector struct {
 	// containing multiple state trees, addressed by root CID from the relevant
 	// objects.
 	CAR Base64EncodedBytes `json:"car"`
+
+	// Randomness encodes randomness to be replayed during the execution of this
+	// test vector. See godocs on the Randomness type for more info.
+	Randomness Randomness `json:"randomness,omitempty"`
 
 	Pre *Preconditions `json:"preconditions"`
 

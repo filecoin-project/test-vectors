@@ -7,9 +7,9 @@ require (
 	github.com/filecoin-project/go-address v0.0.4
 	github.com/filecoin-project/go-bitfield v0.2.1
 	github.com/filecoin-project/go-crypto v0.0.0-20191218222705-effae4ea9f03
-	github.com/filecoin-project/go-state-types v0.0.0-20200911004822-964d6c679cfc
-	github.com/filecoin-project/lotus v0.8.2-0.20201007145203-7cd1330acd98
-	github.com/filecoin-project/specs-actors v0.9.11
+	github.com/filecoin-project/go-state-types v0.0.0-20200928172055-2df22083d8ab
+	github.com/filecoin-project/lotus v0.9.0-rc1.0.20201007190432-cca17f607898
+	github.com/filecoin-project/specs-actors v0.9.12
 	github.com/filecoin-project/test-vectors/schema v0.0.3
 	github.com/ipfs/go-block-format v0.0.2
 	github.com/ipfs/go-blockservice v0.1.4-0.20200624145336-a978cec6e834
