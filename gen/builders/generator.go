@@ -11,7 +11,9 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"reflect"
 	"regexp"
+	"runtime"
 	"runtime/debug"
 	"strings"
 	"sync"
@@ -71,18 +73,6 @@ const (
 )
 
 var GenscriptCommit = "dirty"
-
-// genData is the generation data to stamp into vectors.
-var genData = []schema.GenerationData{
-	{
-		Source:  "genscript",
-		Version: GenscriptCommit,
-	},
-}
-
-func init() {
-	genData = append(genData, getBuildInfo()...)
-}
 
 func getBuildInfo() []schema.GenerationData {
 	deps := []string{"github.com/filecoin-project/lotus", "github.com/filecoin-project/specs-actors"}
@@ -311,7 +301,7 @@ func vectorFilename(group string, item *VectorDef) string {
 	return filename
 }
 
-// parseVectorFile unnmarshals a JSON serialized test vector stored at the
+// parseVectorFile unmarshalls a JSON serialized test vector stored at the
 // given file path and returns it.
 func (g *Generator) parseVectorFile(p string) (*schema.TestVector, error) {
 	raw, err := ioutil.ReadFile(p)
@@ -355,7 +345,7 @@ func (g *Generator) generateOne(w io.Writer, b *VectorDef, indent bool) {
 	log.Printf("generating test vector: %s", b.Metadata.ID)
 
 	// stamp with our generation data.
-	b.Metadata.Gen = genData
+	b.Metadata.Gen = getBuildInfo()
 
 	var vector Builder
 	// TODO: currently if an assertion fails, we call os.Exit(1), which
@@ -364,10 +354,12 @@ func (g *Generator) generateOne(w io.Writer, b *VectorDef, indent bool) {
 	//  cancelled. The assertion error must bubble up somehow.
 	switch {
 	case b.MessageFunc != nil:
+		b.Metadata.Gen = append(generatorFuncMeta(b.MessageFunc), b.Metadata.Gen...)
 		v := MessageVector(b.Metadata, b.Selector, b.Mode, b.Hints)
 		b.MessageFunc(v)
 		vector = v
 	case b.TipsetFunc != nil:
+		b.Metadata.Gen = append(generatorFuncMeta(b.TipsetFunc), b.Metadata.Gen...)
 		v := TipsetVector(b.Metadata, b.Selector, b.Mode, b.Hints)
 		b.TipsetFunc(v)
 		vector = v
@@ -394,6 +386,12 @@ func (g *Generator) generateOne(w io.Writer, b *VectorDef, indent bool) {
 	}
 
 	log.Printf("generated test vector: %s (size: %d bytes)", b.Metadata.ID, n)
+}
+
+func generatorFuncMeta(f interface{}) []schema.GenerationData {
+	pc := reflect.ValueOf(f).Pointer()
+	file, _ := runtime.FuncForPC(pc).FileLine(pc)
+	return []schema.GenerationData{{Source: file, Version: GenscriptCommit}}
 }
 
 // ensureDirectory checks if the provided path is a directory. If yes, it
