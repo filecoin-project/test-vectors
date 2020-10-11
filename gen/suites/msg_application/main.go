@@ -47,7 +47,8 @@ func main() {
 				Desc:    "fail not enough gas to cover account actor creation on transfer",
 			},
 			MessageFunc: failCoverTransferAccountCreationGasStepwise,
-		})
+		},
+	)
 
 	g.Group("invalid_msgs",
 		&VectorDef{

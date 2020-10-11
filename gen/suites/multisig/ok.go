@@ -4,13 +4,16 @@ import (
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/go-state-types/exitcode"
+
+	"github.com/filecoin-project/lotus/chain/actors"
+	"github.com/filecoin-project/lotus/chain/actors/builtin/multisig"
+	"github.com/filecoin-project/lotus/chain/types"
+
 	"github.com/filecoin-project/specs-actors/actors/builtin"
-	init_ "github.com/filecoin-project/specs-actors/actors/builtin/init"
-	"github.com/filecoin-project/specs-actors/actors/builtin/multisig"
-	"github.com/filecoin-project/specs-actors/actors/util/adt"
+	init0 "github.com/filecoin-project/specs-actors/actors/builtin/init"
+	multisig0 "github.com/filecoin-project/specs-actors/actors/builtin/multisig"
 
 	"github.com/filecoin-project/go-address"
-	"github.com/minio/blake2b-simd"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
@@ -36,7 +39,7 @@ func proposeAndCancelOk(v *MessageVectorBuilder) {
 		unlockDuration = abi.ChainEpoch(10)
 	)
 
-	v.Messages.SetDefaults(Value(big.Zero()), Epoch(1), GasLimit(gasLimit), GasPremium(1), GasFeeCap(gasFeeCap))
+	v.Messages.SetDefaults(Value(big.Zero()), GasLimit(gasLimit), GasPremium(1), GasFeeCap(gasFeeCap))
 
 	// Set up three accounts: alice and bob (signers), and charlie (outsider).
 	var alice, bob, charlie AddressHandle
@@ -55,19 +58,17 @@ func proposeAndCancelOk(v *MessageVectorBuilder) {
 	}, Nonce(1))
 
 	// bob cancels alice's transaction. This fails as bob did not create alice's transaction.
-	bobCancelMsg := v.Messages.Typed(bob.ID, multisigAddr, MultisigCancel(&multisig.TxnIDParams{
-		ID:           multisig.TxnID(0),
-		ProposalHash: hash,
-	}), Nonce(0))
+	bobCancelMsg := v.Messages.Sugar().MultisigMessage(bob.ID, func(b multisig.MessageBuilder) (*types.Message, error) {
+		return b.Cancel(multisigAddr, 0, hash)
+	}, Nonce(0))
 	v.Messages.ApplyOne(bobCancelMsg)
 	v.Assert.Equal(bobCancelMsg.Result.ExitCode, exitcode.ErrForbidden)
 
 	// alice cancels their transaction; charlie doesn't receive any FIL,
 	// the multisig actor's balance is empty, and the transaction is canceled.
-	aliceCancelMsg := v.Messages.Typed(alice.ID, multisigAddr, MultisigCancel(&multisig.TxnIDParams{
-		ID:           multisig.TxnID(0),
-		ProposalHash: hash,
-	}), Nonce(2))
+	aliceCancelMsg := v.Messages.Sugar().MultisigMessage(alice.ID, func(b multisig.MessageBuilder) (*types.Message, error) {
+		return b.Cancel(multisigAddr, 0, hash)
+	}, Nonce(2))
 	v.Messages.ApplyOne(aliceCancelMsg)
 	v.Assert.Equal(exitcode.Ok, aliceCancelMsg.Result.ExitCode)
 
@@ -77,17 +78,30 @@ func proposeAndCancelOk(v *MessageVectorBuilder) {
 	v.Assert.BalanceEq(multisigAddr, amount)
 
 	// reload the multisig state and verify
-	var multisigState multisig.State
-	v.StateTracker.ActorState(multisigAddr, &multisigState)
-	v.Assert.Equal(&multisig.State{
-		Signers:               []address.Address{alice.ID, bob.ID},
-		NumApprovalsThreshold: 2,
-		NextTxnID:             1,
-		InitialBalance:        amount,
-		StartEpoch:            1,
-		UnlockDuration:        unlockDuration,
-		PendingTxns:           EmptyMapCid,
-	}, &multisigState)
+	multisigState, err := multisig.Load(v.StateTracker.Stores.ADTStore, v.StateTracker.Header(multisigAddr))
+	v.Assert.NoError(err)
+
+	threshold, _ := multisigState.Threshold()
+	v.Assert.Equal(uint64(2), threshold)
+
+	signers, _ := multisigState.Signers()
+	v.Assert.Equal([]address.Address{alice.ID, bob.ID}, signers)
+
+	initialBal, _ := multisigState.InitialBalance()
+	v.Assert.Equal(amount, initialBal)
+
+	startEpoch, _ := multisigState.StartEpoch()
+	v.Assert.Equal(v.ProtocolVersion.FirstEpoch, startEpoch)
+
+	unlockDur, _ := multisigState.UnlockDuration()
+	v.Assert.Equal(unlockDuration, unlockDur)
+
+	var pendingTxs int
+	_ = multisigState.ForEachPendingTxn(func(_ int64, _ multisig.Transaction) error {
+		pendingTxs++
+		return nil
+	})
+	v.Assert.Equal(0, pendingTxs)
 }
 
 func proposeAndApprove(v *MessageVectorBuilder) {
@@ -97,7 +111,7 @@ func proposeAndApprove(v *MessageVectorBuilder) {
 		unlockDuration = abi.ChainEpoch(10)
 	)
 
-	v.Messages.SetDefaults(Value(big.Zero()), Epoch(1), GasLimit(gasLimit), GasPremium(1), GasFeeCap(gasFeeCap))
+	v.Messages.SetDefaults(Value(big.Zero()), GasLimit(gasLimit), GasPremium(1), GasFeeCap(gasFeeCap))
 
 	// Set up three accounts: alice and bob (signers), and charlie (outsider).
 	var alice, bob, charlie AddressHandle
@@ -116,40 +130,32 @@ func proposeAndApprove(v *MessageVectorBuilder) {
 	}, Nonce(1))
 
 	// charlie proposes himself -> fails.
-	charliePropose := v.Messages.Typed(charlie.ID, multisigAddr,
-		MultisigPropose(&multisig.ProposeParams{
-			To:     charlie.ID,
-			Value:  amount,
-			Method: builtin.MethodSend,
-			Params: nil,
-		}), Nonce(0))
+	charliePropose := v.Messages.Sugar().MultisigMessage(charlie.ID, func(b multisig.MessageBuilder) (*types.Message, error) {
+		return b.Propose(multisigAddr, charlie.ID, amount, builtin.MethodSend, nil)
+	}, Nonce(0))
 	v.Messages.ApplyOne(charliePropose)
 	v.Assert.Equal(exitcode.ErrForbidden, charliePropose.Result.ExitCode)
 
 	// charlie attempts to accept the pending transaction -> fails.
-	charlieApprove := v.Messages.Typed(charlie.ID, multisigAddr,
-		MultisigApprove(&multisig.TxnIDParams{
-			ID:           multisig.TxnID(0),
-			ProposalHash: hash,
-		}), Nonce(1))
+	charlieApprove := v.Messages.Sugar().MultisigMessage(charlie.ID, func(b multisig.MessageBuilder) (*types.Message, error) {
+		return b.Approve(multisigAddr, 0, hash)
+	}, Nonce(1))
 	v.Messages.ApplyOne(charlieApprove)
 	v.Assert.Equal(exitcode.ErrForbidden, charlieApprove.Result.ExitCode)
 
 	// bob approves transfer of 'amount' FIL to charlie.
 	// epoch is unlockDuration + 1
-	bobApprove := v.Messages.Typed(bob.ID, multisigAddr,
-		MultisigApprove(&multisig.TxnIDParams{
-			ID:           multisig.TxnID(0),
-			ProposalHash: hash,
-		}), Nonce(0), Epoch(unlockDuration+1))
+	bobApprove := v.Messages.Sugar().MultisigMessage(bob.ID, func(b multisig.MessageBuilder) (*types.Message, error) {
+		return b.Approve(multisigAddr, 0, hash)
+	}, Nonce(0), EpochOffset(unlockDuration+1))
 	v.Messages.ApplyOne(bobApprove)
 	v.Assert.Equal(exitcode.Ok, bobApprove.Result.ExitCode)
 
 	v.CommitApplies()
 
-	var approveRet multisig.ApproveReturn
+	var approveRet multisig0.ApproveReturn
 	MustDeserialize(bobApprove.Result.Return, &approveRet)
-	v.Assert.Equal(multisig.ApproveReturn{
+	v.Assert.Equal(multisig0.ApproveReturn{
 		Applied: true,
 		Code:    0,
 		Ret:     nil,
@@ -160,17 +166,30 @@ func proposeAndApprove(v *MessageVectorBuilder) {
 	v.Assert.MessageSendersSatisfy(BalanceUpdated(amount), charliePropose, charlieApprove)
 
 	// reload the multisig state and verify
-	var multisigState multisig.State
-	v.StateTracker.ActorState(multisigAddr, &multisigState)
-	v.Assert.Equal(&multisig.State{
-		Signers:               []address.Address{alice.ID, bob.ID},
-		NumApprovalsThreshold: 2,
-		NextTxnID:             1,
-		InitialBalance:        amount,
-		StartEpoch:            1,
-		UnlockDuration:        unlockDuration,
-		PendingTxns:           EmptyMapCid,
-	}, &multisigState)
+	state, err := multisig.Load(v.StateTracker.Stores.ADTStore, v.StateTracker.Header(multisigAddr))
+	v.Assert.NoError(err)
+
+	threshold, _ := state.Threshold()
+	v.Assert.Equal(uint64(2), threshold)
+
+	signers, _ := state.Signers()
+	v.Assert.Equal([]address.Address{alice.ID, bob.ID}, signers)
+
+	initialBal, _ := state.InitialBalance()
+	v.Assert.Equal(amount, initialBal)
+
+	startEpoch, _ := state.StartEpoch()
+	v.Assert.Equal(v.ProtocolVersion.FirstEpoch, startEpoch)
+
+	unlockDur, _ := state.UnlockDuration()
+	v.Assert.Equal(unlockDuration, unlockDur)
+
+	var pendingTxs int
+	_ = state.ForEachPendingTxn(func(_ int64, _ multisig.Transaction) error {
+		pendingTxs++
+		return nil
+	})
+	v.Assert.Equal(0, pendingTxs)
 }
 
 func addSigner(v *MessageVectorBuilder) {
@@ -179,7 +198,7 @@ func addSigner(v *MessageVectorBuilder) {
 		amount  = abi.NewTokenAmount(10)
 	)
 
-	v.Messages.SetDefaults(Value(big.Zero()), Epoch(1), GasLimit(gasLimit), GasPremium(1), GasFeeCap(gasFeeCap))
+	v.Messages.SetDefaults(Value(big.Zero()), GasLimit(gasLimit), GasPremium(1), GasFeeCap(gasFeeCap))
 
 	// Set up three accounts: alice and bob (signers), and charlie (outsider).
 	var alice, bob, charlie AddressHandle
@@ -189,7 +208,7 @@ func addSigner(v *MessageVectorBuilder) {
 	// create the multisig actor; created by alice.
 	multisigAddr := createMultisig(v, alice, []address.Address{alice.ID}, 1, Value(amount), Nonce(0))
 
-	addParams := &multisig.AddSignerParams{
+	addParams := &multisig0.AddSignerParams{
 		Signer:   bob.ID,
 		Increase: false,
 	}
@@ -200,29 +219,39 @@ func addSigner(v *MessageVectorBuilder) {
 
 	// go through the multisig wallet.
 	// since approvals = 1, this auto-approves the transaction.
-	v.Messages.Typed(alice.ID, multisigAddr, MultisigPropose(&multisig.ProposeParams{
-		To:     multisigAddr,
-		Value:  big.Zero(),
-		Method: builtin.MethodsMultisig.AddSigner,
-		Params: MustSerialize(addParams),
-	}), Nonce(2))
+	v.Messages.Sugar().MultisigMessage(alice.ID, func(b multisig.MessageBuilder) (*types.Message, error) {
+		return b.Propose(multisigAddr, multisigAddr, big.Zero(), builtin.MethodsMultisig.AddSigner, MustSerialize(addParams))
+	}, Nonce(2))
 
 	// TODO also exercise the approvals = 2 case with explicit approval.
 
 	v.CommitApplies()
 
 	// reload the multisig state and verify that bob is now a signer.
-	var multisigState multisig.State
-	v.StateTracker.ActorState(multisigAddr, &multisigState)
-	v.Assert.Equal(&multisig.State{
-		Signers:               []address.Address{alice.ID, bob.ID},
-		NumApprovalsThreshold: 1,
-		NextTxnID:             1,
-		InitialBalance:        amount,
-		StartEpoch:            1,
-		UnlockDuration:        10,
-		PendingTxns:           EmptyMapCid,
-	}, &multisigState)
+	state, err := multisig.Load(v.StateTracker.Stores.ADTStore, v.StateTracker.Header(multisigAddr))
+	v.Assert.NoError(err)
+
+	threshold, _ := state.Threshold()
+	v.Assert.Equal(uint64(1), threshold)
+
+	signers, _ := state.Signers()
+	v.Assert.Equal([]address.Address{alice.ID, bob.ID}, signers)
+
+	initialBal, _ := state.InitialBalance()
+	v.Assert.Equal(amount, initialBal)
+
+	startEpoch, _ := state.StartEpoch()
+	v.Assert.Equal(v.ProtocolVersion.FirstEpoch, startEpoch)
+
+	unlockDur, _ := state.UnlockDuration()
+	v.Assert.Equal(abi.ChainEpoch(10), unlockDur)
+
+	var pendingTxs int
+	_ = state.ForEachPendingTxn(func(_ int64, _ multisig.Transaction) error {
+		pendingTxs++
+		return nil
+	})
+	v.Assert.Equal(0, pendingTxs)
 }
 
 type proposeOpts struct {
@@ -232,50 +261,61 @@ type proposeOpts struct {
 	amount       abi.TokenAmount
 }
 
-func proposeOk(v *MessageVectorBuilder, proposeOpts proposeOpts, opts ...MsgOpt) []byte {
-	propose := &multisig.ProposeParams{
-		To:     proposeOpts.recipient,
-		Value:  proposeOpts.amount,
-		Method: builtin.MethodSend,
-		Params: nil,
-	}
-	proposeMsg := v.Messages.Typed(proposeOpts.sender, proposeOpts.multisigAddr, MultisigPropose(propose), opts...)
+func proposeOk(v *MessageVectorBuilder, proposeOpts proposeOpts, opts ...MsgOpt) *multisig.ProposalHashData {
+	proposeMsg := v.Messages.Sugar().MultisigMessage(proposeOpts.sender, func(b multisig.MessageBuilder) (*types.Message, error) {
+		return b.Propose(proposeOpts.multisigAddr, proposeOpts.recipient, proposeOpts.amount, builtin.MethodSend, nil)
+	}, opts...)
 
 	v.Messages.ApplyOne(proposeMsg)
 
 	// verify that the multisig state contains the outstanding TX.
-	var multisigState multisig.State
-	v.StateTracker.ActorState(proposeOpts.multisigAddr, &multisigState)
+	state, err := multisig.Load(v.StateTracker.Stores.ADTStore, v.StateTracker.Header(proposeOpts.multisigAddr))
+	v.Assert.NoError(err)
 
-	id := multisig.TxnID(0)
-	actualTxn := loadMultisigTxn(v, multisigState, id)
+	// load the transaction.
+	var tx *multisig.Transaction
+	_ = state.ForEachPendingTxn(func(id int64, txn multisig.Transaction) error {
+		tx = &txn
+		return nil
+	})
+
 	v.Assert.Equal(&multisig.Transaction{
-		To:       propose.To,
-		Value:    propose.Value,
-		Method:   propose.Method,
-		Params:   propose.Params,
+		To:       proposeOpts.recipient,
+		Value:    proposeOpts.amount,
+		Method:   builtin.MethodSend,
 		Approved: []address.Address{proposeOpts.sender},
-	}, actualTxn)
+	}, tx)
 
-	return makeProposalHash(v, actualTxn)
+	return &multisig.ProposalHashData{
+		Requester: proposeOpts.sender,
+		To:        proposeOpts.recipient,
+		Value:     proposeOpts.amount,
+		Method:    builtin.MethodSend,
+	}
 }
 
 func createMultisig(v *MessageVectorBuilder, creator AddressHandle, approvers []address.Address, threshold uint64, opts ...MsgOpt) address.Address {
 	const unlockDuration = abi.ChainEpoch(10)
-	// create the multisig actor.
-	params := &multisig.ConstructorParams{
-		Signers:               approvers,
-		NumApprovalsThreshold: threshold,
-		UnlockDuration:        unlockDuration,
+
+	vestingStart := abi.ChainEpoch(0) // actors v1 only supports 0 for vesting start.
+	if v.ProtocolVersion.Actors >= actors.Version2 {
+		// use the protocol version's initial epoch.
+		vestingStart = v.ProtocolVersion.FirstEpoch
 	}
-	msg := v.Messages.Sugar().CreateMultisigActor(creator.ID, params, opts...)
+
+	// create the multisig actor.
+	msg := v.Messages.Sugar().MultisigMessage(creator.ID, func(b multisig.MessageBuilder) (*types.Message, error) {
+		// TODO this is ugly -- initial amount will be overriden by value MsgOpt.
+		return b.Create(approvers, threshold, vestingStart, unlockDuration, big.Zero())
+	}, opts...)
+
 	v.Messages.ApplyOne(msg)
 
 	// verify ok
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.Ok))
 
 	// verify the assigned addess is as expected.
-	var ret init_.ExecReturn
+	var ret init0.ExecReturn
 	MustDeserialize(msg.Result.Return, &ret)
 	v.Assert.Equal(creator.NextActorAddress(msg.Message.Nonce, 0), ret.RobustAddress)
 	handles := v.Actors.AccountHandles()
@@ -285,21 +325,4 @@ func createMultisig(v *MessageVectorBuilder, creator AddressHandle, approvers []
 	v.Assert.BalanceEq(ret.IDAddress, msg.Message.Value)
 
 	return ret.IDAddress
-}
-
-func loadMultisigTxn(v *MessageVectorBuilder, state multisig.State, id multisig.TxnID) *multisig.Transaction {
-	pending, err := adt.AsMap(v.StateTracker.Stores.ADTStore, state.PendingTxns)
-	v.Assert.NoError(err)
-
-	var actualTxn multisig.Transaction
-	found, err := pending.Get(id, &actualTxn)
-	v.Assert.True(found)
-	v.Assert.NoError(err)
-	return &actualTxn
-}
-
-func makeProposalHash(v *MessageVectorBuilder, txn *multisig.Transaction) []byte {
-	ret, err := multisig.ComputeProposalHash(txn, blake2b.Sum256)
-	v.Assert.NoError(err)
-	return ret
 }

@@ -6,7 +6,8 @@ import (
 	"github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/go-state-types/crypto"
 	"github.com/filecoin-project/go-state-types/exitcode"
-	"github.com/filecoin-project/specs-actors/actors/builtin/paych"
+	"github.com/filecoin-project/lotus/chain/actors/builtin/paych"
+	"github.com/filecoin-project/lotus/chain/types"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
@@ -26,11 +27,13 @@ func failActorExecutionAborted(v *MessageVectorBuilder) {
 	v.CommitPreconditions()
 
 	// Construct the payment channel.
-	createMsg := v.Messages.Sugar().CreatePaychActor(sender.Robust, receiver.Robust, Value(abi.NewTokenAmount(10_000)))
+	createMsg := v.Messages.Sugar().PaychMessage(sender.Robust, func(b paych.MessageBuilder) (*types.Message, error) {
+		return b.Create(receiver.Robust, abi.NewTokenAmount(10_000))
+	}, Value(abi.NewTokenAmount(10_000)))
 
 	// Update the payment channel.
-	updateMsg := v.Messages.Typed(sender.Robust, paychAddr.Robust, PaychUpdateChannelState(&paych.UpdateChannelStateParams{
-		Sv: paych.SignedVoucher{
+	updateMsg := v.Messages.Sugar().PaychMessage(sender.Robust, func(b paych.MessageBuilder) (*types.Message, error) {
+		return b.Update(paychAddr.Robust, &paych.SignedVoucher{
 			ChannelAddr: paychAddr.Robust,
 			TimeLockMin: abi.ChainEpoch(10),
 			Lane:        123,
@@ -40,7 +43,8 @@ func failActorExecutionAborted(v *MessageVectorBuilder) {
 				Type: crypto.SigTypeBLS,
 				Data: []byte("Grrr im an invalid signature, I cause panics in the payment channel actor"),
 			},
-		}}), Nonce(1), Value(big.Zero()))
+		}, nil)
+	}, Nonce(1), Value(big.Zero()))
 
 	v.CommitApplies()
 

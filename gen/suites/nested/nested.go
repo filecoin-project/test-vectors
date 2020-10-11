@@ -8,11 +8,15 @@ import (
 	"github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/go-state-types/cbor"
 	"github.com/filecoin-project/go-state-types/exitcode"
+	"github.com/filecoin-project/lotus/chain/actors/builtin/multisig"
+	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
-	init_ "github.com/filecoin-project/specs-actors/actors/builtin/init"
-	"github.com/filecoin-project/specs-actors/actors/builtin/multisig"
-	"github.com/filecoin-project/specs-actors/actors/builtin/paych"
-	"github.com/filecoin-project/specs-actors/actors/builtin/reward"
+
+	init0 "github.com/filecoin-project/specs-actors/actors/builtin/init"
+	paych0 "github.com/filecoin-project/specs-actors/actors/builtin/paych"
+	reward0 "github.com/filecoin-project/specs-actors/actors/builtin/reward"
+	multisig0 "github.com/filecoin-project/specs-actors/v2/actors/builtin/multisig"
+
 	typegen "github.com/whyrusleeping/cbor-gen"
 
 	"github.com/filecoin-project/lotus/conformance/chaos"
@@ -87,7 +91,7 @@ func nestedSends_OkRecursive(v *MessageVectorBuilder) {
 	balanceBefore := v.StateTracker.Balance(stage.creator)
 
 	// Multisig sends to itself.
-	params := multisig.AddSignerParams{
+	params := multisig0.AddSignerParams{
 		Signer:   another.ID,
 		Increase: false,
 	}
@@ -96,7 +100,7 @@ func nestedSends_OkRecursive(v *MessageVectorBuilder) {
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance)
 	v.Assert.Equal(big.Sub(balanceBefore, CalculateSenderDeduction(result)), v.StateTracker.Balance(stage.creator))
 
-	var st multisig.State
+	var st multisig0.State
 	v.StateTracker.ActorState(stage.msAddr, &st)
 	v.Assert.Equal([]address.Address{stage.creator, another.ID}, st.Signers)
 }
@@ -125,7 +129,7 @@ func nestedSends_FailNonexistentIDAddress(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(newAddr, amtSent, builtin.MethodSend, nil, nonce)
 
-	var ret multisig.ProposeReturn
+	var ret multisig0.ProposeReturn
 	MustDeserialize(result.Result.Return, &ret)
 	v.Assert.ExitCodeEq(ret.Code, exitcode.SysErrInvalidReceiver)
 
@@ -142,7 +146,7 @@ func nestedSends_FailNonexistentActorAddress(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(newAddr, amtSent, builtin.MethodSend, nil, nonce)
 
-	var ret multisig.ProposeReturn
+	var ret multisig0.ProposeReturn
 	MustDeserialize(result.Result.Return, &ret)
 	v.Assert.ExitCodeEq(ret.Code, exitcode.SysErrInvalidReceiver)
 
@@ -159,7 +163,7 @@ func nestedSends_FailInvalidMethodNumNewActor(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(newAddr, amtSent, abi.MethodNum(99), nil, nonce)
 
-	var ret multisig.ProposeReturn
+	var ret multisig0.ProposeReturn
 	MustDeserialize(result.Result.Return, &ret)
 	v.Assert.ExitCodeEq(ret.Code, exitcode.SysErrInvalidMethod)
 
@@ -176,7 +180,7 @@ func nestedSends_FailInvalidMethodNumForActor(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(stage.creator, amtSent, abi.MethodNum(99), nil, nonce)
 
-	var ret multisig.ProposeReturn
+	var ret multisig0.ProposeReturn
 	MustDeserialize(result.Result.Return, &ret)
 	v.Assert.ExitCodeEq(ret.Code, exitcode.SysErrInvalidMethod)
 
@@ -194,13 +198,14 @@ func nestedSends_FailMissingParams(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(stage.msAddr, amtSent, builtin.MethodsMultisig.AddSigner, params, nonce)
 
-	var ret multisig.ProposeReturn
+	var ret multisig0.ProposeReturn
 	MustDeserialize(result.Result.Return, &ret)
 	v.Assert.ExitCodeEq(ret.Code, exitcode.ErrSerialization)
 
 	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateSenderDeduction(result)))
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
-	v.Assert.Equal(1, len(stage.state().Signers))     // No new signers
+	signers, _ := stage.state().Signers()
+	v.Assert.Equal(1, len(signers)) // No new signers
 }
 
 func nestedSends_FailMismatchParams(v *MessageVectorBuilder) {
@@ -210,7 +215,7 @@ func nestedSends_FailMismatchParams(v *MessageVectorBuilder) {
 	balanceBefore := v.StateTracker.Balance(stage.creator)
 
 	// Wrong params for AddSigner
-	params := multisig.ProposeParams{
+	params := multisig0.ProposeParams{
 		To:     stage.creator,
 		Value:  big.Zero(),
 		Method: builtin.MethodSend,
@@ -219,13 +224,14 @@ func nestedSends_FailMismatchParams(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(stage.msAddr, amtSent, builtin.MethodsMultisig.AddSigner, &params, nonce)
 
-	var ret multisig.ProposeReturn
+	var ret multisig0.ProposeReturn
 	MustDeserialize(result.Result.Return, &ret)
 	v.Assert.ExitCodeEq(ret.Code, exitcode.ErrSerialization)
 
 	v.Assert.BalanceEq(stage.creator, big.Sub(balanceBefore, CalculateSenderDeduction(result)))
 	v.Assert.BalanceEq(stage.msAddr, multisigBalance) // No change.
-	v.Assert.Equal(1, len(stage.state().Signers))     // No new signers
+	signers, _ := stage.state().Signers()
+	v.Assert.Equal(1, len(signers)) // No new signers
 }
 
 func nestedSends_FailInnerAbort(v *MessageVectorBuilder) {
@@ -235,7 +241,7 @@ func nestedSends_FailInnerAbort(v *MessageVectorBuilder) {
 	prevHead := v.StateTracker.Head(builtin.RewardActorAddr)
 
 	// AwardBlockReward will abort unless invoked by the system actor
-	params := reward.AwardBlockRewardParams{
+	params := reward0.AwardBlockRewardParams{
 		Miner:     stage.creator,
 		Penalty:   big.Zero(),
 		GasReward: big.Zero(),
@@ -243,7 +249,7 @@ func nestedSends_FailInnerAbort(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(builtin.RewardActorAddr, amtSent, builtin.MethodsReward.AwardBlockReward, &params, nonce)
 
-	var ret multisig.ProposeReturn
+	var ret multisig0.ProposeReturn
 	MustDeserialize(result.Result.Return, &ret)
 	v.Assert.ExitCodeEq(ret.Code, exitcode.SysErrForbidden)
 
@@ -258,11 +264,11 @@ func nestedSends_FailAbortedExec(v *MessageVectorBuilder) {
 	prevHead := v.StateTracker.Head(builtin.InitActorAddr)
 
 	// Illegal paych constructor params (addresses are not accounts)
-	ctorParams := paych.ConstructorParams{
+	ctorParams := paych0.ConstructorParams{
 		From: builtin.SystemActorAddr,
 		To:   builtin.SystemActorAddr,
 	}
-	execParams := init_.ExecParams{
+	execParams := init0.ExecParams{
 		CodeCID:           builtin.PaymentChannelActorCodeID,
 		ConstructorParams: MustSerialize(&ctorParams),
 	}
@@ -270,7 +276,7 @@ func nestedSends_FailAbortedExec(v *MessageVectorBuilder) {
 	amtSent := abi.NewTokenAmount(1)
 	result := stage.sendOk(builtin.InitActorAddr, amtSent, builtin.MethodsInit.Exec, &execParams, nonce)
 
-	var ret multisig.ProposeReturn
+	var ret multisig0.ProposeReturn
 	MustDeserialize(result.Result.Return, &ret)
 	v.Assert.ExitCodeEq(ret.Code, exitcode.ErrForbidden)
 
@@ -326,17 +332,15 @@ func prepareStage(v *MessageVectorBuilder, creatorBalance, msBalance abi.TokenAm
 	creator := v.Actors.Account(address.SECP256K1, creatorBalance)
 	v.CommitPreconditions()
 
-	msg := v.Messages.Sugar().CreateMultisigActor(creator.ID, &multisig.ConstructorParams{
-		Signers:               []address.Address{creator.ID},
-		NumApprovalsThreshold: 1,
-		UnlockDuration:        0,
+	msg := v.Messages.Sugar().MultisigMessage(creator.ID, func(b multisig.MessageBuilder) (*types.Message, error) {
+		return b.Create([]address.Address{creator.ID}, 1, 0, 0, msBalance)
 	}, Value(msBalance), Nonce(0))
 	v.Messages.ApplyOne(msg)
 
 	v.Assert.Equal(msg.Result.ExitCode, exitcode.Ok)
 
 	// Verify init actor return.
-	var ret init_.ExecReturn
+	var ret init0.ExecReturn
 	MustDeserialize(msg.Result.Return, &ret)
 
 	return &msStage{
@@ -354,13 +358,10 @@ func (s *msStage) sendOk(to address.Address, value abi.TokenAmount, method abi.M
 			panic(err)
 		}
 	}
-	pparams := multisig.ProposeParams{
-		To:     to,
-		Value:  value,
-		Method: method,
-		Params: buf.Bytes(),
-	}
-	msg := s.v.Messages.Typed(s.creator, s.msAddr, MultisigPropose(&pparams), Nonce(approverNonce), Value(big.NewInt(0)))
+
+	msg := s.v.Messages.Sugar().MultisigMessage(s.creator, func(b multisig.MessageBuilder) (*types.Message, error) {
+		return b.Propose(s.msAddr, to, value, method, buf.Bytes())
+	}, Nonce(approverNonce), Value(big.Zero()))
 	s.v.CommitApplies()
 
 	// all messages succeeded.
@@ -369,8 +370,8 @@ func (s *msStage) sendOk(to address.Address, value abi.TokenAmount, method abi.M
 	return msg
 }
 
-func (s *msStage) state() *multisig.State {
-	var msState multisig.State
-	s.v.StateTracker.ActorState(s.msAddr, &msState)
-	return &msState
+func (s *msStage) state() multisig.State {
+	state, err := multisig.Load(s.v.StateTracker.Stores.ADTStore, s.v.StateTracker.Header(s.msAddr))
+	s.v.Assert.NoError(err)
+	return state
 }

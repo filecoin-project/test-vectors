@@ -10,7 +10,7 @@ import (
 )
 
 // TypedCall represents a call to a known built-in actor kind.
-type TypedCall func() (method abi.MethodNum, params []byte)
+type TypedCall func(m *Messages) (method abi.MethodNum, params []byte)
 
 // Messages accumulates the messages to be executed within the test vector.
 type Messages struct {
@@ -35,9 +35,9 @@ func (m *Messages) SetDefaults(opts ...MsgOpt) *Messages {
 
 // ApplicableMessage represents a message to be applied on the test vector.
 type ApplicableMessage struct {
-	Epoch   abi.ChainEpoch
-	Message *types.Message
-	Result  *vm.ApplyRet
+	EpochOffset abi.ChainEpoch
+	Message     *types.Message
+	Result      *vm.ApplyRet
 	// Applied is true if this message has already been applied. Note it's
 	// not safe to rely on non-nil Result as indication of application
 	// since applied messages may fail without a result.
@@ -49,6 +49,7 @@ type ApplicableMessage struct {
 	baseFee abi.TokenAmount
 }
 
+// Sugar is the namespace for sugared message constructors.
 func (m *Messages) Sugar() *sugarMsg {
 	return &sugarMsg{m}
 }
@@ -74,8 +75,14 @@ func (m *Messages) Include(msgs ...*ApplicableMessage) {
 
 // Typed adds a typed call to this message accumulator.
 func (m *Messages) Typed(from, to address.Address, typedm TypedCall, opts ...MsgOpt) *ApplicableMessage {
-	method, params := typedm()
+	method, params := typedm(m)
 	return m.Raw(from, to, method, params, opts...)
+}
+
+// Message adds a message using the provided *types.Message and applying the
+// supplied opts.
+func (m *Messages) Message(msg *types.Message, opts ...MsgOpt) *ApplicableMessage {
+	return m.Raw(msg.From, msg.To, msg.Method, msg.Params, opts...)
 }
 
 // Raw adds a raw message to this message accumulator.
@@ -98,8 +105,8 @@ func (m *Messages) Raw(from, to address.Address, method abi.MethodNum, params []
 	}
 
 	am := &ApplicableMessage{
-		Epoch:   options.epoch,
-		Message: msg,
+		EpochOffset: options.epochOffset,
+		Message:     msg,
 	}
 
 	m.messages = append(m.messages, am)
@@ -139,12 +146,12 @@ func (m *Messages) ApplyN(ams ...*ApplicableMessage) {
 }
 
 type msgOpts struct {
-	nonce      uint64
-	value      big.Int
-	gasLimit   int64
-	gasFeeCap  abi.TokenAmount
-	gasPremium abi.TokenAmount
-	epoch      abi.ChainEpoch
+	nonce       uint64
+	value       big.Int
+	gasLimit    int64
+	gasFeeCap   abi.TokenAmount
+	gasPremium  abi.TokenAmount
+	epochOffset abi.ChainEpoch
 }
 
 // MsgOpt is an option configuring message value, gas parameters, execution
@@ -186,9 +193,9 @@ func GasPremium(premium int64) MsgOpt {
 	}
 }
 
-// Epoch sets the epoch in which a message is to be executed.
-func Epoch(epoch abi.ChainEpoch) MsgOpt {
+// EpochOffset sets the epoch offset in which a message is to be executed.
+func EpochOffset(epoch abi.ChainEpoch) MsgOpt {
 	return func(opts *msgOpts) {
-		opts.epoch = epoch
+		opts.epochOffset = epoch
 	}
 }

@@ -1,12 +1,11 @@
 package builders
 
 import (
-	"context"
+	"github.com/filecoin-project/lotus/chain/actors/builtin/reward"
 
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
-	"github.com/filecoin-project/specs-actors/actors/builtin/reward"
 )
 
 // RewardSummary holds the state we care about insofar rewards are concerned, at
@@ -39,14 +38,16 @@ func (r *Rewards) RecordAt(epoch int64) {
 	actor, err := r.st.StateTree.GetActor(builtin.RewardActorAddr)
 	r.bc.Assert.NoError(err)
 
-	var state reward.State
-	err = r.st.Stores.CBORStore.Get(context.Background(), actor.Head, &state)
+	state, err := reward.Load(r.st.Stores.ADTStore, actor)
 	r.bc.Assert.NoError(err, "failed to load state for reward actor; head=%s", actor.Head)
+
+	rew, err := state.ThisEpochReward()
+	r.bc.Assert.NoError(err, "failed to load this epoch reward")
 
 	rs := &RewardSummary{
 		Treasury:           actor.Balance,
-		EpochReward:        state.ThisEpochReward,
-		NextPerBlockReward: big.Div(state.ThisEpochReward, big.NewInt(builtin.ExpectedLeadersPerEpoch)),
+		EpochReward:        rew,
+		NextPerBlockReward: big.Div(rew, big.NewInt(builtin.ExpectedLeadersPerEpoch)),
 	}
 
 	r.m[abi.ChainEpoch(epoch)] = rs

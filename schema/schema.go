@@ -38,6 +38,21 @@ const (
 	HintNegate = "negate"
 )
 
+// Well known selectors.
+const (
+	// SelectorChaosActor, if it appears and its value is literal "true", it
+	// indicates that the vector requires the chaos actor to be provisioned into
+	// the VM at address f098.
+	SelectorChaosActor = "chaos_actor"
+
+	// SelectorMinProtocolVersion indicates the codename of the minimum protocol
+	// version that the VM must support in order to run this test vector. The
+	// value is a codename from a table kept outside the schema. Example good
+	// values include: "genesis" (protocol version at birth), "breeze", "smoke",
+	// "actorsv2".
+	SelectorMinProtocolVersion = "min_protocol_version"
+)
+
 // Selector is a predicate the driver can use to determine if this test vector
 // is relevant given the capabilities/features of the underlying implementation
 // and/or test environment.
@@ -67,99 +82,33 @@ type StateTree struct {
 // Base64EncodedBytes is a base64-encoded binary value.
 type Base64EncodedBytes []byte
 
-// RandomnessKind specifies the type of randomness that is being requested.
-type RandomnessKind string
+// Variant represents a tuple of preconditions that this vector can be run with.
+type Variant struct {
+	// ID of the variant, usually the codename of the upgrade.
+	ID string `json:"id"`
 
-const (
-	RandomnessBeacon = RandomnessKind("beacon")
-	RandomnessChain  = RandomnessKind("chain")
-)
+	// Epoch must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
+	// equivalent type in other implementations.
+	Epoch int64 `json:"epoch"`
 
-// RandomnessRule represents a rule to evaluate randomness matches against.
-// This encodes to JSON as an array. See godocs on the Randomness type for
-// more info.
-type RandomnessRule struct {
-	Kind                RandomnessKind
-	DomainSeparationTag int64
-	Epoch               int64
-	Entropy             Base64EncodedBytes
-}
-
-func (rm RandomnessRule) MarshalJSON() ([]byte, error) {
-	array := [4]interface{}{
-		rm.Kind,
-		rm.DomainSeparationTag,
-		rm.Epoch,
-		rm.Entropy,
-	}
-	return json.Marshal(array)
-}
-
-func (rm *RandomnessRule) UnmarshalJSON(v []byte) error {
-	var (
-		arr [4]json.RawMessage
-		out RandomnessRule
-		err error
-	)
-	if err = json.Unmarshal(v, &arr); err != nil {
-		return err
-	}
-	if err = json.Unmarshal(arr[0], &out.Kind); err != nil {
-		return err
-	}
-	if err = json.Unmarshal(arr[1], &out.DomainSeparationTag); err != nil {
-		return err
-	}
-	if err = json.Unmarshal(arr[2], &out.Epoch); err != nil {
-		return err
-	}
-	if err = json.Unmarshal(arr[3], &out.Entropy); err != nil {
-		return err
-	}
-	*rm = out
-	return nil
-}
-
-// Randomness encodes randomness the VM runtime should return while executing
-// this vector. It is encoded as a list of ordered rules to match on.
-//
-// The json serialized form is:
-//
-//  "randomness": [
-//    { "on": ["beacon", 12, 49327, "yxpTbzLhr4uaj7bK0Hl4Vw=="], "ret": "iKyZ2N83N8IoiK2tNJ/H9g==" },
-//    { "on": ["chain", 8, 61002, "aacQWICNcMJWtuwTnU+1Hg=="], "ret": "M6HqmihwZ5fXcbQQHhbtsg==" }
-//  ]
-//
-// The four positional values of the `on` array field are:
-//
-//  1. Kind of randomness (json string; values: beacon, chain).
-//  2. Domain separation tag (json number).
-//  3. Epoch (json number).
-//  4. Entropy (json string; base64 encoded bytes).
-//
-// When no rules are matched, the driver should return the raw bytes of
-// utf-8 string 'i_am_random_____i_am_random_____'
-type Randomness []RandomnessMatch
-
-// RandomnessMatch specifies a randomness match. When the implementation
-// requests randomness that matches the RandomnessRule in On, Return will
-// be returned.
-type RandomnessMatch struct {
-	On     RandomnessRule     `json:"on"`
-	Return Base64EncodedBytes `json:"ret"`
+	// NetworkVersion is the network version to feed to the VM for this vector.
+	NetworkVersion uint `json:"nv"`
 }
 
 // Preconditions contain the environment that needs to be set before the
 // vector's applies are applied.
 type Preconditions struct {
-	// Epoch must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
-	// equivalent type in other implementations.
-	Epoch     int64      `json:"epoch"`
+	// Variants encodes the variants with which this vector can run. Multiple items
+	// indicate that this vector can be executed once per variant.
+	Variants []Variant `json:"variants"`
+
+	// StateTree is the starting state tree for this vector.
 	StateTree *StateTree `json:"state_tree,omitempty"`
 
 	// BaseFee is an optional base fee to inject into the VM when feeding this
 	// message. If absent, it defaults to 100 attoFIL.
 	BaseFee *big.Int `json:"basefee,omitempty"`
+
 	// CircSupply is optional. If specified, it is the value that will be
 	// injected in the VM when feeding this message. If absent, the default
 	// value will be injected (TotalFilecoin, the maximum supply of Filecoin
@@ -220,7 +169,8 @@ type Diagnostics struct {
 	Data   Base64EncodedBytes `json:"data"`
 }
 
-// TestVector is a single test case.
+// TestVector is a single, faceted test case. The test case can be run against
+// the multiple facets expressed in the preconditions field.
 type TestVector struct {
 	Class    `json:"class"`
 	Selector `json:"selector,omitempty"`
@@ -256,19 +206,24 @@ type TestVector struct {
 
 type Message struct {
 	Bytes Base64EncodedBytes `json:"bytes"`
-	// Epoch must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
+	// EpochOffset represents the offset from the facet epoch where this message
+	// is applied. If missing, it must default to 0 (apply at the facet epoch).
+	// It.must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
 	// equivalent type in other implementations.
-	Epoch *int64 `json:"epoch,omitempty"`
+	EpochOffset *int64 `json:"epoch_offset,omitempty"`
 }
 
 type Tipset struct {
-	// Epoch must be interpreted by the driver as an abi.ChainEpoch in Lotus, or
-	// equivalent type in other implementations.
-	Epoch int64 `json:"epoch"`
+	// EpochOffset represents the offset from the facet epoch where this tipset
+	// is applied. It must be interpreted by the driver as an abi.ChainEpoch
+	// in Lotus, or equivalent type in other implementations.
+	EpochOffset int64 `json:"epoch_offset"`
+
 	// BaseFee must be interpreted by the driver as an abi.TokenAmount in Lotus,
 	// or equivalent type in other implementations.
 	BaseFee big.Int `json:"basefee"`
-	Blocks  []Block `json:"blocks,omitempty"`
+
+	Blocks []Block `json:"blocks,omitempty"`
 }
 
 type Block struct {

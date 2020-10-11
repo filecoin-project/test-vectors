@@ -7,9 +7,10 @@ require (
 	github.com/filecoin-project/go-address v0.0.4
 	github.com/filecoin-project/go-bitfield v0.2.1
 	github.com/filecoin-project/go-crypto v0.0.0-20191218222705-effae4ea9f03
-	github.com/filecoin-project/go-state-types v0.0.0-20200928172055-2df22083d8ab
+	github.com/filecoin-project/go-state-types v0.0.0-20201003010437-c33112184a2b
 	github.com/filecoin-project/lotus v0.9.1-0.20201008141726-3201e0eb8fd8
 	github.com/filecoin-project/specs-actors v0.9.12
+	github.com/filecoin-project/specs-actors/v2 v2.1.0
 	github.com/filecoin-project/test-vectors/schema v0.0.4
 	github.com/ipfs/go-block-format v0.0.2
 	github.com/ipfs/go-blockservice v0.1.4-0.20200624145336-a978cec6e834
@@ -22,7 +23,6 @@ require (
 	github.com/ipfs/go-ipld-format v0.2.0
 	github.com/ipfs/go-merkledag v0.3.2
 	github.com/ipld/go-car v0.1.1-0.20200923150018-8cdef32e2da4
-	github.com/libp2p/go-libp2p-core v0.6.1
 	github.com/minio/blake2b-simd v0.0.0-20160723061019-3f5f724cb5b1
 	github.com/multiformats/go-multihash v0.0.14
 	github.com/multiformats/go-varint v0.0.6
@@ -38,3 +38,5 @@ replace github.com/supranational/blst => ./gen/extern/fil-blst/blst
 replace github.com/filecoin-project/fil-blst => ./gen/extern/fil-blst
 
 replace github.com/filecoin-project/test-vectors/schema => ./schema
+
+replace github.com/filecoin-project/lotus => ../lotus

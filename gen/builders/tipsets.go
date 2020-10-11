@@ -12,8 +12,8 @@ import (
 // TipsetSeq provides methods to build a sequence of tipsets, such as
 // adding new tipsets and null rounds.
 type TipsetSeq struct {
-	tipsets []*Tipset
-	epoch   abi.ChainEpoch
+	tipsets     []*Tipset
+	epochOffset abi.ChainEpoch
 
 	// msgIdx is an index that stores unique messages enlisted in blocks in this
 	// tipset sequence.
@@ -41,8 +41,8 @@ type Block = schema.Block
 // epoch.
 func NewTipsetSeq(initialEpoch abi.ChainEpoch) *TipsetSeq {
 	return &TipsetSeq{
-		epoch:  initialEpoch,
-		msgIdx: make(map[cid.Cid]*ApplicableMessage),
+		epochOffset: initialEpoch,
+		msgIdx:      make(map[cid.Cid]*ApplicableMessage),
 	}
 }
 
@@ -65,19 +65,19 @@ func (tss *TipsetSeq) Next(baseFee abi.TokenAmount) *Tipset {
 	ts := &Tipset{
 		tss: tss,
 		Tipset: schema.Tipset{
-			Epoch:   int64(tss.epoch),
-			BaseFee: *baseFee.Int,
+			EpochOffset: int64(tss.epochOffset),
+			BaseFee:     *baseFee.Int,
 		},
 	}
 	tss.tipsets = append(tss.tipsets, ts)
-	tss.epoch++ // advance the epoch.
+	tss.epochOffset++ // advance the epoch.
 	return ts
 }
 
 // NullRounds enrols as many null rounds as indicated, advancing the epoch by
 // the count.
 func (tss *TipsetSeq) NullRounds(count uint64) {
-	tss.epoch += abi.ChainEpoch(count)
+	tss.epochOffset += abi.ChainEpoch(count)
 }
 
 // Block adds a new block to this tipset, produced by the indicated miner, with

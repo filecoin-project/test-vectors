@@ -1,6 +1,11 @@
 package main
 
 import (
+	"github.com/filecoin-project/go-state-types/exitcode"
+
+	"github.com/filecoin-project/lotus/chain/actors/builtin/paych"
+	"github.com/filecoin-project/lotus/chain/types"
+
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 
 	"github.com/filecoin-project/go-state-types/big"
@@ -21,9 +26,13 @@ func sequentialAddresses(v *MessageVectorBuilder) {
 
 	// Create 10 payment channels.
 	for i := uint64(0); i < 10; i++ {
-		v.Messages.Sugar().CreatePaychActor(sender.Robust, receiver.Robust, Value(big.NewInt(1000)), Nonce(i))
+		v.Messages.Sugar().PaychMessage(sender.Robust, func(b paych.MessageBuilder) (*types.Message, error) {
+			return b.Create(receiver.Robust, big.NewInt(1000))
+		}, Value(big.NewInt(1000)), Nonce(i))
 	}
 	v.CommitApplies()
+
+	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.Ok))
 
 	for i, am := range v.Messages.All() {
 		expectedActorAddr := AddressHandle{
@@ -40,4 +49,5 @@ func sequentialAddresses(v *MessageVectorBuilder) {
 
 	v.Assert.EveryMessageSenderSatisfies(BalanceUpdated(big.Zero()))
 	v.Assert.EveryMessageSenderSatisfies(NonceUpdated())
+
 }

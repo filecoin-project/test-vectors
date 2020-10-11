@@ -5,9 +5,11 @@ import (
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/go-state-types/exitcode"
+	"github.com/filecoin-project/lotus/chain/actors/builtin/paych"
+	"github.com/filecoin-project/lotus/chain/types"
+
 	init_ "github.com/filecoin-project/specs-actors/actors/builtin/init"
-	"github.com/filecoin-project/specs-actors/actors/builtin/paych"
-	"github.com/filecoin-project/specs-actors/actors/util/adt"
+	paych0 "github.com/filecoin-project/specs-actors/actors/builtin/paych"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
@@ -21,7 +23,9 @@ func happyPathCreate(v *MessageVectorBuilder) {
 	v.CommitPreconditions()
 
 	// Add the constructor message.
-	createMsg := v.Messages.Sugar().CreatePaychActor(sender.Robust, receiver.Robust, Value(toSend))
+	createMsg := v.Messages.Sugar().PaychMessage(sender.Robust, func(b paych.MessageBuilder) (*types.Message, error) {
+		return b.Create(receiver.Robust, toSend)
+	}, Value(toSend))
 	v.CommitApplies()
 
 	expectedActorAddr := AddressHandle{
@@ -30,17 +34,22 @@ func happyPathCreate(v *MessageVectorBuilder) {
 	}
 
 	// Verify init actor return.
+	// TODO no abstraction for init messages.
 	var ret init_.ExecReturn
 	MustDeserialize(createMsg.Result.Return, &ret)
 	v.Assert.Equal(expectedActorAddr.Robust, ret.RobustAddress)
 	v.Assert.Equal(expectedActorAddr.ID, ret.IDAddress)
 
 	// Verify the paych state.
-	var state paych.State
-	actor := v.StateTracker.ActorState(ret.IDAddress, &state)
-	v.Assert.Equal(sender.ID, state.From)
-	v.Assert.Equal(receiver.ID, state.To)
-	v.Assert.Equal(toSend, actor.Balance)
+	head := v.StateTracker.Header(ret.IDAddress)
+	state, err := paych.Load(v.StateTracker.Stores.ADTStore, head)
+	v.Assert.NoError(err)
+
+	from, _ := state.From()
+	to, _ := state.To()
+	v.Assert.Equal(sender.ID, from)
+	v.Assert.Equal(receiver.ID, to)
+	v.Assert.Equal(toSend, head.Balance)
 
 	v.Assert.EveryMessageSenderSatisfies(NonceUpdated())
 }
@@ -67,7 +76,9 @@ func happyPathUpdate(v *MessageVectorBuilder) {
 	v.CommitPreconditions()
 
 	// Construct the payment channel.
-	createMsg := v.Messages.Sugar().CreatePaychActor(sender.Robust, receiver.Robust, Value(toSend))
+	createMsg := v.Messages.Sugar().PaychMessage(sender.Robust, func(b paych.MessageBuilder) (*types.Message, error) {
+		return b.Create(receiver.Robust, toSend)
+	}, Value(toSend))
 
 	sv := paych.SignedVoucher{
 		ChannelAddr:     paychAddr.Robust,
@@ -85,7 +96,9 @@ func happyPathUpdate(v *MessageVectorBuilder) {
 	sv.Signature = sig
 
 	// Update the payment channel.
-	v.Messages.Typed(sender.Robust, paychAddr.Robust, PaychUpdateChannelState(&paych.UpdateChannelStateParams{Sv: sv}), Nonce(1), Value(big.Zero()))
+	v.Messages.Sugar().PaychMessage(sender.Robust, func(b paych.MessageBuilder) (*types.Message, error) {
+		return b.Update(paychAddr.Robust, &sv, nil)
+	}, Nonce(1), Value(big.Zero()))
 
 	v.CommitApplies()
 
@@ -97,20 +110,21 @@ func happyPathUpdate(v *MessageVectorBuilder) {
 	MustDeserialize(createMsg.Result.Return, &ret)
 
 	// Verify the paych state.
-	var state paych.State
-	v.StateTracker.ActorState(ret.RobustAddress, &state)
-
-	arr, err := adt.AsArray(v.StateTracker.Stores.ADTStore, state.LaneStates)
+	head := v.StateTracker.Header(ret.IDAddress)
+	state, err := paych.Load(v.StateTracker.Stores.ADTStore, head)
 	v.Assert.NoError(err)
-	v.Assert.EqualValues(1, arr.Length())
 
-	var ls paych.LaneState
-	found, err := arr.Get(lane, &ls)
-	v.Assert.NoError(err)
-	v.Assert.True(found)
+	laneCnt, _ := state.LaneCount()
+	v.Assert.EqualValues(1, laneCnt)
 
-	v.Assert.Equal(amount, ls.Redeemed)
-	v.Assert.Equal(nonce, ls.Nonce)
+	_ = state.ForEachLaneState(func(idx uint64, dl paych.LaneState) error {
+		redeemed, _ := dl.Redeemed()
+		nonce, _ := dl.Nonce()
+
+		v.Assert.Equal(amount, redeemed)
+		v.Assert.Equal(nonce, nonce)
+		return nil
+	})
 
 	v.Assert.EveryMessageSenderSatisfies(NonceUpdated())
 }
@@ -130,7 +144,9 @@ func happyPathCollect(v *MessageVectorBuilder) {
 	v.CommitPreconditions()
 
 	// Construct the payment channel.
-	createMsg := v.Messages.Sugar().CreatePaychActor(sender.Robust, receiver.Robust, Value(toSend))
+	createMsg := v.Messages.Sugar().PaychMessage(sender.Robust, func(b paych.MessageBuilder) (*types.Message, error) {
+		return b.Create(receiver.Robust, toSend)
+	}, Value(toSend))
 
 	sv := paych.SignedVoucher{
 		ChannelAddr:     paychAddr.Robust,
@@ -148,12 +164,18 @@ func happyPathCollect(v *MessageVectorBuilder) {
 	sv.Signature = sig
 
 	// Update the payment channel.
-	updateMsg := v.Messages.Typed(sender.Robust, paychAddr.Robust, PaychUpdateChannelState(&paych.UpdateChannelStateParams{Sv: sv}), Nonce(1), Value(big.Zero()))
+	updateMsg := v.Messages.Sugar().PaychMessage(sender.Robust, func(b paych.MessageBuilder) (*types.Message, error) {
+		return b.Update(paychAddr.Robust, &sv, nil)
+	}, Nonce(1), Value(big.Zero()))
 
-	settleMsg := v.Messages.Typed(receiver.Robust, paychAddr.Robust, PaychSettle(nil), Value(big.Zero()), Nonce(0))
+	settleMsg := v.Messages.Sugar().PaychMessage(receiver.Robust, func(b paych.MessageBuilder) (*types.Message, error) {
+		return b.Settle(paychAddr.Robust)
+	}, Value(big.Zero()), Nonce(0))
 
 	// advance the epoch so the funds may be redeemed.
-	collectMsg := v.Messages.Typed(receiver.Robust, paychAddr.Robust, PaychCollect(nil), Value(big.Zero()), Nonce(1), Epoch(paych.SettleDelay))
+	collectMsg := v.Messages.Sugar().PaychMessage(receiver.Robust, func(b paych.MessageBuilder) (*types.Message, error) {
+		return b.Collect(paychAddr.Robust)
+	}, Value(big.Zero()), Nonce(1), EpochOffset(paych0.SettleDelay)) // TODO accessing specs-actors directly, SettleDelay is not exposed
 
 	v.CommitApplies()
 

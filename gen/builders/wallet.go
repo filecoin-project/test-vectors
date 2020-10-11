@@ -60,7 +60,7 @@ func (w *Wallet) newSecp256k1Key() *wallet.Key {
 	}
 	w.secpSeed++
 	key, err := wallet.NewKey(types.KeyInfo{
-		Type:       wallet.KTSecp256k1,
+		Type:       types.KTSecp256k1,
 		PrivateKey: prv,
 	})
 	if err != nil {
@@ -77,7 +77,7 @@ func (w *Wallet) newBLSKey() *wallet.Key {
 	sk[0] = uint8(w.blsSeed) // hack to keep gas values determinist
 	w.blsSeed++
 	key, err := wallet.NewKey(types.KeyInfo{
-		Type:       wallet.KTBLS,
+		Type:       types.KTBLS,
 		PrivateKey: sk[:],
 	})
 	if err != nil {
