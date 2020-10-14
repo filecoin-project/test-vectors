@@ -1,0 +1,80 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "msg-apply-fail-receipt-gas",
+		"version": "v1",
+		"description": "fail to cover gas cost for message receipt on chain",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhW9lhTNPrPzyz3TTEimJK1eX8O58k+cq6O307/cvb/loG14SlKaXpRYVZ+bnMb5lJU5Dk0uLDzdDx8JEw8YmJwa2lhtaEdIMjKEMYmmZOfqG+mWpRZlpmakpRanpmcUlRZVITuG4mbSlWEKo6Mu0I1qibn8FT61+Zrl/7z7bU+cnWG9d3XaAwQFqKEvLDa1wkJlCEDOLS/KLEtNTC/LLU4uQzOPWaptSe3ZX/qGF6xRere9LObhF/uFUweMpl9+ft1115ttusHlNTU4MzC03tPxB5nFBzEsuys9DMif14q3rKZPOXL0gIFl7KPvqb/YD51vP3Fn/SaDlwJXqv+KRDA5NTgzJLTe0gkBm8ELMSExOzi/NK0Ey5r5rybHNC3dmndizYcqW6TWTNXsrci68/7Xp0vMl16XLZ3DBvcfQckMrEGQUD9R7lcUlqblIJrluOH9I4dyb6BqZpCNXJG0tnrxe0tchWjTnefwcrg1PDiICihUU+hIgo4RRQio3sSg7FdltUT82FpvqPl3fvclKmlXN/MU04bI3P57cSMvJ3ryAo7cwF24iI1pQZeZlIpuzlM1u9u8Z+yqXu77cLHFsq8g70ZPSx/YKX22/odf8/FhFDtycFILBdUb1WMmKvNAntqner5gYttbK+ptHiwgZOS7jiy1fuuotM4Mbw4srSwUYoAYyoQVaUWp5YlEKknkSamFyn0KW8Ql+OvmJ95HoNYZXbGI3S6JKnv18JFwQfjaZwZeBrSym0n4hQ+UFBgYGA9xJFrtoAyNxqbjZiSEA2Vn/ss4kLl6czWNu42XVt8y7UfvTqdlBDQET5lRc4Qjt4iFBqSZxypocGjSw5x1Mkb2MxGWlCQ5Q0BQhwcB0J4cBCwhnYD6ATZyBgQQ/MiiQoPibBGqeRrCMiMvZjaDSgYUVlJM45TASKwpHi7hM3ujEkCyDnrWR2erEZfEGLRyZGovQOibiMnk3UtA+Te22lTjL9vD2BNEtG96EHlRe5Bv98JXKDUuLozssq/31yVNKxcROSpohQa2Cg4ODHnH+amZgaHZkaGiQQC0NEaxU4srEZiTneV17/r1eMW0fT0Fz9Yp/ezY8ujprFbPZ3E+H799+db37wXqJ1ILkjMTMPN2yxJzMlMSSzPw8D+J0Njk1MDSCy8pQxswXxp4+E2Wz/uk/tFWM84n5zp4UKpFiS1y524hdvwx60YvMrieuCO50cGDwZBCAlgpeDIzfvZdbFbJcmdwUIQXiLJ5VeW+DK3rpEcYoOS1ruy66sCcD/38IYHAAAAAA//8BAAD//z6E+xQkCQAA",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "genesis",
+				"epoch": 1,
+				"nv": 0
+			},
+			{
+				"id": "breeze",
+				"epoch": 41281,
+				"nv": 1
+			},
+			{
+				"id": "smoke",
+				"epoch": 51001,
+				"nv": 2
+			},
+			{
+				"id": "ignition",
+				"epoch": 94001,
+				"nv": 3
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaced3hm4mzzcu7j7rvwksbuggu2wsa3opmnzcrcs2c7357usy7lm6a2"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGRCAGQAQgAKCEIAyEIAAQBA",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaced3hm4mzzcu7j7rvwksbuggu2wsa3opmnzcrcs2c7357usy7lm6a2"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 7,
+				"return": "",
+				"gas_used": 0
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzRxdVZ2SXRUbGV5eWl2TnlkRUJNWU9TUzJBODE2S2kvQ0lsS3lVbEhTV1gwcUxFa3N6OFBDVXJBeDBsOThSaTU0ekVvdlRVWXBqSzROS2s1TVNjSENpL05oWVFBQUQvL3dXb0EwRldBQUFB"
+	}
+}

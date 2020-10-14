@@ -1,0 +1,75 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "fail-balance-under-gaslimit",
+		"version": "v1",
+		"description": "fail to transfer when sender balance under gas limit",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhanlz+9+/v20pMts+r8tB18dCjjeInlu1qtdL5QyFMwjRZRIUJpellpUnJmfx1hHnPpmRiTD1dnEnUoWfXm0Pkv5eu+D9z5fr5V8Sis9I3DMO+T038iLDUhKXTecP6Rw7k10jUzSkSuSthZPXi/p6xAtmvM8fg7XhicHD+xgI87IJpcWH26FzoWJho1NTgypLTe0ghgYQxl40zJz9I30E5OT80vzSpDs/WUedtf6eey6BbOKPx/yPPRhkvnxomNP587MWrZi3RrZw0YMDlCj2FpuaEVIg8wSg5hVllqUmZaZmlKUmp5ZXFJUiWQox82kLcUSQkVfph3REnX7K3hq9TPL/Xv32Z46P8F66+q2A3BDWVpuaIWDzBSCmFlckl+UmJ5akF+eWoRkXv7mt4zPfnM8O/gv+JOZmvIDl2SW5odvbrOxzGEunJ34cTfYvKYmJwbmlhta/iDzuCDmJRfl5yGZk3rx1vWUSWeuXhCQrD2UffU3+4HzrWfurP8k0HLgSvVf8UgGhyYnhmSCYXbfteTY5oU7s07s2TBly/SayZq9FTkX3v/adOn5kuvS5TO44N5jaLmhFQgyigfqvcriktRcEmIdbhIrKPQlQEYJo4RUbmJRdiqy26J+bCw21X26vnuTlTSrmvmLacJlb348uZGWk715AUdvYS7cREa0oMrMy0Q2Z9a+XdN2ZXw4FTrLd7nOA11RqSrfvt8v7nsV3JryzH37X264OSkEg+uM6rGSFXmhT2xTvV8xMWytlfU3jxYRMnJcxhdbvnTVW2YGNwa9CW/P/4cayIQWaEWp5YlFKUjmqWzY5JY4I6Ty7eWlERxbmqS4goW/f2ra0rrE72uxuVzXSwZfBraymEr7hQyVFxgYGOQw3IbCsSUuHzSGMt7/G+p3c4ne6V3fdB7m/+P//T1o0lcD3PkBu2gDI3FZpNmJIQDJzxL/ss4kLl6czWNu42XVt8y7UfvTqdlBDQET5lRc4Qjt4iFBqSZxypocGjSwZ0xMkT2MxOXTfgcoaIqQYGC6k8OABYQzMB/AJs7AQIIfSVH7TQK1vECwjIgrNRpBJQ8LKyiXcmoRV0I0OjEky6CXC8hsdeLKhwYtHCUCFqF1TMSVEN1IYfc0tdtW4izbw9sTRLdseBN6UHmRb/TDVyo3LC2O7rCs9tcnTykVEzON0oSCg4ODHnH+amZgaHZkaGiQQC1KEaxU4grUZiTnvZNY6yf7cln8zUwrl5pp7zQm1i4MXx51Lzuz86TsvL78SIm0guSMxMw83bLEnMyUxJLM/Lw04nQ2OSs0MDSBS9pQxswXxp4+E2Wz/uk/tFWM84n5zp4UKpEClcRW2kmk2hJXpDdiN1wGvVRHZs9mJK5473ZwYPBk0BBPVYz/+YDBi4Hxu/dyq0KWK5ObIqRAnMWzKu9tcEUvPMIYJadlbddFF4YZdP8/g4MvA6PAD/MbU7QCuxgYGHwZmGreXl/CkrTPiYGBAQAAAP//AQAA//82DLQFZgoAAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "actorsv2",
+				"epoch": 138721,
+				"nv": 4
+			},
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			},
+			{
+				"id": "liftoff",
+				"epoch": 148889,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceckxpz656p56k5ekg2l75ngb5lbfbr4edhhjv2v25argqibxlekce"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGVCAGQAQBo7msoAQgDIQgABAEA=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceckxpz656p56k5ekg2l75ngb5lbfbr4edhhjv2v25argqibxlekce"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 2,
+				"return": "",
+				"gas_used": 0
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzRxdVZ2SXRUbGV5eWl2TnlkRUJNWU9TUzJBODE2S2kvQ0lsS3lVbEhTV1gwcUxFa3N6OFBDVXJBeDBsOThSaTU0ekVvdlRVWXBqSzROS2s1TVNjSENpL05oWVFBQUQvL3dXb0EwRldBQUFB"
+	}
+}

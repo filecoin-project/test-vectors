@@ -1,0 +1,82 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "fail-insufficient-funds-for-transfer-in-inner-send",
+		"version": "v1",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmBeGg7QXGk1NWttadFPzYlVTb+ONLhqH2lz07GYKaHuRnpyMpvcw0V6Xmo0DVTPOnxTKy6veO1jxd+GT+qUvv5krtXxJT5JBellpUnJmfx9jITpzZTS4tPvwKXQsTDRubnBhSW25oBTEwhjLwpmXm6BvqJyYn55fmlSA54Jd52F3r57HrFswq/nzI89CHSebHi449nTsza9mKdWtkDxsxOECNYmu5oRUhDTJLDGJWWWpRZlpmakpRanpmcUlRJZKhHDeTthRLCBV9mXZES9Ttr+Cp1c8s9+/dZ3vq/ATrravbDsANZWm5oRUOMlMIYmZxSX5RYnpqQX55ahGSedxabVNqz+7KP7RwncKr9X0pB7fIP5wqeDzl8vvztqvOfNsNNy+p5YZWAMg8boh5yRmJ+cVIBk3vSf9yY6kWo9SU7LpPBmeL4mycc6X3nO+c6f4jWK22aw7YoKYmJwbmlhta/iCDuKAGFeXnIZmTevHW9ZRJZ65eEJCsPZR99Tf7gfOtZ+6s/yTQcuBK9V/xSAaHJieGZIKBf9+15NjmhTuzTuzZMGXL9JrJmr0VORfe/9p06fmS69LlM7jg/mJouaEVCDKKBxpOlcUlqblIJrluOH9I4dyb6BqZpCNXJG0tnrxe0tchWjTnefwcrg1PDiJCnBUUjRIgo4RRgjw3sSg7FdltUT82FpvqPl3fvclKmlXN/MU04bI3P57cSMvJ3ryAo7cwF24iI1pQZeZlIpsza9+uabsyPpwKneW7XOeBrqhUlW/f7xf3vQpuTXnmvv0vN9ycFILBdUb1WMmKvNAntqner5gYttbK+ptHiwgZOS7jiy1fuuotM4Mbw4srSwUYoAYyoQVaUWp5YlEKknkSamFyn0KW8Ql+OvmJ95HoNYZXbGI3S6JKnv18JFwQfjaZwZeBrSym0n4hQ+UFBgYGOQy3oXBsictQjaGM9/+G+t1cond61zedh/n/+H9/D5r01QB3xsIu2sBIXF5rdmIIQPbzv6wziYsXZ/OY23hZ9S3zbtT+dGp2UEPAhDkVVzhCu3hIUKpJnLImhwYN7DkcU2QvI3EZfoIDFDRFSDAw3clhwALCGZgPYBNnYCDBjwwKJCj+JoVW8iAxNYkrgJoSGiRQSx0Ey4i4sqcRVH6xsILyOqcWceVMoxNDsgx66YLMVieulGnQwlGuYBFax0RcOdONFAFPU7ttJc6yPbw9QXTLhjehB5UX+UY/fKVyw9Li6A7Lan998pRSMUuQkrJIUKvg4OCgR5y/mhkYmh0ZGpBTEahARrBSiSuWm5Gc905irZ/sy2XxNzOtXGqmvdOYWLswfHnUvezMzpOy8/ryIyXSCpIzEjPzdMsSczJTEksy8/PSiNPZ5KzQwNAELq9DGTNfGHv6TJTN+qf/0FYxzifmO3tSqEQKVBJbmSmRaktcxdCI3XAZ9LoBmV1PXB3R6eDA4MkgAC1ZvBgYv3svtypkuTK5KUIKxFk8q/LeBlf0EiiMUXJa1nZddGFPBv7/EMDg0M5OXAtxtME3nBp8bgziHmUvGEabfSQ0+xjdGC4GTI6jQbOvinvWKQYAAAAA//8BAAD//wVoKkniDQAA",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "genesis",
+				"epoch": 1,
+				"nv": 0
+			},
+			{
+				"id": "breeze",
+				"epoch": 41281,
+				"nv": 1
+			},
+			{
+				"id": "smoke",
+				"epoch": 51001,
+				"nv": 2
+			},
+			{
+				"id": "ignition",
+				"epoch": 94001,
+				"nv": 3
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceajvfn3qgojwjkmfp3erd4mkmj6yd6hunaysx5f4xeaffaxan5vwo"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABBkmEQgBlQgABAEA=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedjqfhjeptyra6uzg7sxgha5e7pmk7hfuhsj7sws52orvp5elrzea"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "gkAG",
+				"gas_used": 350124
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzhTVVhVL2JQQlNBLzBwMHJsNGs2NTNUdEtHenRJdXVsS29TTU1ZR0YwTmN1TTdKUjBsczhFY0lSZjN2VStJaXlycHFSUk9hYit6YTduTjhmUHprK2dsT1RRYnNDYTVRbTBKSllKVEFkd1VNVXZweENBU090YXE2WHlHbFFPQk1TWUhkcGl0ZU9nUUc3ZXlVbTVPaUtpeXdrRDYzYnZZWWNjenZnRUdQcnZlZGE2d0sxeUpESUhDS05sY0pzSmpBT2RlOE1zQWduOHhHUHk1bm85SFh6eU1nTUo0ZHRlZjdBQXptUEgzc3paZGNvQ2ppVWlJTzB1clJLdVhpUmx1UjZQTGhidEVrS3NzR1ViVzR4ZGc4dUVqV2hVc1NwNWYzc0ZxUk50c0xZVnZncENuc1dDVSttUXUwVGt0Z2tOMk9wdjZnbHdZVFlGSC9NT3oxVndRbVdpc05ESURBa2RQY1B0L1ZsSnR4em5XR0J0ajFFNXp4cXIyVUwzS2M4MEtlb2pFOFF5QlFLZ0ZNdXJJa1lMUDJtdUpoSEJFUUdiQm8yQTNiTXNSREFuVzdUZ25VWXQwYjMxc0xqSzdJUm9ncDJwR3dTbS9qcVNkVFQ2VnZnZnFLekdTdGhFOXlDOTZMaG9QWUIxZ1A5d2xDQUJ0Z1VNQ3JhTjM1SncyS2Q4M2hTTW5mMU9BdkFuVEY5Vy9HYTdBRmp6b0ROdmpSbi9nM0JMNjV1ZUJsNlYvU2JpOURHbTZLMldtNjdXVzRsNWRiVnRJTksrbUxsVDZ6SFM2aXhLSk9lRjMxaEJiODF2WHlQRi8wbDQzTytzdnNua2ZKb3BLSFRhWEZvbmJOdkV6N2JxZUw4WXVMUHVSdUUxTmVsSmdFVmdWV2MybFMxRUhxWkdLQy95NndvMzJLRDlqR210LytrS01NRWt5Y3NJWE1udjlCLzZlL3RqQTRucDBjc0VBcUc2QlVMc3UzOGZ0K0RQNlZxV0hjcDRPMXF1dnhHMXkxOFA1V3ZYcjFMV1YxczdyNUdRQUEvLzhaRU9WZ2xnWUE="
+	}
+}

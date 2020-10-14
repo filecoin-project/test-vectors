@@ -1,0 +1,87 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "delete-w-balance-and-beneficiary",
+		"version": "v1",
+		"description": "actor with non-zero balance is deleted and sends funds to beneficiary",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhWD261sPy/w+v/34u9v7uY/vy/zvU9u3V2T11cq1SWbL9hQiKU0qENqR9uBE2bftrt84/rUxVx4LrXqkt+9HfhTzzdScoD/pZalFxZn5eYx1xBndzIhkuPzrrJx9L1gDFV+dnNEsqPTI6PSMjdfea9uv7uePn9YcMQtJqeuG84cUzr2JrpFJOnJF0tbiyeslfR2iRXOex8/h2vDk4IFmduKMbHJp8eFX6FqYaNjY5MSQ2nJDK4iBMZSBNy0zR99IPzE5Ob80rwTJ3l/mYXetn8euWzCr+PMhz0MfJpkfLzr2dO7MrGUr1q2RPWzE4AA1iq3lhlaENMgsMYhZZalFmWmZqSlFqemZxSVFlUiGctxM2lIsIVT0ZdoRLVG3v4KnVj+z3L93n+2p8xOst65uOwA3lKXlhlY4yEwhiJnFJflFiempBfnlqUVI5uVvfsv47DfHs4P/gj+ZqSk/cElmaX745jYbyxzmwtmJH3fDzUtquaEVADKPG2SeoX5yRmJ+MZJB03vSv9xYqsUoNSW77pPB2aI4G+dc6T3nO2e6/whWq+2aAzaoqcmJgbnlhpY/yCAuiMOSi/LzkMxJvXjresqkM1cvCEjWHsq++pv9wPnWM3fWfxJoOXCl+q94JINDkxNDMsHAv+9acmzzwp1ZJ/ZsmLJles1kzd6KnAvvf2269HzJdenyGVxwfzG03NAKBBnFAw2nyuKS1FwSkg/cJFZQNEqAjBJGCfLcxKLsVGS3Rf3YWGyq+3R99yYraVY18xfThMve/HhyIy0ne/MCjt7CXLiJjGhBlZmXiWzOrH27pu3K+HAqdJbvcp0HuqJSVb59v1/c9yq4NeWZ+/a/3HBzUggG1xnVYyUr8kKf2KZ6v2Ji2For628eLSJk5LiML7Z86aq3zAweDMy9dUuONRhBjWRCC7ai1PLEohQkE1U2bHJLnBFS+fby0giOLU1SXMHC3z81bWld4ve12Fyu6yWDLwNbWUyl/UKGygsMDAxyGK5D4dgSl6UaQxnv/w31u7lE7/SubzoP8//x//4eNOmrAe6shV20gZG43NbsxBCA5GeJf1lnEhcvzuYxt/Gy6lvm3aj96dTsoIaACXMqrnCEdvGQoFSTOGVNDg0a2PM4psgeRuKyfL8DFDRFSDAw3clhwALCGZgPYBNnYCDBj6So/SaFVvQgMTWJK4GaEhokUIsdBMuIuMKnEVSAsbCCMjunFnEFTaMTQ7IMevGCzFYnrphp0MJRsGARWsdEXEHTjRQBT1O7bSXOsj28PUF0y4Y3oQeVF/lGP3ylcsPS4ugOy2p/ffKUUjFH0ChhKTg4OOgR569mBoZmR4YG5FQEKpERrFTiyuVmJOe9k1jrJ/tyWfzNTCuXmmnvNCbWLgxfHnUvO7PzpOy8vvxIibSC5IzEzDzdssSczJTEksz8vDTidDY5KzQwNIGL61DGzBfGnj4TZbP+6T+0VYzzifnOnhQqkQKVxFZkSqTaElczNGI3XAa9akBmz2Ykro7odnBg8GTQEE9VjP/5gMGLgfG793KrQpYrk5sipECcxbMq721wRS+Bwhglp2Vt10UXhhl0/z+Dgy8Do8AP8xtTtAK7GBgYfBmYat5eX8KStM+JgYGhjrjWK0prdPXk+k8XjSMEF4s9viGYFDtvZ4BwM/fCE6VvI0S5Q5gmqJDQnDjERpyRoNYot0In9VqjTgxGQ6U9OoiakW4MehPeXmAYbUyS0JhkAjUm/ecslmGgfmOyyt10CgMAAAD//wEAAP//4+BBcbkOAAA=",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "actorsv2",
+				"epoch": 138721,
+				"nv": 4
+			},
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			},
+			{
+				"id": "liftoff",
+				"epoch": 148889,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacebjqpv5vymopxt5xy7xnxpyly67gt72mpwhl2ffl2v422yrwu26hc"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQgAyGjuaygBCAMhCAAEAQA==",
+			"epoch_offset": 0
+		},
+		{
+			"bytes": "igBCAGJCAGQBQBo7msoAQgDIQgABBUNCAGU=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacebrhaevym3qmq5xww5c7mch6qybxtrsvplrc5pxyn5nahwlfnrjpy"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 316268
+			},
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 48719
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzlTVFhXL2FQQlNBLzh1NWR2VTZDWEdDNzk0QlJaVkcxM1ZiYjZwZU9NNGhCQkliYklkQ0VQOTlTZ0lhVTl0cFZHelNjdU1UeDNyT1J4NC83bUJpTStBN2VFQmpjNjJBVXdKZk5YQ1kwbjRNQks2Tkx0czNqMUlnY0t1VnhQYlFneWdxQkE1aHN6MFc5bU5lNWc2NFI0OVB1M3VOT0JCTDRPRFR3N2s3ZzJWZU5Vd1BDRXpRelhUYUF1K0VFYVVGRGtCZ2NETnNpdm9QT0NSaXV2V1RXa2hNMkh5VjFpN2NSQXRYQmNIQ09HbWN2MDFEbTVRNjE3cWVxa1JtZVpLRXB0N09pOTV5aGl2WTcwblQ0cjEwRFhDMHlkMUFwMTBIOStncW80Q3JxaWphMHI1WlRJRUhIdk5adkNjd01rYWJycDVoWllRN2ptY3M3R0FtVElZVytPTU9ia1haek9HVEdzeEVyaVpvcmNnUUNCUmFIdGt1QTk3dnh5d2dJRFBnUWR5R3plQ1pSMkRkZktZRTF2S3cybTUxRGpqZGs1TU1ZM1QvUzZmTlN6cnR5TFNqMG5PZzNTKzRVV3N0dXg1ZndIMlA5V2pZWlRqR3Y1T0dBRzZBZzROZjVodHE5Y3E0em16b2ljQ1hLcEdpS0d4SGFWSytTMjN2aDlvWE1UczhNZnR6OXFGNHkyNXAyYkszY3FzZStuV09ySllia3o5WHFlODdHZm5iYUxGZzgrelp5clVLRm9VU1BxYXVZdSt3dXhkSFh2L2ljbnVVdm1xMy95L1lIY1FoTzhqZGhXZTRuZi9zZGx2L2FJUHlvajBNc1VDSGI4em1LbUt0a2lmd3E0aWRnLzh6UmYrbGEvNzBQUUFBLy8rNTVUcXp3d1lB"
+	}
+}
