@@ -276,7 +276,9 @@ func (g *Generator) Group(group string, vectors ...*VectorDef) {
 						continue
 					}
 
-					if err := json.NewEncoder(out).Encode(v); err != nil {
+					enc := json.NewEncoder(out)
+					enc.SetIndent("", "\t")
+					if err := enc.Encode(v); err != nil {
 						log.Printf("failed to write json into file %s: %s", tmp, err)
 						continue
 					}
