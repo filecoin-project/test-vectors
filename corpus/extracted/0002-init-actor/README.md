@@ -1,8 +1,8 @@
 # Batch 0002: Init Actor
 
-> extracted around Wed Sep 30 14:00:00 UTC 2020
+> extracted around Wed Sep 30 14:00:00 UTC 2020 (tvx version: eb6191d0ffd01a7cf7f8544a31acf307b1799fb2)
 >
-> tvx version: dev (commit eb6191d0ffd01a7cf7f8544a31acf307b1799fb2).
+> reextracted around Wed Oct 14 16:30:00 UTC 2020 (tvx version: https://github.com/filecoin-project/lotus/pull/4393)
 
 This is a selection of messages to the singleton init actor, extracted from
 heights 47000-50000 of the Space Race chain (which later transitioned to
