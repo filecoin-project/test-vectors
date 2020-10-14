@@ -159,8 +159,26 @@
       "description": "preconditions that need to be applied and satisfied before this test vector can be executed",
       "additionalProperties": false,
       "properties": {
-        "epoch": {
-          "type": "integer"
+        "variants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "title": "codename of the protocol version",
+                "type": "string"
+              },
+              "epoch": {
+                "title": "epoch at which to run",
+                "type": "integer"
+              },
+              "nv": {
+                "title": "network version with which to run",
+                "type": "integer"
+              }
+            }
+          }
         },
         "circ_supply": {
           "type": "number"
