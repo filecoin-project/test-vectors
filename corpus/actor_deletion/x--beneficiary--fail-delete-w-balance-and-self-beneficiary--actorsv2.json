@@ -1,0 +1,92 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"hints": [
+		"incorrect",
+		"negate"
+	],
+	"_meta": {
+		"id": "fail-delete-w-balance-and-self-beneficiary",
+		"version": "v1",
+		"description": "fails when actor with non-zero balance is deleted but beneficiary is the calling actor",
+		"comment": "should abort with SysErrorIllegalArgument if the beneficiary is the calling actor, will be fixed in https://github.com/filecoin-project/lotus/pull/3478",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhd4ZNnmmW44cc5Vy6e5sCFHcrSDy7dGe9sjP2T0rDt9dZ4ekVPJBxrRdO9ZraO7ltndh/VtbHlaRouXTXFLvFfjzy9TJEellqUXFmfl5jHXEGd3MiGT4vuPcxcpMqy2rL69Idf/Iu8d8dsbWsJs1jG9+s2sWtTF8Q1LquuH8IYVzb6JrZJKOXJG0tXjyeklfh2jRnOfxc7g2PDl4YAcbcUY2ubT48DN0Lkw0bGxyYmBruaEVIc3AGMoglpaZo2+kX5ZalJmWmZpSlJqeWVxSVInkAo6bSVuKJYSKvkw7oiXq9lfw1Opnlvv37rM9dX6C9dbVbQcYHKCGsrTc0AoHmSkEMbO4JL8oMT21IL88tQjJvPzNbxmf/eZ4dvBf8CczNeUHLskszQ/f3GZjmcNcODvx4264eUktN7QCQOZxg8wz1E/OSMwvRjJoek/6lxtLtRilpmTXfTI4WxRn45wrved850z3H8FqtV1zwAY1NTkxMLfc0PIHGcQFcVhyUX4ekjmpF29dT5l05uoFAcnaQ9lXf7MfON965s76TwItB65U/xWPZHBocmJIbrmhFQQygxdiRmJycn5pXgmSMfddS45tXrgz68SeDVO2TK+ZrNlbkXPh/a9Nl54vuS5dPoML7i+GlhtagSCjeKDhVFlckppLQpzDTWIFRaMEyChhlCDPTSzKTkV2W9SPjcWmuk/Xd2+ykmZVM38xTbjszY8nN9Jysjcv4OgtzIWbyIgWVJl5mcjmLGWzm/17xr7K5a4vN0sc2yryTvSk9LG9wlfbb+g1Pz9WkQM3J4VgcJ1RPVayIi/0iW2q9ysmhq21sv7m0SJCRo7L+GLLl656y8zgwcDcW7fkWIMR1EgmtGArSi1PLEpBMlFlwya3xBkhlW8vL43g2NIkxRUs/P1T05bWJX5fi83lul4y+DKwlcVU2i9kqLzAwMBggDv1YxdtYCQuQzQ7MQQgOUviX9aZxMWLs3nMbbys+pZ5N2p/OjU7qCFgwpyKKxyhXTwkKNUkTlmTQ4MG9myIKbKHkbhc2e8ABU0REgxMd3IYsIBwBuYD2MQZGEjwIylqv0mhlQ5ITE3iCommhAYJ1JIBwTIirnxoBJUxLKyg/Mgph5HkUThaxBUVjU4MyTLoBQQyW524gqJBC0fRgEVoHRNxRUU3Uvw8Te22lTjL9vD2BNEtG96EHlRe5Bv98JXKDUuLozssq/31yVNKxQxDo3Sn4ODgoEecv5oZGJodGRqQExmoTEWwUokrWZuRnOd17fn3esW0fTwFzdUr/u3Z8OjqrFXMZnM/Hb5/+9X17gfrJVILkjMSM/N0yxJzMlMSSzLz8zyI09nk1MDQCC5vQxkzXxh7+kyUzfqn/9BWMc4n5jt7UqhEii1xpXcjdv0y6MU3Mns2I3HleLeDA4Mng4Z4qmL8zwcMXgyM372XWxWyXJncFCEF4iyeVXlvgyt6ERTGKDkta7suujDMoPv/GRx8GRgFfpjfmKIV2MXAwODLwFTz9voSlqR9TgwMDHXENQtRmnnpVyWd+06X3kr+/6ROl2X1J35DQWHJ0wy5PyLLP+6xce8gocr/ykqckaBmHjdDx1Bp5g2i1pkbg96EtxcYRttoJLTRmEBtNP85i2UYqN9Gq3I3ncIAAAAA//8BAAD//31pug7FDQAA",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "actorsv2",
+				"epoch": 138721,
+				"nv": 4
+			},
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			},
+			{
+				"id": "liftoff",
+				"epoch": 148889,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacecgzqpdogw2mjrsfdjcixcmakqq3wiau63rlzb2z6nvyzkgd3wxd4"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQgAyGjuaygBCAMhCAAEAQA==",
+			"epoch_offset": 0
+		},
+		{
+			"bytes": "igBCAGJCAGQBQBo7msoAQgDIQgABBUNCAGI=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceam6a2ewxk4k6kbjxuft6raf7v6xovtymqveza3up5ffd6puswjvq"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 316268
+			},
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 48719
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzlTVFhVL2JQQlNBLzh1NU5ucWRwUG1vNzk2MWdKQUdZMnpqQm5GaHV5ZXBTMkpUMitsSHF2NzNLVW1yZFFLbUZYV1RsaHVmT05aelB2TDRZUVBYcmdDMmdYdTBUaGtOakJMNGFvQkJUb2NaRUxpd3B1cmVBa3FCd0kzUkVydEQ5N3lzRVJqRTdmWWxkeDlWcFR5d2dPNmZidmNDY2NTZmdVRklkK2R1TFZhcWJwa0JFTGhHUHpXVERuakxMYThjTUFBQ282dHhXOVIvd0VEd2ZCMktoa3NVeVd3K2FYeThTcDk4SFVWUDFrdnJ3L1VrZHFJeXlwZ20xMElXU29qWU51dFpPWGllNGh5Mlc5SzJlQ2Q5Q3p4ZktUOHlrNzZETy9TMTFjQjBYWlpkYWQ4Y1RvQkZRUkltMlpiQXViWEc5dldNYTh2OWZqeVgzSTJtM0Jib2dEMXM0SVpYN1J3KzZkR1VLMzJOenZFQ2dVQnA1Sjd0QzJERFlaWkVCR1FCTE1xNnNCMThFaEJZdEo4cGdZWGNyYTVmdlFkR3QrUWd3eVg2LzZVMzlpV2Q5bVRhVStreDBQNFhYT21Ga1gyUEwrQmhrQXhvM0dmWXg3K1RoZ0N1Z0lHSFgrWWJHLzNLdUk1czZKSEFsMXBJWHBhdXA3UXAzNlYyOEVQdGs1Z2RINWo5dWZpZzNyS2J5N0xKeStWY083NmNhUjRLc1ZpbUJTNU1PYkJLcE9FeWJWUzlRaU5Gbmc4dzlFNnZ6VHZzSG1ScE1EeTUzQUdscjlvZC9ndDJSMW1jN09UdXd5UGNWais3M2RWL3ZrSjUwaDdHV0tMSE4yWnpsaWFka2dmd3N6UTVCdjluaXY1TDEvenhld0FBQVAvLzU0UDBSOE1H"
+	}
+}

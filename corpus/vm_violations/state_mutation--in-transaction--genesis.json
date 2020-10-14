@@ -1,0 +1,83 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "in-transaction",
+		"version": "v1",
+		"description": "test an actor can mutate state within a transaction",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhbAlEgx3ZqzneJG1Xd5V4KPoPF+5i2cbw/x6p3jqTb4R/AtJaUHtAWfhJLfLORsK3zrfkKiS/xz3qFVd4pd157nEO3xeu9LLUouKM/PzGLexEWd2k0uLDz9D58JEw8YmJwa2lhtaEdIMjKEMYmmZOfqG+mWpRZlpmakpRanpmcUlRZVITuG4mbSlWEKo6Mu0I1qibn8FT61+Zrl/7z7bU+cnWG9d3XaAwQFqKEvLDa1wkJlCEDOLS/KLEtNTC/LLU4uQzOPWaptSe3ZX/qGF6xRere9LObhF/uFUweMpl9+ft1115ttuuHlJLTe0AkDmcUPMS85IzC9GMmh6T/qXG0u1GKWmZNd9MjhbFGfjnCu953znTPcfwWq1XXPABjU1OTEwt9zQ8gcZxAU1qCg/D8mc1Iu3rqdMOnP1goBk7aHsq7/ZD5xvPXNn/SeBlgNXqv+KRzI4NDkxJLfc0AoCmcELMSMxOTm/NK8EyZj7riXHNi/cmXViz4YpW6bXTNbsrci58P7XpkvPl1yXLp/BBfcXQ8sNrUCQUTzQcKosLknNRTLJdcP5Qwrn3kTXyCQduSJpa/Hk9ZK+DtGiOc/j53BteHIQEeKsoGiUABkljBLkuYlF2anIbov6sbHYVPfp+u5NVtKsauYvpgmXvfnx5EZaTvbmBRy9hblwExnRgiozLxPZnKVsdrN/z9hXudz15WaJY1tF3omelD62V/hq+w295ufHKnLg5qQQDK4zqsdKVuSFPrFN9X7FxLC1VtbfPFpEyMhxGV9s+dJVb5kZ3BheXFkqwAA1kAkt0IpSyxOLUpDMk1ALk/sUsoxP8NPJT7yPRK8xvGITu1kSVfLs5yPhgvCzyQy+DGxlMZX2CxkqLzAwMBjgTvvYRRsYicsOzU4MAcjO+pd1JnHx4mwecxsvq75l3o3an07NDmoImDCn4gpHaBcPCUo1iVPW5NCggT0TYorsZSQuT05wgIKmCAkGpjs5DFhAOAPzAWziDAwk+JFBgQTF36TQCgckpiZxZURTQoMEasGAYBkRVzw0gooYFlZQduSUw0jxKBwt4kqKRieGZBn08gGZrU5cOdGghaNkwCK0jom4kqIbKX6epnbbSpxle3h7guiWDW9CDyov8o1++ErlhqXF0R2W1f765CmlYo4hJeGRoFbBwcFBjzh/NTMwNDsyNCAnMlCRimClElewNiM5z+va8+/1imn7eAqaq1f827Ph0dVZq5jN5n46fP/2q+vdD9ZLpBYkZyRm5umWJeZkpiSWZObneRCns8mpgaERXOCGMma+MPb0mSib9U//oa1inE/Md/akUIkUW+IK70bs+mXQy29kdj1x5XingwODJ4MAtGjxYmD87r3cqpDlyuSmCCkQZ/GsynsbXNGLoDBGyWlZ23XRhT0Z+P9DAIPDHjbiml7DsCU1q3pVvpqal/cR9v1Pzr8y/VE9aXpQclMQcx6H/O/KvfueDLaWlBuDuEfZC4bR9hQJ7SlGN4aLAZPjaNCequKedYohlLiU1FShXZYbX5aZnwMul4r1i0sSS1Ljc0tLwHz9zDzdkqLEvOLEZBC3AQAAAP//AQAA//+jfOpFRg0AAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "genesis",
+				"epoch": 1,
+				"nv": 0
+			},
+			{
+				"id": "breeze",
+				"epoch": 41281,
+				"nv": 1
+			},
+			{
+				"id": "smoke",
+				"epoch": 51001,
+				"nv": 2
+			},
+			{
+				"id": "ignition",
+				"epoch": 94001,
+				"nv": 3
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceblkigaa3smk6chink3r6riq6ekz4ti62hgycvsorwkeslut3bj7u"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABB1gvgngrdm1fdmlvbGF0aW9ucy9zdGF0ZV9tdXRhdGlvbi9pbi10cmFuc2FjdGlvbgA=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacebyh3qcdcnrenu3mwby62q6ydb5b74264kcsogh2hoe44yo4bzflu"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 376031
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzd5VFgyL1RNQlRGdjh0NXRvVHpwMGxyaVllcGE2SkpiRXdGQ21MYWcrTTRxZHNrTG83VHBhMzYzVkdTVmdJNkNRWm9lZkhOMWRYdjNIdDgvWERBYloyREhiQ1FwbGE2QXFNRUh6VVlNam9aZ3lBeXV1ei9IRXBCY0tjcklmdWlCUzhhQ1lZdUcvUDZuU3FWQlhQbytldXprWlJUdmdHRFMwOTE5MGFXcXVtUURnaHVwVjNxRkN3a3VPZUdselVZOGlvM2FlbGthVmxza3ppaS9QT2tFYnZKUG8waituVXhzZW1YK1RLTmkyMmlKcHRFT1ZTVVVTUGNhTlhuOHF1M0lKamVYSGN6dlFGRHdyT2RtK3k1a09tM05pdFhPNzBKMXFQQXkveGl6VmVicC8xcXJhUnlLei9RMmRPcVZmc2dLSnRTdCtFeWFIWUt4eVBwSEpvTDJ3Rm5yYkpUblE0R3pLVnRUQVZXTlVYUmovYXBsaW1ZRndiVWM0NEVNMk8wQVFNSXJodkQ3ZG5kbU5mVEpUZTVyTUVlRHJqalpXZmorMnE2NUtxNmxYWE5jd21DUW9zejIrWmdqajhhQng2QnlNRzhjUjkyRitmUWtHRGJGVkNDclRpZDlYQmFDMGFQNUFlTldOb3JZYlc1NU5NQlRRY3NmUWwwdU1TYmFxdkZNT1VGM1BYR28yQVFPSVYvSWtJZ1d6QW8vS1RXOXo5cnBmaXZNOXhzaWpTVzlwSVpqbHpmSGJpbjhHL1pzeXI5MTVZSFI3eFg4dU8rZWNZUHgzTm9lQUtQL1Q3c0lQN3YxbkJvM1E5Zm9mZGY5L0ZhVjg4OHFCY0tQQko4YUJMQmk2SWVLTWZIN3dFQUFQLy8zay9wdXowRg=="
+	}
+}

@@ -1,0 +1,88 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"hints": [
+		"incorrect",
+		"negate"
+	],
+	"_meta": {
+		"id": "after-transaction",
+		"version": "v1",
+		"description": "test an actor cannot ILLEGALLY mutate state acquired for transaction but used after the transaction has ended",
+		"comment": "should abort with SysErrorIllegalActor, not succeed with Ok, see https://github.com/filecoin-project/lotus/issues/3545",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhbAlEgx3ZqzneJG1Xd5V4KPoPF+5i2cbw/x6p3jqTb4R/AtJqanFV03n/PVhMv3yH9TfppXsefoi465Rqrg2a1TZGWHW2vSy1KLizPw8xm1sxJnd5NLiw8/QuTDRsLHJiYGt5YZWhDQDYyiDWFpmjr6hfllqUWZaZmpKUWp6ZnFJUSWSUzhuJm0plhAq+jLtiJao21/BU6ufWe7fu8/21PkJ1ltXtx1gcIAaytJyQyscZKYQxMzikvyixPTUgvzy1CIk87i12qbUnt2Vf2jhOoVX6/tSDm6RfzhV8HjK5ffnbVed+bYbbl5Syw2tAJB53BDzkjMS84uRDJrek/7lxlItRqkp2XWfDM4Wxdk450rvOd850/1HsFpt1xywQU1NTgzMLTe0/EEGcUENKsrPQzIn9eKt6ymTzly9ICBZeyj76m/2A+dbz9xZ/0mg5cCV6r/ikQwOTU4MyS03tIJAZvBCzEhMTs4vzStBMua+a8mxzQt3Zp3Ys2HKluk1kzV7K3IuvP+16dLzJdely2dwwf3F0HJDKxBkFA80nCqLS1JzkUxy3XD+kMK5N9E1MklHrkjaWjx5vaSvQ7RozvP4OVwbnhxEhDgrKBolQEYJowR5bmJRdiqy26J+bCw21X26vnuTlTSrmvmLacJlb348uZGWk715AUdvYS7cREa0oMrMy0Q2Zymb3ezfM/ZVLnd9uVni2FaRd6InpY/tFb7afkOv+fmxihy4OSkEg+uM6rGSFXmhT2xTvV8xMWytlfU3jxYRMnJcxhdbvnTVW2YGN4YXV5YKMEANZEILtKLU8sSiFCTzJNTC5D6FLOMT/HTyE+8j0WsMr9jEbpZElTz7+Ui4IPxsMoMvA1tZTKX9QobKCwwMDAa40z520QZG4rJDsxNDALKz/mWdSVy8OJvH3MbLqm+Zd6P2p1OzgxoCJsypuMIR2sVDglJN4pQ1OTRoYM+EmCJ7GYnLkxMcoKApQoKB6U4OAxYQzsB8AJs4AwMJfmRQIEHxNym0wgGJqUlcGdGU0CCBWjAgWEbEFQ+NoCKGhRWUHTnlMFI8CkeLuJKi0YkhWQa9fEBmqxNXTjRo4SgZsAitYyKupOhGip+nqd22EmfZHt6eILplw5vQg8qLfKMfvlK5YWlxdIdltb8+eUqpmGNISXgkqFVwcHDQI85fzQwMzY4MDciJDFSkIlipxBWszUjO87r2/Hu9Yto+noLm6hX/9mx4dHXWKmazuZ8O37/96nr3g/USqQXJGYmZebpliTmZKYklmfl5HsTpbHJqYGgEF7ihjJkvjD19Jspm/dN/aKsY5xPznT0pVCLFlrjCuxG7fhn08huZXU9cOd7p4MDgySAALVq8GBi/ey+3KmS5MrkpQgrEWTyr8t4GV/QiKIxRclrWdl10YU8G/v8QwOCwh424ptcwbEm9mLRjyafPt75an8v2WRPd5K7OY3qY+69TEqu7Tfo8/gN6g60l5cYg7lH2gmG0PUVCe4rRjeFiwOQ4GrSnqrhnnWKIJi4lNVUYluXGl2Xm54DLpWL94pLEktT43NISMF8/Ma0ktUi3pCgxrzgxGSSim5nXAAAAAP//AQAA//9mE01yTA0AAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "genesis",
+				"epoch": 1,
+				"nv": 0
+			},
+			{
+				"id": "breeze",
+				"epoch": 41281,
+				"nv": 1
+			},
+			{
+				"id": "smoke",
+				"epoch": 51001,
+				"nv": 2
+			},
+			{
+				"id": "ignition",
+				"epoch": 94001,
+				"nv": 3
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceblkigaa3smk6chink3r6riq6ekz4ti62hgycvsorwkeslut3bj7u"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABB1gygngudm1fdmlvbGF0aW9ucy9zdGF0ZV9tdXRhdGlvbi9hZnRlci10cmFuc2FjdGlvbgI=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacea2tr5jjinx26vq4r4p7aj7nmz2lzzpindotezixfmcvu5wmcmcx2"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 385031
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzd5VFQyL1RRQkRGdjhzN3I4VGFydXRrSlE0b1RheEl0RlFCQ21yVncyWjMvYWZzbjdLN0RtbXJmSGRrTzVXQTlOQUNxaTh6SG8xK2IrYU5mZldBMDFDRFBlQkMrZEE2QzBZSlBqa3dWSFE2QWNIQ096TzhKWlNDNE14Wm9ZYW1DNjQ3QllhK1d2THd2alZ0QkV2bzR6TlVGMHJOK0MwWVVycnZPL2ZLdEYyUFRFQndxbUxqSkZoQmNNNDlOd0VNdGEwN2FaSktHcjFabHd2S3YwdzdjVGU5bCtXQ1hsNU1vL3k2YW1TcE4rdDIybHphbFJadFFvVlpkQ0pkM0F6MWV2a1dCTFBsU2IvWEd6Q3NlWFdYcnUrNVVPSytiZ3FUcS9ERHlhS1ZUWnAvVTdZeG04NlozSmh0NDdkcFhsVk5wa1YxODcxd056N3FGTHNkNlYxYWlkZ0Q1OXMyenB3Y1RWaXAySGtMWmp1dGgvVStCeVhCc2tsT3MyUkhNUGZlZVRDQTRLVHpQRDQ2WFBJd2E3aXZWUUM3ZXNBWk43MlZIK3lzNGEwOVZTSHdXb0ZBTy9ISWpqVlljalNaSEdjRW91NGxoclEvWHBKUWdrM2YwRWV4ajJHTU1ZTFJIZmxGbzFUeG5Zak9IL0xwaUtZajlrWFE4WkJMdTNGaTNQSUFubWFUL0hnVTJLZlBFU0ZRV3pDMCtFMXRtSCsrVmVLLzdyQzgxYkpVOFpCWjVPbFJPbkwzNmQreTUxYis2OGlqSTlrcitYSGVQZUZIa2hXMDJJTW5SMFBhUS9Mc1dhUG5yekg3bjkvamliTlAvRkF2RkxnbStOaXRCZGM2akpUZDljOEFBQUQvLy9qdkJxNUJCUUFB"
+	}
+}

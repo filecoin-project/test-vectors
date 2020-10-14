@@ -1,0 +1,83 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"hints": [
+		"incorrect",
+		"negate"
+	],
+	"_meta": {
+		"id": "after-transaction",
+		"version": "v1",
+		"description": "test an actor cannot ILLEGALLY mutate state acquired for transaction but used after the transaction has ended",
+		"comment": "should abort with SysErrorIllegalActor, not succeed with Ok, see https://github.com/filecoin-project/lotus/issues/3545",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmBafAcOX21EVum9/qHy+RbX3MeN5h1tdZf8Mn71CR9W3efBhJ6fqQO18+x6qI1/8SsHx6mIF30+HFz6oM/kg9v/3j25wZxxell6UWFWfm5zHWEWd0MyOS4TfPqalkV2yQ2LWuPE7ozsqPiq2CkwMqS0WdwyfVxdt9O4+k1HXD+UMK595E18gkHbkiaWvx5PWSvg7RojnP4+dwbXhy8MA2NuKMbHJp8eFn6FyYaNjY5MTA1nJDK0KagTGUQSwtM0ffSL8stSgzLTM1pSg1PbO4pKgSyQUcN5O2FEsIFX2ZdkRL1O2v4KnVzyz3791ne+r8BOutq9sOMDhADWVpuaEVDjJTCGJmcUl+UWJ6akF+eWoRknn5m98yPvvN8ezgv+BPZmrKD1ySWZofvrnNxjKHuXB24sfdcPOSWm5oBYDM4waZZ6ifnJGYX4xk0PSe9C83lmoxSk3JrvtkcLYozsY5V3rP+c6Z7j+C1Wq75oANampyYmBuuaHlDzKIC+Kw5KL8PCRzUi/eup4y6czVCwKStYeyr/5mP3C+9cyd9Z8EWg5cqf4rHsng0OTEkNxyQysIZAYvxIzE5OT80rwSJGPuu5Yc27xwZ9aJPRumbJleM1mztyLnwvtfmy49X3JdunwGF9xfDC03tAJBRvFAw6myuCQ1l4Q4h5vECopGCZBRwihBnptYlJ2K7LaoHxuLTXWfru/eZCXNqmb+Yppw2ZsfT26k5WRvXsDRW5gLN5ERLagy8zKRzVnKZjf794x9lctdX26WOLZV5J3oSelje4Wvtt/Qa35+rCIHbk4KweA6o3qsZEVe6BPbVO9XTAxba2X9zaNFhIwcl/HFli9d9ZaZwY3hxZWlAgxQA5nQAq0otTyxKAXJPJUNm9wSZ4RUvr28NIJjS5MUV7Dw909NW1qX+H0tNpfresngy8BWFlNpv5Ch8gIDA4MB7rSPXbSBkbjs0OzEEIDkLIl/WWcSFy/O5jG38bLqW+bdqP3p1OyghoAJcyqucIR28ZCgVJM4ZU0ODRrYMyGmyB5G4vJkvwMUNEVIMDDdyWHAAsIZmA9gE2dgIMGPpKj9JoVWNiAxNYkrIpoSGiRQywUEy4i40qERVMKwsIJyI6ccRoJH4WgRV1A0OjEky6AXD8hsdeKKiQYtHAUDFqF1TMQVFN1I8fM0tdtW4izbw9sTRLdseBN6UHmRb/TDVyo3LC2O7rCs9tcnTykVMwyN0p2Cg4ODHnH+amZgaHZkaEBOZKASFcFKJa5cbUZynte159/rFdP28RQ0V6/4t2fDo6uzVjGbzf10+P7tV9e7H6yXSC1IzkjMzNMtS8zJTEksyczP8yBOZ5NTA0MjuLwNZcx8YezpM1E265/+Q1vFOJ+Y7+xJoRIptsSV3Y3Y9cugF9/I7NmMxJXj3Q4ODJ4MGuKpivE/HzB4MTB+915uVchyZXJThBSIs3hW5b0NruhFUBij5LSs7browjCD7v9ncPBlYBT4YX5jilZgFwMDgy8DU83b60tYkvY5MTAw1BHXKERp5MXfFC8IcPoRvrVW/ivPt9eFm0WzahISZj69aDjllkZH+hESKvw9bMQZOQwbeS8m7Vjy6fOtr9bnsn3WRDe5q/OYHub+65TE6m6TPo//gN5ga+S5MYh7lL1gGG3qkdDUY3RjuBgwOY4GTb0q7lmnGKKJS0lNFYZlufFlmfk54DKzWL+4JLEkNT63tATM109MK0kt0i0pSswrTkwGiehm5jUAAAAA//8BAAD//zBdXuJmDgAA",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "actorsv2",
+				"epoch": 138721,
+				"nv": 4
+			},
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			},
+			{
+				"id": "liftoff",
+				"epoch": 148889,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacebbfcvzdq5s2ervt5ux4o5a5qxrqdt2atl2zv7kxso4cihknqoz4g"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABB1gygngudm1fdmlvbGF0aW9ucy9zdGF0ZV9tdXRhdGlvbi9hZnRlci10cmFuc2FjdGlvbgI=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacecxvjxhu6nosif377iidtzodaag3fq5d4z5db7a247n7r5u4tdd2e"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 385031
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzd5VFQyL1RRQkRGdjhzN3I4VGFydXRrSlE0b1RheEl0RlFCQ21yVncyWjMvYWZzbjdLN0RtbXJmSGRrTzVXQTlOQUNxaTh6SG8xK2IrYU5mZldBMDFDRFBlQkMrZEE2QzBZSlBqa3dWSFE2QWNIQ096TzhKWlNDNE14Wm9ZYW1DNjQ3QllhK1d2THd2alZ0QkV2bzR6TlVGMHJOK0MwWVVycnZPL2ZLdEYyUFRFQndxbUxqSkZoQmNNNDlOd0VNdGEwN2FaSktHcjFabHd2S3YwdzdjVGU5bCtXQ1hsNU1vL3k2YW1TcE4rdDIybHphbFJadFFvVlpkQ0pkM0F6MWV2a1dCTFBsU2IvWEd6Q3NlWFdYcnUrNVVPSytiZ3FUcS9ERHlhS1ZUWnAvVTdZeG04NlozSmh0NDdkcFhsVk5wa1YxODcxd056N3FGTHNkNlYxYWlkZ0Q1OXMyenB3Y1RWaXAySGtMWmp1dGgvVStCeVhCc2tsT3MyUkhNUGZlZVRDQTRLVHpQRDQ2WFBJd2E3aXZWUUM3ZXNBWk43MlZIK3lzNGEwOVZTSHdXb0ZBTy9ISWpqVlljalNaSEdjRW91NGxoclEvWHBKUWdrM2YwRWV4ajJHTU1ZTFJIZmxGbzFUeG5Zak9IL0xwaUtZajlrWFE4WkJMdTNGaTNQSUFubWFUL0hnVTJLZlBFU0ZRV3pDMCtFMXRtSCsrVmVLLzdyQzgxYkpVOFpCWjVPbFJPbkwzNmQreTUxYis2OGlqSTlrcitYSGVQZUZIa2hXMDJJTW5SMFBhUS9Mc1dhUG5yekg3bjkvamliTlAvRkF2RkxnbStOaXRCZGM2akpUZDljOEFBQUQvLy9qdkJxNUJCUUFB"
+	}
+}

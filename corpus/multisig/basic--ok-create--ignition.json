@@ -1,0 +1,65 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "ok-create",
+		"version": "v1",
+		"description": "multisig actor constructor ok",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhW9lhTNPrPzyz3TTEimJK1eX8O58k+cq6O307/cvb/loG14kpTv2Ogd3mTZNlE2+b+u72Gjd8YcF936tqueLuhl7Vj1PclV6WWpRcWZ+HuNbVuLMbnJp8eFm6FiYaNjY5MTA1nJDK0KagTGUQSwtM0ffUL8stSgzLTM1pSg1PbO4pKgSySkcN5O2FEsIFX2ZdkRL1O2v4KnVzyz3791ne+r8BOutq9sOMDhADWVpuaEVDjJTCGJmcUl+UWJ6akF+eWoRknncWm1Tas/uyj+0cJ3Cq/V9KQe3yD+cKng85fL787arznzbDTavqcmJgbnlhpY/yDwuiHnJRfl5SOakXrx1PWXSmasXBCRrD2Vf/c1+4HzrmTvrPwm0HLhS/Vc8ksGhyYkhueWGVhDIDF6IGYnJyfmleSVIxtx3LTm2eeHOrBN7NkzZMr1msmZvRc6F9782XXq+5Lp0+QwuuPcYWm5oBYKM4oF6r7K4JDUXySTXDecPKZx7E10jk3TkiqStxZPXS/o6RIvmPI+fw7XhyUFEQLGCQl8CZJQwSkjlJhZlpyK7LerHxmJT3afruzdZSbOqmb+YJlz25seTG2k52ZsXcPQW5sJNZEQLqsy8TGRzlrLZzf49Y1/lcteXmyWObRV5J3pS+the4avtN/Sanx+ryIGbk0IwuM6oHitZkRf6xDbV+xUTw9ZaWX/zaBEhI8dlfLHlS1e9ZWZwY3hxZakAA9RAJrRAK0otTyxKQTJPQi1M7lPIMj7BTyc/8T4Svcbwik3sZklUybOfj4QLws8mM/gysJXFVNovZKi8wMDAYIA7yWIXbWAkLhU3OzEEIDvrX9aZxMWLs3nMbbys+pZ5N2p/OjU7qCFgwpyKKxyhXTwkKNUkTlmTQ4MG9ryDKbKXkbisNMEBCpoiJBiY7uQwYAHhDMwHsIkzMJDgRwYFEhR/k0DN0wiWEXE5uxFUOrCwgnISpxxGYkXhaBGXyRudGJJl0LM2MluduCzeoIUjU2MRWsdEXCbvRgrap6ndthJn2R7eniC6ZcOb0IPKi3yjH75SuWFpcXSHZbW/PnlKqZjYSUkzJKhVcHBw0CPOX80MDM2ODA0NEqilIYKVSlyZ2IzkPK9rz7/XK6bt4ylorl7xb8+GR1dnrWI2m/vp8P3br653P1gvkVqQnJGYmadblpiTmZJYkpmf50GczianBoZGcFkZypj5wtjTZ6Js1j/9h7aKcT4x39mTQiVSbIkrdxux65dBL3qR2fXEFcGdDg4MngwC0FLBi4Hxu/dyq0KWK5ObIqRAnMWzKu9tcEUvPcIYJadlbddFF/Zk4P8PAQwOB9mIa+yA2y4KndAqJbXlhlYwqErhg/gltzSnJLM4Mx0pvpjsI8WZHnxfbOaYkbQrV+hNvWui+Py+r5l35lVwPk1wq2BwYuAabQmR3BJyYxD3KHvBMPTbQ4+P1bTu6vTefLfhikLlwW0OnB9dtCt0fDgsDvTu/KOz8h4V20OMbgwXAybHfqN+e6iKe9YpBgXMfIDKSyQuR7Q3OjGkMILyhRQDY74hFwllcypxYYpcnmq5XPQ+Mbmyby9Pf6nFP+2FL05uP7Dnt4dm49X+4FqPyisSaRjlaSpxOpucGgSaIOUp067wB5++1b+Z5xST23ZKpPfkaT9lA4lUvIUtAAAA//8BAAD//w0Q+Mq2DQAA",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "ignition",
+				"epoch": 94001,
+				"nv": 3
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaced3hm4mzzcu7j7rvwksbuggu2wsa3opmnzcrcs2c7357usy7lm6a2"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAAFCAGQAQgAKGjuaygBCAMhCAAECWB+C2CpTAAFVAA5maWwvMS9tdWx0aXNpZ0eDgUIAZAEK",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacec4l2q2tri2yfei5mppt2tndgkxmpylq335ku7yollmv3tjhnym2u"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "gkIAZVUCulfg8vZ/7J5CXG2GyhSNyctOIzA=",
+				"gas_used": 2119793
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLyt5V1cyL3FPQkRIdjhzOFc2cHpJUUZMZmFBcHpiTHF2VnUyYXRVSGs1aUVFbUt3blVCUzhkMVh4bFNpaFQybHA1ZWpTdVVsa3hEOVp1WnZaZVovOXdnbk1nSHlDRDBtNUpEblFEQ0NmemdRR0dBTEVCd0pQalkzR0FPQ1U1NUhiUGxPajJZRkF3S1dmaHhTZVR3Y0R4VVFDei85bGsrUEdBdm9CQWpZZVBYZXVXRGpZYUdaR24vQ1ZNcGpJRGFDY3lyb1dBS0JSQ1hUNjFuN29IZlJQcnNkWi9LNDdwVDltNTZNdzZ5bS84Wi9KZTVSMEE0dkRvSmtmeDhRQk4xRFhmOGVFT2pUUVdYM2F4cXhlQzRmZUdaN3NTOWRQeHJSdUo1U0o2M3JrazBmcW9ybUk5OHB5N1RnU3VTcHFFZXhtaW9iRmd1azFiaU1sQVoyNWtNVjhOaDBlOGxVSVhKZDNLamJ2dTFkQjBVMlNKcmw3WjcvZHlPNENlMndTcTlPcTBpZGRldjJ2bW4wV2pMZEdHNDVmc3RaSU9nSXdRVVFBQVNIaGFEcVNleVF5aUNsSW1FU3lOMGpuTkt4bHZVc0QxSTZ6RStZbERSaGdDRGpFWkM4eURJRUtnRmlPVmJUY3hCRUNSQ251UXoxT2JZY0JLWCtIeU1vbzlWVm1xdFNRUEFDcmFVSW1XcEhpb3ROUERaa2JLajRMVkJ6cE4yODVKRnBjZ1Blc0p5R1p4S3N3bDJTSUdCeklLQ0c4Q3pkc29IT25FVWYya1Iza3NVaFU1dE12Mkc3dHVHdXd0OWxkL0w0dlNVYlNUem5SNUJuZ2pqdUZ3bHlYbXdSeEhKOTdLL0FUWGNaYW9qMzJwZjV4WWY1WFdzUEJLT0svYy9Zc3F5bTZ6WmNRN2NzM0Z6ZWFKYnZ2U1hKNTVUK09kU1g4L2FRNTF2MnhYc1UxNHZJTEVDejlEZmd0cmZjOTJzSjdGZmx2a2R3VmZRam1tVm03LzNDaHJ3d0l1K3hJUnNtQksrWkVHdmRoT3hnTXZvUlY3TjhybVFlMDluQWorWjJOU256MUsyVUtLYXpRVHlPaTRFb0o3UFNxK3g1NHN3ZXB1bG9GNU5oaFAwQUMvR3ozOTg4QVp0YkIrQnU4KzhQajI1blcrV04xazZsTjFyZmRWSTlteU9hc3JoZjNQOFhBQUQvL3krSFNiM1hEQUFB"
+	}
+}

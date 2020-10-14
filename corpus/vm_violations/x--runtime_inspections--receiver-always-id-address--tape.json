@@ -1,0 +1,73 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"hints": [
+		"incorrect",
+		"negate"
+	],
+	"_meta": {
+		"id": "receiver-always-id-address",
+		"version": "v1",
+		"description": "verify Runtime.Receiver() returns an ID address even when message is sent to a robust address",
+		"comment": "the call to Runtime.Receiver() should return an ID address but returns the robust address that the message was sent to, fixed by https://github.com/filecoin-project/lotus/pull/3589",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmBcXXu36UC3PsSatW6KlLsnnIeI/VyiY/+Urb48ufSvpnOCAp3awlw1zdrjnD55PSJ825NyMM3zS4R8/pCjr2tH5F2PEYtvSy1KLizPw8xjrijG5mRDL8mZqnzGX2G8rnJ912VG6Tior9+cEm+ugF0eqV81Metr36jqTUdcP5Qwrn3kTXyCQduSJpa/Hk9ZK+DtGiOc/j53BteHLwwH824oxscmnx4VfoWpho2NjkxJDackMrgIExlIE7LTNH31A/OSMxvxjJ1uk96V9uLNVilJqSXffJ4GxRnI1zrvSe850z3X8Eq9V2zWFwgBrE1nJDK0IaZJIYyCQj/bLUosy0zNSUotT0zOKSokokQzluJm0plhAq+jLtiJao21/BU6ufWe7fu8/21PkJ1ltXtx2AG8rSckMrHGSmEMTM4pL8osT01IL88tQiJPPyN79lfPab49nBf8GfzNSUH7gkszQ/fHObjWUOc+HsxI+74eYlUcO3TU1ODMwtN7T8QQZxQRyWXJSfh2RO6sVb11Mmnbl6QUCy9lD21d/sB863nrmz/pNAy4Er1X/FIxkcmpwYkltuaAWBzOCFmJGYnJxfmleCZMx915JjmxfuzDqxZ8OULdNrJmv2VuRceP9r06XnS65Ll8/ggvuLoeWGViDIKB5oOFUWl6TmkpB44CaxgqJRAmSUMEqQ5yYWZaciuy3qx8ZiU92n67s3WUmzqpm/mCZc9ubHkxtpOdmbF3D0FubCTWREC6rMvExkc2bt2zVtV8aHU6GzfJfrPNAVlary7fv94r5Xwa0pz9y3/+WGm5NCMLjOqB4rWZEX+sQ21fsVE8PWWll/82gRISPHZXyx5UtXvWVmcGN4cWWpAAPUQCa0QCtKLU8sSkEyT2XDJrfEGSGVby8vjeDY0iTFFSz8/VPTltYlfl+LzeW6XjL4MrCVxVTaL2SovMDAwCCFlq6QmJrEJa+mhAYD3BkIu2gDI3F5qtmJIQDJbxL/ss4kLl6czWNu42XVt8y7UfvTqdlBDQET5lRc4Qjt4iFBqSZxypocGjSw52RMkT2MxGXsfgcoaIqQYGC6k8OABYQzMB/AJs7AQIIfSVH7TQK1XECwjIgrHRpBJQwLKyg3csphJHgUjhZxBUWjE0OyDHrxgMxWJ66YaNDCUTBgEVrHRFxB0Y0UtE9Tu20lzrI9vD1BdMuGN6EHlRf5Rj98pXLD0uLoDstqf33ylFIxrdMoySg4ODjoEeevZgaGZkeGhgYJ1BIVwUolrlxtRnLeO4m1frIvl8XfzLRyqZn2TmNi7cLw5VH3sjM7T8rO68uPlEgrSM5IzMzTLUvMyUxJLMnMz0sjTmeTs0IDQxO4wA1lzHxh7OkzUTbrn/5DW8U4n5jv7EmhEilQyft/Q/1uLtE7veubzsP8f/y/vwdN+iqRaktcyd6I3XAZ9MIdmT2bkbhSvtvBgcGTQUM8VTH+5wMGLwbG797LrQpZrkxuipACcRbPqry3wRW9bAljlJyWtV0XXRhm0P3/DA6+DIwCP8xvTNEK7GJgYPBlYKp5e30JS9I+JwYGhjri2p4obck925Wf7lgqtfMm293p6W+8NNzCXezPPmDt+rbjhcEkr/OrSGgOtLITZ+RoW3L4tCXdGMQ9yl4wjLYoSWhRMroxXAyYHEeDFmUV96xTDAAAAAD//wEAAP//HCRfbLoOAAA=",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceaq6xoxyo4jqrpdgpmqiy7tchtqqdxqfhi6g6y6uq3r5h4tur6mea"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBVAd/9VU7ZpC7LuvYs4W/+D/v3UpL1QgBkAEAaO5rKAEIAyEIAAQlA",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceczsuhadpodstgcm6irpekm53fmdd3eai5nzzcssy3sx7kcwy5oam"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "hkIAZEIAZUAaAAIl2UCCYIA=",
+				"gas_used": 232961
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzd5VTNXNmNNQkNGMytWY1d5by9YYnl4MUF0RU5pdWtKbzNTSmxJVDVjSXhCcHdBWnJGaFNhSjk5d3E4a2RKdXBmNmtLamNlR2ZqT3pKbXhiNTV4YWdxd1oxekp6aWpkZ0hrRVh6UVljaitrMGZCZ3QwLzlacXhIUFc1enU5bFN1bWxwR3c2NUhJZXdySXNxNUNBNDZYUTkvZUw1bmdlQ005MElPWk91ZU5WTE1FeTdhMjQrcWxwWk1OOTdlZWJkRXlrVDNvSWg4UGJmblhleVZ2MkU5RUZ3S20ycE03QWpnblBlOGRxQUFRUkplandsL2c0TWR6eC9ETzZldUpEY0RJSVBJMVZsWnJmM0cxbTJTb21oQ1dROTlwYjNQVzBIMWRNb2wvY0x1ckZOZnI5UWo5anR5R1REaGJBVGNEVXFtK2pNRlhBaGJkODFZQ2dmMHZoNmxjYlhsekdQNDdRS0xwUGtheHAvY0FsZkdwbUJCZjdpS1BKM0JLdXUwNTNMOHJqdnVIMHhkczFOVXZLdWtBYnM1aGxudko3TStkUWtKVmZOcVRTR0Z4SUVsUlpnVFY5VkJMWUE4LzFvR1lVRW9nQUxsM000OVl3dUNZYnB2VWN3aVAxcTNHb3RtTGNqcnlUVzBzYkM2dTRRN3pteTU2amVuMEJkWjlKbTBNSVZlUUFQd3VVaWNnTDc4SGRFQ09RSUJvWHYxT2I4VjZNVS83U0d0SzJ5dGJTSFRMb0kzZ2VPdXcvL2xyMXFzcmVtN0J3Si80TWZQL2IwV0RjL21jazNDTXpEN3M2VnV4NE9CNTdPVjhNckFaLytTdUdXNEhOL0ozaFZHWWZhM1g0TEFBRC8vOXM4NkdMZEJBQUE="
+	}
+}

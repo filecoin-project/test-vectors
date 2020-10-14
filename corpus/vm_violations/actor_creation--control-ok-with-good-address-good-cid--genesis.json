@@ -1,0 +1,83 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "control-ok-with-good-address-good-cid",
+		"version": "v1",
+		"description": "control test case to verify that correct actor creation messages do indeed succeed",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhVOWkk1fJVZpzBOt73Srb9NwXL59prjCVdcSBucuvTKZuUhKL10K2ttjePnHlCmZf+6/jS9qPcM0rzT4wzGdXufn7qX7p6eXpRYVZ+bnMfayE2d2k0uLD79C18JEw8YmJ4bUlhtaQQyMoQy8aZk5+ob6icnJ+aV5JUgO+GUedtf6eey6BbOKPx/yPPRhkvnxomNP587MWrZi3RrZw0YMngy8D7ZtXp7CwAA1k63lhlaENMhQMYihZalFmWmZqSlFqemZxSVFlUimc9xM2lIsIVT0ZdoRLVG3v4KnVj+z3L93n+2p8xOst65uO8DgADWUpeWGVjjITCGImcUl+UWJ6akF+eWpRUjmcWu1Tak9uyv/0MJ1Cq/W96Uc3CL/cKrg8ZTL78/brjrzbTfcvKSWG1oBIPO4IeYlZyTmFyMZNL0n/cuNpVqMUlOy6z4ZnC2Ks3HOld5zvnOm+49gtdquOWCDmpqcGJhbbmj5gwzighpUlJ+HZE7qxVvXUyaduXpBQLL2UPbV3+wHzreeubP+k0DLgSvVf8UjGRyanBiSCcbCfdeSY5sX7sw6sWfDlC3TayZr9lbkXHj/a9Ol50uuS5fP4IL7i6HlhlYgyCgeaDhVFpek5iKZ5Lrh/CGFc2+ia2SSjlyRtLV48npJX4do0Zzn8XO4Njw5iAhxVlA0SoCMEkYJ8tzEouxUZLdF/dhYbKr7dH33JitpVjXzF9OEy978eHIjLSd78wKO3sJcuImMaEGVmZeJbM6sfbum7cr4cCp0lu9ynQe6olJVvn2/X9z3Krg15Zn79r/ccHNSCAbXGdVjJSvyQp/Ypnq/YmLYWivrbx4tImTkuIwvtnzpqrfMmImWCS3cilLLE4tSkIyUUAuT+xSyjE/w08lPvI9ErzG8YhO7WRJV8uznI+GC8LPJDL4MbGUxlfYLGSovMDAwyGE4D4VjS1zmagxlvP831O/mEr3Tu77pPMz/x//7e9Ckrwa48xZ20QZG4rJbsxNDALKf/2WdSVy8OJvH3MbLqm+Zd6P2p1OzgxoCJsypuMIR2sVDglJN4pQ1OTRoYM/kmCJ7GYnL8xMcoKApQoKB6U4OAxYQzsB8AJs4AwMJfmRQIEHxNym0wgeJqUlcGdSU0CCBWvAgWEbEFT+NoCKMhRWU3Tm1iCtqGp0YkmXQCxhktjpxBU2DFo6iBYvQOibiippupAh4mtptK3GW7eHtCaJbNrwJPai8yDf64SuVG5YWR3dYVvvrk6eUilmClJRFgloFBwcHPeL81czA0OzI0ICcikBlMoKVSlzJ3IzkvHcSa/1kXy6Lv5lp5VIz7Z3GxNqF4cuj7mVndp6UndeXHymRVpCckZiZp1uWmJOZkliSmZ+XRpzOJmeFBoYmcHkdypj5wtjTZ6Js1j/9h7aKcT4x39mTQiVSoJLYykyJVFvi6oZG7IbLoNcNyOx64uqITgcHBk8GAWjJ4sXA+N17uVUhy5XJTRFSIM7iWZX3Nriil0BhjJLTsrbrogt7MvD/hwAGh3vsxLUWm1yO+PArdI82/oZX48+NQdyj7AXDaBOQhCYgIzjpzlEO8oOFWxpBM4kOOCq2Jqu4Z51iAAAAAP//AQAA//+8T6JFRQ4AAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "genesis",
+				"epoch": 1,
+				"nv": 0
+			},
+			{
+				"id": "breeze",
+				"epoch": 41281,
+				"nv": 1
+			},
+			{
+				"id": "smoke",
+				"epoch": 51001,
+				"nv": 2
+			},
+			{
+				"id": "ignition",
+				"epoch": 94001,
+				"nv": 3
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedfdsgmc6umkuke6cv7ysrt7qyuedj5xtelsbvkfoqaehcrooyoj2"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABA1gbhPTYKlIAAVUADWZpbC8xL2FjY291bnT0QgBm",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedjneuv5rqy5h6eusru7zx7nl5ziltactz2vh4ggfsguhz2how7zo"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 1334173
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzdTUzIyL2FNQmpGLzVmemJHbk9oWkQ2allXTDBFckhPc3JVVlgxd2dnbEpuUmhzaDNJUi8vdVVCS1J0M2FRaHJYbnhKWjkrNTN6bjg5TVJFNU9DSFRFWDJtU3FCS01FTXdXR0piMEpRVERVcW1oT0RxVWd1Rk5sSXBxaU9aZVZBRU45TytMbU5pc3lDK2JReTlmY0RvV0krQm9NTGozWFRiVW9zcXBHT2lDWUNMdFNDekNQWU1vMUx3d1lWdFBaNHljNTd2WG1ENzMrdCsvck9BcDN0KzR3ZjNSdm5MaWMwUy9weHdJRTBiaGYrLzRBaHBndjkyNTg0SW5nZ1plVmlmWHpydlRGSnVhYmwvd2w4UGNMSGh4a0xsOXpzYlYybndXcFhlYWJ3R3pUdzFxKzRuUWlkUXIzaWEyQmcxMW1JN1ZvbTd3WHR0SWxXRmxKMmRoL01HSUI1bmllNzNTOUU4RkFhNlhCQUlKK3BibTlSRGppSmxweG5Rb0Q5blRFSFMvcXJENlgwWXBuNVVRWXcxTUJBcW1TQzl5bVlJN2JDUU9QSUVuQnZMRFoxdE1KdXdUYitqOGwyQ2JuMWJTcnRXRDBSSDZTR0FuYlM2elNiL0cwSmRPV1NxK0J0b01hbDF1VnRFMitnYnRlMkFsYWdmUDJYMFFJeEE0TUdYNVJhL3dQZGlMNXJ6MUVXbkFyL3BLTjQ0UyszL0ZidXVQUXNEblVyRzV3amNqN1dQODkvcjRxLy9COHJoUjRKdmhheFFtWDByU1UwL09QQUFBQS8vOXNLd3A1RUFRQQ=="
+	}
+}
