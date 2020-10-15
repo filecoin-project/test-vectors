@@ -1,10 +1,10 @@
 # Batch 0004: Coverage boost
 
-> extracted around Wed Sep 30 15:00:00 UTC 2020
+> first extracted around Wed Sep 30 15:00:00 UTC 2020 (tvx version: eb6191d0ffd01a7cf7f8544a31acf307b1799fb2)
 >
-> tvx version: dev (commit eb6191d0ffd01a7cf7f8544a31acf307b1799fb2).
+> reextracted around Wed Oct 14 18:00:00 UTC 2020 (tvx version: https://github.com/filecoin-project/lotus/pull/4393)
 
-This is a selection of 324 messages extracted from heights the Space Race chain
+This is a selection of 344 messages extracted from heights the Space Race chain
 (which later transitioned to Ignition), up until height ~57000, with similar
 methods to batch 0001, but with a larger timespan, thus picking up more variance
 in samples. There may be significant coverage overlap with batch 0001.
@@ -36,26 +36,6 @@ but do not have corresponding vectors.
 * message bafy2bzacechu6pabplwqzh7dqpz5w5pcpv6d4gj2jwxy6qsyib53le4ccw6kg: vector generation aborted (receipt mismatch)
 * message bafy2bzacedsj4omiq25udyrlphhloxhzd6ptmvp7f5jer37xb5csag7c4vp3a: vector generation aborted (receipt mismatch)
 * message bafy2bzaceb35avh6raml3r4o3rfecfsezoziyni2hbdp7dtotphpklxi7zsdo: message not found; precursors found: 528
-* message bafy2bzacecfbtv2z6u2cshadnsjo6zuugy7qcfyvkzwim356ucmqeheffyly6: vector generation aborted (receipt mismatch)
-* message bafy2bzaceafcx6x5y4nk7yzhj7fpcmjhu2bdpzpugly5tvpycqy46aip7qaqm: vector generation aborted (receipt mismatch)
-* message bafy2bzacedbgfsimrxnrtj2rlnitwrxbip2zrafhex6vhyue3nm5nnjodoz66: vector generation aborted (receipt mismatch)
-* message bafy2bzacedbxzzbwvaef3gvr7ybnzcgslsniiyzh4lonagnqaer4fj2mzrhjq: vector generation aborted (receipt mismatch)
-* message bafy2bzacea3deot2adxdam6fxpujm6qbsdvcaqdsi6iworj2njzjikvpteate: vector generation aborted (receipt mismatch)
-* message bafy2bzacea4l2ciy67qnqb2opajhdsxntnc7m5p3gfmsy2cg22korz5yrwo3w: vector generation aborted (receipt mismatch)
-* message bafy2bzacedct4mpnxxzdh4yy7igsx4f72fs4boqld2byvqzwuj7jmur33urci: vector generation aborted (receipt mismatch)
-* message bafy2bzacea7dku2gz2a4cwundw6fimkkulsgwydi5vnvouhuug7eftr35yluw: vector generation aborted (receipt mismatch)
-* message bafy2bzaceap7z7wet4pnkoopa4c36zzivs4cyg26lhjm2icxhdesmlqm6ojms: vector generation aborted (receipt mismatch)
-* message bafy2bzacea7kghqvkd4ezqfpb4n5e2moxghgyglgitzruakqjvln2gtniyqxu: vector generation aborted (receipt mismatch)
-* message bafy2bzacebhzrzniblpkypiiwws2y2xybhy2wcckzmdlav6stcinqhclc6usc: vector generation aborted (receipt mismatch)
-* message bafy2bzaceanx7bajjntq2cgxq2igr7cqmeqlrw2hxcvwoyfw6tgrx44hgbiv4: vector generation aborted (receipt mismatch)
-* message bafy2bzacecdkgol75wvhhdrh4lurrndtonoqxhjjidyjdpvf2blwdn6n744co: vector generation aborted (receipt mismatch)
-* message bafy2bzacedmo2eqi52vnezgyjtyp2bbvlbnb4maaxryqy2gmhg3nwr4uewth6: vector generation aborted (receipt mismatch)
-* message bafy2bzacebfl72bvxqhsxtvysjyyu77s3bmbqu2lp5og3hc75c7534xjyozjg: vector generation aborted (receipt mismatch)
-* message bafy2bzacec6mt3pd764jtqg32fpohfgc7t7k3ddhtpoaqqy2ldcmil5ezngr6: vector generation aborted (receipt mismatch)
-* message bafy2bzacedtxruwhp3ij2ovgbmylet7bgod7olqmyuun3gde2zdbaf7ckyans: vector generation aborted (receipt mismatch)
-* message bafy2bzacecsimdcihwainxonnl747ke5bmwqfwertqr7272xnzg2c66bebpza: vector generation aborted (receipt mismatch)
-* message bafy2bzacedxh6jdyzce2vb2kfx4qedehkvpb3h24jp3ewftsehsogxbthf4he: vector generation aborted (receipt mismatch)
-* message bafy2bzaceaovegrepp7qenjukx565im5yvgxazjctnsaorh5axewj2ngmsium: vector generation aborted (receipt mismatch)
 * message bafy2bzacedyzaknevzsqzpod7b6aq5narof4av6wu3eei7xbe3g2trs2kajcu: vector generation aborted (receipt mismatch)
 * message bafy2bzacearqalrvu3ukeiidtqh3gzbzokdqv7v27gv4ylzhxmkf5mfkycfn4: vector generation aborted (receipt mismatch)
 * message bafy2bzacebyzu6s6mlbsge2iw23i422etzpsmncjh72otprwjj4jfeerpmuis: message not found; precursors found: 525
