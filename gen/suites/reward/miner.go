@@ -51,7 +51,7 @@ func minersAwardedNoPremiums(v *TipsetVectorBuilder) {
 
 	// Verify that the reward actor balance has been updated between
 	// epoch 11 and epoch 12, based on the wincount=3.
-	policy := v.Rewards.ForEpoch(ts1.EpochOffset)
+	policy := v.Rewards.ForEpochOffset(ts1.EpochOffset)
 
 	// state at epoch 11.
 	state11 := v.StateTracker.Fork(ts1.PostStateRoot)

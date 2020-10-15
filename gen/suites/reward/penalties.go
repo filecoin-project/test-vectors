@@ -78,7 +78,7 @@ func minerPenalized(minerCnt int, messageFn func(v *TipsetVectorBuilder), checks
 		}
 
 		// get the rewards schedule at the starting epoch.
-		rewards := v.Rewards.ForEpoch(0)
+		rewards := v.Rewards.ForEpochOffset(0)
 		for i, m := range miners {
 			expected := rewards.NextPerBlockReward
 			if i == 0 {
