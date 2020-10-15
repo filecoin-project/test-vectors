@@ -20,10 +20,10 @@ type ProtocolVersion struct {
 	ID string
 
 	// Height is the height at which the version activates. It is used to
-	// calculate the variants's epoch.
+	// calculate the variant's epoch.
 	FirstEpoch abi.ChainEpoch
 
-	// Network is the network version. It is output on the variants's epoch.
+	// Network is the network version. It is output on the variant's epoch.
 	Network network.Version
 
 	// StateTree is the state tree version.
