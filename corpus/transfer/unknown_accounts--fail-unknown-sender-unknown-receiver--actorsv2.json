@@ -1,0 +1,75 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "fail-unknown-sender-unknown-receiver",
+		"version": "v1",
+		"description": "fail to transfer from unknown address to unknown address",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhT2d6jck3/9YlPEn+2halYXms5qasL3fIrapzxG/xsv2P5AEpellqUXFmfl5jHXEqW9mRDL8j4Tu/TtpZ7PTH0yvm3yz+YcN95zqh7vCq5xFlXMS1RavQFLquuH8IYVzb6JrZJKOXJG0tXjyeklfh2jRnOfxc7g2PDl4YA4rcUY2uTT4cDO0L0w0bGxyYmBruaEVIc3AGMoglpaZo2+kX5ZalJmWmZpSlJqeWVxSVInkAo6bSVuKJYSKvkw7oiXq9lfw1Opnlvv37rM9dX6C9dbVbQcYHKCGsrTc0AoHmSkEMbO4JL8oMT21IL88tQjJvPzNbxmf/eZ4dvBf8CczNeUHLskszQ/f3GZjmcNcODvx426weU1NTgzMLTe0/EHmcUHMSy7Kz0MyJ/Xirespk85cvSAgWXso++pv9gPnW8/cWf9JoOXAleq/4pEMDk1ODMktN7SCQGbwQsxITE7OL80rQTLmvmvJsc0Ld2ad2LNhypbpNZM1eytyLrz/tenS8yXXpctncMG9x9ByQysQZBQP1HuVxSWpuSREFdwkVlDoS4CMEkYJqdzEouxUZLdF/dhYbKr7dH33JitpVjXzF9OEy978eHIjLSd78wKO3sJcuImMaEGVmZeJbM6y8CVz/529uFwmzuj5sjULkpL3yR9+rGl3d2Xvrl1cfwrY4OYwofmxKLU8sSgFySSVDZvcEmeEVL69vDSCY0uTFFew8PdPTVtal/h9LTaX63rJ4MvAVhZTab+QofICAwODAe4Uhl20gZG4RNfsxBCA5CyJf1lnEhcvzuYxt/Gy6lvm3aj96dTsoIaACXMqrnCEdvGQoFSTOGVNDg0a2JM6psgeRuJSfr8DFDRFSDAw3clhwALCGZgPYBNnYCDBj6So/SaBmgMRLCPi8mEjKC+zsILSPaccRk5E4WgRlyUbnRiSZdAzIjJbnbgM2aCFIwtiEVrHRFyW7EYK2qep3bYSZ9ke3p4gumXDm9CDyot8ox++UrlhaXF0h2W1vz55SqmY1mmUZBQcHBz0iPNXMwNDsyNDQ4MEatmFYKUSV4I1k+A8iZSC5IzEzDzdssSczJTEksz8PBn0Ig+ZPZuRuLKv28GBwZNBQzxVMf7nAwYvBsbv3sutClmuTG6KkAJxFs+qvLfBFT3bhjFKTsvarosuDDPo/n8GB18GRoEf5jemaAV2MTAw+DIw1by9voQlaZ8TAwMDAAAA//8BAAD//8V4PbPnCAAA",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "actorsv2",
+				"epoch": 138721,
+				"nv": 4
+			},
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			},
+			{
+				"id": "liftoff",
+				"epoch": 148889,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacec6isj6ydhx7riti7rv4kzt2hau6m7d4k267mwfwe6obpvqna37vc"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBVAd/9VU7ZpC7LuvYs4W/+D/v3UpL1VQFp6DNJTJEdav4v4T0hXkxc9wdiVQBCAAoaO5rKAEIAyEIAAQBA",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacec6isj6ydhx7riti7rv4kzt2hau6m7d4k267mwfwe6obpvqna37vc"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 1,
+				"return": "",
+				"gas_used": 0
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzRxdVZ2SXRUbGV5eWl2TnlkRUJNWU9TUzJBODE2S2kvQ0lsS3lVbEhTV1gwcUxFa3N6OFBDVXJBeDBsOThSaTU0ekVvdlRVWXBqSzROS2s1TVNjSENpL05oWVFBQUQvL3dXb0EwRldBQUFB"
+	}
+}

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -15,6 +14,8 @@ import (
 	"runtime/debug"
 	"strings"
 	"sync"
+
+	"github.com/minio/blake2b-simd"
 
 	"github.com/filecoin-project/test-vectors/schema"
 )
@@ -44,6 +45,11 @@ type Metadata = schema.Metadata
 //  -i <include regex>
 //		regex inclusion filter to select a subset of vectors to execute; matched
 //		against the vector's ID.
+//
+//  TODO
+//  -v <protocol versions, comma-separated>
+//      protocol version variants to generate; if not provided, all supported
+//      protocol versions as declared by the vector will be attempted
 //
 // Scripts can bundle test vectors into "groups". The generator will execute
 // each group in parallel, and will write each vector in a file:
@@ -109,6 +115,11 @@ type VectorDef struct {
 	Metadata *schema.Metadata
 	Selector schema.Selector
 
+	// SupportedVersions enumerates the versions this vector is supported
+	// against. If nil or empty, this vector is valid for all known versions
+	// (as per KnownProtocolVersions).
+	SupportedVersions []ProtocolVersion
+
 	// Hints are arbitrary flags that convey information to the driver.
 	// Use hints to express facts like this vector is knowingly incorrect
 	// (e.g. when the reference implementation is broken), or that drivers
@@ -157,13 +168,17 @@ func NewGenerator() *Generator {
 
 	flag.Parse()
 
-	mode := OverwriteNone
-	if force {
+	var mode OverwriteMode
+	switch {
+	case force:
 		mode = OverwriteForce
-	} else if update {
+	case update:
 		mode = OverwriteUpdate
+	default:
+		mode = OverwriteNone
 	}
-	ret := Generator{Mode: mode}
+
+	gen := Generator{Mode: mode}
 
 	// If output directory is provided, we ensure it exists, or create it.
 	// Else, we'll output to stdout.
@@ -172,7 +187,7 @@ func NewGenerator() *Generator {
 		if err != nil {
 			log.Fatal(err)
 		}
-		ret.OutputPath = outputDir
+		gen.OutputPath = outputDir
 	}
 
 	// If a filter has been provided, compile it into a regex.
@@ -181,10 +196,10 @@ func NewGenerator() *Generator {
 		if err != nil {
 			log.Fatalf("supplied inclusion filter regex %s is invalid: %s", includeFilter, err)
 		}
-		ret.IncludeFilter = exp
+		gen.IncludeFilter = exp
 	}
 
-	return &ret
+	return &gen
 }
 
 func (g *Generator) Close() {
@@ -192,7 +207,8 @@ func (g *Generator) Close() {
 }
 
 func (g *Generator) Group(group string, vectors ...*VectorDef) {
-	// validate vectors.
+	// validate and filter vectors.
+	var generate []*VectorDef
 	for _, v := range vectors {
 		if v.MessageFunc != nil && v.TipsetFunc != nil {
 			panic(fmt.Sprintf("vector with id %s had more than one function", v.Metadata.ID))
@@ -200,13 +216,23 @@ func (g *Generator) Group(group string, vectors ...*VectorDef) {
 		if v.MessageFunc == nil && v.TipsetFunc == nil {
 			panic(fmt.Sprintf("vector with id %s had no functions", v.Metadata.ID))
 		}
+		if id := v.Metadata.ID; g.IncludeFilter != nil && !g.IncludeFilter.MatchString(id) && !g.IncludeFilter.MatchString(group) {
+			log.Printf("skipping %s: does not match inclusion filter", id)
+			continue
+		}
+		generate = append(generate, v)
+	}
+
+	if len(generate) == 0 {
+		log.Printf("no vectors to generate for group %s", group)
+		return
 	}
 
 	g.wg.Add(1)
 	go func() {
 		defer g.wg.Done()
 
-		var tmpOutDir string
+		var tmpDir string
 		if g.OutputPath != "" {
 			dir, err := ioutil.TempDir("", group)
 			if err != nil {
@@ -218,67 +244,93 @@ func (g *Generator) Group(group string, vectors ...*VectorDef) {
 					log.Printf("failed to remove temp output directory: %s", err)
 				}
 			}()
-			tmpOutDir = dir
+			tmpDir = dir
 		}
 
 		var wg sync.WaitGroup
-		for _, item := range vectors {
-			if id := item.Metadata.ID; g.IncludeFilter != nil && !g.IncludeFilter.MatchString(id) && !g.IncludeFilter.MatchString(group) {
-				log.Printf("skipping %s: does not match inclusion filter", id)
-				continue
-			}
+		for _, item := range generate {
+			wg.Add(1)
+			go func(item VectorDef) {
+				defer wg.Done()
 
-			tmpFile := vectorPath(tmpOutDir, group, item)
-			var w io.Writer
-			if g.OutputPath == "" {
-				w = os.Stdout
-			} else {
-				out, err := os.OpenFile(tmpFile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
-				if err != nil {
-					log.Printf("failed to open file %s: %s", tmpFile, err)
+				// generate variants.
+				variants := g.generateVariants(item)
+
+				// print to stdout.
+				if g.OutputPath == "" {
+					for _, v := range variants {
+						fmt.Println(string(v.MustMarshalJSON()))
+					}
 					return
 				}
-				w = out
-			}
 
-			wg.Add(1)
-			go func(item *VectorDef) {
-				defer wg.Done()
-				g.generateOne(w, item, w != os.Stdout)
+				for _, v := range variants {
+					var (
+						tmp      = vectorPath(tmpDir, group, &item, v)
+						existing = vectorPath(g.OutputPath, group, &item, v)
+					)
 
-				if g.OutputPath != "" {
-					outFile := vectorPath(g.OutputPath, group, item)
-					_, err := os.Stat(outFile)
-					exists := !os.IsNotExist(err)
+					out, err := os.OpenFile(tmp, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+					if err != nil {
+						log.Printf("failed to open file for writing %s: %s", tmp, err)
+						continue
+					}
 
-					// if file (probably) exists and we're not force overwriting it, check equality
-					if exists && g.Mode != OverwriteForce {
-						eql, err := g.vectorsEqual(tmpFile, outFile)
+					enc := json.NewEncoder(out)
+					enc.SetIndent("", "\t")
+					if err := enc.Encode(v); err != nil {
+						log.Printf("failed to write json into file %s: %s", tmp, err)
+						continue
+					}
+
+					_ = out.Close()
+
+					switch _, err := os.Stat(existing); {
+					case err == nil:
+						// file exists.
+						if g.Mode == OverwriteForce {
+							// skip straight to the writing.
+							break
+						}
+						eql, err := g.vectorsEqual(tmp, existing)
 						if err != nil {
 							log.Printf("failed to check new vs existing vector equality: %s", err)
-							return
+							continue
 						}
 						if eql {
-							log.Printf("not writing %s: no changes", item.Metadata.ID)
-							return
+							log.Printf("not writing %s: no changes", existing)
+							continue
 						}
 						if g.Mode == OverwriteNone {
-							log.Printf("⚠️ WARNING: not writing %s: vector changed, use -u or -f to overwrite", item.Metadata.ID)
-							return
+							// no overwrite requested, warn that the vector has changed but we're refusing to overwrite.
+							log.Printf("⚠️ WARNING: not writing %s: vector changed, use -u or -f to overwrite", existing)
+							continue
 						}
+						if g.Mode == OverwriteUpdate {
+							// acknowledge that the vector has changed and we will overwrite
+							log.Printf("test vector exists, is not equal, and update was requested, overwriting: %s", existing)
+						}
+					case os.IsNotExist(err):
+						// file doesn't exist, write it.
+					default:
+						log.Printf("failed unexpectedly while checking if file exists: %s; err: %s", existing, err)
+						continue
 					}
+
 					// Move vector from tmp dir to final location
-					if err := os.Rename(tmpFile, outFile); err != nil {
+					if err := os.Rename(tmp, existing); err != nil {
 						log.Printf("failed to move generated test vector: %s", err)
 					}
+
 					// If this vector was broken and became fixed, then remove the broken
 					// vector file (and vice versa).
-					if err := removePrevious(g.OutputPath, group, item); err != nil {
+					if err := removePrevious(g.OutputPath, group, &item, v); err != nil {
 						log.Printf("failed to remove previously broken vector: %s", err)
 					}
-					log.Printf("wrote test vector: %s", outFile)
+					log.Printf("wrote test vector: %s", existing)
 				}
-			}(item)
+
+			}(*item)
 		}
 
 		wg.Wait()
@@ -288,16 +340,16 @@ func (g *Generator) Group(group string, vectors ...*VectorDef) {
 // vectorPath returns the filepath for the supplied vector, in the supplied
 // group, under the supplied directory. It prefixes files with `x--` if the
 // vector is known to be broken (i.e. carrying the schema.HintIncorrect hint).
-func vectorPath(dir string, group string, item *VectorDef) string {
-	path := filepath.Join(dir, vectorFilename(group, item))
+func vectorPath(dir string, group string, item *VectorDef, vector *schema.TestVector) string {
+	path := filepath.Join(dir, vectorFilename(group, item, vector))
 	return path
 }
 
 // vectorPath returns the file name for the supplied vector, in the supplied
 // group. It prefixes with `x--` if the vector is known to be broken (i.e.
 // carrying the schema.HintIncorrect hint).
-func vectorFilename(group string, item *VectorDef) string {
-	filename := fmt.Sprintf("%s--%s.json", group, item.Metadata.ID)
+func vectorFilename(group string, item *VectorDef, vector *schema.TestVector) string {
+	filename := fmt.Sprintf("%s--%s--%s.json", group, item.Metadata.ID, vector.Pre.Variants[0].ID)
 
 	// Prefix the file with "x--" if the vector is known to be broken.
 	var broken = map[string]struct{}{schema.HintIncorrect: {}}
@@ -351,49 +403,72 @@ func (g *Generator) vectorsEqual(apath, bpath string) (bool, error) {
 	return bytes.Equal(abytes, bbytes), nil
 }
 
-func (g *Generator) generateOne(w io.Writer, b *VectorDef, indent bool) {
-	log.Printf("generating test vector: %s", b.Metadata.ID)
+func (g *Generator) generateVariants(b VectorDef) []*schema.TestVector {
+	if len(b.SupportedVersions) == 0 {
+		b.SupportedVersions = KnownProtocolVersions
+	}
 
 	// stamp with our generation data.
 	b.Metadata.Gen = genData
 
-	var vector Builder
-	// TODO: currently if an assertion fails, we call os.Exit(1), which
-	//  aborts all ongoing vector generations. The Asserter should
-	//  call runtime.Goexit() instead so only that goroutine is
-	//  cancelled. The assertion error must bubble up somehow.
-	switch {
-	case b.MessageFunc != nil:
-		v := MessageVector(b.Metadata, b.Selector, b.Mode, b.Hints)
-		b.MessageFunc(v)
-		vector = v
-	case b.TipsetFunc != nil:
-		v := TipsetVector(b.Metadata, b.Selector, b.Mode, b.Hints)
-		b.TipsetFunc(v)
-		vector = v
-	default:
-		panic("no generation function provided")
-	}
+	var result []*schema.TestVector
+	for _, version := range b.SupportedVersions {
+		log.Printf("generating vector [%s] ~~>> pv: [%s]", b.Metadata.ID, version.ID)
 
-	buf := new(bytes.Buffer)
-	vector.Finish(buf)
-
-	final := buf
-	if indent {
-		// reparse and reindent.
-		final = new(bytes.Buffer)
-		if err := json.Indent(final, buf.Bytes(), "", "\t"); err != nil {
-			log.Printf("failed to indent json: %s", err)
+		var vector Builder
+		// TODO: currently if an assertion fails, we call os.Exit(1), which
+		//  aborts all ongoing vector generations. The Asserter should
+		//  call runtime.Goexit() instead so only that goroutine is
+		//  cancelled. The assertion error must bubble up somehow.
+		switch {
+		case b.MessageFunc != nil:
+			v := MessageVector(b.Metadata, b.Selector, b.Mode, b.Hints, version)
+			b.MessageFunc(v)
+			vector = v
+		case b.TipsetFunc != nil:
+			v := TipsetVector(b.Metadata, b.Selector, b.Mode, b.Hints, version)
+			b.TipsetFunc(v)
+			vector = v
+		default:
+			panic("no generation function provided")
 		}
+
+		// Finish the vector.
+		v := vector.Finish()
+		result = append(result, v)
 	}
 
-	n, err := w.Write(final.Bytes())
-	if err != nil {
-		log.Printf("failed to write to output: %s", err)
-		return
+	uniq := make(map[[32]byte]*schema.TestVector)
+	for _, v := range result {
+		variants := v.Pre.Variants                  // stash the variants
+		v.Pre.Variants = nil                        // compare without variants
+		hash := blake2b.Sum256(v.MustMarshalJSON()) // hash the serialized form
+		if merged, ok := uniq[hash]; ok {
+			// dedup.
+			merged.Pre.Variants = append(merged.Pre.Variants, variants...)
+			continue
+		}
+		v.Pre.Variants = variants // restore the variant
+		uniq[hash] = v
 	}
 
-	log.Printf("generated test vector: %s (size: %d bytes)", b.Metadata.ID, n)
+	var merged [][]string
+	for _, vector := range uniq {
+		var ids []string
+		for _, v := range vector.Pre.Variants {
+			ids = append(ids, v.ID)
+		}
+		merged = append(merged, ids)
+	}
+
+	log.Printf("merged equivalent variants for vector %s; deduped groups: %v", b.Metadata.ID, merged)
+
+	var ret []*schema.TestVector
+	for _, v := range uniq {
+		ret = append(ret, v)
+	}
+
+	return ret
 }
 
 // ensureDirectory checks if the provided path is a directory. If yes, it
@@ -421,8 +496,8 @@ func ensureDirectory(path string) error {
 
 // removePrevious will remove a previously broken vector file if it
 // became fixed & removes a previously working vector file if it became broken.
-func removePrevious(dir string, group string, item *VectorDef) error {
-	filename := vectorFilename(group, item)
+func removePrevious(dir string, group string, item *VectorDef, vector *schema.TestVector) error {
+	filename := vectorFilename(group, item, vector)
 	var filepath string
 
 	if strings.HasPrefix(filename, brokenVectorPrefix) {

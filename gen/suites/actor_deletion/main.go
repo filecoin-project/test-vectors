@@ -99,6 +99,7 @@ func deleteActorWithBeneficiary(actorFunds big.Int, beneficiaryAddr address.Addr
 
 		sender := v.Actors.Account(address.SECP256K1, big.Add(big.NewInt(1_000_000_000_000_000), actorFunds))
 
+		beneficiaryAddr := beneficiaryAddr // capture
 		if beneficiaryAddr == address.Undef {
 			beneficiaryAddr = v.Actors.Account(address.SECP256K1, big.Zero()).ID
 		}

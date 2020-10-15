@@ -2,8 +2,6 @@ package builders
 
 import (
 	"context"
-	"encoding/json"
-	"io"
 
 	"github.com/filecoin-project/test-vectors/schema"
 
@@ -21,7 +19,7 @@ import (
 // During the precondition stage, the user sets up the pre-existing state of
 // the system, including the miners that are going to be producing the blocks
 // comprising the vector. If the initial epoch is different to 0, the user must
-// also set it during the precondition stage via SetInitialEpoch.
+// also set it during the precondition stage via SetInitialEpochOffset.
 //
 // During the application stage, the user stages the messages they later want to
 // incorporate to a block in the StagedMessages object. Messages applied have no
@@ -29,7 +27,7 @@ import (
 //
 // Tipsets are registered in the Tipsets object, by calling Tipset#Next. This
 // "opens" a new tipset at the next epoch, starting at the initial epoch set by
-// SetInitialEpoch, and internally incrementing the counter by one.
+// SetInitialEpochOffset, and internally incrementing the counter by one.
 //
 // To register blocks on a tipset, call Tipset#Block, supplying the miner, win
 // count, and the messages to enroll. Messages need to have been staged
@@ -43,9 +41,10 @@ type TipsetVectorBuilder struct {
 	// by a fork at the PreRoot when committing applies.
 	StateTracker *StateTracker
 
-	InitialEpoch abi.ChainEpoch
-	Tipsets      *TipsetSeq
-	Rewards      *Rewards
+	InitialEpochOffset abi.ChainEpoch
+
+	Tipsets *TipsetSeq
+	Rewards *Rewards
 
 	PreRoot  cid.Cid
 	PostRoot cid.Cid
@@ -56,15 +55,18 @@ var _ Builder = (*TipsetVectorBuilder)(nil)
 
 // TipsetVector creates a new TipsetVectorBuilder. For usage details, read the
 // godocs on that type.
-func TipsetVector(metadata *schema.Metadata, selector schema.Selector, mode Mode, hints []string) *TipsetVectorBuilder {
-	bc := &BuilderCommon{Stage: StagePreconditions}
+func TipsetVector(metadata *schema.Metadata, selector schema.Selector, mode Mode, hints []string, pv ProtocolVersion) *TipsetVectorBuilder {
+	bc := &BuilderCommon{
+		Stage:           StagePreconditions,
+		ProtocolVersion: pv,
+	}
 	bc.Wallet = NewWallet()
 
 	b := &TipsetVectorBuilder{
 		BuilderCommon: bc,
 	}
 
-	b.StateTracker = NewStateTracker(selector, &b.vector)
+	b.StateTracker = NewStateTracker(bc, selector, &b.vector, pv.StateTree, pv.Actors, pv.ZeroStateTree)
 	bc.Actors = NewActors(bc, b.StateTracker)
 
 	b.vector.Class = schema.ClassTipset
@@ -73,7 +75,7 @@ func TipsetVector(metadata *schema.Metadata, selector schema.Selector, mode Mode
 	b.vector.Selector = selector
 	b.vector.Hints = hints
 
-	bc.Assert = NewAsserter(metadata.ID, mode == ModeLenientAssertions, suppliers{
+	bc.Assert = NewAsserter(metadata.ID, pv, mode == ModeLenientAssertions, suppliers{
 		messages: func() []*ApplicableMessage {
 			// only return messages that have actually been enrolled on tipsets.
 			return b.Tipsets.Messages()
@@ -90,13 +92,13 @@ func TipsetVector(metadata *schema.Metadata, selector schema.Selector, mode Mode
 	return b
 }
 
-// SetInitialEpoch sets the initial epoch of this tipset-class vector. It MUST
-// be called during the preconditions stage.
-func (b *TipsetVectorBuilder) SetInitialEpoch(epoch abi.ChainEpoch) {
+// SetInitialEpochOffset sets the initial epoch offset of this tipset-class
+// vector. It MUST be called during the preconditions stage.
+func (b *TipsetVectorBuilder) SetInitialEpochOffset(epoch abi.ChainEpoch) {
 	if b.Stage != StagePreconditions {
-		panic("you can only call SetInitialEpoch at preconditions stage")
+		panic("you can only call SetInitialEpochOffset at preconditions stage")
 	}
-	b.InitialEpoch = epoch
+	b.InitialEpochOffset = epoch
 }
 
 // CommitPreconditions flushes the state tree, recording the new CID in the
@@ -115,11 +117,15 @@ func (b *TipsetVectorBuilder) CommitPreconditions() {
 	b.PreRoot = preroot
 
 	// update the vector.
-	b.vector.Pre.Epoch = int64(b.InitialEpoch)
+	b.vector.Pre.Variants = []schema.Variant{{
+		ID:             b.ProtocolVersion.ID,
+		Epoch:          int64(b.InitialEpochOffset + b.ProtocolVersion.FirstEpoch),
+		NetworkVersion: uint(b.ProtocolVersion.Network),
+	}}
 	b.vector.Pre.StateTree = &schema.StateTree{RootCID: preroot}
 
 	// initialize the Tipsets object.
-	b.Tipsets = NewTipsetSeq(b.InitialEpoch)
+	b.Tipsets = NewTipsetSeq(b.InitialEpochOffset)
 
 	// update the internal state.
 	// create a staging state tracker that will be used during applies.
@@ -151,8 +157,6 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 	var (
 		ds = b.StateTracker.Stores.Datastore
 		bs = b.StateTracker.Stores.Blockstore
-
-		prevEpoch = b.InitialEpoch
 	)
 
 	// instantiate the reward tracker
@@ -167,6 +171,7 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 	}
 
 	var traces []types.ExecutionTrace
+	var prevEpoch = b.ProtocolVersion.FirstEpoch + b.InitialEpochOffset
 	driver := conformance.NewDriver(context.Background(), b.vector.Selector, conformance.DriverOpts{})
 	for _, ts := range b.Tipsets.All() {
 		// Store the tipset in the vector.
@@ -174,8 +179,9 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 
 		// Execute the tipset via the driver.
 		root := b.vector.Post.StateTree.RootCID
-		ret, err := driver.ExecuteTipset(bs, ds, root, prevEpoch, &ts.Tipset)
-		b.Assert.NoError(err, "failed to apply tipset at epoch: %d", ts.Epoch)
+		execEpoch := b.ProtocolVersion.FirstEpoch + b.InitialEpochOffset + abi.ChainEpoch(ts.EpochOffset)
+		ret, err := driver.ExecuteTipset(bs, ds, root, prevEpoch, &ts.Tipset, execEpoch)
+		b.Assert.NoError(err, "failed to apply tipset at epoch: %d", ts.EpochOffset)
 
 		ts.PostStateRoot = ret.PostStateRoot
 
@@ -206,7 +212,7 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 		// Update the state and receipts root in the vector.
 		b.vector.Post.StateTree.RootCID = ret.PostStateRoot
 		b.vector.Post.ReceiptsRoots = append(b.vector.Post.ReceiptsRoots, ret.ReceiptsRoot)
-		prevEpoch = abi.ChainEpoch(ts.Epoch)
+		prevEpoch = execEpoch
 
 		// Update the state tree.
 		b.PostRoot = b.vector.Post.StateTree.RootCID
@@ -218,7 +224,7 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 		//  we don't get the intermediate roots through null rounds, so this
 		//  is not straightforward.
 		//  https://github.com/filecoin-project/test-vectors/issues/91
-		b.Rewards.RecordAt(ts.Epoch)
+		b.Rewards.RecordAt(ts.EpochOffset)
 	}
 
 	// Update the vector diagnostics.
@@ -235,7 +241,7 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 //
 // This method progresses the builder into the "finished" stage and may only be
 // called during the "checks" stage.
-func (b *TipsetVectorBuilder) Finish(w io.Writer) {
+func (b *TipsetVectorBuilder) Finish() *schema.TestVector {
 	if b.Stage != StageChecks {
 		panic("called Finish at the wrong time")
 	}
@@ -249,8 +255,5 @@ func (b *TipsetVectorBuilder) Finish(w io.Writer) {
 	b.Stage = StageFinished
 	b.Assert = nil
 
-	encoder := json.NewEncoder(w)
-	if err := encoder.Encode(b.vector); err != nil {
-		panic(err)
-	}
+	return &b.vector
 }

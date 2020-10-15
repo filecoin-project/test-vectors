@@ -10,7 +10,7 @@ import (
 )
 
 func minersAwardedNoPremiums(v *TipsetVectorBuilder) {
-	v.SetInitialEpoch(1)
+	v.SetInitialEpochOffset(1)
 
 	var minerA, minerB, minerC Miner
 	cfg := MinerActorCfg{
@@ -28,17 +28,17 @@ func minersAwardedNoPremiums(v *TipsetVectorBuilder) {
 	// Add 10 null rounds.
 	v.Tipsets.NullRounds(10)
 
-	// Epoch 11 -- we'll access the reward actor state at this epoch
+	// EpochOffset 11 -- we'll access the reward actor state at this epoch
 	// to get the reward policy.
 	ts1 := v.Tipsets.Next(abi.NewTokenAmount(100))
-	v.Assert.EqualValues(11, ts1.Epoch)
+	v.Assert.EqualValues(11, ts1.EpochOffset)
 	ts1.Block(minerA, 1, transfer1)
 	ts1.Block(minerB, 1, transfer1)
 	ts1.Block(minerC, 1, transfer1)
 
-	// Epoch 12.
+	// EpochOffset 12.
 	ts2 := v.Tipsets.Next(abi.NewTokenAmount(100))
-	v.Assert.EqualValues(12, ts2.Epoch)
+	v.Assert.EqualValues(12, ts2.EpochOffset)
 	ts2.Block(minerA, 1, transfer2)
 	ts2.Block(minerB, 1, transfer2)
 	ts2.Block(minerC, 1, transfer2)
@@ -51,7 +51,7 @@ func minersAwardedNoPremiums(v *TipsetVectorBuilder) {
 
 	// Verify that the reward actor balance has been updated between
 	// epoch 11 and epoch 12, based on the wincount=3.
-	policy := v.Rewards.ForEpoch(ts1.Epoch)
+	policy := v.Rewards.ForEpochOffset(ts1.EpochOffset)
 
 	// state at epoch 11.
 	state11 := v.StateTracker.Fork(ts1.PostStateRoot)

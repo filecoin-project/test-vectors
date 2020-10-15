@@ -6,11 +6,22 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
-	"github.com/filecoin-project/specs-actors/actors/builtin"
-	"github.com/filecoin-project/specs-actors/actors/builtin/account"
-	"github.com/filecoin-project/specs-actors/actors/builtin/miner"
-	"github.com/filecoin-project/specs-actors/actors/builtin/power"
-	"github.com/filecoin-project/specs-actors/actors/util/adt"
+	"github.com/filecoin-project/go-state-types/cbor"
+
+	"github.com/filecoin-project/lotus/chain/actors"
+
+	builtin0 "github.com/filecoin-project/specs-actors/actors/builtin"
+	account0 "github.com/filecoin-project/specs-actors/actors/builtin/account"
+	miner0 "github.com/filecoin-project/specs-actors/actors/builtin/miner"
+	power0 "github.com/filecoin-project/specs-actors/actors/builtin/power"
+
+	builtin2 "github.com/filecoin-project/specs-actors/v2/actors/builtin"
+	account2 "github.com/filecoin-project/specs-actors/v2/actors/builtin/account"
+	miner2 "github.com/filecoin-project/specs-actors/v2/actors/builtin/miner"
+	power2 "github.com/filecoin-project/specs-actors/v2/actors/builtin/power"
+
+	adt0 "github.com/filecoin-project/specs-actors/actors/util/adt"
+	adt2 "github.com/filecoin-project/specs-actors/v2/actors/util/adt"
 )
 
 type Account struct {
@@ -127,8 +138,18 @@ func (a *Actors) Account(typ address.Protocol, balance abi.TokenAmount) AddressH
 		addr = a.bc.Wallet.NewBLSAccount()
 	}
 
-	actorState := &account.State{Address: addr}
-	handle := a.st.CreateActor(builtin.AccountActorCodeID, addr, balance, actorState)
+	var state cbor.Marshaler
+	var handle AddressHandle
+	switch a.st.ActorsVersion {
+	case actors.Version0:
+		state = &account0.State{Address: addr}
+		handle = a.st.CreateActor(builtin0.AccountActorCodeID, addr, balance, state)
+	case actors.Version2:
+		state = &account2.State{Address: addr}
+		handle = a.st.CreateActor(builtin2.AccountActorCodeID, addr, balance, state)
+	default:
+		panic("unknown actors version")
+	}
 
 	a.accounts = append(a.accounts, Account{handle, balance})
 	return handle
@@ -143,86 +164,123 @@ type MinerActorCfg struct {
 // Miner creates an owner account, a worker account, and a miner actor with the
 // supplied configuration.
 func (a *Actors) Miner(cfg MinerActorCfg) Miner {
-	owner := a.Account(address.SECP256K1, cfg.OwnerBalance)
-	worker := a.Account(address.BLS, big.Zero())
+	var (
+		owner  = a.Account(address.SECP256K1, cfg.OwnerBalance)
+		worker = a.Account(address.BLS, big.Zero())
 
-	ss, err := cfg.SealProofType.SectorSize()
-	a.bc.Assert.NoError(err, "seal proof sector size")
-
-	ps, err := builtin.SealProofWindowPoStPartitionSectors(cfg.SealProofType)
-	a.bc.Assert.NoError(err, "seal proof window PoSt partition sectors")
-
-	mi := &miner.MinerInfo{
-		Owner:                      owner.ID,
-		Worker:                     worker.ID,
-		PendingWorkerKey:           nil,
-		PeerId:                     abi.PeerID("test"),
-		Multiaddrs:                 nil,
-		SealProofType:              cfg.SealProofType,
-		SectorSize:                 ss,
-		WindowPoStPartitionSectors: ps,
-	}
-	infoCid, err := a.st.Stores.CBORStore.Put(context.Background(), mi)
-	if err != nil {
-		panic(err)
-	}
-
-	// create the miner actor s.t. it exists in the init actors map
-	minerState, err := miner.ConstructState(infoCid,
-		cfg.PeriodBoundary,
-		EmptyBitfieldCid,
-		EmptyArrayCid,
-		EmptyMapCid,
-		EmptyDeadlinesCid,
-		EmptyVestingFundsCid,
+		minerInfo cbor.Marshaler
+		state     cbor.Marshaler
+		err       error
 	)
+
+	switch a.st.ActorsVersion {
+	case actors.Version0:
+		minerInfo, err = miner0.ConstructMinerInfo(owner.ID, worker.ID, nil, []byte("test"), nil, cfg.SealProofType)
+	case actors.Version2:
+		minerInfo, err = miner2.ConstructMinerInfo(owner.ID, worker.ID, nil, []byte("test"), nil, cfg.SealProofType)
+	default:
+		panic("unknown actors version")
+	}
+
+	a.bc.Assert.NoError(err, "failed to construct miner info")
+
+	infoCid, err := a.st.Stores.CBORStore.Put(context.Background(), minerInfo)
 	if err != nil {
 		panic(err)
 	}
 
 	// TODO allow an address to create multiple miners.
 	minerActorAddr := worker.NextActorAddress(0, 0)
-	handle := a.st.CreateActor(builtin.StorageMinerActorCodeID, minerActorAddr, big.Zero(), minerState)
+	var minerHandle AddressHandle
+	switch a.st.ActorsVersion {
+	case actors.Version0:
+		state, err = miner0.ConstructState(infoCid,
+			cfg.PeriodBoundary,
+			a.st.EmptyBitfieldCid,
+			a.st.EmptyArrayCid,
+			a.st.EmptyMapCid,
+			a.st.EmptyDeadlinesCid,
+			a.st.EmptyVestingFundsCid,
+		)
+		a.bc.Assert.NoError(err)
+		minerHandle = a.st.CreateActor(builtin0.StorageMinerActorCodeID, minerActorAddr, big.Zero(), state)
 
-	// assert miner actor has been created, exists in the state tree, and has an entry in the init actor.
-	// next update the storage power actor to track the miner
+		// next update the storage power actor to track the miner
+		var spa power0.State
+		a.st.ActorState(builtin0.StoragePowerActorAddr, &spa)
 
-	var spa power.State
-	a.st.ActorState(builtin.StoragePowerActorAddr, &spa)
+		// set the miners claim
+		hm, err := adt0.AsMap(a.st.Stores.ADTStore, spa.Claims)
+		a.bc.Assert.NoError(err)
 
-	// set the miners claim
-	hm, err := adt.AsMap(adt.WrapStore(context.Background(), a.st.Stores.CBORStore), spa.Claims)
-	if err != nil {
-		panic(err)
-	}
+		// add claim for the miner TODO: allow caller to specify.
+		err = hm.Put(abi.AddrKey(minerHandle.ID), &power0.Claim{
+			RawBytePower:    abi.NewStoragePower(0),
+			QualityAdjPower: abi.NewStoragePower(0),
+		})
 
-	// add claim for the miner
-	// TODO: allow caller to specify.
-	err = hm.Put(abi.AddrKey(handle.ID), &power.Claim{
-		RawBytePower:    abi.NewStoragePower(0),
-		QualityAdjPower: abi.NewStoragePower(0),
-	})
-	if err != nil {
-		panic(err)
-	}
+		// save the claim, update miner count
+		spa.Claims, err = hm.Root()
+		spa.MinerCount += 1
 
-	// save the claim
-	spa.Claims, err = hm.Root()
-	if err != nil {
-		panic(err)
-	}
+		// update storage power actor's state in the tree
+		spaCid, err := a.st.Stores.CBORStore.Put(context.Background(), &spa)
+		a.bc.Assert.NoError(err)
 
-	// update miner count
-	spa.MinerCount += 1
+		// update spa header.
+		spaHeader := a.st.Header(builtin0.StoragePowerActorAddr)
+		spaHeader.Head = spaCid
+		err = a.st.StateTree.SetActor(builtin0.StoragePowerActorAddr, spaHeader)
+		a.bc.Assert.NoError(err)
 
-	// update storage power actor's state in the tree
-	_, err = a.st.Stores.CBORStore.Put(context.Background(), &spa)
-	if err != nil {
-		panic(err)
+	case actors.Version2:
+		state, err = miner2.ConstructState(infoCid,
+			cfg.PeriodBoundary,
+			0, // different
+			a.st.EmptyBitfieldCid,
+			a.st.EmptyArrayCid,
+			a.st.EmptyMapCid,
+			a.st.EmptyDeadlinesCid,
+			a.st.EmptyVestingFundsCid,
+		)
+		a.bc.Assert.NoError(err)
+
+		minerHandle = a.st.CreateActor(builtin2.StorageMinerActorCodeID, minerActorAddr, big.Zero(), state)
+
+		// next update the storage power actor to track the miner
+		var spa power2.State
+		a.st.ActorState(builtin2.StoragePowerActorAddr, &spa)
+
+		// set the miners claim
+		hm, err := adt2.AsMap(a.st.Stores.ADTStore, spa.Claims)
+		a.bc.Assert.NoError(err)
+
+		// add claim for the miner TODO: allow caller to specify.
+		err = hm.Put(abi.AddrKey(minerHandle.ID), &power2.Claim{
+			RawBytePower:    abi.NewStoragePower(0),
+			QualityAdjPower: abi.NewStoragePower(0),
+		})
+
+		// save the claim, update miner count
+		spa.Claims, err = hm.Root()
+		spa.MinerCount += 1
+
+		// update storage power actor's state in the tree
+		spaCid, err := a.st.Stores.CBORStore.Put(context.Background(), &spa)
+		a.bc.Assert.NoError(err)
+
+		// update spa header.
+		spaHeader := a.st.Header(builtin2.StoragePowerActorAddr)
+		spaHeader.Head = spaCid
+		err = a.st.StateTree.SetActor(builtin2.StoragePowerActorAddr, spaHeader)
+		a.bc.Assert.NoError(err)
+
+	default:
+		panic("unknown actors version")
 	}
 
 	m := Miner{
-		MinerActorAddr: handle,
+		MinerActorAddr: minerHandle,
 		OwnerAddr:      owner,
 		WorkerAddr:     worker,
 	}

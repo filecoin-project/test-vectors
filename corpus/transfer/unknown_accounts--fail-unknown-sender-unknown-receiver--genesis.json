@@ -1,0 +1,80 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "fail-unknown-sender-unknown-receiver",
+		"version": "v1",
+		"description": "fail to transfer from unknown address to unknown address",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmBdtnRbNDGyue/lC43H0tQavj3AaW3phLNxODNszhyC3nuEmC0vSy1KLizPw8xjmsxGlocmnw4WZoX5ho2NjkxMDWckMrQpqBMZRBLC0zR99Qvyy1KDMtMzWlKDU9s7ikqBLJKRw3k7YUSwgVfZl2REvU7a/gqdXPLPfv3Wd76vwE662r2w4wOEANZWm5oRUOMlMIYmZxSX5RYnpqQX55ahGSedxabVNqz+7KP7RwncKr9X0pB7fIP5wqeDzl8vvztqvOfNsNNq+pyYmBueWGlj/IPC6IeclF+XlI5qRevHU9ZdKZqxcEJGsPZV/9zX7gfOuZO+s/CbQcuFL9VzySwaHJiSG55YZWEMgMXogZicnJ+aV5JUjG3HctObZ54c6sE3s2TNkyvWayZm9FzoX3vzZder7kunT5DC649xhabmgFgozigXqvsrgkNRfJJNcN5w8pnHsTXSOTdOSKpK3Fk9dL+jpEi+Y8j5/DteHJQURAsYJCXwJklDBKSOUmFmWnIrst6sfGYlPdp+u7N1lJs6qZv5gmXPbmx5MbaTnZmxdw9Bbmwk1kRAuqzLxMZHOWhS+Z++/sxeUycUbPl61ZkJS8T/7wY027uyt7d+3i+lPABjeHCc2PRanliUUpSCZJqIXJfQpZxif46eQn3kei1xhesYndLIkqefbzkXBB+NlkBl8GtrKYSvuFDJUXGBgYDHCnMOyiDYzEJbpmJ4YAZGf9yzqTuHhxNo+5jZdV3zLvRu1Pp2YHNQRMmFNxhSO0i4cEpZrEKWtyaNDAntQxRfYyEpfyJzhAQVOEBAPTnRwGLCCcgfkANnEGBhL8yKBAguJvEqhZEMEyIi4jNoIyMwsrKOFzymFkRRSOFnF5stGJIVkGPScis9WJy5ENWjjyIBahdUzE5clupKB9mtptK3GW7eHtCaJbNrwJPai8yDf64SuVG5YWR3dYVvvrk6eUiomdlDRDgloFBwcHPeL81czA0OzI0NAggVp4IVipxBVhzSQ4TyKlIDkjMTNPtywxJzMlsSQzP08GvcxDZtcTV/Z1OjgweDIIQLOjFwPjd+/lVoUsVyY3RUiBOItnVd7b4IqebcMYJadlbddFF/Zk4P8PAQwOAAAAAP//AQAA//+3dlvDTAgAAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "genesis",
+				"epoch": 1,
+				"nv": 0
+			},
+			{
+				"id": "breeze",
+				"epoch": 41281,
+				"nv": 1
+			},
+			{
+				"id": "smoke",
+				"epoch": 51001,
+				"nv": 2
+			},
+			{
+				"id": "ignition",
+				"epoch": 94001,
+				"nv": 3
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacea66m4u3kwaxrzpyedjyxvtafkem5maervonfwlbkkyjycdno4ens"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBVAd/9VU7ZpC7LuvYs4W/+D/v3UpL1VQFp6DNJTJEdav4v4T0hXkxc9wdiVQBCAAoaO5rKAEIAyEIAAQBA",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacea66m4u3kwaxrzpyedjyxvtafkem5maervonfwlbkkyjycdno4ens"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 1,
+				"return": "",
+				"gas_used": 0
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzRxdVZ2SXRUbGV5eWl2TnlkRUJNWU9TUzJBODE2S2kvQ0lsS3lVbEhTV1gwcUxFa3N6OFBDVXJBeDBsOThSaTU0ekVvdlRVWXBqSzROS2s1TVNjSENpL05oWVFBQUQvL3dXb0EwRldBQUFB"
+	}
+}

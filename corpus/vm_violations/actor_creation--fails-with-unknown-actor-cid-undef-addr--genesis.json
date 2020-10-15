@@ -1,0 +1,83 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "fails-with-unknown-actor-cid-undef-addr",
+		"version": "v1",
+		"description": "verifies that CreateActor aborts when provided an unknown actor code CID and an undef address",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhVOWkk1fJVZpzBOt73Srb9NwXL59prjCVdcSBucuvTKZuUhKK+fE7t2c9idRYmdAaZ+0wMqXQq9Pzn7j4vaFUfbvsoZXx9LLUouKM/PzGHvZiTO7yaXFh1+ha2GiYWOTE0Nqyw2tIAbGUAbetMwcfUP9xOTk/NK8EiQH/DIPu2v9PHbdglnFnw95Hvowyfx40bGnc2dmLVuxbo3sYSMGTwbeB9s2L09hYICaydZyQytCGmSoGMTQstSizLTM1JSi1PTM4pKiSiTTOW4mbSmWECr6Mu2IlqjbX8FTq59Z7t+7z/bU+QnWW1e3HWBwgBrK0nJDKxxkphDEzOKS/KLE9NSC/PLUIiTzuLXaptSe3ZV/aOE6hVfr+1IObpF/OFXweMrl9+dtV535thtuXlLLDa0AkHncEPOSMxLzi5EMmt6T/uXGUi1GqSnZdZ8MzhbF2TjnSu853znT/UewWm3XHLBBTU1ODMwtN7T8QQZxQQ0qys9DMif14q3rKZPOXL0gIFl7KPvqb/YD51vP3Fn/SaDlwJXqv+KRDA5NTgzJBGPhvmvJsc0Ld2ad2LNhypbpNZM1eytyLrz/tenS8yXXpctncMH9xdByQysQZBQPNJwqi0tSc5FMct1w/pDCuTfRNTJJR65I2lo8eb2kr0O0aM7z+DlcG54cRIQ4KygaJUBGCaMEeW5iUXYqstuifmwsNtV9ur57k5U0q5r5i2nCZW9+PLmRlpO9eQFHb2Eu3ERGtKDKzMtENmfWvl3TdmV8OBU6y3e5zgNdUakq377fL+57Fdya8sx9+19uuDkpBIPrjOqxkhV5oU9sU71fMTFsrZX1N48WETJyXMYXW7501VtmzETLhBZuRanliUUpSEZKqIXJfQpZxif46eQn3kei1xhesYndLIkqefbzkXBB+NlkBl8GtrKYSvuFDJUXGBgY5DCch8KxJS5zNYYy3v8b6ndzid7pXd90Hub/4//9PWjSVwPceQu7aAMjcdmt2YkhANnP/7LOJC5enM1jbuNl1bfMu1H706nZQQ0BE+ZUXOEI7eIhQakmccqaHBo0sGdyTJG9jMTl+QkOUNAUIcHAdCeHAQsIZ2A+gE2cgYEEPzIokKD4mxRa4YPE1CSuDGpKaJBALXgQLCPiip9GUBHGwgrK7pxaxBU1jU4MyTLoBQwyW524gqZBC0fRgkVoHRNxRU03UgQ8Te22lTjL9vD2BNEtG96EHlRe5Bv98JXKDUuLozssq/31yVNKxSxBSsoiQa2Cg4ODHnH+amZgaHZkaEBORaAyGcFKJa5kbkZy3juJtX6yL5fF38y0cqmZ9k5jYu3C8OVR97IzO0/KzuvLj5RIK0jOSMzM0y1LzMlMSSzJzM9LI05nk7NCA0MTuLwOZcx8YezpM1E265/+Q1vFOJ+Y7+xJoRIpUElsZaZEqi1xdUMjdsNl0OsGZHY9cXVEp4MDgyeDALRk8WJg/O693KqQ5crkpggpEGfxrMp7G1zRS6AwRslpWdt10YU9Gfj/QwCDw2R24lqLo42/Ydn4c2MQ9yh7wTDaBCShCcgITrpzlIP8aNAErOKedYoBAAAA//8BAAD//98KdwP6DQAA",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "genesis",
+				"epoch": 1,
+				"nv": 0
+			},
+			{
+				"id": "breeze",
+				"epoch": 41281,
+				"nv": 1
+			},
+			{
+				"id": "smoke",
+				"epoch": 51001,
+				"nv": 2
+			},
+			{
+				"id": "ignition",
+				"epoch": 94001,
+				"nv": 3
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedfdsgmc6umkuke6cv7ysrt7qyuedj5xtelsbvkfoqaehcrooyoj2"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABA1gbhPTYKlIAAVUADWZpbC8xL3Vua25vd271QgBk",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceb4zyxn5wntpyyiyxfihldq3ccu6sexlzgn6yrcg6qar37ngqdvmm"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 10,
+				"return": "",
+				"gas_used": 149719
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzdTUjBXL2FNQkRHL3hYMFBXMlN0emtKcGNIU0hsaWdDSzEwakxWTVc5VUgyekVoSmJHWjdUQVk0bitma29DMHFudFlINVlYMzExT3YrKzd1L3NEcGk0RE8yQ2hyTXVOQnFNRXR3WU1TOXFQUVhCbFRkbGtBYVVndURGYXFxWnB3WXRLZ2FHdWpybTd6c3ZjZ3dYMC9EWFZLNlVTdmdGRFNFOTlNNnZLdktxUkFRaW15cTlNQ2hZUnpMamxwUVBEYW5iNzdXTXhHUXdXZDRQaDErOGJrY1M3NjJoUjhmQmltNGFYd2Vmc3d4b0V5V1JZKzM0SEJzR1grMUQ4NGxLSnNCdEZQUk11WmNtTG5aT0M5Mno0NHpIZEM3dGVkN3VoeTlKOXZ2a3BIcmtSUm5UOXV2SnJISStrM3NKYytobzQydVUrTWFtcVp5R1lLMTlaRGFhcm9tajgzem1WZ2dYZC9tWFFQeEtNckRVV0RBblhIYU9MZlVkYXhiM3FpQ292L0p0Y2Q3ajB4cnEzblZkejFXRGZCL1Qxa3dRRXc4cHlmMTcrbUx0a3hXMm1ITmo5QVRlOHJMZjhTU2NybnV1cGNvNW5DZ1NGa1dkWFBnTUx3b3U0RnhISURDeUttN0MrYTN4SnNLMy9VNEt0UEwydWZiMEhvMGZ5aDhSWStVRnQ5em1ldG1UYVV1bExvTzJKSjNwclpEdmtNM2dZeFJlOVZ1QVUvb3NJZ2RxQkljY1R0Y2IvYUtma2Y1MWhhUFJmYnZCQ2dRZUNMNVdRdkNoY1N6aysvQTRBQVAvLzFqYUZwWThE"
+	}
+}

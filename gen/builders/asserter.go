@@ -20,6 +20,8 @@ type Asserter struct {
 	// id is the vector ID, for logging purposes.
 	id string
 
+	pv ProtocolVersion
+
 	// stage is the builder state we're at.
 	stage Stage
 
@@ -42,8 +44,8 @@ type suppliers struct {
 
 var _ require.TestingT = &Asserter{}
 
-func NewAsserter(id string, lenient bool, suppliers suppliers) *Asserter {
-	a := &Asserter{id: id, lenient: lenient, suppliers: suppliers}
+func NewAsserter(id string, pv ProtocolVersion, lenient bool, suppliers suppliers) *Asserter {
+	a := &Asserter{id: id, pv: pv, lenient: lenient, suppliers: suppliers}
 	a.Assertions = require.New(a)
 	return a
 }
@@ -202,5 +204,5 @@ func (a *Asserter) FailNow() {
 
 func (a *Asserter) Errorf(format string, args ...interface{}) {
 	stage := a.stage
-	fmt.Printf("❌  id: %s, stage: %s:"+format, append([]interface{}{a.id, stage}, args...)...)
+	fmt.Printf("❌  id: %s, pv: %s, stage: %s:"+format, append([]interface{}{a.id, a.pv.ID, stage}, args...)...)
 }

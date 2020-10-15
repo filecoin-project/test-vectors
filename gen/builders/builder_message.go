@@ -1,9 +1,6 @@
 package builders
 
 import (
-	"encoding/json"
-	"io"
-
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/ipfs/go-cid"
 
@@ -33,19 +30,23 @@ type MessageVectorBuilder struct {
 
 	PreRoot  cid.Cid
 	PostRoot cid.Cid
-	vector   schema.TestVector
+
+	vector schema.TestVector
 }
 
 // MessageVector creates a builder for a message-class vector.
-func MessageVector(metadata *schema.Metadata, selector schema.Selector, mode Mode, hints []string) *MessageVectorBuilder {
-	bc := &BuilderCommon{Stage: StagePreconditions}
+func MessageVector(metadata *schema.Metadata, selector schema.Selector, mode Mode, hints []string, pv ProtocolVersion) *MessageVectorBuilder {
+	bc := &BuilderCommon{
+		Stage:           StagePreconditions,
+		ProtocolVersion: pv,
+	}
 	bc.Wallet = NewWallet()
 
 	b := &MessageVectorBuilder{
 		BuilderCommon: bc,
 	}
 
-	b.StateTracker = NewStateTracker(selector, &b.vector)
+	b.StateTracker = NewStateTracker(bc, selector, &b.vector, pv.StateTree, pv.Actors, pv.ZeroStateTree)
 	b.Messages = NewMessages(bc, b.StateTracker)
 	bc.Actors = NewActors(bc, b.StateTracker)
 
@@ -56,7 +57,7 @@ func MessageVector(metadata *schema.Metadata, selector schema.Selector, mode Mod
 	b.vector.Selector = selector
 	b.vector.Hints = hints
 
-	bc.Assert = NewAsserter(metadata.ID, mode == ModeLenientAssertions, suppliers{
+	bc.Assert = NewAsserter(metadata.ID, pv, mode == ModeLenientAssertions, suppliers{
 		messages:     b.Messages.All,
 		stateTracker: func() *StateTracker { return b.StateTracker },
 		actors:       func() *Actors { return bc.Actors },
@@ -93,11 +94,15 @@ func (b *MessageVectorBuilder) CommitPreconditions() {
 
 	// capture the preroot after applying all preconditions.
 	preroot := b.StateTracker.Flush()
-
-	b.vector.Pre.Epoch = 0
 	b.vector.Pre.StateTree = &schema.StateTree{RootCID: preroot}
-
 	b.PreRoot = preroot
+
+	b.vector.Pre.Variants = []schema.Variant{{
+		ID:             b.ProtocolVersion.ID,
+		Epoch:          int64(b.ProtocolVersion.FirstEpoch),
+		NetworkVersion: uint(b.ProtocolVersion.Network),
+	}}
+
 	b.Stage = StageApplies
 	b.Assert.enterStage(StageApplies)
 }
@@ -119,10 +124,10 @@ func (b *MessageVectorBuilder) CommitApplies() {
 			b.StateTracker.ApplyMessage(am)
 		}
 
-		epoch := int64(am.Epoch)
+		epoch := int64(am.EpochOffset)
 		b.vector.ApplyMessages = append(b.vector.ApplyMessages, schema.Message{
-			Bytes: MustSerialize(am.Message),
-			Epoch: &epoch,
+			Bytes:       MustSerialize(am.Message),
+			EpochOffset: &epoch,
 		})
 
 		if am.Failed {
@@ -153,7 +158,7 @@ func (b *MessageVectorBuilder) CommitApplies() {
 //
 // This method progresses the builder into the "finished" stage and may only be
 // called during the "checks" stage.
-func (b *MessageVectorBuilder) Finish(w io.Writer) {
+func (b *MessageVectorBuilder) Finish() *schema.TestVector {
 	if b.Stage != StageChecks {
 		panic("called Finish at the wrong time")
 	}
@@ -176,8 +181,5 @@ func (b *MessageVectorBuilder) Finish(w io.Writer) {
 	b.Stage = StageFinished
 	b.Assert = nil
 
-	encoder := json.NewEncoder(w)
-	if err := encoder.Encode(b.vector); err != nil {
-		panic(err)
-	}
+	return &b.vector
 }

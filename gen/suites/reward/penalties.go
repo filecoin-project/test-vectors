@@ -4,7 +4,9 @@ import (
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/specs-actors/actors/builtin"
+	reward2 "github.com/filecoin-project/specs-actors/v2/actors/builtin/reward"
 
+	"github.com/filecoin-project/lotus/chain/actors"
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 
@@ -29,7 +31,7 @@ var basefee = abi.NewTokenAmount(100)
 // burnt funds actor.
 func minerPenalized(minerCnt int, messageFn func(v *TipsetVectorBuilder), checksFn func(v *TipsetVectorBuilder)) func(v *TipsetVectorBuilder) {
 	return func(v *TipsetVectorBuilder) {
-		v.SetInitialEpoch(1)
+		v.SetInitialEpochOffset(1)
 
 		miners := make([]*Miner, minerCnt)
 		for i := range miners {
@@ -70,8 +72,13 @@ func minerPenalized(minerCnt int, messageFn func(v *TipsetVectorBuilder), checks
 			burntGas = big.Add(burntGas, CalculateBurntGas(am))
 		}
 
+		if v.ProtocolVersion.Actors >= actors.Version2 {
+			// actorsv2 introduced a penalty multiplier.
+			cumPenalty = big.Mul(cumPenalty, big.NewInt(reward2.PenaltyMultiplier))
+		}
+
 		// get the rewards schedule at the starting epoch.
-		rewards := v.Rewards.ForEpoch(0)
+		rewards := v.Rewards.ForEpochOffset(0)
 		for i, m := range miners {
 			expected := rewards.NextPerBlockReward
 			if i == 0 {

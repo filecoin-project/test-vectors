@@ -9,6 +9,7 @@ import (
 	"github.com/filecoin-project/go-address"
 
 	"github.com/filecoin-project/lotus/conformance/chaos"
+
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
 

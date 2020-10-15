@@ -2,13 +2,16 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/exitcode"
-	"github.com/filecoin-project/specs-actors/actors/builtin"
+	builtin0 "github.com/filecoin-project/specs-actors/actors/builtin"
+	builtin2 "github.com/filecoin-project/specs-actors/v2/actors/builtin"
 	"github.com/ipfs/go-cid"
 	"github.com/multiformats/go-multihash"
 
 	"github.com/filecoin-project/lotus/conformance/chaos"
+
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 	"github.com/filecoin-project/test-vectors/schema"
 )
@@ -55,7 +58,7 @@ func main() {
 			MessageFunc: callerValidation(chaos.CallerValidationArgs{
 				Branch: chaos.CallerValidationBranchIsAddress,
 				// caller address will be a brand new account NOT the system actor address
-				Addrs: []address.Address{builtin.SystemActorAddr},
+				Addrs: []address.Address{builtin0.SystemActorAddr},
 			}, exitcode.SysErrForbidden),
 		},
 		&VectorDef{
@@ -77,7 +80,7 @@ func main() {
 			MessageFunc: callerValidation(chaos.CallerValidationArgs{
 				Branch: chaos.CallerValidationBranchIsType,
 				// caller will be of type account actor NOT system actor
-				Types: []cid.Cid{builtin.SystemActorCodeID},
+				Types: []cid.Cid{builtin0.SystemActorCodeID},
 			}, exitcode.SysErrForbidden),
 		},
 	)
@@ -103,8 +106,19 @@ func main() {
 				Version: "v1",
 				Desc:    "control test case to verify that correct actor creation messages do indeed succeed",
 			},
-			Selector:    map[string]string{"chaos_actor": "true"},
-			MessageFunc: createActor(goodAddr, builtin.AccountActorCodeID, exitcode.Ok),
+			SupportedVersions: KnownProtocolVersionsBefore("actorsv2"),
+			Selector:          map[string]string{"chaos_actor": "true"},
+			MessageFunc:       createActor(goodAddr, builtin0.AccountActorCodeID, exitcode.Ok),
+		},
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "control-ok-with-good-address-good-cid",
+				Version: "v2",
+				Desc:    "control test case to verify that correct actor creation messages do indeed succeed",
+			},
+			SupportedVersions: KnownProtocolVersionsFrom("actorsv2"),
+			Selector:          map[string]string{"chaos_actor": "true"},
+			MessageFunc:       createActor(goodAddr, builtin2.AccountActorCodeID, exitcode.Ok),
 		},
 		&VectorDef{
 			Metadata: &Metadata{
@@ -112,8 +126,19 @@ func main() {
 				Version: "v1",
 				Desc:    "verifies that CreateActor aborts when provided an existing address",
 			},
-			Selector:    map[string]string{"chaos_actor": "true"},
-			MessageFunc: createActor(bobAddr, builtin.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
+			SupportedVersions: KnownProtocolVersionsBefore("actorsv2"),
+			Selector:          map[string]string{"chaos_actor": "true"},
+			MessageFunc:       createActor(bobAddr, builtin0.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
+		},
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "fails-with-existing-address",
+				Version: "v2",
+				Desc:    "verifies that CreateActor aborts when provided an existing address",
+			},
+			SupportedVersions: KnownProtocolVersionsFrom("actorsv2"),
+			Selector:          map[string]string{"chaos_actor": "true"},
+			MessageFunc:       createActor(bobAddr, builtin2.AccountActorCodeID, exitcode.SysErrorIllegalArgument),
 		},
 		//
 		// TODO this is commented because it causes an uncontrolled VM error

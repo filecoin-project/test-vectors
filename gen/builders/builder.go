@@ -1,11 +1,12 @@
 package builders
 
 import (
-	"io"
 	"log"
 	"os"
 
 	"github.com/filecoin-project/lotus/chain/vm"
+
+	"github.com/filecoin-project/test-vectors/schema"
 )
 
 func init() {
@@ -46,8 +47,8 @@ type Builder interface {
 	CommitApplies()
 
 	// Finish closes this test vector (transioning it to the terminal finished
-	// stage), and writes it to the supplied io.Writer.
-	Finish(writer io.Writer)
+	// stage), and returns it.
+	Finish() *schema.TestVector
 }
 
 // BuilderCommon bundles common services and state fields that are available in
@@ -57,6 +58,9 @@ type BuilderCommon struct {
 	Actors *Actors
 	Assert *Asserter
 	Wallet *Wallet
+
+	// ProtocolVersion this vector is being built against.
+	ProtocolVersion ProtocolVersion
 }
 
 // Stage is an identifier for the current stage a MessageVectorBuilder is in.

@@ -6,7 +6,14 @@ import (
 	"log"
 
 	"github.com/filecoin-project/go-address"
+	"github.com/filecoin-project/go-bitfield"
 	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/filecoin-project/lotus/chain/actors"
+	"github.com/filecoin-project/lotus/chain/actors/adt"
+	miner0 "github.com/filecoin-project/specs-actors/actors/builtin/miner"
+	adt0 "github.com/filecoin-project/specs-actors/actors/util/adt"
+	miner2 "github.com/filecoin-project/specs-actors/v2/actors/builtin/miner"
+	adt2 "github.com/filecoin-project/specs-actors/v2/actors/util/adt"
 	"github.com/ipfs/go-cid"
 	cbg "github.com/whyrusleeping/cbor-gen"
 
@@ -23,35 +30,152 @@ import (
 // messages.
 type StateTracker struct {
 	vector *schema.TestVector
+	bc     *BuilderCommon
+
+	StateTreeVersion types.StateTreeVersion
+	ActorsVersion    actors.Version
 
 	Stores    *Stores
 	StateTree *state.StateTree
 	Driver    *conformance.Driver
 
 	CurrRoot cid.Cid
+
+	EmptyObjectCid       cid.Cid
+	EmptyArrayCid        cid.Cid
+	EmptyMapCid          cid.Cid
+	EmptyMultiMapCid     cid.Cid
+	EmptyBitfieldCid     cid.Cid
+	EmptyDeadlinesCid    cid.Cid
+	EmptyVestingFundsCid cid.Cid
 }
 
-func NewStateTracker(selector schema.Selector, vector *schema.TestVector) *StateTracker {
+func NewStateTracker(bc *BuilderCommon, selector schema.Selector, vector *schema.TestVector, stVersion types.StateTreeVersion, actorsVersion actors.Version, zeroFn ActorsZeroStateFn) *StateTracker {
 	stores := NewLocalStores(context.Background())
 
 	// create a brand new state tree.
-	// TODO: specify network version in vectors.
-	st, err := state.NewStateTree(stores.CBORStore, types.StateTreeVersion0)
+	st, err := state.NewStateTree(stores.CBORStore, stVersion)
 	if err != nil {
 		panic(err)
 	}
 
 	stkr := &StateTracker{
-		vector:    vector,
-		Stores:    stores,
-		StateTree: st,
-		Driver:    conformance.NewDriver(context.Background(), selector, conformance.DriverOpts{}),
+		vector:           vector,
+		bc:               bc,
+		StateTreeVersion: stVersion,
+		ActorsVersion:    actorsVersion,
+		Stores:           stores,
+		StateTree:        st,
+		Driver:           conformance.NewDriver(context.Background(), selector, conformance.DriverOpts{}),
 	}
 
-	stkr.initializeZeroState(selector)
+	stkr.initEmptyStructures()
+
+	zeroFn(stkr, selector)
 
 	_ = stkr.Flush()
 	return stkr
+}
+
+func (st *StateTracker) initEmptyStructures() {
+	// empty object
+	st.EmptyObjectCid = func() cid.Cid {
+		empty, err := st.Stores.ADTStore.Put(context.TODO(), []struct{}{})
+		if err != nil {
+			panic(err)
+		}
+		return empty
+	}()
+
+	// bitfield -- same no matter actors version.
+	st.EmptyBitfieldCid = func() cid.Cid {
+		empty, err := st.Stores.ADTStore.Put(context.TODO(), bitfield.NewFromSet(nil))
+		if err != nil {
+			panic(err)
+		}
+		return empty
+	}()
+
+	// map -- lotus abstraction for version selection EXISTS.
+	st.EmptyMapCid = func() cid.Cid {
+		empty, err := adt.NewMap(st.Stores.ADTStore, st.ActorsVersion)
+		if err != nil {
+			panic(err)
+		}
+		ret, err := empty.Root()
+		if err != nil {
+			panic(err)
+		}
+		return ret
+	}()
+
+	// array -- lotus abstraction for version selection EXISTS.
+	st.EmptyArrayCid = func() cid.Cid {
+		empty, err := adt.NewArray(st.Stores.ADTStore, st.ActorsVersion)
+		if err != nil {
+			panic(err)
+		}
+		ret, err := empty.Root()
+		if err != nil {
+			panic(err)
+		}
+		return ret
+	}()
+
+	// multimap -- lotus abstraction for version selection does NOT exist.
+	st.EmptyMultiMapCid = func() (ret cid.Cid) {
+		var err error
+		switch st.ActorsVersion {
+		case actors.Version0:
+			ret, err = adt0.MakeEmptyMultimap(st.Stores.ADTStore).Root()
+			if err != nil {
+				panic(err)
+			}
+		case actors.Version2:
+			ret, err = adt2.MakeEmptyMultimap(st.Stores.ADTStore).Root()
+			if err != nil {
+				panic(err)
+			}
+		default:
+			panic("unknown actors version")
+		}
+		return ret
+	}()
+
+	st.EmptyDeadlinesCid = func() (ret cid.Cid) {
+		var obj cbor.Marshaler
+		switch st.ActorsVersion {
+		case actors.Version0:
+			obj = miner0.ConstructDeadline(st.EmptyArrayCid)
+		case actors.Version2:
+			obj = miner2.ConstructDeadline(st.EmptyArrayCid)
+		default:
+			panic("unknown actors version")
+		}
+		ret, err := st.Stores.ADTStore.Put(context.TODO(), obj)
+		if err != nil {
+			panic(err)
+		}
+		return ret
+	}()
+
+	st.EmptyVestingFundsCid = func() (ret cid.Cid) {
+		var obj cbor.Marshaler
+		switch st.ActorsVersion {
+		case actors.Version0:
+			obj = miner0.ConstructVestingFunds()
+		case actors.Version2:
+			obj = miner2.ConstructVestingFunds()
+		default:
+			panic("unknown actors version")
+		}
+		ret, err := st.Stores.ADTStore.Put(context.TODO(), obj)
+		if err != nil {
+			panic(err)
+		}
+		return ret
+	}()
+
 }
 
 // Fork forks this state tracker into a new one, using the provided cid.Cid as
@@ -62,12 +186,10 @@ func (st *StateTracker) Fork(root cid.Cid) *StateTracker {
 		panic(err)
 	}
 
-	return &StateTracker{
-		Stores:    st.Stores,
-		StateTree: tree,
-		Driver:    st.Driver,
-		CurrRoot:  root,
-	}
+	cpy := *st
+	cpy.StateTree = tree
+	cpy.CurrRoot = root
+	return &cpy
 }
 
 // Load sets the state tree to the one indicated by this root.
@@ -100,7 +222,7 @@ func (st *StateTracker) ApplyMessage(am *ApplicableMessage) {
 	am.Applied = true
 	am.Result, postRoot, err = st.Driver.ExecuteMessage(st.Stores.Blockstore, conformance.ExecuteMessageParams{
 		Preroot:    st.CurrRoot,
-		Epoch:      am.Epoch,
+		Epoch:      st.bc.ProtocolVersion.FirstEpoch + am.EpochOffset,
 		Message:    am.Message,
 		BaseFee:    conformance.BaseFeeOrDefault(st.vector.Pre.BaseFee),
 		CircSupply: conformance.CircSupplyOrDefault(st.vector.Pre.CircSupply),
@@ -143,7 +265,7 @@ func (st *StateTracker) CreateActor(code cid.Cid, addr address.Address, balance 
 		Balance: balance,
 	}
 	if err := st.StateTree.SetActor(addr, actr); err != nil {
-		log.Panicf("setting new actor for actor: %v", err)
+		panic(fmt.Sprintf("setting new actor for actor: %v", err))
 	}
 
 	return AddressHandle{id, addr}
@@ -154,18 +276,14 @@ func (st *StateTracker) CreateActor(code cid.Cid, addr address.Address, balance 
 func (st *StateTracker) ActorState(addr address.Address, out cbg.CBORUnmarshaler) *types.Actor {
 	actor := st.Header(addr)
 	err := st.StateTree.Store.Get(context.Background(), actor.Head, out)
-	if err != nil {
-		panic(fmt.Sprintf("failed to load state for actor %s (head=%s): %s", addr, actor.Head, err))
-	}
+	st.bc.Assert.NoError(err, "failed to load state for actor %s (head=%s)", addr, actor.Head)
 	return actor
 }
 
 // Header returns the actor's header from the state tree.
 func (st *StateTracker) Header(addr address.Address) *types.Actor {
 	actor, err := st.StateTree.GetActor(addr)
-	if err != nil {
-		panic(fmt.Sprintf("failed to fetch actor %s from state: %s", addr, err))
-	}
+	st.bc.Assert.NoError(err, "failed to fetch actor %s from state", addr)
 	return actor
 }
 

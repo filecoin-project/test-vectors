@@ -1,0 +1,80 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "to-reward-actor",
+		"version": "v1",
+		"comment": "May break in the future if send to a system actor becomes disallowed: https://github.com/filecoin-project/specs/issues/1069",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.12"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.1.0"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhW9lhTNPrPzyz3TTEimJK1eX8O58k+cq6O307/cvb/loG15kpQsbP5y8+nHeS3uF1LDYjVrX3aSP+eoItbIHeer9jBa8k16WWlScmZ/H+JaVOLObXFp8uBk6FiYaNjY5MbC13NCKkGZgDGUQS8vM0TfUL0stykzLTE0pSk3PLC4pqkRyCsfNpC3FEkJFX6Yd0RJ1+yt4avUzy/1799meOj/BeuvqtgMMDlBDWVpuaIWDzBSCmFlckl+UmJ5akF+eWoRkHrdW25Tas7vyDy1cp/BqfV/KwS3yD6cKHk+5/P687aoz33aDzWtqcmJgbrmh5Q8yjwtiXnJRfh6SOakXb11PmXTm6gUBydpD2Vd/sx8433rmzvpPAi0HrlT/FY9kcGhyYkhuuaEVBDKDF2JGYnJyfmleCZIx911Ljm1euDPrxJ4NU7ZMr5ms2VuRc+H9r02Xni+5Ll0+gwvuPYaWG1qBIKN4oN6rLC5JzUUyyXXD+UMK595E18gkHbkiaWvx5PWSvg7RojnP4+dwbXhyEBFQrKDQlwAZJYwSUrmJRdmpyG6L+rGx2FT36fruTVbSrGrmL6YJl7358eRGWk725gUcvYW5cBMZ0YIqMy8T2ZylbHazf8/YV7nc9eVmiWNbRd6JnpQ+tlf4avsNvebnxypy4OakEAyuM6rHSlbkhT6xTfV+xcSwtVbW3zxaRMjIcRlfbPnSVW+ZGdwYXlxZKsAANZAJLdCKUssTi1KQzJNQC5P7FLKMT/DTyU+8j0SvMbxiE7tZElXy7Ocj4YLws8kMvgxsZTGV9gsZKi8wMDAY4E6y2EUbGIlLxc1ODAHIzvqXdSZx8eJsHnMbL6u+Zd6N2p9OzQ5qCJgwp+IKR2gXDwlKNYlT1uTQoIE972CK7GUkLitNcICCpggJBqY7OQxYQDgD8wFs4gwMJPiRQYEExd8kUPM0gmVEXM5uBJUOLKygnMQph5FYUThaxGXyRieGZBn0rI3MVicuizdo4cjUWITWMRGXybuRgvZparetxFm2h7cniG7Z8Cb0oPIi3+iHr1RuWFoc3WFZ7a9PnlIqJnZS0gwJahUcHBz0iPNXMwNDsyNDQ4MEammIYKUSVyY2IznP69rz7/WKaft4CpqrV/zbs+HR1VmrmM3mfjp8//ar690P1kukFiRnJGbm6ZYl5mSmJJZk5ud5EKezyamBoRFcVoYyZr4w9vSZKJv1T/+hrWKcT8x39qRQiRRb4srdRuz6ZdCLXmR2PXFFcKeDA4MngwC0VPBiYPzuvdyqkOXK5KYIKRBn8azKextc0UuPMEbJaVnbddGFPRn4/0MAg8NnVuIaO6NtF3LbLm4M4h5lLxhGWzAktGAY3RguBkyObaV+C6aKe9apagAAAAD//wEAAP//VV2YpBkMAAA=",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "genesis",
+				"epoch": 1,
+				"nv": 0
+			},
+			{
+				"id": "breeze",
+				"epoch": 41281,
+				"nv": 1
+			},
+			{
+				"id": "smoke",
+				"epoch": 51001,
+				"nv": 2
+			},
+			{
+				"id": "ignition",
+				"epoch": 94001,
+				"nv": 3
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaced3hm4mzzcu7j7rvwksbuggu2wsa3opmnzcrcs2c7357usy7lm6a2"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAAJVAWnoM0lMkR1q/i/hPSFeTFz3B2JVAEIAexo7msoAQgDIQgABAEA=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaced3kdapqzhk7dhxjh4qgkvs5wevnorq3yzgsyeufa5jeslxzlmi5y"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 404268
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzVTUnkyN2JQQkNGMytXc0NmelV4WmVmdTBKT2pBQjFHcVJ0TmtFV05FM0xjbmh4ZVpHbEdIcjNRbUlORkVoUk5Ock1pQmg4Wjg2WjV3czJ2Z2E3NEVrNjMxZ0RSZ20rV1REc2FRNkNXMmYxK0pPWlE5elYvbFY3YWMvdHdwMUtPZmVpODFxRjRvZnRmWHN5aXlMRUhnVDMxZ2c1Y1o2NGloSU1XVjZBWU0zOTUwWTNBU3lqMTI5NnZaV3k0aWN3NUpTbXVRY25kUk5INFF3RUd4a09kamNSSDdqajJvTUJCTlhkYWx6OFB6QnMrYjdQdDI5Y1NINHU4L05XMVVlbGVXdDQxK1ZHSElOc3V5ajBYc2Y5Zk5hTHQzcjJXc3g2Zm15RkVyMC9ZeGpJR01PakNDUHdwbXRDWlhmSndxTU0wUmt3RTVXYVZ2dnU1UTZzcEdVK1h3NEVOODVabC9aWlJjZkROY0kxOTlXQnUxcDZzT2NMN3JrZWcvaGlxZ052ekVaNnoyc0pBbVhGbFIxcXNHeTVXTTRMQWxHREZjdXBIYStUbGY4VHRPTUFKV2pGcitwVERRR01EdVEzamJVTW4wU3c3ajJmSmpSTldQb1JhRHJDbldtdFNDN2Z3Zk5zWHRKWlVyajIveUpESURzd0JQeFZiMlhOSHdMN29LRVhncTl4SzdoU1BsR0dsNThCQUFELy8yUkdvYm9DQXdBQQ=="
+	}
+}
