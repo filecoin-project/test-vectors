@@ -262,14 +262,14 @@
         "type": "object",
         "required": [
           "bytes",
-          "epoch"
+          "epoch_offset"
         ],
         "additionalProperties": false,
         "properties": {
           "bytes": {
             "$ref": "#/definitions/base64"
           },
-          "epoch": {
+          "epoch_offset": {
             "type": "integer"
           }
         }
