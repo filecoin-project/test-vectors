@@ -279,13 +279,13 @@
       "title": "tipsets to apply",
       "type": "object",
       "required": [
-        "epoch",
+        "epoch_offset",
         "basefee",
         "blocks"
       ],
       "additionalProperties": false,
       "properties": {
-        "epoch": {
+        "epoch_offset": {
           "type": "number"
         },
         "basefee": {
