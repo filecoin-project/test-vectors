@@ -67,6 +67,14 @@ func main() {
 			},
 			MessageFunc: failInvalidReceiverMethod,
 		},
+		&VectorDef{
+			Metadata: &Metadata{
+				ID:      "msg-apply-fail-invalid-sender-non-account-actor",
+				Version: "v1",
+				Desc:    "sends from non-account actors are disallowed",
+			},
+			MessageFunc: failInvalidSenderNonAccountActor,
+		},
 	)
 
 	g.Group("unknown_actors",
