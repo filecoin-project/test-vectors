@@ -320,6 +320,54 @@ func nestedSends_FailInsufficientFundsForTransferInInnerSend(v *MessageVectorBui
 	v.Assert.BalanceEq(bob.ID, big.Zero())
 }
 
+func nestedSends_RecursiveSendBalance(v *MessageVectorBuilder) {
+	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
+
+	alice := v.Actors.Account(address.SECP256K1, acctDefaultBalance)
+	// havoc and bedlam are chaos' twins
+	havoc := v.Actors.CreateActor(chaos.ChaosActorCodeCID, v.Wallet.NewSECP256k1Account(), acctDefaultBalance, &chaos.State{})
+	bedlam := v.Actors.CreateActor(chaos.ChaosActorCodeCID, v.Wallet.NewSECP256k1Account(), acctDefaultBalance, &chaos.State{})
+
+	v.CommitPreconditions()
+
+	// alice asks havoc to send a message to bedlam to send a message to havoc to inspect havoc's runtime
+	// alice -> havoc.Send -> bedlam.Send -> havoc.InspectRuntime
+	amtSent := abi.NewTokenAmount(25) // amount to send to bedlam
+	msg := v.Messages.Typed(alice.ID, havoc.ID, ChaosSend(&chaos.SendArgs{
+		To:     bedlam.ID,
+		Value:  amtSent,
+		Method: chaos.MethodSend,
+		Params: MustSerialize(&chaos.SendArgs{
+			To:     havoc.ID,
+			Value:  big.Zero(),
+			Method: chaos.MethodInspectRuntime,
+			Params: []byte{},
+		}),
+	}), Nonce(0), Value(big.Zero()))
+
+	v.CommitApplies()
+
+	v.Assert.ExitCodeEq(msg.Result.ExitCode, exitcode.Ok)
+
+	var havocSendRet chaos.SendReturn
+	MustDeserialize(msg.Result.Return, &havocSendRet)
+	v.Assert.ExitCodeEq(havocSendRet.Code, exitcode.Ok)
+
+	var bedlamSendRet chaos.SendReturn
+	MustDeserialize(havocSendRet.Return, &bedlamSendRet)
+	v.Assert.ExitCodeEq(bedlamSendRet.Code, exitcode.Ok)
+
+	var havocInspectRet chaos.InspectRuntimeReturn
+	MustDeserialize(bedlamSendRet.Return, &havocInspectRet)
+
+	expectedBalance := big.Sub(acctDefaultBalance, amtSent)
+
+	// havoc's inspected balance should factor in the amount sent to bedlam
+	v.Assert.Equal(expectedBalance, havocInspectRet.CurrentBalance)
+	// havoc's final balance should still reflect the amount sent to bedlam
+	v.Assert.BalanceEq(havoc.ID, expectedBalance)
+}
+
 type msStage struct {
 	v       *MessageVectorBuilder
 	creator address.Address // Address of the creator and sole signer of the multisig.
