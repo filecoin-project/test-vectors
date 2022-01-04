@@ -26,7 +26,7 @@ commands:
 executors:
   golang:
     docker:
-      - image: circleci/golang:1.14.6
+      - image: cimg/go:1.17.5
     working_directory: << pipeline.parameters.workspace-dir >>/project
     environment:
       GOVERSION: << pipeline.parameters.go-version >>
