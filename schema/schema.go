@@ -66,6 +66,7 @@ type Metadata struct {
 	Comment string           `json:"comment,omitempty"`
 	Gen     []GenerationData `json:"gen"`
 	Tags    []string         `json:"tags,omitempty"`
+	Debug   string           `json:"_debug,omitempty"`
 }
 
 // GenerationData tags the source of this test case.

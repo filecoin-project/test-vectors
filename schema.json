@@ -50,6 +50,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "_debug":{
+            "title": "any kind of debug information",
+            "type": "string"
         }
       }
     },
