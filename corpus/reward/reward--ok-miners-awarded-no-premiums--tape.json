@@ -1,5 +1,6 @@
 {
 	"class": "tipset",
+	"hints": [ "incorrect" ],
 	"_meta": {
 		"id": "ok-miners-awarded-no-premiums",
 		"version": "v1",
