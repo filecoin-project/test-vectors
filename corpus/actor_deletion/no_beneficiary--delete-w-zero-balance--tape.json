@@ -1,0 +1,68 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "delete-w-zero-balance",
+		"version": "v1",
+		"description": "actor with zero balance is deleted, does not require beneficiary",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "0d5ef62cb88342a925b73926db33b05510a10738"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhQlBh2xnit6YvELHu3KKOdvxwi2vu2y/Nky++56n+bh79A4kpbLtieVdZRpbjs7d8HJS9vakzQceb67Q/nSkUOH42nTxm1vSy1KLijPz8xjriDO6mRHJcN6V2pXHj97hXLL57svN8W3Lj5x9Ore29NKVtdk5M72sWAWRlLpuOH9I4dyb6BqZpCNXJG0tnrxe0tchWjTnefwcrg1PDh7YwUackU0uLT78DJ0LEw0bm5wY2FpuaEVIMzCGMoilZeboG+mXpRZlpmWmphSlpmcWlxRVIrmA42bSlmIJoaIv045oibr9FTy1+pnl/r37bE+dn2C9dXXbAQYHqKEsLTe0wkFmCkHMLC7JL0pMTy3IL08tQjIvf/Nbxme/OZ4d/Bf8yUxN+YFLMkvzwze32VjmMBfOTvy4G25eUssNrQCQedwg8wz1kzMS84uRDJrek/7lxlItRqkp2XWfDM4Wxdk450rvOd850/1HsFpt1xywQU1NTgzMLTe0/EEGcUEcllyUn4dkTurFW9dTJp25ekFAsvZQ9tXf7AfOt565s/6TQMuBK9V/xSMZHJqcGJJbbmgFgczghZiRmJycX5pXgmTMfdeSY5sX7sw6sWfDlC3TayZr9lbkXHj/a9Ol50uuS5fP4IL7i6HlhlYgyCgeaDhVFpek5pIQ53CTWEHRKAEyShglyHMTi7JTkd0W9WNjsanu0/Xdm6ykWdXMX0wTLnvz48mNtJzszQs4egtz4SYyogVVZl4msjmmpmoNP3PO5cyLf27RbNSfxphmJ/XY6X7rYa6VEx54+VfBzUkhGFyr9aet+rr+5fLHUx8JPua5bLxRuaD3c+IZZ8lFr5Jv/Fa7xuDBwNxbt+RYAwPUSCa0YCtKLU8sSkEyUWXDJrfEGSGVby8vjeDY0iTFFSz8/VPTltYlfl+LzeW6XjL4MrCVxVTaL2SovMDAwGCAO/VjF21gJC5DNDsxBCA5S+Jf1pnExYuzecxtvKz6lnk3an86NTuoIWDCnIorHKFdPCQo1SROWZNDgwb2bIgpsoeRuFzZ7wAFTRESDEx3chiwgHAG5gPYxBkYSPAjKWq/SaGVDkhMTeIKiaaEBgnUkgHBMiKufGgElTEsrKD8yCmHkeRROFrEFRWNTgzJMugFBDJbnbiCokELR9GARWgdE3FFRTdS/DxN7baVOMv28PYE0S0b3oQeVF7kG/3wlcoNS4ujOyyr/fXJU0rFDEOjdKfg4OCgR5y/mhkYmh0ZGpATGahMRbBSiStZm5Gc13Dn5y5DqbdfhOV2LTOoKrsZt7umJzmP7b1XuvKUqy9aYyVSC5IzEjPzdMsSczJTEksy8/O8iNPZ5NLAwMDQCC5xQxlPvFy/RpV3dYdg5b4N51q2x769efOnRIotceV3I3b9MugFODJ7NiNxJXm3gwODJ4OGeKpi/M8HDF4MjN+9l1sVslyZ3BQhBeIsnlV5b4MreiEUxig5LWu7LrowzKD7/xkcfBkYBX6Y35iiFdjFwMDgy8BU8/b6EpakfU4MDAx1xDUMURp603TPBTQEMmraT4u7GnFeO9xuNs+8ElbXX3HTolPkGB0jSaj0v7ISZySoocfN0DFUGnqDqH3mxiDuUfaCYbSVRkIrjRHUSktX2HKOBq20Ku5ZpxgAAAAA//8BAAD///aXpvPHDQAA",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceciffqr5tek5re5ifrfxtfbxa3dxdnhlri67laet3xxqza6hi5n3q"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABBUNCAGM=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceaoyoylxrj3crngftwyotetlw5rlhqhdwn4cx4weoeqmpllhc7m3i"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 48719
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzdTU3kyN2JNQlJFLzJYV0xFcmJzZXh3MThxT0VhQk8wN1ROSnNpQ29xNWxLWkpvazVUZ0IvVHZoVjZBWEtlTEFxMVcxT1ZnRG1mSWx6UFdOb0k0NDVtTWpYVU93UmwrYUFocytPMGNESGRHWjgzZmlITXdQT2hjVVNONmxtbEJFS2luSzJtL3hGbnNJRWE4LzVycEhaRXZkeEFZODA3M2FDaUxpOXB5QklZMXVhME9JYVlNajlMSXpFTGdXL1E1QVlOL3Y2alA5UkVDZ2R3Y3g4RkpLZ3Jkb2JDUlRtYUpHaWZlYnI5SjNxWTdHNVpINzgyYm5QWkp1dGVuWkY4RTdrZ1RDdlR4NWliV3FDcFdwM3hTcmpaY0htTG42N0FOOFVTdU1EbEVYcVJwYzd5ZmxrS0ltL2xzZEZzeExJM1JCZ0pnV0JSR3VyNmdsYlQrVnBxSUxNVExHUTh5cTV2NG12dGJHZWRyc2xaR0JJWlVxOTdhUlUwM2MyL0NvQ0tJeWJ4WjF0MTc0NmF0Y2lncEI1cHlJSElPZ2xkc2dGeVIrNlNjTnRjNDNwSjRTK2tKdkRQbm5mRzdwdTIxM09lbFZtM29LL1B4WkQ3MVdrQzNIRUs2VVRuWXZvQXgwQUVDTVM2b1RZN2xnZFEvemJLZ2xCejlvYU1QTTYvcGRXRGVqOHJoL2dXbUgxNnovaytDMzI5am9mTjNYdGRmQWw0WnZoZUJrbWxxVzVmcTlWY0FBQUQvL3dJZ0RzME5CQUFB"
+	}
+}

@@ -1,0 +1,68 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "control-ok-with-good-address-good-cid",
+		"version": "v2",
+		"description": "control test case to verify that correct actor creation messages do indeed succeed",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "0d5ef62cb88342a925b73926db33b05510a10738"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhcVmLJ/WlKfqSmg01HXNXilRxCxwIKP5hlD7ddOaOwKHcpGU8nzhNW1nD9vpJtx5KOBh79Zvq8T1GuXfLHz0/FfbndfB99PLUouKM/PzGOuIM7qZEcnwaYcEPJoc/lm6HPWs/WoYlFDi9M10ft1zprMbf7ff+OFTjaTUdcP5Qwrn3kTXyCQduSJpa/Hk9ZK+DtGiOc/j53BteHLwQC87cUY2ubT48Ct0LUw0bGxyYkhtuaEVxMAYysCblpmjb6SfmJycX5pXgmRvY6+dU8xSsyXfbuw8NDHAaP2co+uveVoyNJ03luG13bN7EoMnA++DbZuXpzAwQM1ka7mhFSENMlQMYmhZalFmWmZqSlFqemZxSVElkukcN5O2FEsIFX2ZdkRL1O2v4KnVzyz3791ne+r8BOutq9sOMDhADWVpuaEVDjJTCGJmcUl+UWJ6akF+eWoRknn5m98yPvvN8ezgv+BPZmrKD1ySWZofvrnNxjKHuXB24sfdcPOSWm5oBYDM4waZZ6ifnJGYX4xk0PSe9C83lmoxSk3JrvtkcLYozsY5V3rP+c6Z7j+C1Wq75oANampyYmBuuaHlDzKIC+Kw5KL8PCRzUi/eup4y6czVCwKStYeyr/5mP3C+9cyd9Z8EWg5cqf4rHsng0OTEkEwwFu67lhzbvHBn1ok9G6ZsmV4zWbO3IufC+1+bLj1fcl26fAYX3F8MLTe0AkFG8UDDqbK4JDWXhHQEN4kVFI0SIKOEUYI8N7EoOxXZbVE/Nhab6j5d373JSppVzfzFNOGyNz+e3EjLyd68gKO3MBduIiNaUGXmZSKbY7nkyD5F3f1LzYMqsz5Z3OdY+K5s1qFPcexfql4uXnVKtgtuTgrB4FqtP23V1/Uvlz+e+kjwMc9l443KBb2fE884Sy56lXzjt9o1zETLhBZuRanliUUpSEaqbNjkljgjpPLt5aURHFuapLiChb9/atrSusTva7G5XNdLBl8GtrKYSvuFDJUXGBgY5DCch8KxJS5zNYYybtZrXL9166o5ma8EepyWz5vxcx9bmQHuvIVdtIGRuOzW7MQQgORniX9ZZxIXL87mMbfxsupb5t2o/enU7KCGgAlzKq5whHbxkKBUkzhlTQ4NGtgzOabIHkbi8ny/AxQ0RUgwMN3JYcACwhmYD2ATZ2AgwY+kqP0mhVb2IDE1iSuCmhIaJFDLHQTLiLjSpxFUgrGwgnI7pxZxJU2jE0OyDHr5gsxWJ66cadDCUbJgEVrHRFxJ040UAU9Tu20lzrI9vD1BdMuGN6EHlRf5Rj98pXLD0uLoDstqf33ylFIxR9AoYSk4ODjoEeevZgaGZkeGBuRUBCqSEaxU4grmZiTnGXOFznh66dD2C6tSSpet5zL1tVRrUFn3vlg7KVw90F5bTCKtIDkjMTNPtywxJzMlsSQzPy+dOJ1NLg2MDAxN4PIae7EokQqVPPFy/RpV3tUdgpX7Npxr2R779ubNnxIptsTVDY3Y9cug1w3I7NmMxFUS3Q4ODJ4MGuKpivE/HzB4MTB+915uVchyZXJThBSIs3hW5b0NruhFUBij5LSs7browjCD7v9ncPBlYBT4YX5jilZgFwMDgy8DU83b60tYkvY5MTAw1BHXkEVpmO5bmcx++taB260zI1u769r9XylzRNvct7KycP4UtbjunCEJDYp77MQZ2eRyxIdfoXu0YTq8GqZuDOIeZS8YRpunJDRPGcFJd45ykB8s3NIImkl0wFGxpVvFPesUAwAAAP//AQAA//8UmOneYA8AAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacecrtmbhsvr3wkliyfcah5cu3vemheayqybuihwasq7ltk7g4cdbg2"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABA1gbhPTYKlIAAVUADWZpbC8yL2FjY291bnT0QgBm",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceagpidjvq4dvnokgcoe4euhbrw27nkqxf2ar73fb4lt7vbw45nj56"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 1334173
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzdTU1hXL2FQQlRIdjh2LzJ0TGp2RUJUMy9HRUY2R1ZqbldVcWF0NjRSaVR1RTFpNmpnWkwrSzdUMGxBQ3FPN21MUnhaUi8rK3YxOHpzbnpBYk1pQmp0Z0tVMmhkQTVHQ1JZYURHdDZHNEJnYkhUVzNCeEtRWEN2Y3lHYjBKS25wUVJEWFozdzRrNWx5b0k1OVB4cnFtTXBRNzRCZzB0UHVibVJtU3BycEFPQ21iU0pYb0Y1QkhOdWVGYUFJWmt2bmo2bDA4RmcrVGdZZnZ1K2ljSmdkK2VPWDUvY1d5ZktGL1JML0g4R2duQTZyTi85SHhnaXZ0NjUwWjRMS2RaMnUzbEw0MDAvc1g1czk2K1p2eTE3WmJXM251Ni9aNUc3VHQwZm5ydExWYUs0RXVXN2VpdHhQSko2Q2cvQzFzRFJWdGxRcjlvbUg2UXRUUTZXbDJuYVBQK3hrQ3N3eC9OODU4WTdFb3lNMFFZTUlCaVdodHZ6Q0NlOENCTnVZbG1BUFI5d3o3TjZWcC96TU9FcW44bWk0TEVFUWFyRkdXNWpNTWZ0QlgyUFFNUmdYdEFjNiswRU44MDhxMjZrNm1TcVRzaGFNSG9rSGVWRTJvR3cybHpyYUd1aXJlVnNvQ2M0UFlFL2hMYUxtK2FWRm0zVFYzRFhDM3I5Vm5BNmRpV25VdFg1KzBKR0lMZGdVTGl3Tm4yTXRsTDgxVjVDSTdtVnY1bVI0d1MrMy9OYnV1UFFvTG5Vckp0K1p5dm5WSFVScXpxNWErKy82ZWJYelF4MS9zR1g5b2VDRjRLdlpTUjRtaFl0NWZqeU13QUEvLzkzUDQ0VU93UUE="
+	}
+}

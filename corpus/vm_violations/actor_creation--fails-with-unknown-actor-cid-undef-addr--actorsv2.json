@@ -10,23 +10,23 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+				"version": "0d5ef62cb88342a925b73926db33b05510a10738"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
-				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors",
-				"version": "v0.9.12"
+				"version": "v0.9.13"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors/v2",
-				"version": "v2.1.0"
+				"version": "v2.3.2"
 			}
 		]
 	},
-	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmBZWr9/csduRbz9r52nPrzh0XlrY5RSy0W3GwOotFOenv1DQkpTpzkxwEqtlanhjOmbYiL+2udOTz/XzXxZmZ/v58wc3W3pdellpUnJmfx1hHnNHNjEiGmy0UF7fsitsRtbnA/MatHXYr+DrO3LgeJBSebD1v0bqqXUhKXTecP6Rw7k10jUzSkSuSthZPXi/p6xAtmvM8fg7XhicHD/SyE2dkk0uLD79C18JEw8YmJ4bUlhtaQQyMoQy8aZk5+kb6icnJ+aV5JUj2/jIPu2v9PHbdglnFnw95Hvowyfx40bGnc2dmLVuxbo3sYSMGTwbeB9s2L09hYICaydZyQytCGmSoGMTQstSizLTM1JSi1PTM4pKiSiTTOW4mbSmWECr6Mu2IlqjbX8FTq59Z7t+7z/bU+QnWW1e3HWBwgBrK0nJDKxxkphDEzOKS/KLE9NSC/PLUIiTz8je/ZXz2m+PZwX/Bn8zUlB+4JLM0P3xzm41lDnPh7MSPu+HmJbXc0AoAmccNMs9QPzkjMb8YyaDpPelfbizVYpSakl33yeBsUZyNc670nvOdM91/BKvVds0BG9TU5MTA3HJDyx9kEBfEYclF+XlI5qRevHU9ZdKZqxcEJGsPZV/9zX7gfOuZO+s/CbQcuFL9VzySwaHJiSGZYCzcdy05tnnhzqwTezZM2TK9ZrJmb0XOhfe/Nl16vuS6dPkMLri/GFpuaAWCjOKBhlNlcUlqLgnpCG4SKygaJUBGCaMEeW5iUXYqstuifmwsNtV9ur57k5U0q5r5i2nCZW9+PLmRlpO9eQFHb2Eu3ERGtKDKzMtENmfWvl3TdmV8OBU6y3e5zgNdUakq377fL+57Fdya8sx9+19uuDkpBIPrjOqxkhV5oU9sU71fMTFsrZX1N48WETJyXMYXW7501VtmzETLhBZuRanliUUpyEXGhk1uiTNCKt9eXhrBsaVJiitY+Punpi2tS/y+FpvLdb1k8GVgK4uptF/IUHmBgYFBDsN5KBxb4jJXYyjj/b+hfjeX6J3e9U3nYf4//t/fgyZ9NcCdt7CLNjASl92anRgCkPws8S/rTOLixdk85jZeVn3LvBu1P52aHdQQMGFOxRWO0C4eEpRqEqesyaFBA3smxxTZw0hcnu93gIKmCAkGpjs5DFhAOAPzAWziDAwk+JEUtd+k0MoeJKYmcUVQU0KDBGq5g2AZEVf6NIJKMBZWUG7n1CKupGl0YkiWQS9fkNnqxJUzDVo4ShYsQuuYiCtpupEi4Glqt63EWbaHtyeIbtnwJvSg8iLf6IevVG5YWhzdYVntr0+eUirmCBolLAUHBwc94vzVzMDQ7MjQgJyKQEUygpVKXMHcjOS8dxJr/WRfLou/mWnlUjPtncbE2oXhy6PuZWd2npSd15cfKZFWkJyRmJmnW5aYk5mSWJKZn5dGnM4mZ4UGhiZwcR3KmPnC2NNnomzWP/2HtopxPjHf2ZNCJVKgktiKTIlUW+KqhkbshsugVw3I7NmMxNUR3Q4ODJ4MGuKpivE/HzB4MTB+915uVchyZXJThBSIs3hW5b0NruglUBij5LSs7browjCD7v9ncPBlYBT4YX5jilZgFwMDgy8DU83b60tYkvY5MTAw1BHXjkVpl258sMap2fZCHhfH1sOtIhaGz3kdlqXtX5Rz86Dv7OmnIxaS0J6YzE6ckaPt0mHZLnVjEPcoe8Ew2joloXXKCE66c5SD/GjQOq3innWKAQAAAP//AQAA//97+RWhFA8AAA==",
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhf8Ms057XFzkePmEbt6vJ3K2NgITi+6/5y+vP/z0RKToGgkkpRuepXIJPQ9v0z14xJpXIstUJahn/dqfNUeztnQnH1RYuCu9LLWoODM/j7GOOKObGZEMv77MQP+c4mWuMwVXGNL3/Pw2d2WR31FBP3vt1em9STP/hSApdd1w/pDCuTfRNTJJR65I2lo8eb2kr0O0aM7z+DlcG54cPNDLTpyRTS4tPvwKXQsTDRubnBhSW25oBTEwhjLwpmXm6BvpJyYn55fmlSDZ29hr5xSz1GzJtxs7D00MMFo/5+j6a56WDE3njWV4bffsnsTgycD7YNvm5SkMDFAz2VpuaEVIgwwVgxhallqUmZaZmlKUmp5ZXFJUiWQ6x82kLcUSQkVfph3REnX7K3hq9TPL/Xv32Z46P8F66+q2AwwOUENZWm5ohYPMFIKYWVySX5SYnlqQX55ahGRe/ua3jM9+czw7+C/4k5ma8gOXZJbmh29us7HMYS6cnfhxN9y8pJYbWgEg87hB5hnqJ2ck5hcjGTS9J/3LjaVajFJTsus+GZwtirNxzpXec75zpvuPYLXarjlgg5qanBiYW25o+YMM4oI4LLkoPw/JnNSLt66nTDpz9YKAZO2h7Ku/2Q+cbz1zZ/0ngZYDV6r/ikcyODQ5MSQTjIX7riXHNi/cmXViz4YpW6bXTNbsrci58P7XpkvPl1yXLp/BBfcXQ8sNrUCQUTzQcKosLknNJSEdwU1iBUWjBMgoYZQgz00syk5FdlvUj43FprpP13dvspJmVTN/MU247M2PJzfScrI3L+DoLcyFm8iIFlSZeZnI5qQIxYZwmwYw5CZ1p13m4pv/giXgwdVjdzxXWDzf1tm+cD7cnBSCwSUxWcw+muOb2gzunMCglC/7Vwh++XXHRnNjSLamhbnf38+YiZYJLdyKUssTi1KQjFTZsMktcUZI5dvLSyM4tjRJcQULf//UtKV1id/XYnO5rpcMvgxsZTGV9gsZKi8wMDDIYTgPhWNLXOZqDGXcrNe4fuvWVXMyXwn0OC2fN+PnPrYyA9x5C7toAyNx2a3ZiSEAORj/ZZ1JXLw4m8fcxsuqb5l3o/anU7ODGgImzKm4whHaxUOCUk3ilDU5NGhgz+SYInsYicvz/Q5Q0BQhwcB0J4cBCwhnYD6ATZyBgQQ/kqL2mxRa2YPE1CSuCGpKaJBALXcQLCPiSp9GUAnGwgrK7ZxaxJU0jU4MyTLo5QsyW524cqZBC0fJgkVoHRNxJU03UgQ8Te22lTjL9vD2BNEtG96EHlRe5Bv98JXKDUuLozssq/31yVNKxRxBo4Sl4ODgoEecv5oZGJodGRqQUxGoSEawUokrmJuRnKc7Ve/hzz2TXC49nNrhcWzGjfR9pavP/1/zJjpb/GDrUuOHEmkFyRmJmXm6ZYk5mSmJJZn5eenE6WxyaWBkYGgCl9fYi0WJVKik35z7p8Qf7Whyus/aMqtog/CRL8p5Eim2xNUNjdj1y6DXDcjs2YzEVRLdDg4Mngwa4qmK8T8fMHgxMH73Xm5VyHJlclOEFIizeFblvQ2u6EVQGKPktKztuujCMIPu/2dw8GVgFPhhfmOKVmAXAwODLwNTzdvrS1iS9jkxMDDUEdeQRWmYqtyavirM/8BLZq3t5p9XGOX9Vtzz4OidBPtnDOz/H8q6p5HQoJjMTpyRow3TYdkwdWMQ9yh7wTDaPCWhecoITrpzlIP8aNA8reKedYoBAAAA//8BAAD//47FqzIVDwAA",
 	"preconditions": {
 		"variants": [
 			{
@@ -38,16 +38,11 @@
 				"id": "tape",
 				"epoch": 140761,
 				"nv": 5
-			},
-			{
-				"id": "liftoff",
-				"epoch": 148889,
-				"nv": 5
 			}
 		],
 		"state_tree": {
 			"root_cid": {
-				"/": "bafy2bzaceasnlx54unaq5lyfrhvutnnzxdiklbsclcqt5kgbpnvaii3c7wkwm"
+				"/": "bafy2bzaced7qbgwljdi2eqotzaww56xedy6tyeerolp66d3xp7b6lsczcwwbq"
 			}
 		}
 	},
@@ -60,7 +55,7 @@
 	"postconditions": {
 		"state_tree": {
 			"root_cid": {
-				"/": "bafy2bzaceawj2ysacb5qnbheggojnkdom3orwwphx4hnofydal67t2ala2dy4"
+				"/": "bafy2bzacecyomzikcltvpbrnyhcdwdiyni2siuumv6w7s7gfnk2iwy6becq3u"
 			}
 		},
 		"receipts": [
@@ -73,6 +68,6 @@
 	},
 	"diagnostics": {
 		"format": "Lotus-ExecutionTrace-V1",
-		"data": "SDRzSUFBQUFBQUFBLzdTUjBXL2FNQkRHL3hYMFBXMlN0emtKcGNIU0hsaWdDSzEwakxWTVc5VUgyekVoSmJHWjdUQVk0bitma29DMHFudFlINVlYMzExT3YrKzd1L3NEcGk0RE8yQ2hyTXVOQnFNRXR3WU1TOXFQUVhCbFRkbGtBYVVndURGYXFxWnB3WXRLZ2FHdWpybTd6c3ZjZ3dYMC9EWFZLNlVTdmdGRFNFOTlNNnZLdktxUkFRaW15cTlNQ2hZUnpMamxwUVBEYW5iNzdXTXhHUXdXZDRQaDErOGJrY1M3NjJoUjhmQmltNGFYd2Vmc3d4b0V5V1JZKzM0SEJzR1grMUQ4NGxLSnNCdEZQUk11WmNtTG5aT0M5Mno0NHpIZEM3dGVkN3VoeTlKOXZ2a3BIcmtSUm5UOXV2SnJISStrM3NKYytobzQydVUrTWFtcVp5R1lLMTlaRGFhcm9tajgzem1WZ2dYZC9tWFFQeEtNckRVV0RBblhIYU9MZlVkYXhiM3FpQ292L0p0Y2Q3ajB4cnEzblZkejFXRGZCL1Qxa3dRRXc4cHlmMTcrbUx0a3hXMm1ITmo5QVRlOHJMZjhTU2NybnV1cGNvNW5DZ1NGa1dkWFBnTUx3b3U0RnhISURDeUttN0MrYTN4SnNLMy9VNEt0UEwydWZiMEhvMGZ5aDhSWStVRnQ5em1ldG1UYVV1bExvTzJKSjNwclpEdmtNM2dZeFJlOVZ1QVUvb3NJZ2RxQkljY1R0Y2IvYUtma2Y1MWhhUFJmYnZCQ2dRZUNMNVdRdkNoY1N6aysvQTRBQVAvLzFqYUZwWThE"
+		"data": "SDRzSUFBQUFBQUFBLzdTUlQ0L2FNQkRGdndwNnAxWnlXeWZoVDdEVUF3MHNRbDIybE81U3RhczlPSTRKV1pLWTJrNEtSWHozS2dsSVFidVhIcHFUWi9MMGZqUHpIbytZbXhqc2lKWFVKbEU1R0NXNFYyQlkwNkVQZ2h1dHNycHlLQVhCbmNxRnJFVXJuaFlTREZWM3lzMXRraVVXektHWHIrN2VTQm53SFJoY2V0WXR0TXlTb3JKMFFEQ1hkcU1pTUk5Z3dUWFBEQmcyaS9zZm45UFphTFI2R0kyLy85eUZnYisvOVZZRmQzdGw1QTZjci9HbkxRaUMyYmlhK3dNWVFyNCt1T0VmTG1Ub2RqMnZyOXkxeUhpNk55TGtmZTMrZW80T29kNXV1MTNYeE5FaDJmME9uN2tLVmRpMTI4SnVjVHFSNmdwTFlTdkR5VDZ4Z1lwa3RRdkJVdHBDNTJCNWthYjEvQTlHUm1CT2R6aHdoaWVDaWRaS2d5SGdlVWZsNmFFanRPUldkc0lpU2UyN0pPOXdZWlUyN3p0dmxySzIvZWpRdDFjRkNNYUY1dlp5L0NrM3dZYnJXQnF3eHlQdWVGWmQrVXNlYkhpU3o2VXhQSllnU0pXNFRHVmpNTWZ0K1gyUFFNUmdubDgvcTF6OVFaMUUyWmFVTFUzWkVsa0xSaytraFp4S082ckdmNG1qRFlrMmxBdUJuczNwMmZoVjB5YnlXVjRxMFN6OXd0ejEvRjYvQVp5ZmJjaTVWYlorWDhFSTVCNE1DYTZvOVI2VHZSVC9kWmV4eWwvSjVoOEJUd1RmaWxEd05EV055K25wYndBQUFQLy9xeGx5eDZjRA=="
 	}
 }
