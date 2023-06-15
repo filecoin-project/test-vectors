@@ -1,0 +1,68 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "fails-with-good-addr-undef-cid",
+		"version": "v1",
+		"description": "verifies that CreateActor aborts when provided a valid address, but an undef CID",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "3797efd38681a3c23a8f29d5c2973ed359f8f873"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmBTPtk+80lY87uTFPdY+d2CklWLRT9WDaPfarMRZr6wSudCMpbTBZEnDh3zX19TUe4X/mTrw38fZvo8L062yvmVoExM5tmp5ellpUnJmfx1hHnNHNjEiG31wxQWjO24KrvQeMXj5OeV/ObpFv5XxbZ7biw4PHuU32zkBS6rrh/CGFc2+ia2SSjlyRtLV48npJX4do0Zzn8XO4Njw5eKCXnTgjm1xafPgVuhYmGjY2OTGkttzQCmJgDGXgTcvM0TfST0xOzi/NK0Gy17718vYpC84Hnda40Wn9S3bzgZds/l7K13avkndWuba0TIjBk4H3wbbNy1MYGKBmsrXc0IqQBhkqBjG0LLUoMy0zNaUoNT2zuKSoEsl0jptJW4olhIq+TDuiJer2V/DU6meW+/fusz11foL11tVtBxgcoIaytNzQCgeZKQQxs7gkvygxPbUgvzy1CMm8/M1vGZ/95nh28F/wJzM15QcuySzND9/cZmOZw1w4O/Hjbrh5SS03tAJA5nGDzDPUT85IzC9GMmh6T/qXG0u1GKWmZNd9MjhbFGfjnCu953znTPcfwWq1XXPABjU1OTEwt9zQ8gcZxAVxWHJRfh6SOakXb11PmXTm6gUBydpD2Vd/sx8433rmzvpPAi0HrlT/FY9kcGhyYkgmGAv3XUuObV64M+vEng1TtkyvmazZW5Fz4f2vTZeeL7kuXT6DC+4vhpYbWoEgo3ig4VRZXJKaS0I6gpvECopGCZBRwihBnptYlJ2K7LaoHxuLTXWfru/eZCXNqmb+Yppw2ZsfT26k5WRvXsDRW5gLN5ERLagy8zKRzfndwcB3WznqooZhlnexTVj8AUf20zvVrDvvPG9L/8K7OwVuTgrB4FqtP23V1/Uvlz+e+kjwMc9l443KBb2fE884Sy56lXzjt9o1zETLhBZuRanliUUpSEaqbNjkljgjpPLt5aURHFuapLiChb9/atrSusTva7G5XNdLBl8GtrKYSvuFDJUXGBgY5DCch8KxJS5zNYYyhs6yK2P9djrnz0RvHqPsp8tj2G2YDHDnLeyiDYzEZbdmJ4YAJD9L/Ms6k7h4cTaPuY2XVd8y70btT6dmBzUETJhTcYUjtIuHBKWaxClrcmjQwJ7JMUX2MBKX5/sdoKApQoKB6U4OAxYQzsB8AJs4AwMJfiRF7TcptLIHialJXBHUlNAggVruIFhGxJU+jaASjIUVlNs5tYgraRqdGJJl0MsXZLY6ceVMgxaOkgWL0Dom4koa5Hr7aWq3rcRZtoe3J4hu2fAm9KDyIt/oh69UblhaHN1hWe2vT55SKuYIGiUsBQcHBz3i/NXMwNDsyNCAnIpARTKClUpcwdyM5Ly5FccCzyZX5Szp3p/GVStVb597yuPdW6XDdTM///t+5XuWRFpBckZiZp5uWWJOZkpiSWZ+XjpxOptcGhgYGprA5TX2YlEiFSp54uX6Naq8qzsEK/dtONeyPfbtzZs/JVJsiasbGrHrl0GvG5DZsxmJqyS6HRwYPBk0xFMV438+YPBiYPzuvdyqkOXK5KYIKRBn8azKextc0YugMEbJaVnbddGFYQbd/8/g4MvAKPDD/MYUrcAuBgYGXwammrfXl7Ak7XNiYGCoI64hi9IwbZurvexn1mkxrrQnj9kn/lq+XW3fSsu+E7M2zeE6wZ0tV0tCg2IyO3FGjjZMh2XD1I1B3KPsBcNo85SE5ikjOOnOUQ7yo0HztIp71ikGAAAAAP//AQAA//9798VWFQ8AAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "liftoff",
+				"epoch": 148889,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacea3cxspofer4oqsgaokuoxmrrenbc4vzexawnxqh2vodrll6cdkiw"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABA1gahPXYKlEAAVUADGZpbC8xL3N5c3RlbfRCAGY=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacecadjjcq2d7nmj5pprefp7e5shpjdw73gjywpvyg5mbiieawz2zjo"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 10,
+				"return": "",
+				"gas_used": 148719
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzdTUlVXL2FQaFRGdndvNlQvKy81RzBPS1NHMTFBY1VLS3JXTXNSV3RLN3FnMk5NaUpyWVlEdFpDdUs3VDBsQUNtcGY5ckE4K2Q0Y25kKzk5endmOEdBVHNBT1cwdGhVS3pCSzhFT0RZVTJ2UXhEY0dwMDNsVWNwQ0daYUNkbUlsandySkJqcTdwVGIrelJQSFpoSHoxL1R2WlV5NGxzdzlPbEpOemN5VDR2YTBnUEJnM1FidlFMekNlYmM4TnlDWVRQLytmUTFtNHhHeThmUmVQcHJHMGRoZGUvUEJzSmZaUEY2RVkybVR6Y2dpTzdHOWR4ZndCRHo5VnMvM25NaFJTVURIdSt2L09IcmI4MFRzdzNFTUhlcHlwTnE5em9vaG9OSzdrcTFIdXozYXB1c2gzd2JiSFk0SGtsOWhZVnd0ZUdrU2wya1Y3TGVoV0FoWFdFVW1DcXlySm4vMGNvVm1IY1ZEcjNySThIRUdHM0FFSEhWMHlwNzZ3a2p1Wk85dUVnejl5bFZQUzZjTnZaejc3K0ZiR3h2UFByL1JRR0NjV0c0T3g5L3ltMjA0U2FSRnV6NWdCblA2eXQvVTlHR3ArcEJXc3NUQ1lKTWkvTlVMZ0h6K2xkaDRCT0lCTXdQbTJlZGF4ZzBTWlJkU2RuUmxCMlJjMkQwU0RySXFYU2pldnozT05xU2FFczVFK2pKbko2TVB6UnRJNzlUcFJidDB1L00rMzQ0Q0ZyQTZkbUZuRnBsNS9jRmpFQldZRWh4UVczMm1GUlMvTk5keGxwOWtNMWZBbDRJdmhleDRGbG1XNWZqeTU4QUFBRC8vN0tjbm1PbkF3QUE="
+	}
+}

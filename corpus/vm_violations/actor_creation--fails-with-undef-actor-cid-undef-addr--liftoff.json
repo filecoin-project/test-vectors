@@ -1,0 +1,68 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "fails-with-undef-actor-cid-undef-addr",
+		"version": "v1",
+		"description": "verifies that CreateActor aborts when provided an undef actor code CID and an undef address",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "3797efd38681a3c23a8f29d5c2973ed359f8f873"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhcVmLJ/WlKfqSmg01HXNXilRxCxwIKP5hlD7ddOaOwKHcpGUJn4+pfNz7dVtLK//3Bf6ZK7IqPan7vDGx3FBOqpLlNwV36eXpRYVZ+bnMdYRZ3QzI5Lh0w4JeDQ5/LN0OepZ+9UwKKHE6Zvp/LrnTGc3/m6/8cOnGkmp64bzhxTOvYmukUk6ckXS1uLJ6yV9HaJFc57Hz+Ha8OTggV524oxscmnx4VfoWpho2NjkxJDackMriIExlIE3LTNH30g/MTk5vzSvBMnexl47p5ilZku+3dh5aGKA0fo5R9df87RkaDpvLMNru2f3JAZPBt4H2zYvT2FggJrJ1nJDK0IaZKgYxNCy1KLMtMzUlKLU9MzikqJKJNM5biZtKZYQKvoy7YiWqNtfwVOrn1nu37vP9tT5CdZbV7cdYHCAGsrSckMrHGSmEMTM4pL8osT01IL88tQiJPPyN79lfPab49nBf8GfzNSUH7gkszQ/fHObjWUOc+HsxI+74eYltdzQCgCZxw0yz1A/OSMxvxjJoOk96V9uLNVilJqSXffJ4GxRnI1zrvSe850z3X8Eq9V2zQEb1NTkxMDcckPLH2QQF8RhyUX5eUjmpF68dT1l0pmrFwQkaw9lX/3NfuB865k76z8JtBy4Uv1XPJLBocmJIZlgLNx3LTm2eeHOrBN7NkzZMr1msmZvRc6F9782XXq+5Lp0+QwuuL8YWm5oBYKM4oGGU2VxSWouCekIbhIrKBolQEYJowR5bmJRdiqy26J+bCw21X26vnuTlTSrmvmLacJlb348uZGWk715AUdvYS7cREa0oMrMy0Q2x3LJkX2KuvuXmgdVZn2yuM+x8F3ZrEOf4ti/VL1cvOqUbBfcnBSCwbVaf9qqr+tfLn889ZHgY57LxhuVC3o/J55xllz0KvnGb7VrmImWCS3cilLLE4tSkIxU2bDJLXFGSOXby0sjOLY0SXEFC3//1LSldYnf12Jzua6XDL4MbGUxlfYLGSovMDAwyGE4D4VjS1zmagxl3KzXuH7r1lVzMl8J9Dgtnzfj5z62MgPceQu7aAMjcdmt2YkhAMnPEv+yziQuXpzNY27jZdW3zLtR+9Op2UENARPmVFzhCO3iIUGpJnHKmhwaNLBnckyRPYzE5fl+ByhoipBgYLqTw4AFhDMwH8AmzsBAgh9JUftNCq3sQWJqElcENSU0SKCWOwiWEXGlTyOoBGNhBeV2Ti3iSppGJ4ZkGfTyBZmtTlw506CFo2TBIrSOibiSphspAp6mdttKnGV7eHuC6JYNb0IPKi/yjX74SuWGpcXRHZbV/vrkKaVijqBRwlJwcHDQI85fzQwMzY4MDcipCFQkI1ipxBXMzUjOM+YKnfH00qHtF1allC5bz2Xqa6nWoLLufbF2Urh6oL22mERaQXJGYmaeblliTmZKYklmfl46cTqbXBoYGRiawOU19mJRIhUqeeLl+jWqvKs7BCv3bTjXsj327c2bPyVSbImrGxqx65dBrxuQ2bMZiaskuh0cGDwZNMRTFeN/PmDwYmD87r3cqpDlyuSmCCkQZ/GsynsbXNGLoDBGyWlZ23XRhWEG3f/P4ODLwCjww/zGFK3ALgYGBl8Gppq315ewJO1zYmBgqCOuIYvSME2Ni/m2PPvGSZMazze7cq+lCNyu/v7xtlL6uvIVAfn3J14joUExmZ04I0cbpsOyYerGIO5R9oJhtHlKQvOUEZx05ygH+dGgeVrFPesUAwAAAP//AQAA//8iiadQFQ8AAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "liftoff",
+				"epoch": 148889,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacecrtmbhsvr3wkliyfcah5cu3vemheayqybuihwasq7ltk7g4cdbg2"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABA1gahPXYKlEAAVUADGZpbC8xL3N5c3RlbfVCAGQ=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacebq7hsrm7gw5lnqe5p6n6exsg4qqcjx4p3b3dy26kiwcljbci4q66"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 10,
+				"return": "",
+				"gas_used": 148719
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzdTUlVXK2JQaFRGdjBwMG52NS95ZHNNcEpSYTZrTkUwcWhhMjNYWkdtMnIrbUNNQTZ6R1pzYXdwRlcrK3dRa0VsWDdzb2Z4NUhzNU9yOTc3N2wveG5XZGdUMWpMVzFkR0ExR0NiNGFNR3pvV1FTQ0Mydkt2dklvQmNHTjBVTDJvalZYalFSRDExM3krcW9vQ3dmbTBlUFhkeStrakhrRkJwOGVkTGRXbGtYVFdYb2d1Sll1TnlsWVFIRExMUzlyTU9TMzM3NS9WSXZaYkgwM215OS9WRWtjYmErQ214TVJyRlN5V2NlejVlZHpFTVNYODI3dUQyQkkrR2JuSjA5Y1NNNk52L21acVR5VFFXNnJOTjF0OHlkYjVhb0tkOVBRcnlwejJrN1Q4TmR2bXorVzFhT3ZzMU9CL1o1MFYxZ0oxeGt1dG9XTFRTcTdYUWhXMGpWV2crbEdxWDcrdTFxbVlONDBPdlhPOWdRTGE0MEZROHoxeEdpMW13Z3J1Wk9UcENtVWUxZm9DUmZPMlByOTVMK1Y3RzNQUGZyL2l3SUU4OFp5ZHp6K2t0ZHh6bTBtYTdEN1o5endzcnZ5SngzbnZORFhzcTU1SmtHZ2pEaE81VEl3ejU5R1lVQWdNckFnNnA5ZHJsSFlKOUdPSmUxSTA0NUV6b0hSUFJraGw5TE51dkZmNCtoQW9nUGxTS0FIYzNvd2Z0TjBpUHhTdDBZTVM3OHk5NFBvSkJ3QWgrY1ljbWkxbzk4dllBUnlDNFlDTDZqOUhvdXRGUDkwbDduUmIyVHpsNEFIZ2k5TklyaFM5ZUN5Zi9nVEFBRC8vL0NhRjJTbkF3QUE="
+	}
+}

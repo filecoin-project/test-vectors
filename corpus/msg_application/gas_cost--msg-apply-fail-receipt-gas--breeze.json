@@ -1,0 +1,65 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "msg-apply-fail-receipt-gas",
+		"version": "v1",
+		"description": "fail to cover gas cost for message receipt on chain",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "3797efd38681a3c23a8f29d5c2973ed359f8f873"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmheevYi9z50XYJxhNemmx1of91L69jAtK49csL9T0CdjhsY0EpellqUXFmfl5jG9ZidPQ5NLiw83QsTDRsLHJiYGt5YZWhDQDYyiDWFpmjr6hfllqUWZaZmpKUWp6ZnFJUSWSUzhuJm0plhAq+jLtiJao21/BU6ufWe7fu8/21PkJ1ltXtx1gcIAaytJyQyscZKYQxMzikvyixPTUgvzy1CIk87i12qbUnt2Vf2jhOoVX6/tSDm6RfzhV8HjK5ffnbVed+bYbbF5TkxMDc8sNLX+QeVwQ85KL8vOQzEm9eOt6yqQzVy8ISNYeyr76m/3A+dYzd9Z/Emg5cKX6r3gkg0OTE0Nyyw2tIJAZvBAzEpOT80vzSpCMue9acmzzwp1ZJ/ZsmLJles1kzd6KnAvvf2269HzJdenyGVxw7zG03NAKBBnFA/VeZXFJai6SSa4bzh9SOPcmukYm6cgVSVuLJ6+X9HWIFs15Hj+Ha8OTg4iAYgWFvgTIKGGUkMpNLMpORXZb1I+Nxaa6T9d3b7KSZlUzfzFNuOzNjyc30nKyNy/g6C3MhZvIiBZUmXmZyOaYmqo1/Mw5lzMv/rlFs1F/GmOandRjp/uth7lWTnjg5V8FNyeFYHCt1p+26uv6l8sfT30k+JjnsvFG5YLez4lnnCUXvUq+8VvtGoMbw4srSwUYoAYyoQVaUWp5YlEKknkSamFyn0KW8Ql+OvmJ95HoNYZXbGI3S6JKnv18JFwQfjaZwZeBrSym0n4hQ+UFBgYGA9xJFrtoAyNxqbjZiSEA2Vn/ss4kLl6czWNu42XVt8y7UfvTqdlBDQET5lRc4Qjt4iFBqSZxypocGjSw5x1Mkb2MxGWlCQ5Q0BQhwcB0J4cBCwhnYD6ATZyBgQQ/MiiQoPibBGqeRrCMiMvZjaDSgYUVlJM45TASKwpHi7hM3ujEkCyDnrWR2erEZfEGLRyZGovQOibiMnk3UtA+Te22lTjL9vD2BNEtG96EHlRe5Bv98JXKDUuLozssq/31yVNKxcROSpohQa2Cg4ODHnH+amZgaHZkaGiQQC0NEaxU4srEZiTnNdz5uctQ6u0XYbldywyqym7G7a7pSc5je++Vrjzl6ovWWInUguSMxMw83bLEnMyUxJLM/Dwv4nQ2uTQwMDA0gkvLUMYTL9evUeVd3SFYuW/DuZbtsW9v3vwpkWJLXMnbiF2/DHrhi8yuJ64Q7nRwYPBkEICWC14MjN+9l1sVslyZ3BQhBeIsnlV5b4MrevkRxig5LWu7LrqwJwP/fwhgcAAAAAD//wEAAP//5rcjwyYJAAA=",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "breeze",
+				"epoch": 41281,
+				"nv": 1
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedt6uxotbnxfqp3agkjosofnjqd4vpv5agqhkx5mu5ysstcqxbelm"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGRCAGQAQgAKCEIAyEIAAQBA",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedt6uxotbnxfqp3agkjosofnjqd4vpv5agqhkx5mu5ysstcqxbelm"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 7,
+				"return": "",
+				"gas_used": 0
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzRxdVZ2SXRUbGV5eWl2TnlkRUJNWU9TUzJBODE2S2kvQ0lsS3lVbEhTV1gwcUxFa3N6OFBDVXJBeDBsOThSaTU0ekVvdlRVWXBqSzROS2s1TVNjSENpL05oWVFBQUQvL3dXb0EwRldBQUFB"
+	}
+}

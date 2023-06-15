@@ -1,0 +1,75 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "msg-apply-fail-unknown-receiver",
+		"version": "v1",
+		"description": "inexistent receiver",
+		"comment": "Note that this test is not a valid message, since it is using\nan unknown actor. However in the event that an invalid message isn't filtered by\nblock validation we need to ensure behaviour is consistent across VM implementations.",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "3797efd38681a3c23a8f29d5c2973ed359f8f873"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmheevYi9z50XYJxhNemmx1of91L69jAtK49csL9T0CdjhsQ1JaeSWCw+mz3PqYl2fz5/i4/b3lHknb2NpLmPYznVf42sOuKaXpRYVZ+bnMb5lJc7sJpcWH26GjoWJho1NTgxsLTe0IqQZGEMZxNIyc/QN9ctSizLTMlNTilLTM4tLiiqRnMJxM2lLsYRQ0ZdpR7RE3f4Knlr9zHL/3n22p85PsN66uu0AgwPUUJaWG1rhIDOFIGYWl+QXJaanFuSXpxYhmcet1Tal9uyu/EML1ym8Wt+XcnCL/MOpgsdTLr8/b7vqzLfdYPOampwYmFtuaPmDzOOCmJdclJ+HZE7qxVvXUyaduXpBQLL2UPbV3+wHzreeubP+k0DLgSvVf8UjGRyanBiSW25oBYHM4IWYkZicnF+aV4JkzH3XkmObF+7MOrFnw5Qt02sma/ZW5Fx4/2vTpedLrkuXz+CCe4+h5YZWIMgoHqj3KotLUnORTHLdcP6Qwrk30TUySUeuSNpaPHm9pK9DtGjO8/g5XBueHEQEFCso9CVARgmjhFRuYlF2KrLbon5sLDbVfbq+e5OVNKua+YtpwmVvfjy5kZaTvXkBR29hLtxERrSgyszLRDbH1FSt4WfOuZx58c8tmo360xjT7KQeO91vPcy1csIDL/8quDkpBINrtf60VV/Xv1z+eOojwcc8l403Khf0fk484yy56FXyjd9q1xjcGF5cWSrAADWQCS3QilLLE4tSkMyTUAuT+xSyjE/w08lPvI9ErzG8YhO7WRJV8uznI+GC8LPJDL4MbGUxlfYLGSovMDAwGOBOsthFGxiJS8XNTgwByM76l3UmcfHibB5zGy+rvmXejdqfTs0OagiYMKfiCkdoFw8JSjWJU9bk0KCBPe9giuxlJC4rTXCAgqYICQamOzkMWEA4A/MBbOIMDCT4kUGBBMXfJFDzNIJlRFzObgSVDiysoJzEKYeRWFE4WsRl8kYnhmQZ9KyNzFYnLos3aOHI1FiE1jERl8m7kYL2aWq3rcRZtoe3J4hu2fAm9KDyIt/oh69UblhaHN1hWe2vT55SKiZ2UtIMCWoVHBwc9IjzVzMDQ7MjQ0ODBGppiGClElcmNiM5r+HOz12GUm+/CMvtWmZQVXYzbndNT3Ie23uvdOUpV1+0xkqkFiRnJGbm6ZYl5mSmJJZk5ud5EaezyaWBgYGhEVxahjKeeLl+jSrv6g7Byn0bzrVsj3178+ZPiRRb4kreRuz6ZdALX2R2PXGFcKeDA4MngwC0XPBiYPzuvdyqkOXK5KYIKRBn8azKextc0cuPMEbJaVnbddGFPRn4/0MAg8NnVuKaO6OtF3JbL24MehPeXmAYbcOQ0IZhcmPYeaZxDQ3aMFXuplMYAAAAAP//AQAA///rZjpWGwwAAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "breeze",
+				"epoch": 41281,
+				"nv": 1
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedt6uxotbnxfqp3agkjosofnjqd4vpv5agqhkx5mu5ysstcqxbelm"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBFAICt4gRCAGQAQgAKGjuaygBCAMhCAAEAQA==",
+			"epoch_offset": 0
+		},
+		{
+			"bytes": "igBVAiaJt6oAGGRWHXnNxl1GJx/CI4BCQgBkAUIACho7msoAQgDIQgABAEA=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacebm3juhas6pefcqfv5xq6zcmi364un4jbwaxk3ibk24255k7ptaek"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 5,
+				"return": "",
+				"gas_used": 1287317
+			},
+			{
+				"exit_code": 5,
+				"return": "",
+				"gas_used": 1303317
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLytTVFhXdmJQaFRHdjRvNVYvOC9DQ2JiOGd1Q1hZejBoY0xhbFc3clRlbUZMQisvTkxhVVNMS1RwdVM3RDlzSmMxa0RvekIyc1Z6RjR2SHZPZWV4bm9jWHVMWWw4QmU0UjJOcnJZQlRBdDgwY0Npb1Q2Y2ZFTGd3dWoyZUFZRWJyU1NPMG52UmRBZ2MvT0g0VXRqUGRWczc0TWRYS1IxUEx4QVhZZ1VjQW5yUTNScHM2MjVnK2tEZ0dsMmw4eEY0SzR4b0xYQUFBb3VyczJHMEQ4QWhFOFZ6a08yRXhJeEpabXJjNmhJVFZtMjFmQkpZOWJ0dEViVExUVk9ZYUYwclpvUzJxN1lMbjFUazJxNkUvWjRNaTk1Sk53RFB0N1ZiNkJ5QlJ3VHUwSFZHQVZkZDA0eWpmYmVZQS9lRE5BbjlaRS9nM0JodGdJUFVYWk43U2p0UEdoUU9QU0dsN3BUei9ydkRFZmN4K3A5N1NudENPbTI4VGUwcXI2eDdWTjdWR2ZkK3hqblhBNEd6emdoM1RQNVMyRVVsVElrVytNTUwzSWgyQ1BlTFdsU2lWdGRvclNnUkNEUmFIZ2QyNVpCMmtNWWhBVmtDRDlQeDcvQlJZemJtMzg4bC9VelR6MFRPQWFkN01yTzhSUGRwV09SWE96bzUwY25sNkVBUGNIb0F2d2xkak1tZDRQcCt5bGpFSnJydjAzUjhHRmhKUE52a3FPcGZ5ZnFaYnZKOUpQQzF5NlJvR2p1NURKT2N2TzBCQmhpdWxtdVJaN1pvcTJhMzIrWkZZRXlWSjVtc2hKVE1QbVdzcUUrV3dmOGJaUkJWSHJCbDlPeDBuSmlnTTVheDNXYXBna2l6SkE1MzhTb29ObG1tbitXNnh1MDZNM0hMTnU4cFEwakRkNWJCZHJLYUdzRzkzdzc1RDFURVQ5K3FTRXBmWGF5M0szSVEvUk1WZWZ3UkFBRC8vKy96Tk5VU0JnQUE="
+	}
+}

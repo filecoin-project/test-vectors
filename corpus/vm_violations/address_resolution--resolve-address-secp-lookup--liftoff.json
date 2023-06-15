@@ -1,0 +1,68 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "resolve-address-secp-lookup",
+		"version": "v1",
+		"description": "verifies that runtime.ResolveAddress on known addresses are resolved",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "3797efd38681a3c23a8f29d5c2973ed359f8f873"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhZ+xu2oTO9NkhTXXbykJvem9v8xKfcWPJxe7Q7f+TDuQ+QpJaX5w5ouXaes+HTwdUmU2aRZnWuqFNU9eTN16/5TE9MmJywzSy1KLijPz8xjriDO6mRHJcMlHjxccYcg1uct9MT3tf7byuqV/vG93Kj4wkdi0iOd9txeSUtcN5w8pnHsTXSOTdOSKpK3Fk9dL+jpEi+Y8j5/DteHJwQPb2IgzssmlxYefoXNhomFjkxMDW8sNrQhpBsZQBrG0zBx9I/2y1KLMtMzUlKLU9MzikqJKJBdw3EzaUiwhVPRl2hEtUbe/gqdWP7Pcv3ef7anzE6y3rm47wOAANZSl5YZWOMhMIYiZxSX5RYnpqQX55alFyCG7+S3js98czw7+C/5kpqb8wCWZpfnhm9tsLHOYC2cnftwNNy+p5YZWAMg8bpB5hvrJGYn5xUgGTe9J/3JjqRaj1JTsuk8GZ4vibJxzpfec75zp/iNYrbZrDtigpiYnBuaWG1r+IIO4IA5LLsrPQzIn9eKt6ymTzly9ICBZeyj76m/2A+dbz9xZ/0mg5cCV6r/ikQwOTU4MyS03tIJAZvBCzEhMTs4vzStBMua+a8mxzQt3Zp3Ys2HKluk1kzV7K3IuvP+16dLzJdely2dwwf3F0HJDKxBkFA80nCqLS1JzSYhzuEmsoGiUABkljBLkuYlF2anIbov6sbHYVPfp+u5NVtKsauYvpgmXvfnx5EZaTvbmBRy9hblwExnRgiozLxPZHFNTtYafOedy5sU/t2g26k9jTLOTeux0v/Uw18oJD7z8q+DmpBAMrtX601Z9Xf9y+eOpjwQf81w23qhc0Ps58Yyz5KJXyTd+q11jcGN4cWWpAAPUQCa0QCtKLU8sSkEyT2XDJrfEGSGVby8vjeDY0iTFFSz8/VPTltYlfl+LzeW6XjL4MrCVxVTaL2SovMDAwGCAO+1jF21gJC47NDsxBCA5S+Jf1pnExYuzecxtvKz6lnk3an86NTuoIWDCnIorHKFdPCQo1SROWZNDgwb2TIgpsoeRuDzZ7wAFTRESDEx3chiwgHAG5gPYxBkYSPAjKWq/SaGVDUhMTeKKiKaEBgnUcgHBMiKudGgElTAsrKDcyCmHkeBROFrEFRSNTgzJMujFAzJbnbhiokELR8GARWgdE3EFRTdS/DxN7baVOMv28PYE0S0b3oQeVF7kG/3wlcoNS4ujOyyr/fXJU0rFDEOjdKfg4OCgR5y/mhkYmh0ZGpATGahERbBSiStXm5Gc13Dn5y5DqbdfhOV2LTOoKrsZt7umJzmP7b1XuvKUqy9aYyVSC5IzEjPzdMsSczJTEksy8/O8iNPZ5NLAwMDQCC5xQxlPvFy/RpV3dYdg5b4N51q2x769efOnRIotcaV3I3b9MugFODJ7NiNxJXm3gwODJ4OGeKpi/M8HDF4MjN+9l1sVslyZ3BQhBeIsnlV5b4MreiEUxig5LWu7LrowzKD7/xkcfBkYBX6Y35iiFdjFwMDgy8BU8/b6EpakfU4MDAx1xDULUZp5uZuydyUYT1jz8frV7yecD79j2fq5l5Ft4o+g9xPXNXNP/UxClb+HjTgjR5t5A97Mc2MQ9yh7wTDa2COhscfoxnAxYHIcDRp7VdyzTjEAAAAA//8BAAD//02254EMDgAA",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "liftoff",
+				"epoch": 148889,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaced4v3ot5mgewmhitfgx3i5cv3ff365r2e6uprzgrrnk3l6lgybu6u"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABBENCAGQ=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacebxvg2pi5ftk54wbznkhunustiewmzoqvtsorfnv37fbrf4tmgtda"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "gkIAZPU=",
+				"gas_used": 129719
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzdTVFVXL2FNQlNGLzh0NXRqU1RRRW90N2FFRGlwQkd4N3ExRDZ2NllNd2xDUVM3czUyVURlVy9UNG1EbG9xK1RjdlR6YzNWK1h6dWlaOU9XTG9VNG9SSHNpNDNHb0l6ZkRjUTJQTHJNUmh1clRtMGJ3UE93WEJudEtKMjZGRVdKVUdnNmM2bCs1d2ZjZzh4NE9lbjdkNFNUZVFMQkNMZXphMHNIZkt5a1J5QVlVaytNeHVJSWNOS1dubHdFUGlhZnRxRFliS1lOdWY2QUlHMTNQNksxcitsSXVXdU50bFF4bFhtWk9rejdkTXJSVHJhdmU1MjlpWFpVeDV2ZGJMK0dXK1RKSDZsM0xqaG1sRFhySEY1cjN3ak9Edm1mbUkyd2NROStkSnFDS1Q3eGMyUDFjUEhjTWdIUnh1SVFUUzhHbHpYREROcmpZVUFHS2FsbGY2OHA3bDBrMHphbEJ6RTB3bDM4dEFzNUl1ZVpETFhTM0pPcGdTR3dpZ0lYUllGZzAvYkZZMlRtRUdsRVBHNExac0lrcWhkV3RVZnFYb3pWVy9JZXdoZXN4NXlUdjVHZVdNdmNUeVFlS0NjQ2J3VDU1M3d1NklobllXdWpBcW1MOFNqZUR4S0FxQXIrNUN1VmZVK3Y0RXgwQkVDT2Q1UVd4K3pJNm4vNm1WcTlEdlovQU9nRFQzOFQrRnFYSWlQMnV4NitxTy9pWGRsbnpMcVJmM004SzFjSzFrVUxpald6MzhDQUFELy83K29pZ3U3QXdBQQ=="
+	}
+}
