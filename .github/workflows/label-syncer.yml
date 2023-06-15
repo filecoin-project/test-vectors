@@ -11,6 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.3
-      - uses: micnncim/action-label-syncer@v1.1.0
+      - uses: micnncim/action-label-syncer@v1.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
