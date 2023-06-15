@@ -1,0 +1,68 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "in-transaction",
+		"version": "v1",
+		"description": "test an actor can mutate state within a transaction",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "fa44b286ba4004f945621bddfaa06f159e526afc"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhWDH6sPVX7n4CuNnpzps/bqqnJ21wd9V7duBuXu4zlybeh1Jqfrpu4f5/qlO/vBwWyabcFzW9/opnPOErVukUya13EzbOTm9LLWoODM/j7GOOKObGZEM1z4+8dFrxtmm4dtLV9RENKotmH6PlyloheWcg/MNdCu4ZyEpdd1w/pDCuTfRNTJJR65I2lo8eb2kr0O0aM7z+DlcG54cPLCNjTgjm1xafPgZOhcmGjY2OTGwtdzQipBmYAxlEEvLzNE30i9LLcpMy0xNKUpNzywuKapEcgHHzaQtxRJCRV+mHdESdfsreGr1M8v9e/fZnjo/wXrr6rYDDA5QQ1labmiFg8wUgphZXJJflJieWpBfnlqEZF7+5reMz35zPDv4L/iTmZryA5dkluaHb26zscxhLpyd+HE33LyklhtaASDzuEHmGeonZyTmFyMZNL0n/cuNpVqMUlOy6z4ZnC2Ks3HOld5zvnOm+49gtdquOWCDmpqcGJhbbmj5gwzigjgsuSg/D8mc1Iu3rqdMOnP1goBk7aHsq7/ZD5xvPXNn/SeBlgNXqv+KRzI4NDkxJLfc0AoCmcELMSMxOTm/NK8EyZj7riXHNi/cmXViz4YpW6bXTNbsrci58P7XpkvPl1yXLp/BBfcXQ8sNrUCQUTzQcKosLknNJSHO4SaxgqJRAmSUMEqQ5yYWZaciuy3qx8ZiU92n67s3WUmzqpm/mCZc9ubHkxtpOdmbF3D0FubCTWREC6rMvExkcxSrTr8zc1wuzfdswpwvW5bf+3rrtL2H+/XzVlannFpzjorCzUkhGFwSk8Xsozm+qc3gzgkMSvmyf4Xgl193bDQ3hmRrWpj7/f3M4Mbw4spSAQaogUxogVaUWp5YlIJknsqGTW6JM0Iq315eGsGxpUmKK1j4+6emLa1L/L4Wm8t1vWTwZWAri6m0X8hQeYGBgcEAd9rHLtrASFx2aHZiCED25r+sM4mLF2fzmNt4WfUt827U/nRqdlBDwIQ5FVc4Qrt4SFCqSZyyJocGDeyZEFNkDyNxebLfAQqaIiQYmO7kMGAB4QzMB7CJMzCQ4EdS1H6TQisbkJiaxBURTQkNEqjlAoJlRFzp0AgqYVhYQbmRUw4jwaNwtIgrKBqdGJJl0IsHZLY6ccVEgxaOggGL0Dom4gqKbqT4eZrabStxlu3h7QmiWza8CT2ovMg3+uErlRuWFkd3WFb765OnlIoZhkbpTsHBwUGPOH81MzA0OzI0ICcyUImKYKUSV642IzlvQkPI4vxVrtOYHzadPimz5InO1j4JqzeRT7jPmy8vmhzLI5FakJyRmJmnW5aYk5mSWJKZn+dFnM4mlwYGBoZGcIkbyug35/4p8Uc7mpzus7bMKtogfOSLcp5Eii1xpXcjdv0y6AU4Mns2I3ElebeDA4Mng4Z4qmL8zwcMXgyM372XWxWyXJncFCEF4iyeVXlvgyt6IRTGKDkta7suujDMoPv/GRx8GRgFfpjfmKIV2MXAwODLwFTz9voSlqR9TgwMDHXENQtRmnmW1gZZtnu7V4j1+c/O+tOb0bzh/bfvG79ECBqnuvW9mnGZhCp/DxtxRg7DZt6s6lX5ampe3kfY9z85/8r0R/Wk6UHJTUHMeRzyvyv37nsy2Jp5bgziHmUvGEYbeyQ09hjdGC4GTI6jQWOvinvWKYZQ4lJSU4V2WW58WWZ+DrjULNYvLkksSY3PLS0B8/Uz83RLihLzihOTQdwGAAAAAP//AQAA///LPF0HYg4AAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacebjuc66dpp2qudtrl6nwkqfv6wvhobyfqbhukjxwyco3ycwm22k5o"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABCFgvgngrdm1fdmlvbGF0aW9ucy9zdGF0ZV9tdXRhdGlvbi9pbi10cmFuc2FjdGlvbgA=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceat4xxodb37cle7q4g3gsbqtlzvpo74ubgpbgo4ednsjfbgzm24zg"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 376031
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzd5VVRZdmJQQlNGLzh0ZEMxN0ozeEc4aXlFVG0wQXpEV21ibGc2emtDWEY4ZFNXVTBsMk1nbjU3OFVmS1o0bUZFckxlSFYxZFRtUHo1SHN4eE1zVEFiMEJHdXBUVjRwb0JqQnh3b29iUEFrQWdTeHJzcHVSVEFHQkErVjRySWJXck9pbGtDaDdTYk12TXZMM0FJbCtQSjAzVmpLS2RzQkJRY1BjMHN0eTd4dUpRa2dXRWk3clFUUUNNR1NhVllhb0pDcFRJdVNiRVJaTkdrU1kvWjVVdk9YeVZFa01mNjZubGp4WmJVVlNkR2srV1NYNWdUek1xNjVFejkzdmV6dWYwQXduZCszbnY0RENpbmJ2RGpwa1hISnczQ3JqdW4rdS9BUGUyblp4aXNjKzgzNFppY2NVd3VqMkw3a2djMzhzdmIwODJIbnk3Q0U4eG0xQ2EyNGJRVm5oOXhPSzlFSHNKSzIxZ3FvcW91aXMvYkpTQUhVRFFQc2tqT0NtZGFWQmdxQTRMN1d6RjdTVFppWmJwbk9wQUg2ZUlJSFZyWXh2bGZUTGN2VlFockRNZ2tJaW9wZnRHMEdsSGgrRkxnSWVBYlVqYnF5UFRpQ3d5N3JaanpUaklhYThaUzFRUEVaamFDSnRIZmNWdm9haUhzVzdqa1hCQjdVOGFCOFU3US8xYmxxS3Q3YnZoSjMzTWdQZXNCUWppRkRxeGx0djRJaGtBZWdrTU1yYXVkamRwRDhuM3FaN3dxUlNIdXRHZnFPNS9TNlF6bldKc1FMU0RnQWZpNStTMW5uY2o5VDRtL2Z2Zy9IZmFOb2x2V05hSWpiWHJoZU9QSzZzaFh4UmxmVkN3akJGNG8zL0RBNjFMQXg4dUtGYjJEbTF6dDdYNmtiWCtFZkFwNFFmS2hUem9yQzlDcm5weDhCQUFELy8vRFVxdlZ5QlFBQQ=="
+	}
+}

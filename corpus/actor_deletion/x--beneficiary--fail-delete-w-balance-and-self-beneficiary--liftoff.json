@@ -1,0 +1,82 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"hints": [
+		"incorrect",
+		"negate"
+	],
+	"_meta": {
+		"id": "fail-delete-w-balance-and-self-beneficiary",
+		"version": "v1",
+		"description": "fails when actor with non-zero balance is deleted but beneficiary is the calling actor",
+		"comment": "should abort with SysErrorIllegalArgument if the beneficiary is the calling actor, will be fixed in https://github.com/filecoin-project/lotus/pull/3478",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "fa44b286ba4004f945621bddfaa06f159e526afc"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhb8Trubsffjwm+C3Xy4LpN/3np2w3++Zskdv7k7vtB9zD4YgKT2wdElCoUL+i4UXObWS3186UTvXmvWn6bY7K76pqrLKS/mnl6UWFWfm5zHWEWd0MyOS4RcF2IRv3dvFcO66Rw/rMu2jjxbOnNnlxKfoHOXxeGrZ0ywkpa4bzh9SOPcmukYm6cgVSVuLJ6+X9HWIFs15Hj+Ha8OTgwd2sBFnZJNLiw8/Q+fCRMPGJicGtpYbWhHSDIyhDGJpmTn6RvplqUWZaZmpKUWp6ZnFJUWVSC7guJm0pVhCqOjLtCNaom5/BU+tfma5f+8+21PnJ1hvXd12gMEBaihLyw2tcJCZQhAzi0vyixLTUwvyy1OLkMzL3/yW8dlvjmcH/wV/MlNTfuCSzNL88M1tNpY5zIWzEz/uhpuX1HJDKwBkHjfIPEP95IzE/GIkg6b3pH+5sVSLUWpKdt0ng7NFcTbOudJ7znfOdP8RrFbbNQdsUFOTEwNzyw0tf5BBXBCHJRfl5yGZk3rx1vWUSWeuXhCQrD2UffU3+4HzrWfurP8k0HLgSvVf8UgGhyYnhuSWG1pBIDN4IWYkJifnl+aVIBlz37Xk2OaFO7NO7NkwZcv0msmavRU5F97/2nTp+ZLr0uUzuOD+Ymi5oRUIMooHGk6VxSWpuSTEOdwkVlA0SoCMEkYJ8tzEouxUZLdF/dhYbKr7dH33JitpVjXzF9OEy978eHIjLSd78wKO3sJcuImMaEGVmZeJbI6pqVrDz5xzOfPin1s0G/WnMabZST12ut96mGvlhAde/lVwc1IIBtdq/Wmrvq5/ufzx1EeCj3kuG29ULuj9nHjGWXLRq+Qbv9WuMXgwMPfWLTnWYAQ1kgkt2IpSyxOLUpBMVNmwyS1xRkjl28tLIzi2NElxBQt//9S0pXWJ39dic7mulwy+DGxlMZX2CxkqLzAwMBjgTv3YRRsYicsQzU4MAUjOkviXdSZx8eJsHnMbL6u+Zd6N2p9OzQ5qCJgwp+IKR2gXDwlKNYlT1uTQoIE9G2KK7GEkLlf2O0BBU4QEA9OdHAYsIJyB+QA2cQYGEvxIitpvUmilAxJTk7hCoimhQQK1ZECwjIgrHxpBZQwLKyg/csphJHkUjhZxRUWjE0OyDHoBgcxWJ66gaNDCUTRgEVrHRFxR0Y0UP09Tu20lzrI9vD1BdMuGN6EHlRf5Rj98pXLD0uLoDstqf33ylFIxw9Ao3Sk4ODjoEeevZgaGZkeGBuREBipTEaxU4krWZiTnNdz5uctQ6u0XYbldywyqym7G7a7pSc5je++Vrjzl6ovWWInUguSMxMw83bLEnMyUxJLM/Dwv4nQ2uTQwMDA0gkvcUMYTL9evUeVd3SFYuW/DuZbtsW9v3vwpkWJLXPndiF2/DHoBjsyezUhcSd7t4MDgyaAhnqoY//MBgxcD43fv5VaFLFcmN0VIgTiLZ1Xe2+CKXgiFMUpOy9quiy4MM+j+fwYHXwZGgR/mN6ZoBXYxMDD4MjDVvL2+hCVpnxMDA0MdcQ1DlIZelRwfX4jyPOHpR5/l8dYEpa/lNPnN33HgR5zAB8Wk5l3sJFT6X1mJMxLU0ONm6BgqDb1B1D5zY9Cb8PYCw2grjYRWGhOoleY/Z7EMA/VbaVXuplMYAAAAAP//AQAA//8YU81Gxw0AAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "liftoff",
+				"epoch": 148889,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaced6zbvlmxxq6d5qr635ejia356g43ef7j3tcgsennw4uwzxytxavi"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQgAyGjuaygBCAMhCAAEAQA==",
+			"epoch_offset": 0
+		},
+		{
+			"bytes": "igBCAGJCAGQBQBo7msoAQgDIQgABBUNCAGI=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedakljdaoeqg72fb2eesuy7p2leh3hj3ax4tlnw4vd3ckjifd4ne6"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 316268
+			},
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 48719
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzh5VVgyL2FNQlRGdjh0OTlqUW5JWC93MndadFZXbnR1bTdyUzlVSDJ6akJOTEdMN1FRSTRydFBTWWdhQkoyMGlrM2p5VnhmbmVOeitJbkhMZHpZRE1nV0hvU3hVaXNnR01FUERRUlNQRTRBd2FYUlJmdk53eGdRM0dyRlJidjBRUE5TQUlHd0dWOVIrMFVXMGdIeGNQOXBwNWRDVE9nTEVQRHhmdS9PaUVLV2phWUhDRzZFbSt0WkszaEhEUzBzRUFBRWsrdHA4NmlQUUlEUmRPT3ptbkxCb3NWeVZydHdIVCs3TWdpZWplUEcrWnRaYUZtaHBkWjFxaGpQSkdPaHFUZUxmUFF5RjB2WTdWQVQ4WjY3UnZCaUxkMUV6N29FOThLVlJnRlJaWjYzVC90cHhReEk0RVYrbE93UVhCaWpUZmVlYVdtbzYrdTVvbll5cHlZVEZzampGbTVwMGZUd1ZVM21WS29iWVMzTkJDRElOZSsxWFFaa1BFNmlBQUhQZ0FSSmUyeUtqN3kycVdxd1VRMVdxc0dPYzBEd0RnME1yNFQ3eEowMngyYTRNOEtkU1crQTkrSjRMM3hTdFB0RnJsV2xlUmY1U056M29oRU9PNGYrUExUcFo5Vnc0Y0FRZ1ZnREFRZS9kWjVxZGFMSFA0ejJoT0I3eVRqTmM5dXBOSmJ2WXQ1N1pmNHN5SWNENUw5bG4rVmIyRk9lMTJtK1dpcExWd3RGZmNhcVZaeUpTdWNqSTFuc3IrSmFsbXVoT1V2VGtmQ2RWUnY5RHV4SFNleU56MDY5aC9GSjdQMVg3UHVWWSs3OS80ejdJQW1qUGZiZDhZRDZibFFOcms4eEx3K1piM05jckFVL2E1YXB5SVVUYjNUMElZN2FYZ2ZpL2FnYTNoL1k5TU5qcjcrVDRCLzlGeno5Q2dBQS8vOHZwNGtEQVFjQQ=="
+	}
+}

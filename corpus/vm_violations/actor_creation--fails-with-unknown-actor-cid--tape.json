@@ -1,0 +1,68 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "fails-with-unknown-actor-cid",
+		"version": "v1",
+		"description": "verifies that CreateActor aborts when provided an unknown actor code CID",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "fa44b286ba4004f945621bddfaa06f159e526afc"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhf8Ms057XFzkePmEbt6vJ3K2NgITi+6/5y+vP/z0RKToGgkkpRuepXIJPQ9v0z14xJpXIstUJahn/dqfNUeztnQnH1RYuCu9LLWoODM/j7GOOKObGZEMv77MQP+c4mWuMwVXGNL3/Pw2d2WR31FBP3vt1em9STP/hSApdd1w/pDCuTfRNTJJR65I2lo8eb2kr0O0aM7z+DlcG54cPNDLTpyRTS4tPvwKXQsTDRubnBhSW25oBTEwhjLwpmXm6BvpJyYn55fmlSDZ29hr5xSz1GzJtxs7D00MMFo/5+j6a56WDE3njWV4bffsnsTgycD7YNvm5SkMDFAz2VpuaEVIgwwVgxhallqUmZaZmlKUmp5ZXFJUiWQ6x82kLcUSQkVfph3REnX7K3hq9TPL/Xv32Z46P8F66+q2AwwOUENZWm5ohYPMFIKYWVySX5SYnlqQX55ahGRe/ua3jM9+czw7+C/4k5ma8gOXZJbmh29us7HMYS6cnfhxN9y8pJYbWgEg87hB5hnqJ2ck5hcjGTS9J/3LjaVajFJTsus+GZwtirNxzpXec75zpvuPYLXarjlgg5qanBiYW25o+YMM4oI4LLkoPw/JnNSLt66nTDpz9YKAZO2h7Ku/2Q+cbz1zZ/0ngZYDV6r/ikcyODQ5MSQTjIX7riXHNi/cmXViz4YpW6bXTNbsrci58P7XpkvPl1yXLp/BBfcXQ8sNrUCQUTzQcKosLknNJSEdwU1iBUWjBMgoYZQgz00syk5FdlvUj43FprpP13dvspJmVTN/MU247M2PJzfScrI3L+DoLcyFm8iIFlSZeZnI5qQIxYZwmwYw5CZ1p13m4pv/giXgwdVjdzxXWDzf1tm+cD7cnBSCwSUxWcw+muOb2gzunMCglC/7Vwh++XXHRnNjSLamhbnf38+YiZYJLdyKUssTi1KQjFTZsMktcUZI5dvLSyM4tjRJcQULf//UtKV1id/XYnO5rpcMvgxsZTGV9gsZKi8wMDDIYTgPhWNLXOZqDGXcrNe4fuvWVXMyXwn0OC2fN+PnPrYyA9x5C7toAyNx2a3ZiSEAORj/ZZ1JXLw4m8fcxsuqb5l3o/anU7ODGgImzKm4whHaxUOCUk3ilDU5NGhgz+SYInsYicvz/Q5Q0BQhwcB0J4cBCwhnYD6ATZyBgQQ/kqL2mxRa2YPE1CSuCGpKaJBALXcQLCPiSp9GUAnGwgrK7ZxaxJU0jU4MyTLo5QsyW524cqZBC0fJgkVoHRNxJU03UgQ8Te22lTjL9vD2BNEtG96EHlRe5Bv98JXKDUuLozssq/31yVNKxRxBo4Sl4ODgoEecv5oZGJodGRqQUxGoSEawUokrmJuRnKc7Ve/hzz2TXC49nNrhcWzGjfR9pavP/1/zJjpb/GDrUuOHEmkFyRmJmXm6ZYk5mSmJJZn5eenE6WxyaWBkYGgCl9fYi0WJVKik35z7p8Qf7Whyus/aMqtog/CRL8p5Eim2xNUNjdj1y6DXDcjs2YzEVRLdDg4Mngwa4qmK8T8fMHgxMH73Xm5VyHJlclOEFIizeFblvQ2u6EVQGKPktKztuujCMIPu/2dw8GVgFPhhfmOKVmAXAwODLwNTzdvrS1iS9jkxMDDUEdeQRWmYqtyavirM/8BLZq3t5p9XGOX9Vtzz4OidBPtnDOz/H8q6p5HQoJjMTpyRow3TYdkwdWMQ9yh7wTDaPCWhecoITrpzlIP8aNA8reKedYoBAAAA//8BAAD//47FqzIVDwAA",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaced7qbgwljdi2eqotzaww56xedy6tyeerolp66d3xp7b6lsczcwwbq"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABA1gbhPTYKlIAAVUADWZpbC8xL3Vua25vd270QgBm",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacecyomzikcltvpbrnyhcdwdiyni2siuumv6w7s7gfnk2iwy6becq3u"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 10,
+				"return": "",
+				"gas_used": 149719
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzdTUlVXL2FQaFRGdndvNlQvKy81RzFPVWlCWTJnTUxGS0dWanJHV2FhdjY0QVFUc2lZMjJFNFdRSHozS1FsSVFlM0xIcFluMzV1ajg3djNucWNqWmlZR08ySXB0RW1VQktNRUR3b01henJ3UVhDclZWWlhEcVVndUZjeUVyVm95ZE5jZ0tIcVRyaTVTN0xFZ2puMDh0WGRXeUVDdmdXRFM4KzZ1Ulpaa2xlV0RnaG13bTdVQ3N3am1IUE5Nd09HemZ6aHgrZDBPaHd1SDRlajd6KzNZZUNYZDk0eTUyNjNXTGw5K2pYK2xJRWdtSTZxdVQrQUllVHJ2UnNlZUNUQ3JzbFd4ZTdYNGFhME1yUUhvejFwVkxKeFgxTGRPNFJoTDg4S3ZkdGxxZWovWHEvTGJMcy92T0IwSXRVVkZwR3RETWRsWWdPMUV0VXVCQXRoY3kzQlpKNm05ZnlQUnF6QW5KdEIzeG1jQ01aYUt3MkdnTXVPa3VtK0UybkJyZWlFZVpMYWQ0bnM4TWdxYmQ1My9sdUkydmFqUS8rL0trQXd5alczbCtOUHVBazJYTWZDZ0QwZGNjK3o2c3BmWkxEaGlad0pZM2dzUUpDcTZES1ZqY0VjdCt2M1BJSW9CdlA4K2xubDZ2ZnJKSXEycEdocGlwYklXakI2SWkza1JOaGhOZjVySEcxSXRLRmNDUFJzVHMvR2I1bzJrVTlsb2FKbTZWZm1ydWQzZXczZy9HeER6cTJpOWZzS1JpQktNQ1M0b3RaN2pFc1IvZE5kUmtxK2tjMWZBcDRKdnVWaHhOUFVOQzZuNXo4QkFBRC8vNlRrT0JDbkF3QUE="
+	}
+}
