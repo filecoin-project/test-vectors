@@ -4,6 +4,7 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/go-state-types/exitcode"
+	"github.com/filecoin-project/specs-actors/actors/builtin"
 
 	. "github.com/filecoin-project/test-vectors/gen/builders"
 )
@@ -35,4 +36,16 @@ func failInvalidReceiverMethod(v *MessageVectorBuilder) {
 	v.CommitApplies()
 
 	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrInvalidMethod))
+}
+
+func failInvalidSenderNonAccountActor(v *MessageVectorBuilder) {
+	v.Messages.SetDefaults(GasLimit(1_000_000_000), GasPremium(1), GasFeeCap(200))
+
+	alice := v.Actors.Account(address.SECP256K1, balance1T)
+	v.CommitPreconditions()
+
+	v.Messages.Sugar().Transfer(builtin.SystemActorAddr, alice.ID, Nonce(0), Value(transferAmnt))
+	v.CommitApplies()
+
+	v.Assert.EveryMessageResultSatisfies(ExitCode(exitcode.SysErrSenderInvalid))
 }
