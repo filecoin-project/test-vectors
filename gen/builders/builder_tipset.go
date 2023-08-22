@@ -180,7 +180,13 @@ func (b *TipsetVectorBuilder) CommitApplies() {
 		// Execute the tipset via the driver.
 		root := b.vector.Post.StateTree.RootCID
 		execEpoch := b.ProtocolVersion.FirstEpoch + b.InitialEpochOffset + abi.ChainEpoch(ts.EpochOffset)
-		ret, err := driver.ExecuteTipset(bs, ds, root, prevEpoch, &ts.Tipset, execEpoch)
+		params := conformance.ExecuteTipsetParams{
+			Preroot:     root,
+			ParentEpoch: prevEpoch,
+			Tipset:      &ts.Tipset,
+			ExecEpoch:   execEpoch,
+		}
+		ret, err := driver.ExecuteTipset(bs, ds, params)
 		b.Assert.NoError(err, "failed to apply tipset at epoch: %d", ts.EpochOffset)
 
 		ts.PostStateRoot = ret.PostStateRoot

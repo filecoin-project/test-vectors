@@ -71,7 +71,7 @@ var KnownProtocolVersions = []ProtocolVersion{
 		ZeroStateTree: (*StateTracker).ActorsZeroStateV0,
 	}, {
 		ID:            "actorsv2",
-		FirstEpoch:    build.UpgradeActorsV2Height + 1,
+		FirstEpoch:    build.UpgradeAssemblyHeight + 1,
 		StateTree:     types.StateTreeVersion1,
 		Network:       network.Version4,
 		Actors:        actors.Version2,

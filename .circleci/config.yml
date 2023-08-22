@@ -4,7 +4,7 @@ version: 2.1
 parameters:
   go-version:
     type: string
-    default: "1.14.6"
+    default: "1.19.12"
   workspace-dir:
     type: string
     default: "/home/circleci"
@@ -26,7 +26,7 @@ commands:
 executors:
   golang:
     docker:
-      - image: cimg/go:1.17.5
+      - image: cimg/go:1.19.12
     working_directory: << pipeline.parameters.workspace-dir >>/project
     environment:
       GOVERSION: << pipeline.parameters.go-version >>

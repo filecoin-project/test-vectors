@@ -5,7 +5,7 @@ import (
 	"math/rand"
 
 	"github.com/filecoin-project/lotus/chain/types"
-	"github.com/filecoin-project/lotus/chain/wallet"
+	"github.com/filecoin-project/lotus/chain/wallet/key"
 	"github.com/filecoin-project/lotus/lib/sigs"
 
 	"github.com/filecoin-project/go-address"
@@ -16,7 +16,7 @@ import (
 
 type Wallet struct {
 	// Private keys by address
-	keys map[address.Address]*wallet.Key
+	keys map[address.Address]*key.Key
 	// Seed for deterministic secp key generation.
 	secpSeed int64
 	// Seed for deterministic bls key generation.
@@ -25,7 +25,7 @@ type Wallet struct {
 
 func NewWallet() *Wallet {
 	return &Wallet{
-		keys:     make(map[address.Address]*wallet.Key),
+		keys:     make(map[address.Address]*key.Key),
 		secpSeed: 0,
 		blsSeed:  1,
 	}
@@ -49,10 +49,10 @@ func (w *Wallet) Sign(addr address.Address, data []byte) (*acrypto.Signature, er
 		return nil, fmt.Errorf("unknown address %v", addr)
 	}
 
-	return sigs.Sign(wallet.ActSigType(ki.Type), ki.PrivateKey, data)
+	return sigs.Sign(key.ActSigType(ki.Type), ki.PrivateKey, data)
 }
 
-func (w *Wallet) newSecp256k1Key() *wallet.Key {
+func (w *Wallet) newSecp256k1Key() *key.Key {
 	randSrc := rand.New(rand.NewSource(w.secpSeed))
 	prv, err := crypto.GenerateKeyFromSeed(randSrc)
 	if err != nil {
@@ -69,14 +69,14 @@ func (w *Wallet) newSecp256k1Key() *wallet.Key {
 	return key
 }
 
-func (w *Wallet) newBLSKey() *wallet.Key {
+func (w *Wallet) newBLSKey() *key.Key {
 	// FIXME: bls needs deterministic key generation
 	//sk := ffi.PrivateKeyGenerate(s.blsSeed)
 	// s.blsSeed++
 	var sk [32]byte
 	sk[0] = uint8(w.blsSeed) // hack to keep gas values determinist
 	w.blsSeed++
-	key, err := wallet.NewKey(types.KeyInfo{
+	key, err := key.NewKey(types.KeyInfo{
 		Type:       types.KTBLS,
 		PrivateKey: sk[:],
 	})

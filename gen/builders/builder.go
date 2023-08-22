@@ -17,7 +17,7 @@ func init() {
 	_ = os.Setenv("LOTUS_DISABLE_VM_BUF", "iknowitsabadidea")
 
 	// enable gas tracing in execution traces.
-	vm.EnableGasTracing = true
+	vm.EnableDetailedTracing = true
 }
 
 // Builder is a vector builder.

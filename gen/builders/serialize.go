@@ -5,21 +5,21 @@ import (
 	"compress/gzip"
 	"context"
 	"fmt"
+	"go/format"
 
+	"github.com/filecoin-project/lotus/blockstore"
 	"github.com/filecoin-project/lotus/chain/state"
-	"github.com/filecoin-project/lotus/lib/blockstore"
 
 	"github.com/ipfs/go-cid"
 	"github.com/ipfs/go-hamt-ipld"
 	cbor "github.com/ipfs/go-ipld-cbor"
-	"github.com/ipfs/go-ipld-format"
 	"github.com/ipld/go-car"
 )
 
 // RecoverStateTree parses a car encoding of a state tree back to a structured format
 func RecoverStateTree(ctx context.Context, raw []byte, root cid.Cid) (*state.StateTree, error) {
 	buf := bytes.NewBuffer(raw)
-	store := blockstore.NewTemporary()
+	store := blockstore.NewMemory()
 	gr, err := gzip.NewReader(buf)
 	if err != nil {
 		return nil, err

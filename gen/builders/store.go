@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/filecoin-project/lotus/api"
-	"github.com/filecoin-project/lotus/lib/blockstore"
+	"github.com/filecoin-project/lotus/blockstore"
 
 	"github.com/filecoin-project/specs-actors/actors/util/adt"
 
