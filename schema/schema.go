@@ -66,6 +66,7 @@ type Metadata struct {
 	Comment string           `json:"comment,omitempty"`
 	Gen     []GenerationData `json:"gen"`
 	Tags    []string         `json:"tags,omitempty"`
+	Debug   string           `json:"_debug,omitempty"`
 }
 
 // GenerationData tags the source of this test case.
@@ -169,6 +170,11 @@ type Diagnostics struct {
 	Data   Base64EncodedBytes `json:"data"`
 }
 
+type TipsetCid struct {
+	Epoch int64   `json:"epoch"`
+	Cid   cid.Cid `json:"cid"`
+}
+
 // TestVector is a single, faceted test case. The test case can be run against
 // the multiple facets expressed in the preconditions field.
 type TestVector struct {
@@ -186,6 +192,8 @@ type TestVector struct {
 
 	Meta *Metadata `json:"_meta"`
 
+	ChainId uint64 `json:"chain_id"`
+
 	// CAR binary data to be loaded into the test environment, usually a CAR
 	// containing multiple state trees, addressed by root CID from the relevant
 	// objects.
@@ -202,6 +210,13 @@ type TestVector struct {
 
 	Post        *Postconditions `json:"postconditions"`
 	Diagnostics *Diagnostics    `json:"diagnostics,omitempty"`
+
+	SkipCompareGasUsed         bool              `json:"skip_compare_gas_used"`
+	SkipCompareAddresses       []address.Address `json:"skip_compare_addresses,omitempty"`
+	SkipCompareActorIds        []uint64          `json:"skip_compare_actor_ids,omitempty"`
+	AdditionalCompareAddresses []address.Address `json:"additional_compare_addresses,omitempty"`
+
+	TipsetCids []TipsetCid `json:"tipset_cids,omitempty"`
 }
 
 type Message struct {

@@ -50,6 +50,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "_debug":{
+            "title": "any kind of debug information",
+            "type": "string"
         }
       }
     },
@@ -330,6 +334,25 @@
           }
         }
       }
+    },
+    "tipset_cids": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "epoch",
+                "cid"
+            ],
+            "properties": {
+                "epoch": {
+                    "type": "integer"
+                },
+                "cid": {
+                    "$ref": "#/definitions/cid"
+                }
+            }
+        }
     }
   },
   "required": [
@@ -384,6 +407,10 @@
       "description": "the gzipped, base64 CAR containing the pre- and post-condition state trees for this test vector",
       "$ref": "#/definitions/base64"
     },
+    "chain_id": {
+        "title": "the chain id of the network",
+        "type": "number"
+    },
     "randomness": {
       "title": "randomness to be replayed during the execution of the test vector",
       "$ref": "#/definitions/randomness"
@@ -393,6 +420,30 @@
     },
     "postconditions": {
       "$ref": "#/definitions/postconditions"
+    },
+    "skip_compare_gas_used": {
+        "type": "boolean"
+    },
+    "skip_compare_addresses": {
+        "type": "array",
+        "items": {
+            "type": "string"
+        }
+    },
+    "skip_compare_actor_ids": {
+        "type": "array",
+        "items": {
+            "type": "number"
+        }
+    },
+    "additional_compare_addresses": {
+        "type": "array",
+        "items": {
+            "type": "string"
+        }
+    },
+    "tipset_cids": {
+        "$ref": "#/definitions/tipset_cids"
     }
   },
   "allOf": [
