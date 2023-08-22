@@ -29,11 +29,9 @@
     {
       "on": [
         "chain",
-        9,
-        57515,
-        ""
+        57515
       ],
-      "ret": "WwRwf/Kl2xx8QYGbATUAmo1VYr02PzfMiphdzWzOcLU="
+      "ret": "BajzQrYVUMnSgrNu/FVakvuUuasJdDKuQjXjh4jjUmg="
     }
   ],
   "preconditions": {
