@@ -14,18 +14,14 @@ const (
 // This encodes to JSON as an array. See godocs on the Randomness type for
 // more info.
 type RandomnessRule struct {
-	Kind                RandomnessKind
-	DomainSeparationTag int64
-	Epoch               int64
-	Entropy             Base64EncodedBytes
+	Kind  RandomnessKind
+	Epoch int64
 }
 
 func (rm RandomnessRule) MarshalJSON() ([]byte, error) {
 	array := [4]interface{}{
 		rm.Kind,
-		rm.DomainSeparationTag,
 		rm.Epoch,
-		rm.Entropy,
 	}
 	return json.Marshal(array)
 }
@@ -42,13 +38,7 @@ func (rm *RandomnessRule) UnmarshalJSON(v []byte) error {
 	if err = json.Unmarshal(arr[0], &out.Kind); err != nil {
 		return err
 	}
-	if err = json.Unmarshal(arr[1], &out.DomainSeparationTag); err != nil {
-		return err
-	}
-	if err = json.Unmarshal(arr[2], &out.Epoch); err != nil {
-		return err
-	}
-	if err = json.Unmarshal(arr[3], &out.Entropy); err != nil {
+	if err = json.Unmarshal(arr[1], &out.Epoch); err != nil {
 		return err
 	}
 	*rm = out
@@ -60,10 +50,10 @@ func (rm *RandomnessRule) UnmarshalJSON(v []byte) error {
 //
 // The json serialized form is:
 //
-//  "randomness": [
-//    { "on": ["beacon", 12, 49327, "yxpTbzLhr4uaj7bK0Hl4Vw=="], "ret": "iKyZ2N83N8IoiK2tNJ/H9g==" },
-//    { "on": ["chain", 8, 61002, "aacQWICNcMJWtuwTnU+1Hg=="], "ret": "M6HqmihwZ5fXcbQQHhbtsg==" }
-//  ]
+//	"randomness": [
+//	  { "on": ["beacon", 12, 49327, "yxpTbzLhr4uaj7bK0Hl4Vw=="], "ret": "iKyZ2N83N8IoiK2tNJ/H9g==" },
+//	  { "on": ["chain", 8, 61002, "aacQWICNcMJWtuwTnU+1Hg=="], "ret": "M6HqmihwZ5fXcbQQHhbtsg==" }
+//	]
 //
 // The four positional values of the `on` array field are:
 //

@@ -29,20 +29,16 @@
     {
       "on": [
         "chain",
-        9,
-        68970,
-        ""
+        68970
       ],
-      "ret": "X6iHwg7JJ7RNT5iQExBZkbzGAkNfSyKPc3CknEh1umE="
+      "ret": "p+JhV9S10X0zKKwfel3MDqzj/ifR1DRSLdkbh3YMkXY="
     },
     {
       "on": [
         "beacon",
-        4,
-        68950,
-        "QwD0Eg=="
+        68950
       ],
-      "ret": "Z+yaBmchmj2jzxhpVUU1T4w/eEcKITTo11bhHkVR+C8="
+      "ret": "JtwSJD3amw/0GJ/rfn3HrhApCth/A5/tUxwp9uUfyfg="
     }
   ],
   "preconditions": {

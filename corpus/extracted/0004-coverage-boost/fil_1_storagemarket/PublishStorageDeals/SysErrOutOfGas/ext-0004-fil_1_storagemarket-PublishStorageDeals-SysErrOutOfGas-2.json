@@ -29,11 +29,9 @@
     {
       "on": [
         "beacon",
-        8,
-        54119,
-        "i9gqWCgAAYHiA5IgIIWyZA2d2Nv8x26hZ+xpIlMdEGWhiyAwuTcNWxfPmkM4GgACAAD0QgBwQwCFUngzoWVwY2lkc4HYKlgnAAFVoOQCIEt09wSFMdPVEo1S5uNjD41dCZGl2sIbDU7YIMv377BbGehIGgALo29DAO5rQEA="
+        54119
       ],
-      "ret": "ceg1HqNkH3CKZ8ksiecK3+c/qDQPtRqBc7XwCpgia2o="
+      "ret": "/A6CZ8yC2n7zcOVFsd62seb1SA7mAypeqMQq7m5te7U="
     }
   ],
   "preconditions": {
