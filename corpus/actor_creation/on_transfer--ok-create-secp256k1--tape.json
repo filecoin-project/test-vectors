@@ -1,0 +1,69 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "ok-create-secp256k1",
+		"version": "v1",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "0d5ef62cb88342a925b73926db33b05510a10738"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhVgJmQea/5edTRbd/nf7l66Jlk9+sb9IzOV67n76QUI7+ywkpTdXfJtzfdvX3sWK0RI5Kdv+flLglZHgy7eUbf9VHWXauj+9LLWoODM/j7GOOKObGZEMnxSqIx4v7SHc633v2+6s7QpxnmqTo/R33p5zduP2FZMc65CUum44f0jh3JvoGpmkI1ckbS2evF7S1yFaNOd5/ByuDU8OHnjPSpyRTS4tPtwMHQsTDRubnBjYWm5oRUgzMIYyiKVl5ugb6ZelFmWmZaamFKWmZxaXFFUiuYDjZtKWYgmhoi/TjmiJuv0VPLX6meX+vftsT52fYL11ddsBBgeooSwtN7TCQWYKQcwsLskvSkxPLcgvTy1CMi9/81vGZ785nh38F/zJTE35gUsyS/PDN7fZWOYwF85O/LgbbF5TkxMDc8sNLX+QeVwQ85KL8vOQzEm9eOt6yqQzVy8ISNYeyr76m/3A+dYzd9Z/Emg5cKX6r3gkg0OTE0Nyyw2tIJAZvBAzEpOT80vzSpCMue9acmzzwp1ZJ/ZsmLJles1kzd6KnAvvf2269HzJdenyGVxw7zG03NAKBBnFA/VeZXFJai4JUQU3iRUU+hIgo4RRQio3sSg7FdltUT82FpvqPl3fvclKmlXN/MU04bI3P57cSMvJ3ryAo7cwF24iI1pQZeZlIpujWHX6nZnjcmm+ZxPmfNmy/N7XW6ftPdyvn7eyOuXUmnNUFG5OCsHgkpgsZh/N8U1tBndOYFDKl/0rBL/8umOjuTEkW9PC3O/vZwYPBubeuiXHGhigRjKhBVtRanliUQqSiSobNrklzgipfHt5aQTHliYprmDh75+atrQu8ftabC7X9ZLBl4GtLKbSfiFD5QUGBgYD3IkWu2gDI3HpuNmJIQDZo/+yziQuXpzNY27jZdW3zLtR+9Op2UENARPmVFzhCO3iIUGpJnHKmhwaNLDnHkyRPYzEZaZ+ByhoipBgYLqTw4AFhDMwH8AmzsBAgh9JUftNAjVTI1hGxGXtRlDxwMIKykqcchipFYWjRVwub3RiSJZBz9vIbHXi8niDFo5cjUVoHRNxubwbKWifpnbbSpxle3h7guiWDW9CDyov8o1++ErlhqXF0R2W1f765CmlYlqnUZJRcHBw0CPOX80MDM2ODA0NEqjFIYKVSlyh2IzkvAkNIYvzV7lOY37YdPqkzJInOlv7JKzeRD7hPm++vGhyLI9EakFyRmJmnm5ZYk5mSmJJZn6eF3E6m1waGBgYGsGFZSij35z7p8Qf7Whyus/aMqtog/CRL8p5Eim2xBW9jdj1y6CXvcjs2YzEFcLdDg4Mngwa4qmK8T8fMHgxMH73Xm5VyHJlclOEFIizeFblvQ2u6OVHGKPktKztuujCMIPu/2dw8GVgFPhhfmOKVmAXAwODLwNTzdvrS1iS9jkxMDDUEdcUQ2laBa9TvfdBepnwxB+zBFw+SjGGch9bFbOraZlw2/faKKV1ISTU14fZiDMS3LRS6ITWd6kEq9Df+TL8AUf6f5scOtngsOFNpZ7esdYO26k8axIu/RROvqDA4MygLjDaUCO5oebGIO5R9oJh6DfXVE8Ic8/c/PpAEKfmw6dPU/YYncwtd5v0sbx3m37LZ5+FzFRsrjGCmmvpCluWfaB+c62Ke9YpBlvi0nxjKOOxwBe8WhN6OOyusmybsv/p/Hmbz+anEhcgyEX1x/iLbpNUDab9D+e5EXegsXl/Qf6eKY/X1L5Ndp59WvKBokQaRlGdTpxOUFGtwNAELaqxOVciFW85DgAAAP//AQAA//8K2Nqukw4AAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			},
+			{
+				"id": "liftoff",
+				"epoch": 148889,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceborqhhafh72ntldcw373n7urkittzh2a7ugc3ik45d4xydaq4dzu"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBVAcZR6A0qkIwIPtUEtpS/5Z+es81vQgBkAEMAJxAaO5rKAEIAyEIAAQBA",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedm2r5u4263pldndefnrq3dew367eiandqma43zzdwd7u622gwc36"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 1651648
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzd4VFhXL2FQQmo5TDgvdEcrbTE4MFZxcVJkYmFGbTF3bGkzc291cUY4WnhRbWcrYlNjRUt2NzdGSWRvUWRDcHE5WnhaZXlUYzN3ZW4vUHdERk1aQVhtR0JSY3l6ak1neUlEdk9SQUk4WFlYdTJXd2ZwSXNvbVd4cWFtMDF1dGlGQ3EzU0ZZcUtYaGlWeGJmZ2dIWElrL2JUeEJHQ0F5WTVSbmptbWxCazRvREFZeVFQcGxRZVJ1bnNRS2lkL1JQNzE1ejd0TUNDSmc5Ymk1NEdsY3RMUVlEcGx5dDhrQnp6cW1ncVFRQ1lJQi9NMjR2L3o4UVdOSndheTUzbEhGYVNsUHNsdFlvRGRLbk1xRExiVm9JWngxdTRwd1dTU2hXUE40R2FWQ3VrazBoMTZGTXMxMEsrNzNSanVLT3FaYndxb21WbndlZGlUdXVLcEVCeWFvazBWZTdsendBZ2wwSHU3YTNOK0JLaUZ4MEZ4cFhncXAramhNcS9SVVZFWmRBSHA1aFJ0TjJGbDh5ZjBYamJNcWxwQkVIQTVLYzllUXFBb0x4aGVkYUJyQUlpT1hwWmZ0RUh0YXpxb2VRZW9DcEJ5Q2xnS0M5TVpDY2NQV0JxVnljeXFGT0NYVXF2UUk2a0tNRDhWbFNYM0NxK0F1OEdIdTI3ZGdkTzhiSTAzOWFycEU3ZEhKQTFVZXdlb0E3MWUzQ2NKUFZPZXVHZlNKdVl0ZEdUcWZkcjRmMityMTZDRGd5YWdCdmdJQ0MzeXFQOCt6TUMvN2hTQjhOK0ZZdEdVMlNMaWN2TmhKaGhJZHRPOSsxMS9Yc3BHVm8wREk4YU5uaTY2ZkpQWTltbnd0LzZvOUhpNCszOUw3KzcwZVlpZmxzdWJtOGZLbUZRY1BjWU1SZEZxM2pYWms1dEhKM2FSYVZ0VEtiTUZvNnU5VTJWb3pKSm14TXdleTFiSnJ5TFMyMExjZTByVGUwOEYwcThZcG9XcDdqSHBMWkxZK0MyVzNWZytOenNZeVBZNmw5WERXYy9WVXZOMFVTekN0MXB0cG9oRVlIWXMvV1M2bnYrNnZYdG5seGdYb1YrNUEvTFhVNEdMZ3hyWDlnNXYyYjI3THNIL2VQUHdNQUFQLy8rUVM3RkZRSA=="
+	}
+}

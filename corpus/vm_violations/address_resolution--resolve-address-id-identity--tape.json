@@ -1,0 +1,68 @@
+{
+	"class": "message",
+	"selector": {
+		"chaos_actor": "true"
+	},
+	"_meta": {
+		"id": "resolve-address-id-identity",
+		"version": "v1",
+		"description": "verifies that runtime.ResolveAddress is an identity function for ID type addresses",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "0d5ef62cb88342a925b73926db33b05510a10738"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhZ+xu2oTO9NkhTXXbykJvem9v8xKfcWPJxe7Q7f+TDuQ+QpJaX5w5ouXaes+HTwdUmU2aRZnWuqFNU9eTN16/5TE9MmJywzSy1KLijPz8xjriDO6mRHJcMlHjxccYcg1uct9MT3tf7byuqV/vG93Kj4wkdi0iOd9txeSUtcN5w8pnHsTXSOTdOSKpK3Fk9dL+jpEi+Y8j5/DteHJwQPb2IgzssmlxYefoXNhomFjkxMDW8sNrQhpBsZQBrG0zBx9I/2y1KLMtMzUlKLU9MzikqJKJBdw3EzaUiwhVPRl2hEtUbe/gqdWP7Pcv3ef7anzE6y3rm47wOAANZSl5YZWOMhMIYiZxSX5RYnpqQX55alFyCG7+S3js98czw7+C/5kpqb8wCWZpfnhm9tsLHOYC2cnftwNNy+p5YZWAMg8bpB5hvrJGYn5xUgGTe9J/3JjqRaj1JTsuk8GZ4vibJxzpfec75zp/iNYrbZrDtigpiYnBuaWG1r+IIO4IA5LLsrPQzIn9eKt6ymTzly9ICBZeyj76m/2A+dbz9xZ/0mg5cCV6r/ikQwOTU4MyS03tIJAZvBCzEhMTs4vzStBMua+a8mxzQt3Zp3Ys2HKluk1kzV7K3IuvP+16dLzJdely2dwwf3F0HJDKxBkFA80nCqLS1JzSYhzuEmsoGiUABkljBLkuYlF2anIbov6sbHYVPfp+u5NVtKsauYvpgmXvfnx5EZaTvbmBRy9hblwExnRgiozLxPZHFNTtYafOedy5sU/t2g26k9jTLOTeux0v/Uw18oJD7z8q+DmpBAMrtX601Z9Xf9y+eOpjwQf81w23qhc0Ps58Yyz5KJXyTd+q11jcGN4cWWpAAPUQCa0QCtKLU8sSkEyT2XDJrfEGSGVby8vjeDY0iTFFSz8/VPTltYlfl+LzeW6XjL4MrCVxVTaL2SovMDAwGCAO+1jF21gJC47NDsxBCA5S+Jf1pnExYuzecxtvKz6lnk3an86NTuoIWDCnIorHKFdPCQo1SROWZNDgwb2TIgpsoeRuDzZ7wAFTRESDEx3chiwgHAG5gPYxBkYSPAjKWq/SaGVDUhMTeKKiKaEBgnUcgHBMiKudGgElTAsrKDcyCmHkeBROFrEFRSNTgzJMujFAzJbnbhiokELR8GARWgdE3EFRTdS/DxN7baVOMv28PYE0S0b3oQeVF7kG/3wlcoNS4ujOyyr/fXJU0rFDEOjdKfg4OCgR5y/mhkYmh0ZGpATGahERbBSiStXm5Gc13Dn5y5DqbdfhOV2LTOoKrsZt7umJzmP7b1XuvKUqy9aYyVSC5IzEjPzdMsSczJTEksy8/O8iNPZ5NLAwMDQCC5xQxlPvFy/RpV3dYdg5b4N51q2x769efOnRIotcaV3I3b9MugFODJ7NiNxJXm3gwODJ4OGeKpi/M8HDF4MjN+9l1sVslyZ3BQhBeIsnlV5b4MreiEUxig5LWu7LrowzKD7/xkcfBkYBX6Y35iiFdjFwMDgy8BU8/b6EpakfU4MDAx1xDULUZp5uZuydyUYT1jz8frV7yecD79j2fq5l5Ft4o+g9xPXNXNP/UxClb+HjTgjR5t5A97Mc2MQ9yh7wTDa2COhscfoxnAxYHIcDRp7VdyzTjEAAAAA//8BAAD//02254EMDgAA",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaced4v3ot5mgewmhitfgx3i5cv3ff365r2e6uprzgrrnk3l6lgybu6u"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGJCAGQAQBo7msoAQgDIQgABBENCAAA=",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacebxvg2pi5ftk54wbznkhunustiewmzoqvtsorfnv37fbrf4tmgtda"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "gkIAAPU=",
+				"gas_used": 129719
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzdTVFVXL2FNQlNGLzh0NXRqUVRTa1l0N1FFRmlwQkd4N3ExTDFVZmpHTk1PaWNPdHBOUlVQNzdsRGhvcWVqYnREemQzRnlkeitlZStQbU10Vk5nWnp4SjZ6SlRnRkdDbndZTU8zbzdCY0dkTlhuM05xSVVCUGVtRUxJYmV1SzZrbUJvdTB2dXZtWjU1c0ZHOVBKMDNUc3BFMTZDSWFMOTNNYktQS3RheVJFSTF0THZUUXAyUTdEaGx1Y09ETi9WYkFhQ1pEVnZ6L1VKREZ1K2U0dTJKeTVrcWw3ZGZwZVh1VDVWL09STEZVZjZzSXY1YjN2UXBZcEVuWmxTcC9vMGp2MnI5VGR2aCtvbzBEU2tkZmtnZkN1NE9HWStNV2t3OFNCOVpRc3dxRityMld6eitDVWM4dEhKRkd3VTNYd2UzVFlFQzJ1TkJRTUk1cFhsL3JLbkpYZkpubHNsSGRqekdmYzhieGZ5clVqMlBDdlcwam11SkFpMEVXQkZwVFdCVjkyS3B2R1lRQ2l3OGJRcjJ3amlxRnRhUFJ5cEJ6UDFZTWg3TU5xUUFYSXAvVXg0WTY5eE5KQm9vRndJdEJlbnZmQ0hvaUdkVlZFYkVVeGZpVWZqNlNRT2dMNGNRdnBXUGZqOERrWWdqMkRJOEk3YStWZ2NwZml2WHVhbStDQ2Jmd0Iwb1lmL0tWeU5LL0ZKbDkxQWYvSTM4YjRjVWlhRHFGOElmbFJid2JWMlFiRjUrUk1BQVAvL21tOG5VTHNE"
+	}
+}

@@ -1,0 +1,65 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "fail-negative-amount",
+		"version": "v1",
+		"description": "fail to transfer a negative amount",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "0d5ef62cb88342a925b73926db33b05510a10738"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhe+/9QwuvW9c9evRUx7rMMPlAS1WxZZNmcuX/tNkv/J2aSWSUhG327z5n/Oc3ovk7561pLxll+hT7RWCS/qv/0no4Qk98zm9LLWoODM/j7GOOKObGZEM93P12nYsYM8JjTfbbm5svf/odrp4TXzUx5xvAk+nKTk8EURS6rrh/CGFc2+ia2SSjlyRtLV48npJX4do0Zzn8XO4Njw5eGAnG3FGNrm0+HArdC5MNGxscmJIbbmhFcTAGMrAm5aZo2+kn5icnF+aV4Jkr33r5e1TFpwPOq1xo9P6l+zmAy/Z/L2Ur+1eJe+scm1pmRCDA9QotpYbWhHSILPEIGaVpRZlpmWmphSlpmcWlxQhByrHzaQtxRJCRV+mHdESdfsreGr1M8v9e/fZnjo/wXrr6rYDcENZWm5ohYPMFIKYWVySX5SYnlqQX55ahGRe/ua3jM9+czw7+C/4k5ma8gOXZJbmh29us7HMYS6cnfhxN9i8piYnBuaWG1r+IPO4IOYlF+XnIZmTevHW9ZRJZ65eEJCsPZR99Tf7gfOtZ+6s/yTQcuBK9V/xSAaHJieGZIJhdt+15NjmhTuzTuzZMGXL9JrJmr0VORfe/9p06fmS69LlM7jg3mNouaEVCDKKB+q9yuKS1FwSYh1uEiso9CVARgmjhFRuYlF2KrLbon5sLDbVfbq+e5OVNKua+YtpwmVvfjy5kZaTvXkBR29hLtxERrSgyszLRDbndwcD323lqIsahlnexTZh8Qcc2U/vVLPuvPO8Lf0L7+4UuDkpBINrtf60VV/Xv1z+eOojwcc8l403Khf0fk484yy56FXyjd9q1xjcGRgvrvRSYICayIQWakWp5YlFKUgGqmzY5JY4I6Ty7eWlERxbmqS4goW/f2ra0rrE72uxuVzXSwZfBraymEr7hQyVFxgYGOQwHIfCsSUuIzSGMobOsitj/XY6589Ebx6j7KfLY9htmAxwZwjsog2MxOWRZieGACQ/S/zLOpO4eHE2j7mNl1XfMu9G7U+nZgc1BEyYU3GFI7SLhwSlmsQpa3Jo0MCeMzFF9jASl1H7HaCgKUKCgelODgMWEM7AfACbOAMDCX4kRe03CdQCA8EyIq7YaAQVPSysoGzKqUVcEdHoxJAsg14wILPViSsgGrRwFAlYhNYxEVdEdCOF3dPUbluJs2wPb08Q3bLhTehB5UW+0Q9fqdywtDi6w7LaX588pVRMzDRKEwoODg56xPmrmYGh2ZGhoUECtSxFsFKJK1GbkZw3t+JY4Nnkqpwl3fvTuGql6u1zT3m8e6t0uG7m53/fr3zPkkgrSM5IzMzTLUvMyUxJLMnMz0snTmeTSwMDQ0MTuKjFXqJJpEIlT7xcv0aVd3WHYOW+Dedatse+vXnzp0SKLXGFeiN2/TLoxToyezYjceV7t4MDgyeDhniqYvzPBwxeDIzfvZdbFbJcmdwUIQXiLJ5VeW+DK3rpEcYoOS1ruy66MMyg+/8ZHHwZGAV+mN+YohXYxcDA4MvAVPP2+hKWpH1ODAwMdcS1F1Haf59iprSu21uj85rniHlNY+4x1oizs+pe7TpetHuNd8UVjn4SWgL72YgzcrT9Nwjaf24M4h5lLxhGW4EktAIZ3RkYd6la5NGgFVjFPesUAwAAAP//AQAA//8dlJ23KA4AAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "tape",
+				"epoch": 140761,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaced37wlrq2lxydkx24lsqyo2wggtvbbb2om4ye2nhux7csb6u5wsxs"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGVCAGQAQgEyGjuaygBCAMhCAAEAQA==",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceakenwynn7zw4qxpcrx3xgveo6clufpffoubdjep276gbdamkxgpg"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 8,
+				"return": "",
+				"gas_used": 316268
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzVTUlhXL2FNQlNHLzByMFhtMlNxemxRRUxXMGl3bGFWR2wwRmR0NlUvWENtRVBJbHRqVVB2RmdpUDgrSlNGU3RsYVR5cFU1ZXZNODUrUHhpRVhJb0k1NElCOXlaNkdrd0RjSGhZMU1aUXFCRysvSzgxOEpnVHRuRFRXcEIxMVVCSVdMVVYyZjYvQTVMM09HU21YM2E2bzNSRk85ZzhKQW5uUDNuc3E4cXFFMWYwRzhkZXVHZUsrOUxnTVVJREM5bmRWdGZZRENTbThPZzlWdmJjaFVPNko5cm0yKy9iSHgvQndPMWxjL1IzRjQyUC9LSXBNT21kazlaM3R6aUtPdGo2dHFkN2pFNlNUcUlaZUdhK0QxUHVlcFd4UFVSR0JKWEhrTFphdWlhRnI3SG1nTk5VekhnL0hrSkhEdHZmUDE4RG92YUoyd1M5aHJHemJrazAxbDF5RjV0NlNHOW5IeVhpV2FtY29kL3hPMGxHbk9JeVd4M3BkS0xrYXkveGtFWnBYWDNPMStyc04wcTMxR0FlcnhpRHRkMWp2K1lxZGJuZHNGaGFBemdrRGhUTmMyWjFCWFY1UHhVTUJrVU1OSjg2eXZPazZiSThSZUl2WWlzWmRoaHBJbjBSUE9pVDhaZHY2bFRMWWkyVW82Z1R6RDVSbjhLclE5OXEyTnpyUWp2NEFQMHZHbEhMV0c3dDNYZExYWUQvd2xGS0E5RkJqL05jK2NmV1dQYnh6dFNlQnJ0VEs2S0VKTE9UMzlDUUFBLy8vOUk2cDRVZ01B"
+	}
+}
