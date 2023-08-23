@@ -7,19 +7,19 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+				"version": "fa44b286ba4004f945621bddfaa06f159e526afc"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
-				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors",
-				"version": "v0.9.12"
+				"version": "v0.9.13"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors/v2",
-				"version": "v2.1.0"
+				"version": "v2.3.2"
 			}
 		]
 	},
@@ -35,16 +35,6 @@
 				"id": "breeze",
 				"epoch": 41281,
 				"nv": 1
-			},
-			{
-				"id": "smoke",
-				"epoch": 51001,
-				"nv": 2
-			},
-			{
-				"id": "ignition",
-				"epoch": 94001,
-				"nv": 3
 			}
 		],
 		"state_tree": {
@@ -55,7 +45,7 @@
 	},
 	"apply_messages": [
 		{
-			"bytes": "igBVAd/9VU7ZpC7LuvYs4W/+D/v3UpL1VQFp6DNJTJEdav4v4T0hXkxc9wdiVQBCAAoaO5rKAEIAyEIAAQBA",
+			"bytes": "igBVAVWaPnYF9sts/JFLDDJr5adcBzwCVQHI6a+sJQ2riBF5vrDOhLdd7dnZ+QBCAAoaO5rKAEIAyEIAAQBA",
 			"epoch_offset": 0
 		}
 	],

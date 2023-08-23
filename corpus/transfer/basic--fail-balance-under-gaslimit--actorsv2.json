@@ -7,44 +7,34 @@
 		"gen": [
 			{
 				"source": "genscript",
-				"version": "c5af3c231f0e5f82af3d624323893b76fd100630"
+				"version": "fa44b286ba4004f945621bddfaa06f159e526afc"
 			},
 			{
 				"source": "github.com/filecoin-project/lotus",
-				"version": "v0.9.1-0.20201008141726-3201e0eb8fd8"
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors",
-				"version": "v0.9.12"
+				"version": "v0.9.13"
 			},
 			{
 				"source": "github.com/filecoin-project/specs-actors/v2",
-				"version": "v2.1.0"
+				"version": "v2.3.2"
 			}
 		]
 	},
-	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhanlz+9+/v20pMts+r8tB18dCjjeInlu1qtdL5QyFMwjRZRIUJpellpUnJmfx1hHnPpmRiTD1dnEnUoWfXm0Pkv5eu+D9z5fr5V8Sis9I3DMO+T038iLDUhKXTecP6Rw7k10jUzSkSuSthZPXi/p6xAtmvM8fg7XhicHD+xgI87IJpcWH26FzoWJho1NTgypLTe0ghgYQxl40zJz9I30E5OT80vzSpDs/WUedtf6eey6BbOKPx/yPPRhkvnxomNP587MWrZi3RrZw0YMDlCj2FpuaEVIg8wSg5hVllqUmZaZmlKUmp5ZXFJUiWQox82kLcUSQkVfph3REnX7K3hq9TPL/Xv32Z46P8F66+q2A3BDWVpuaIWDzBSCmFlckl+UmJ5akF+eWoRkXv7mt4zPfnM8O/gv+JOZmvIDl2SW5odvbrOxzGEunJ34cTfYvKYmJwbmlhta/iDzuCDmJRfl5yGZk3rx1vWUSWeuXhCQrD2UffU3+4HzrWfurP8k0HLgSvVf8UgGhyYnhmSCYXbfteTY5oU7s07s2TBly/SayZq9FTkX3v/adOn5kuvS5TO44N5jaLmhFQgyigfqvcriktRcEmIdbhIrKPQlQEYJo4RUbmJRdiqy26J+bCw21X26vnuTlTSrmvmLacJlb348uZGWk715AUdvYS7cREa0oMrMy0Q2Z9a+XdN2ZXw4FTrLd7nOA11RqSrfvt8v7nsV3JryzH37X264OSkEg+uM6rGSFXmhT2xTvV8xMWytlfU3jxYRMnJcxhdbvnTVW2YGNwa9CW/P/4cayIQWaEWp5YlFKUjmqWzY5JY4I6Ty7eWlERxbmqS4goW/f2ra0rrE72uxuVzXSwZfBraymEr7hQyVFxgYGOQw3IbCsSUuHzSGMt7/G+p3c4ne6V3fdB7m/+P//T1o0lcD3PkBu2gDI3FZpNmJIQDJzxL/ss4kLl6czWNu42XVt8y7UfvTqdlBDQET5lRc4Qjt4iFBqSZxypocGjSwZ0xMkT2MxOXTfgcoaIqQYGC6k8OABYQzMB/AJs7AQIIfSVH7TQK1vECwjIgrNRpBJQ8LKyiXcmoRV0I0OjEky6CXC8hsdeLKhwYtHCUCFqF1TMSVEN1IYfc0tdtW4izbw9sTRLdseBN6UHmRb/TDVyo3LC2O7rCs9tcnTykVEzON0oSCg4ODHnH+amZgaHZkaGiQQC1KEaxU4grUZiTnvZNY6yf7cln8zUwrl5pp7zQm1i4MXx51Lzuz86TsvL78SIm0guSMxMw83bLEnMyUxJLM/Lw04nQ2OSs0MDSBS9pQxswXxp4+E2Wz/uk/tFWM84n5zp4UKpEClcRW2kmk2hJXpDdiN1wGvVRHZs9mJK5473ZwYPBk0BBPVYz/+YDBi4Hxu/dyq0KWK5ObIqRAnMWzKu9tcEUvPMIYJadlbddFF4YZdP8/g4MvA6PAD/MbU7QCuxgYGHwZmGreXl/CkrTPiYGBAQAAAP//AQAA//82DLQFZgoAAA==",
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhT0HvsnV54Z7Sy8Mt9TVffQt+2RkSpjAm6n87v8kbznv+E6C0vSy1KLizPw8xjri1DczIhlemP+3fknGzi1cwWu783vO30zdyeHyQfxzYJSl6TUBWxFbJKWuG84fUjj3JrpGJunIFUlbiyevl/R1iBbNeR4/h2vDk4MHdrARZ2STS4sPt0LnwkTDxiYnhtSWG1pBDIyhDLxpmTn6RvqJycn5pXklSPY29to5xSw1W/Ltxs5DEwOM1s85uv6apyVD03ljGV7bPbsnMThAjWJruaEVIQ0ySwxiVllqUWZaZmpKUWp6ZnFJUSWSoRw3k7YUSwgVfZl2REvU7a/gqdXPLPfv3Wd76vwE662r2w7ADWVpuaEVDjJTCGJmcUl+UWJ6akF+eWoRknn5m98yPvvN8ezgv+BPZmrKD1ySWZofvrnNxjKHuXB24sfdYPOampwYmFtuaPmDzOOCmJdclJ+HZE7qxVvXUyaduXpBQLL2UPbV3+wHzreeubP+k0DLgSvVf8UjGRyanBiSCYbZfdeSY5sX7sw6sWfDlC3TayZr9lbkXHj/a9Ol50uuS5fP4IJ7j6HlhlYgyCgeqPcqi0tSc0mIdbhJrKDQlwAZJYwSUrmJRdmpyG6L+rGx2FT36fruTVbSrGrmL6YJl7358eRGWk725gUcvYW5cBMZ0YIqMy8T2ZwUodgQbtMAhtyk7rTLXHzzX7AEPLh67I7nCovn2zrbF86Hm5NCMLgkJovZR3N8U5vBnRMYlPJl/wrBL7/u2GhuDMnWtDD3+/uZwY1Bb8Lb8/+hBjKhBVpRanliUQqSeSobNrklzgipfHt5aQTHliYprmDh75+atrQu8ftabC7X9ZLBl4GtLKbSfiFD5QUGBgY5DLehcGyJyweNoYyb9RrXb926ak7mK4Eep+XzZvzcx1ZmgDs/YBdtYCQuizQ7MQQgh+G/rDOJixdn85jbeFn1LfNu1P50anZQQ8CEORVXOEK7eEhQqkmcsiaHBg3sGRNTZA8jcfm03wEKmiIkGJju5DBgAeEMzAewiTMwkOBHUtR+k0AtLxAsI+JKjUZQycPCCsqlnFrElRCNTgzJMujlAjJbnbjyoUELR4mARWgdE3ElRDdS2D1N7baVOMv28PYE0S0b3oQeVF7kG/3wlcoNS4ujOyyr/fXJU0rFxEyjNKHg4OCgR5y/mhkYmh0ZGhokUItSBCuVuAK1Gcl5ulP1Hv7cM8nl0sOpHR7HZtxI31e6+vz/NW+is8UPti41fiiRVpCckZiZp1uWmJOZkliSmZ+XTpzOJpcGRgaGJnBRi71Ek0iFSvrNuX9K/NGOJqf7rC2zijYIH/minCeRYktcmd6IXb8MerGOzJ7NSFz53u3gwODJoCGeqhj/8wGDFwPjd+/lVoUsVyY3RUiBOItnVd7b4IpeeoQxSk7L2q6LLgwz6P5/BgdfBkaBH+Y3pmgFdjEwMPgyMNW8vb6EJWmfEwMDAwAAAP//AQAA//+NU16QZwoAAA==",
 	"preconditions": {
 		"variants": [
 			{
 				"id": "actorsv2",
 				"epoch": 138721,
 				"nv": 4
-			},
-			{
-				"id": "tape",
-				"epoch": 140761,
-				"nv": 5
-			},
-			{
-				"id": "liftoff",
-				"epoch": 148889,
-				"nv": 5
 			}
 		],
 		"state_tree": {
 			"root_cid": {
-				"/": "bafy2bzaceckxpz656p56k5ekg2l75ngb5lbfbr4edhhjv2v25argqibxlekce"
+				"/": "bafy2bzacec6mb5q6p5wvosy3ufltsljn4l3gxskzmrlbb3evb5d74go2io4po"
 			}
 		}
 	},
@@ -57,7 +47,7 @@
 	"postconditions": {
 		"state_tree": {
 			"root_cid": {
-				"/": "bafy2bzaceckxpz656p56k5ekg2l75ngb5lbfbr4edhhjv2v25argqibxlekce"
+				"/": "bafy2bzacec6mb5q6p5wvosy3ufltsljn4l3gxskzmrlbb3evb5d74go2io4po"
 			}
 		},
 		"receipts": [

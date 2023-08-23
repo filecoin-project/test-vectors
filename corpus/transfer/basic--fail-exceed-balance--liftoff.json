@@ -1,0 +1,65 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "fail-exceed-balance",
+		"version": "v1",
+		"description": "fail to transfer more funds than sender balance \u003e 0",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "fa44b286ba4004f945621bddfaa06f159e526afc"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhTkL9t+epT5936W0/3wX3VPUP3HG/D/XKFv2v39z0dzdi84hKb0Se2C9o+7G+wWPk9J2Hnvbxxf7SaZZJnrhkeok89naixeml6UWFWfm5zHWEWd0MyOS4SJiV3fM3B/YdOJL3LGQsnj1jVeuTssseMziwebgX3wnxBlJqeuG84cUzr2JrpFJOnJF0tbiyeslfR2iRXOex8/h2vDk4IGdbMQZ2eTS4sOt0Lkw0bCxyYkhteWGVhADYygDb1pmjr6RfmJycn5pXgmSvfatl7dPWXA+6LTGjU7rX7KbD7xk8/dSvrZ7lbyzyrWlZUIMDlCj2FpuaEVIg8wSg5hVllqUmZaZmlKUmp5ZXFJUiWQox82kLcUSQkVfph3REnX7K3hq9TPL/Xv32Z46P8F66+q2A3BDWVpuaIWDzBSCmFlckl+UmJ5akF+eWoRkXv7mt4zPfnM8O/gv+JOZmvIDl2SW5odvbrOxzGEunJ34cTfYvKYmJwbmlhta/iDzuCDmJRfl5yGZk3rx1vWUSWeuXhCQrD2UffU3+4HzrWfurP8k0HLgSvVf8UgGhyYnhmSCYXbfteTY5oU7s07s2TBly/SayZq9FTkX3v/adOn5kuvS5TO44N5jaLmhFQgyigfqvcriktRcEmIdbhIrKPQlQEYJo4RUbmJRdiqy26J+bCw21X26vnuTlTSrmvmLacJlb348uZGWk715AUdvYS7cREa0oMrMy0Q2Z0pvrm7o53MKHmy1QZavvPbacyleKkj8ochh90s13PVABNycFILBJTFZzD6a45vaDO6cwKCUL/tXCH75dcdGc2NItqaFud/fzwzuDIwXV3opMEBNZEILtaLU8sSiFCQDVTZsckucEVL59vLSCI4tTVJcwcLfPzVtaV3i97XYXK7rJYMvA1tZTKX9QobKCwwMDHIYjkPh2BKXERpDGUNn2ZWxfjud82eiN49R9tPlMew2TAa4MwR20QZG4vJIsxNDAHIg/ss6k7h4cTaPuY2XVd8y70btT6dmBzUETJhTcYUjtIuHBKWaxClrcmjQwJ4zMUX2MBKXUfsdoKApQoKB6U4OAxYQzsB8AJs4AwMJfiRF7TcJ1AIDwTIirthoBBU9LKygbMqpRVwR0ejEkCyDXjAgs9WJKyAatHAUCViE1jERV0R0I4Xd09RuW4mzbA9vTxDdsuFN6EHlRb7RD1+p3LC0OLrDstpfnzylVEzMNEoTCg4ODnrE+auZgaHZkaGhQQK1LEWwUokrUZuRnGf+ftXTrf8kwxNnLfVd/6B89hwXpWtRM31uRLRb9dyct1FGIq0gOSMxM0+3LDEnMyWxJDM/L504nU0uDQwMDU3gohZ7iSaRCpX0m3P/lPijHU1O91lbZhVtED7yRTlPIsWWuEK9Ebt+GfRiHZk9m5G48r3bwYHBk0FDPFUx/ucDBi8Gxu/ey60KWa5MboqQAnEWz6q8t8EVvfQIY5SclrVdF10YZtD9/wwOvgyMAj/Mb0zRCuxiYGDwZWCqeXt9CUvSPicGBoY64tqLKO2/5QUeWXl/Mv9vn77nhoX9343cVxZ/0NzQ6qL3pfe2wc/VN0hoCexnI87I0fbfIGj/uTGIe5S9YBhtBZLQCmR0Z2DcpWqRR4NWYBX3rFMMAAAAAP//AQAA//98dQdSKA4AAA==",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "liftoff",
+				"epoch": 148889,
+				"nv": 5
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacecokbp63titzppwsm37q5ukhmqt7eck477hichlw76h3g4u5xorm4"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBCAGVCAGQARwABoxhcUAEaO5rKAEIAyEIAAQBA",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacedkf3qfpiew3dx3q4nrgnoog5wha4xpsdsbryw5byr5wen43for2c"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 6,
+				"return": "",
+				"gas_used": 321268
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzVTU1gydmJNQlRGdjRvNVR5dUlUWFphTHdqMk1OSW1CSnF1WkZ0ZlNoOFUrOFlXdGFXaFAwNldrTzgrYk1mRkkyVXdQOGxYNS82TzdwL25JMWF1Z0RqaWlheFRSa053aGg4R0Fsc2U4eGdNYzJ2cTh5OEh3NFBSR1hXcUoxa0Zna0E4NVc5Zm03Q1E3bDdWeWtQRWIvRXVPaWVheVY4UVNEclNRcnBIUzdVS0xiNU5YSkV2VGQ2eEg2V1Z0WU1BR0diTDIvYUJueUN3a2R2ZnllWWdNOHBlN2Y3MXNDOG5kVmtsdEhPSlVkbXVTcHJ0alRyc05tV3BsQXJXRi9WbjAyaVp5R3BmMllEVGliWGxyalBmQXUvMnlzOU1UaEFwdzVwOHNCcENoNnJxbnZiVFVRNHhTZUlrblo0WTdxdzF0bTJEVkJYbGtUZVJ0MUs3TGRsb0czVHVvZzlyNm1oZjBpc3h1dXZsdTVKMGxGTWVNcTkwTVdUd2ozM1B4djJMNXN2N0t4RnA0eVBTSmhUbEpSNE10OEZLUDB4cklkMnNsTFlnQi9GOHhJT3MyNmw4MDdOU0tyMGk1MlJCWUtoTU5wVG5pM1kyMTlOMHdwQVZFSk5wZDJ3WElVMjdhVFZqU1RQU05DT1I5eEQ4eEVhV0MvSmZNMi9zcFIzdm5YanZNamp3TTV5ZndlOUMrN1ZZNnNaa2ZkRVg4Q1JPci9sTjd6Q2N4elpEckJrTC9qSmtvRDBFUFA3cGZHdjBPNTM4ejlKZUdMNkhUU2FyeXZXVTA4dWZBQUFBLy8vMFNmVjhoZ01B"
+	}
+}

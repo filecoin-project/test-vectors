@@ -1,0 +1,74 @@
+{
+	"class": "message",
+	"_meta": {
+		"id": "ok-create-secp256k1",
+		"version": "v1",
+		"gen": [
+			{
+				"source": "genscript",
+				"version": "fa44b286ba4004f945621bddfaa06f159e526afc"
+			},
+			{
+				"source": "github.com/filecoin-project/lotus",
+				"version": "v1.1.4-0.20201117223607-62594a97a5b5"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors",
+				"version": "v0.9.13"
+			},
+			{
+				"source": "github.com/filecoin-project/specs-actors/v2",
+				"version": "v2.3.2"
+			}
+		]
+	},
+	"car": "H4sIAAAAAAAA/0pflFqUn19S3HRDK0KdgbFwwRMmhbWRYgof/plWNsbKfDS0bLu3bPHUm39vHzH8/U/CQ3fe9Q1ISqs3xt30NRY5qLS4uKlPMO3ShzA+3vnXvolM+e+y3bn9AmN6WWpRcWZ+HuN7VuLMbnJp8eFm6FiYaNjY5MTA1nJDK0KagTGUQSwtM0ffUL8stSgzLTM1pSg1PbO4pKgSySkcN5O2FEsIFX2ZdkRL1O2v4KnVzyz3791ne+r8BOutq9sOMDhADWVpuaEVDjJTCGJmcUl+UWJ6akF+eWoRknncWm1Tas/uyj+0cJ3Cq/V9KQe3yD+cKng85fL787arznzbDTavqcmJgbnlhpY/yDwuiHnJRfl5SOakXrx1PWXSmasXBCRrD2Vf/c1+4HzrmTvrPwm0HLhS/Vc8ksGhyYkhueWGVhDIDF6IGYnJyfmleSVIxtx3LTm2eeHOrBN7NkzZMr1msmZvRc6F9782XXq+5Lp0+QwuuPcYWm5oBYKM4oF6r7K4JDUXySTXDecPKZx7E10jk3TkiqStxZPXS/o6RIvmPI+fw7XhyUFEQLGCQl8CZJQwSkjlJhZlpyK7LerHxmJT3afruzdZSbOqmb+YJlz25seTG2k52ZsXcPQW5sJNZEQLqsy8TGRzTE3VGn7mnMuZF//cotmoP40xzU7qsdP91sNcKyc88PKvgpuTQjC4VutPW/V1/cvlj6c+EnzMc9l4o3JB7+fEM86Si14l3/itdo3Bg4G5t27JsQYGqJFMaMFWlFqeWJSCZKKEWpjcp5BlfIKfTn7ifSR6jeEVm9jNkqiSZz8fCReEn01m8GVgK4uptF/IUHmBgYHBAHeixS7awEhcOm52YghAdta/rDOJixdn85jbeFn1LfNu1P50anZQQ8CEORVXOEK7eEhQqkmcsiaHBg3suQdTZC8jcZlpggMUNEVIMDDdyWHAAsIZmA9gE2dgIMGPDAokKP4mgZqrESwj4vJ2I6h8YGEF5SVOOYzkisLRIi6bNzoxJMugZ25ktjpxmbxBC0e2xiK0jom4bN6NFLRPU7ttJc6yPbw9QXTLhjehB5UX+UY/fKVyw9Li6A7Lan998pRSMbGTkmZIUKvg4OCgR5y/mhkYmh0ZGhokUMtDBCuVuFKxGcl5DXd+7jKUevtFWG7XMoOqsptxu2t6kvPY3nulK0+5+qI1ViK1IDkjMTNPtywxJzMlsSQzP8+LOJ1NLg0MDAyN4NIylPHEy/VrVHlXdwhW7ttwrmV77NubN39KpNgSV/Y2Ytcvg174IrPriSuEOx0cGDwZBKDlghcD43fv5VaFLFcmN0VIgTiLZ1Xe2+CKXn6EMUpOy9quiy7sycD/HwIYHA6zEdfgAbdfFDqhlUoqwXrqd74Mf8CR/t8mh042OGx4U6mnd6y1w3Yqz5qESz+Fky8oMDgzqAuMtoZIbg25MYh7lL1gGPptIs/5FTPi1R5d/7Up7uf+HT5npv383qTef0Ms/YC7TND067JUbBMxgtpE6Qpbln2gfpuoinvWKQZb4tJ8YyjjscAXvFoTejjsrrJsm7L/6fx5m8/mpxIXIMjF4ZQtynPEr/TExYton2IsPjpZ7bNe0YqPwmFmDRX825w3mUikYRSH6cTpBBWHCgxN0OIQm3MlUvGWlQAAAAD//wEAAP//Tw8y43kNAAA=",
+	"preconditions": {
+		"variants": [
+			{
+				"id": "breeze",
+				"epoch": 41281,
+				"nv": 1
+			},
+			{
+				"id": "smoke",
+				"epoch": 51001,
+				"nv": 2
+			},
+			{
+				"id": "ignition",
+				"epoch": 94001,
+				"nv": 3
+			}
+		],
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzacecwvsfra6d7dk6mbluopcmjzq3pkni4v3h65xrbr7p7bqsbnt3l3a"
+			}
+		}
+	},
+	"apply_messages": [
+		{
+			"bytes": "igBVAcZR6A0qkIwIPtUEtpS/5Z+es81vQgBkAEMAJxAaO5rKAEIAyEIAAQBA",
+			"epoch_offset": 0
+		}
+	],
+	"postconditions": {
+		"state_tree": {
+			"root_cid": {
+				"/": "bafy2bzaceb53cxwzjuzrjqjcunzyfdqrm3jpavqobwp5n5qust7ujn2dq7iac"
+			}
+		},
+		"receipts": [
+			{
+				"exit_code": 0,
+				"return": "",
+				"gas_used": 1651648
+			}
+		]
+	},
+	"diagnostics": {
+		"format": "Lotus-ExecutionTrace-V1",
+		"data": "SDRzSUFBQUFBQUFBLzd4VFhXL2FQQmo5TDgvdEcrbTE4MFZxcVJkYmFGbTF3bGkzc291cUY4WnhRbWcrYlNjRUt2NzdGSWRvUWRDcHE5WnhaZXlUYzN3ZW4vUHdERk1aQVhtR0JSY3l6ak1neUlEdk9SQUk4WFlYdTJXd2ZwSXNvbVd4cWFtMDF1dGlGQ3EzU0ZZcUtYaGlWeGJmZ2dIWElrL2JUeEJHQ0F5WTVSbmptbWxCazRvREFZeVFQcGxRZVJ1bnNRS2lkL1JQNzE1ejd0TUNDSmc5Ymk1NEdsY3RMUVlEcGx5dDhrQnp6cW1ncVFRQ1lJQi9NMjR2L3o4UVdOSndheTUzbEhGYVNsUHNsdFlvRGRLbk1xRExiVm9JWngxdTRwd1dTU2hXUE40R2FWQ3VrazBoMTZGTXMxMEsrNzNSanVLT3FaYndxb21WbndlZGlUdXVLcEVCeWFvazBWZTdsendBZ2wwSHU3YTNOK0JLaUZ4MEZ4cFhncXAramhNcS9SVVZFWmRBSHA1aFJ0TjJGbDh5ZjBYamJNcWxwQkVIQTVLYzllUXFBb0x4aGVkYUJyQUlpT1hwWmZ0RUh0YXpxb2VRZW9DcEJ5Q2xnS0M5TVpDY2NQV0JxVnljeXFGT0NYVXF2UUk2a0tNRDhWbFNYM0NxK0F1OEdIdTI3ZGdkTzhiSTAzOWFycEU3ZEhKQTFVZXdlb0E3MWUzQ2NKUFZPZXVHZlNKdVl0ZEdUcWZkcjRmMityMTZDRGd5YWdCdmdJQ0MzeXFQOCt6TUMvN2hTQjhOK0ZZdEdVMlNMaWN2TmhKaGhJZHRPOSsxMS9Yc3BHVm8wREk4YU5uaTY2ZkpQWTltbnd0LzZvOUhpNCszOUw3KzcwZVlpZmxzdWJtOGZLbUZRY1BjWU1SZEZxM2pYWms1dEhKM2FSYVZ0VEtiTUZvNnU5VTJWb3pKSm14TXdleTFiSnJ5TFMyMExjZTByVGUwOEYwcThZcG9XcDdqSHBMWkxZK0MyVzNWZytOenNZeVBZNmw5WERXYy9WVXZOMFVTekN0MXB0cG9oRVlIWXMvV1M2bnYrNnZYdG5seGdYb1YrNUEvTFhVNEdMZ3hyWDlnNXYyYjI3THNIL2VQUHdNQUFQLy8rUVM3RkZRSA=="
+	}
+}
