@@ -260,14 +260,14 @@
         "type": "object",
         "required": [
           "bytes",
-          "epoch"
+          "epoch_offset"
         ],
         "additionalProperties": false,
         "properties": {
           "bytes": {
             "$ref": "#/definitions/base64"
           },
-          "epoch": {
+          "epoch_offset": {
             "type": "integer"
           }
         }
@@ -277,13 +277,13 @@
       "title": "tipsets to apply",
       "type": "object",
       "required": [
-        "epoch",
+        "epoch_offset",
         "basefee",
         "blocks"
       ],
       "additionalProperties": false,
       "properties": {
-        "epoch": {
+        "epoch_offset": {
           "type": "number"
         },
         "basefee": {
